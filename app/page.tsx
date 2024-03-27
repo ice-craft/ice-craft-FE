@@ -1,14 +1,12 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
-import Header from "@/components/Header";
+import DeployButton from "./_components/DeployButton";
+import AuthButton from "./_components/AuthButton";
+import { createClient } from "@/app/_utils/supabase/server";
+import ConnectSupabaseSteps from "@/app/_components/tutorial/ConnectSupabaseSteps";
+import SignUpUserSteps from "@/app/_components/tutorial/SignUpUserSteps";
+import Header from "@/app/_components/Header";
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
     try {
       createClient();
       return true;
