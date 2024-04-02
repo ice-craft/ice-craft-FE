@@ -20,6 +20,7 @@ const LogIn = () => {
       console.log(error); //NOTE - 테스트 코드
       setFirstErrorMessage("이메일또는 비밀번호를 잘못 입력했습니다.");
       setSecondErrorMessage("입력하신 내용을 다시 확인해주세요.");
+      return;
     }
     console.log("로그인 성공"); //NOTE - 테스트 코드
 
