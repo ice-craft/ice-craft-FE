@@ -14,14 +14,6 @@ const LogIn = () => {
   const logInHandler = async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     e.preventDefault();
 
-    const regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
-
-    if (!regex.test(email)) {
-      setFirstErrorMessage("이메일을 입력하세요.");
-      setSecondErrorMessage("");
-      return;
-    }
-
     try {
       await logIn(email, password);
     } catch (error) {
@@ -31,7 +23,7 @@ const LogIn = () => {
     }
     console.log("로그인 성공"); //NOTE - 테스트 코드
 
-    //router.push("/"); //NOTE - 이동할 페이지
+    router.push("/"); //NOTE - 메인 페이지로 이동
   };
   const registerHandler = async (e: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>) => {
     e.preventDefault();
