@@ -26,7 +26,10 @@ export const emailLogIn = async (email: string, password: string) => {
 
 export const oAuthKakaoLogIn = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "kakao"
+    provider: "kakao",
+    options: {
+      redirectTo: "http://localhost:3000/test"
+    }
   });
 
   if (error) {
@@ -56,8 +59,12 @@ export const updateNickname = async (nickname: string) => {
   return data;
 };
 
+export const getUserInfo = async () => {
+  const { data: user } = await supabase.auth.getUser();
+  return user.user;
+};
+
 export const getUserNickname = async () => {
   const { data: user } = await supabase.auth.getUser();
-
-  return user;
+  return user.user?.user_metadata.nickname;
 };

@@ -41,11 +41,12 @@ const LogIn = () => {
   };
 
   const kakaoLogIn = async () => {
-    let data;
     try {
-      data = await oAuthKakaoLogIn();
+      await oAuthKakaoLogIn();
     } catch (error) {
-      console.log("실패", error);
+      setFirstErrorMessage("카카오 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
     }
   };
 
