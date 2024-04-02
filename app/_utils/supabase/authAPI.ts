@@ -1,3 +1,4 @@
+import { Provider } from "@supabase/supabase-js";
 import { createClient } from "./client";
 
 const supabase = createClient();
@@ -24,11 +25,11 @@ export const emailLogIn = async (email: string, password: string) => {
   return data;
 };
 
-export const oAuthKakaoLogIn = async () => {
+export const oAuthLogIn = async (company: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "kakao",
+    provider: company,
     options: {
-      redirectTo: "http://localhost:3000/test" //NOTE - 테스트용으로 바꿈, 수정할 것
+      redirectTo: "http://localhost:3000/"
     }
   });
 

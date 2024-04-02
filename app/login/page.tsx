@@ -2,7 +2,7 @@
 
 import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkUserLogIn, emailLogIn, oAuthKakaoLogIn } from "../_utils/supabase/authAPI";
+import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../_utils/supabase/authAPI";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -42,9 +42,19 @@ const LogIn = () => {
 
   const kakaoLogIn = async () => {
     try {
-      await oAuthKakaoLogIn();
+      await oAuthLogIn("kakao");
     } catch (error) {
       setFirstErrorMessage("카카오 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
+  const facebookLogIn = async () => {
+    try {
+      await oAuthLogIn("facebook");
+    } catch (error) {
+      setFirstErrorMessage("페이스북 계정을 통한 로그인에 실패했습니다.");
       setSecondErrorMessage("");
       return;
     }
@@ -112,7 +122,9 @@ const LogIn = () => {
         </p>
         <p className="cursor-pointer">구글로 로그인</p>
         <p className="cursor-pointer">깃헙으로 로그인</p>
-        <p className="cursor-pointer">페이스북으로 로그인</p>
+        <p onClick={facebookLogIn} className="cursor-pointer">
+          페이스북으로 로그인
+        </p>
       </div>
     </form>
   );
