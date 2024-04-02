@@ -12,7 +12,7 @@ export const checkUserLogIn = async () => {
   }
 };
 
-export const logIn = async (email: string, password: string) => {
+export const emailLogIn = async (email: string, password: string) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password
