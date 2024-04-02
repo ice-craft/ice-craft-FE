@@ -28,7 +28,7 @@ export const oAuthKakaoLogIn = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
     options: {
-      redirectTo: "http://localhost:3000/test"
+      redirectTo: "http://localhost:3000/test" //NOTE - 테스트용으로 바꿈, 수정할 것
     }
   });
 
@@ -47,7 +47,7 @@ export const logOut = async () => {
   }
 };
 
-export const updateNickname = async (nickname: string) => {
+export const updateUserNickname = async (nickname: string) => {
   const { data, error } = await supabase.auth.updateUser({
     data: { nickname }
   });
