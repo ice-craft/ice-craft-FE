@@ -1,12 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
+import { createClient } from "../_utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+  const supabase = createClient();
 
-  const logInHandler = () => {};
+  const logInHandler = async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    e.preventDefault();
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      return console.log(error); //NOTE - 테스트 코드
+    }
+    console.log("로그인 성공"); //NOTE - 테스트 코드
+    console.log(data); //NOTE - 테스트 코드
+    //router.push("/mypage"); //NOTE - 이동할 페이지
+  };
   const registerHandler = () => {};
 
   return (
@@ -38,9 +55,24 @@ const LogIn = () => {
         }}
         required
       />
-      <button onClick={logInHandler} className="px-4 py-2 mb-2 bg-green-700 rounded-md text-foreground">
+      <button onClick={(e) => logInHandler(e)} className="px-4 py-2 mb-2 bg-green-700 rounded-md text-foreground">
         로그인
       </button>
+      <div>
+        <input type="checkbox" name="saveEmail" />
+        <label htmlFor="scales"> 이메일 저장</label>
+      </div>
+      <div>
+        <p>비밀번호 찾기</p>
+        <p>회원가입</p>
+      </div>
+      <div>
+        <p>카카오톡으로 로그인</p>
+        <p>구글로 로그인</p>
+        <p>깃헙으로 로그인</p>
+        <p>페이스북으로 로그인</p>
+      </div>
+
       <button
         onClick={registerHandler}
         className="px-4 py-2 mb-2 border rounded-md border-foreground/20 text-foreground"
