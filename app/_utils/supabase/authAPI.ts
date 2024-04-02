@@ -25,6 +25,18 @@ export const emailLogIn = async (email: string, password: string) => {
   return data;
 };
 
+export const oAuthKakaoLogIn = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "kakao"
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
 export const logOut = async () => {
   const { error } = await supabase.auth.signOut();
 

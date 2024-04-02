@@ -2,7 +2,7 @@
 
 import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkUserLogIn, emailLogIn } from "../_utils/supabase/authAPI";
+import { checkUserLogIn, emailLogIn, oAuthKakaoLogIn } from "../_utils/supabase/authAPI";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -40,7 +40,14 @@ const LogIn = () => {
     setSecondErrorMessage("");
   };
 
-  const kakaoTalkLogIn = () => {};
+  const kakaoLogIn = async () => {
+    let data;
+    try {
+      data = await oAuthKakaoLogIn();
+    } catch (error) {
+      console.log("실패", error);
+    }
+  };
 
   useEffect(() => {
     const checkUser = async () => {
@@ -99,7 +106,7 @@ const LogIn = () => {
       </p>
 
       <div>
-        <p onClick={kakaoTalkLogIn} className="cursor-pointer">
+        <p onClick={kakaoLogIn} className="cursor-pointer">
           카카오톡으로 로그인
         </p>
         <p className="cursor-pointer">구글로 로그인</p>
