@@ -1,6 +1,11 @@
-'use client';
+"use client";
+
+import { useState } from "react";
 
 const LogIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const logInHandler = () => {};
   const registerHandler = () => {};
 
@@ -13,6 +18,10 @@ const LogIn = () => {
         className="px-4 py-2 mb-6 border rounded-md bg-inherit"
         name="email"
         placeholder="이메일을 입력하세요."
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
         required
       />
       <label className="text-md" htmlFor="password">
@@ -23,6 +32,10 @@ const LogIn = () => {
         type="password"
         name="password"
         placeholder="비밀번호를 입력하세요."
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
         required
       />
       <button onClick={logInHandler} className="px-4 py-2 mb-2 bg-green-700 rounded-md text-foreground">
