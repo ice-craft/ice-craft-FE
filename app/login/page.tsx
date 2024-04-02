@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkUserLogIn, logIn } from "../_utils/supabase/authAPI";
 
@@ -92,20 +92,22 @@ const LogIn = () => {
         로그인
       </button>
       <div>
-        <input type="checkbox" name="saveEmail" />
-        <label htmlFor="scales"> 이메일 저장</label>
+        <input type="checkbox" id="saveEmail" />
+        <label htmlFor="saveEmail"> 이메일 저장</label>
       </div>
       <div>
         <p className="text-red-500 ">{firstErrorMessage}</p>
         <p className="text-red-500 ">{secondErrorMessage}</p>
       </div>
-      <p onClick={(e) => registerHandler(e)}>회원가입</p>
+      <p className="cursor-pointer" onClick={(e) => registerHandler(e)}>
+        회원가입
+      </p>
 
       <div>
-        <p>카카오톡으로 로그인</p>
-        <p>구글로 로그인</p>
-        <p>깃헙으로 로그인</p>
-        <p>페이스북으로 로그인</p>
+        <p className="cursor-pointer">카카오톡으로 로그인</p>
+        <p className="cursor-pointer">구글로 로그인</p>
+        <p className="cursor-pointer">깃헙으로 로그인</p>
+        <p className="cursor-pointer">페이스북으로 로그인</p>
       </div>
     </form>
   );
