@@ -1,30 +1,29 @@
 "use client";
 
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { createClient } from "../_utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { checkUserLogin, logIn } from "../_utils/supabase/authAPI";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const supabase = createClient();
 
   const logInHandler = async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
 
-    if (error) {
-      return console.log(error); //NOTE - 테스트 코드
+    try {
+      await logIn(email, password);
+    } catch (error) {
+      console.log("로그인 에러", error);
     }
     console.log("로그인 성공"); //NOTE - 테스트 코드
-    console.log(data); //NOTE - 테스트 코드
-    //router.push("/mypage"); //NOTE - 이동할 페이지
+    router.push("/"); //NOTE - 이동할 페이지
   };
-  const registerHandler = () => {};
+  const registerHandler = async (e: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>) => {
+    e.preventDefault();
+  };
 
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
@@ -64,7 +63,7 @@ const LogIn = () => {
       </div>
       <div>
         <p>비밀번호 찾기</p>
-        <p>회원가입</p>
+        <p onClick={(e) => registerHandler(e)}>회원가입</p>
       </div>
       <div>
         <p>카카오톡으로 로그인</p>
@@ -72,13 +71,6 @@ const LogIn = () => {
         <p>깃헙으로 로그인</p>
         <p>페이스북으로 로그인</p>
       </div>
-
-      <button
-        onClick={registerHandler}
-        className="px-4 py-2 mb-2 border rounded-md border-foreground/20 text-foreground"
-      >
-        회원가입
-      </button>
     </form>
   );
 };
