@@ -2,7 +2,8 @@
 
 import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkUserLogIn, logIn } from "../_utils/supabase/authAPI";
+import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../_utils/supabase/authAPI";
+import { registerAccount } from "../_utils/supabase/accountAPI";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const LogIn = () => {
     e.preventDefault();
 
     try {
-      await logIn(email, password);
+      await emailLogIn(email, password);
     } catch (error) {
       console.log(error); //NOTE - 테스트 코드
       setFirstErrorMessage("이메일또는 비밀번호를 잘못 입력했습니다.");
@@ -38,6 +39,46 @@ const LogIn = () => {
   const passwordFocusHandler = () => {
     setFirstErrorMessage("");
     setSecondErrorMessage("");
+  };
+
+  const kakaoLogIn = async () => {
+    try {
+      await oAuthLogIn("kakao");
+    } catch (error) {
+      setFirstErrorMessage("카카오 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
+  const googleLogIn = async () => {
+    try {
+      await oAuthLogIn("google");
+    } catch (error) {
+      setFirstErrorMessage("구글 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
+  const githubLogIn = async () => {
+    try {
+      await oAuthLogIn("github");
+    } catch (error) {
+      setFirstErrorMessage("깃허브 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
+  const facebookLogIn = async () => {
+    try {
+      await oAuthLogIn("facebook");
+    } catch (error) {
+      setFirstErrorMessage("페이스북 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
   };
 
   useEffect(() => {
@@ -97,10 +138,18 @@ const LogIn = () => {
       </p>
 
       <div>
-        <p className="cursor-pointer">카카오톡으로 로그인</p>
-        <p className="cursor-pointer">구글로 로그인</p>
-        <p className="cursor-pointer">깃헙으로 로그인</p>
-        <p className="cursor-pointer">페이스북으로 로그인</p>
+        <p onClick={kakaoLogIn} className="cursor-pointer">
+          카카오톡으로 로그인
+        </p>
+        <p onClick={googleLogIn} className="cursor-pointer">
+          구글로 로그인
+        </p>
+        <p onClick={githubLogIn} className="cursor-pointer">
+          깃헙으로 로그인
+        </p>
+        <p onClick={facebookLogIn} className="cursor-pointer">
+          페이스북으로 로그인
+        </p>
       </div>
     </form>
   );

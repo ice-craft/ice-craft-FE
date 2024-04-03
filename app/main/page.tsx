@@ -16,14 +16,11 @@ const MainPage = () => {
   };
 
   return (
-    <>
-      <div>{/* <button onClick={}></button> */}</div>
-      <form onSubmit={SubmitHandler} className="flex flex-col justify-center item-center min-h-screen">
-        <input type="text" placeholder="Room" value={room} className="mb-4" onChange={(e) => setRoom(e.target.value)} />
-        <input type="text" placeholder="Name" value={name} className="mb-4" onChange={(e) => setName(e.target.value)} />
-        <button type="submit">방 생성</button>
-      </form>
-    </>
+    <form onSubmit={SubmitHandler} className="flex flex-col justify-center min-h-screen item-center">
+      <input type="text" placeholder="Room" value={room} className="mb-4" onChange={(e) => setRoom(e.target.value)} />
+      <input type="text" placeholder="Name" value={name} className="mb-4" onChange={(e) => setName(e.target.value)} />
+      <button type="submit">방 생성</button>
+    </form>
   );
 };
 
