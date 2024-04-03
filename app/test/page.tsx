@@ -16,7 +16,6 @@ const Test = () => {
       const data = await duplicateCheckUserNickname();
       console.log(data);
     };
-
     test();
   }, []);
   return <div>Test</div>;

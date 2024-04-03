@@ -25,7 +25,7 @@ export const emailLogIn = async (email: string, password: string) => {
   return data;
 };
 
-//NOTE - 배포 시 각 사이트에서 배포 사이트 작성할 것(구글은 테스트버전에서 배포버전으로 변경할 것)
+//NOTE - 배포 시 각 사이트에서 배포 사이트 작성할 것 (구글은 테스트버전에서 배포버전으로 변경할 것)
 export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
