@@ -54,15 +54,15 @@ const Register = () => {
     setNickname(inputNickname);
 
     if (inputNickname.length === 0) {
-      isPassed.current = { ...isPassed.current, nickname: false };
+      isPassed.current = { ...isPassed.current, inputNickname: false };
       return setNicknameMessage("닉네임을 입력해주세요.");
     }
 
     if (inputNickname.length < 2 || 6 < inputNickname.length) {
-      isPassed.current = { ...isPassed.current, nickname: false };
+      isPassed.current = { ...isPassed.current, inputNickname: false };
       return setNicknameMessage("닉네임의 길이가 올바르지 않습니다.");
     }
-    isPassed.current = { ...isPassed.current, nickname: true };
+    isPassed.current = { ...isPassed.current, inputNickname: true };
     setNicknameMessage("사용 가능한 닉네임입니다.");
   };
 
@@ -70,7 +70,7 @@ const Register = () => {
     e.preventDefault();
 
     const isNicknameRegistered = await checkUserNicknameRegistered(nickname);
-    if (isNicknameRegistered || !isPassed.current.nickname) {
+    if (isNicknameRegistered || !isPassed.current.inputNickname) {
       return setNicknameMessage("사용할 수 없는 닉네임입니다.");
     }
     isPassed.current = { ...isPassed.current, nickname: true };
