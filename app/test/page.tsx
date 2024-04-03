@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { getUserInfo, getUserNickname, oAuthKakaoLogIn, updateUserNickname } from "../_utils/supabase/authAPI";
+import { getUserNickname, updateUserNickname } from "../_utils/supabase/authAPI";
 
 const Test = () => {
   useEffect(() => {
