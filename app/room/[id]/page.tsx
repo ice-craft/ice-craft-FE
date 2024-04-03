@@ -10,6 +10,7 @@ import {
   ParticipantTile,
   RoomAudioRenderer,
   useChat,
+  useLocalParticipant,
   useTracks
 } from "@livekit/components-react";
 import "@livekit/components-styles";
@@ -17,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import "@/app/_style/videoOverlay.css";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -51,7 +53,6 @@ export default function RoomPage() {
   }
 
   //토큰을 별도로 저장하고 있지 않기에 임시로 route 변경
-  // 테스트 주석이니깐 발견하시면 삭제 부탁드립니다.
   const deleteToken = () => {
     routers.replace(`/room`);
   };
@@ -86,10 +87,7 @@ export default function RoomPage() {
             </div>
           </div>
         ) : null}
-
         <RoomAudioRenderer />
-
-        <ControlBar />
       </LiveKitRoom>
     </>
   );
@@ -111,9 +109,23 @@ function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
   console.log(tracks[0]?.participant);
   console.log(tracks[0]);
 
+  const localParticipant = useLocalParticipant();
+
   // 필터링하여 로컬 및 원격 트랙을 구분
-  const localTracks = tracks.filter((track) => track.participant.sid === localParticipantSid);
-  const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipantSid);
+  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.localParticipant.sid);
+  const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.localParticipant.sid);
+
+  const [showOverlay, setShowOverlay] = useState<{ [key: string]: boolean }>({});
+
+  // 오버레이 토글 함수
+  const toggleOverlay = (sid: string) => {
+    console.log(`Before toggle:`, showOverlay[sid]);
+    setShowOverlay((prev) => {
+      const newState = { ...prev, [sid]: !prev[sid] };
+      console.log(`After toggle:`, newState[sid]);
+      return newState;
+    });
+  };
 
   return (
     <div
@@ -128,27 +140,92 @@ function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
       }}
     >
       {/* 로컬 참가자 비디오 */}
-      <div style={{ width: "50%" }}>
+      <div style={{ width: "35%", height: "100%" }}>
         {localTracks.map((track) => (
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "50px" }}>
-            <ParticipantTile trackRef={track} style={{ width: "100%", height: "100%" }} />
-            <ControlBar />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "50px",
+              justifyContent: "center",
+              marginTop: "150px"
+            }}
+          >
+            <div
+              className="video-container"
+              style={{
+                position: "relative",
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+                borderRadius: "8px"
+              }}
+            >
+              <ParticipantTile
+                trackRef={track}
+                style={{ width: "100%", height: "100%" }}
+                onClick={() => toggleOverlay(track.participant.sid)}
+              />
+              {showOverlay[track.participant.sid] && (
+                <div
+                  className="video-overlay"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "red",
+                    opacity: "0.7",
+                    zIndex: "999"
+                  }}
+                >
+                  테스트당
+                </div>
+              )}
+            </div>
+            {/* <ControlBar /> */}
           </div>
         ))}
       </div>
       {/* 원격 참가자 비디오 */}
       <div
         style={{
-          width: "50%",
+          width: "65%",
           display: "flex",
           alignItems: "baseline",
           gap: "10px",
           flexWrap: "wrap",
-          justifyContent: "flex-start"
+          justifyContent: "flex-start",
+          height: "100%"
         }}
       >
         {remoteTracks.map((track, index) => (
-          <ParticipantTile key={index} trackRef={track} style={{ width: "225px", height: "200px" }} />
+          <div className="video-container" style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}>
+            <ParticipantTile
+              key={index}
+              trackRef={track}
+              style={{ width: "300px", height: "200px" }}
+              onClick={() => toggleOverlay(track.participant.sid)}
+            />
+            {showOverlay[track.participant.sid] && (
+              <div
+                className="video-overlay"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "300px",
+                  height: "200px",
+                  backgroundColor: "red",
+                  opacity: "0.6",
+                  zIndex: "999"
+                }}
+              >
+                테스트다
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </div>
