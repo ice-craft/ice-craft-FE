@@ -15,6 +15,19 @@ export const duplicateCheckUserNickname = async (nickname: string) => {
   }
 };
 
+export const checkUserRegistered = async (email: string) => {
+  let { data: account_table, error } = await supabase.from("account_table").select("email").eq("email", email);
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (account_table) {
+    return account_table.length > 0;
+  } else {
+    return false;
+  }
+};
+
 export const registerAccount = async (uid: string, email: string, nickname: string) => {
   const { data, error } = await supabase
     .from("account_table")

@@ -8,12 +8,12 @@ import {
   logOut,
   updateUserNickname
 } from "../_utils/supabase/authAPI";
-import { duplicateCheckUserNickname } from "../_utils/supabase/accountAPI";
+import { checkUserRegistered, duplicateCheckUserNickname } from "../_utils/supabase/accountAPI";
 
 const Test = () => {
   useEffect(() => {
     const test = async () => {
-      const data = await duplicateCheckUserNickname("test1");
+      const data = await checkUserRegistered("test4@test.com");
       console.log(data);
     };
     test();
