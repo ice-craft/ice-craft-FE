@@ -51,6 +51,7 @@ export default function RoomPage() {
   }
 
   //토큰을 별도로 저장하고 있지 않기에 임시로 route 변경
+  // 테스트 주석이니깐 발견하시면 삭제 부탁드립니다.
   const deleteToken = () => {
     routers.replace(`/room`);
   };
