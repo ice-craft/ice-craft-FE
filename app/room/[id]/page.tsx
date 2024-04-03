@@ -94,9 +94,9 @@ export default function RoomPage() {
   );
 }
 
-interface MyVideoConferenceProps {
+type MyVideoConferenceProps = {
   localParticipantSid: string;
-}
+};
 
 function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
   const tracks = useTracks(
@@ -115,7 +115,6 @@ function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
   const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipantSid);
 
   return (
-
     <div
       style={{
         display: "flex",
