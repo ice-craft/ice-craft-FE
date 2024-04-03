@@ -11,13 +11,20 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
-  const isPassed = useRef({ email: false, nickname: false, password: false, checkPassword: false });
+  const isPassed = useRef({
+    inputEmail: false,
+    email: false,
+    inputNickname: false,
+    nickname: false,
+    password: false,
+    checkPassword: false
+  });
 
   const emailChangeHandler = (inputEmail: string) => {
     setEmail(inputEmail);
 
     if (inputEmail.length === 0) {
-      isPassed.current = { ...isPassed.current, email: false };
+      isPassed.current = { ...isPassed.current, inputEmail: false };
       return setEmailMessage("이메일을 입력해주세요.");
     }
 
@@ -25,10 +32,10 @@ const Register = () => {
     const isEmail = emailPattern.test(inputEmail);
 
     if (!isEmail) {
-      isPassed.current = { ...isPassed.current, email: false };
+      isPassed.current = { ...isPassed.current, inputEmail: false };
       return setEmailMessage("이메일 형식이 아닙니다.");
     }
-    isPassed.current = { ...isPassed.current, email: true };
+    isPassed.current = { ...isPassed.current, inputEmail: true };
     setEmailMessage("");
   };
 
@@ -36,7 +43,7 @@ const Register = () => {
     e.preventDefault();
 
     const isEmailRegistered = await checkUserEmailRegistered(email);
-    if (isEmailRegistered || !isPassed.current.email) {
+    if (isEmailRegistered || !isPassed.current.inputEmail) {
       return setEmailMessage("사용할 수 없는 이메일입니다.");
     }
     isPassed.current = { ...isPassed.current, email: true };
