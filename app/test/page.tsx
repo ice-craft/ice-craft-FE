@@ -1,14 +1,16 @@
 "use client";
 import React, { useEffect } from "react";
-import { getUserEmail, getUserNickname, getUserUid } from "../_utils/supabase/authAPI";
+import { getUserEmail, getUserNickname, getUserUid, setUserNickname } from "../_utils/supabase/authAPI";
 import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
+import { useRouter } from "next/navigation";
 
 const Test = () => {
+  const router = useRouter();
   useEffect(() => {
     const test = async () => {
       const userEmail = await getUserEmail();
-      const isUserRegistered = await checkUserEmailRegistered(userEmail!);
-      if (isUserRegistered) {
+      const isUserEmailRegistered = await checkUserEmailRegistered(userEmail!);
+      if (isUserEmailRegistered) {
         return;
       }
       while (true) {
@@ -17,9 +19,10 @@ const Test = () => {
           const isExistedNickname = await checkUserNicknameRegistered(inputNickname);
           if (!isExistedNickname) {
             const email = await getUserEmail();
-            const nickname = await getUserNickname();
+            const nickname = inputNickname;
             const uid = await getUserUid();
             if (email && nickname && uid) {
+              await setUserNickname(inputNickname);
               await registerAccount(uid, email, nickname);
               break;
             }
@@ -34,6 +37,7 @@ const Test = () => {
       }
     };
     test();
+    router.push("/");
   }, []);
   return <div>Test</div>;
 };
