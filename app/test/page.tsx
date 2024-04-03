@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { getUserNickname, updateUserNickname } from "../_utils/supabase/authAPI";
+import { getUserInfo, getUserNickname, updateUserNickname } from "../_utils/supabase/authAPI";
 
 const Test = () => {
   useEffect(() => {
@@ -8,7 +8,8 @@ const Test = () => {
       const nickname = window.prompt("닉네임을 입력하세요.", "닉네임");
       if (nickname) {
         await updateUserNickname(nickname);
-        console.log(await getUserNickname());
+        console.log("닉네임", await getUserNickname());
+        console.log("유저", await getUserInfo());
       }
     };
 

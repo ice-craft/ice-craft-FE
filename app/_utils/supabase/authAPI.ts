@@ -25,11 +25,11 @@ export const emailLogIn = async (email: string, password: string) => {
   return data;
 };
 
-export const oAuthLogIn = async (company: Provider) => {
+export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: company,
+    provider,
     options: {
-      redirectTo: "http://localhost:3000/"
+      redirectTo: "http://localhost:3000/test"
     }
   });
 

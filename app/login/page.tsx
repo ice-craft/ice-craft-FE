@@ -60,6 +60,16 @@ const LogIn = () => {
     }
   };
 
+  const googleLogIn = async () => {
+    try {
+      await oAuthLogIn("google");
+    } catch (error) {
+      setFirstErrorMessage("구글 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
   useEffect(() => {
     const checkUser = async () => {
       const isUserLogIn = await checkUserLogIn();
@@ -120,7 +130,9 @@ const LogIn = () => {
         <p onClick={kakaoLogIn} className="cursor-pointer">
           카카오톡으로 로그인
         </p>
-        <p className="cursor-pointer">구글로 로그인</p>
+        <p onClick={googleLogIn} className="cursor-pointer">
+          구글로 로그인
+        </p>
         <p className="cursor-pointer">깃헙으로 로그인</p>
         <p onClick={facebookLogIn} className="cursor-pointer">
           페이스북으로 로그인
