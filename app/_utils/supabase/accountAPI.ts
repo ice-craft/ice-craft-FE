@@ -8,7 +8,11 @@ export const duplicateCheckUserNickname = async () => {
     throw new Error(error.message);
   }
 
-  return data;
+  if (data) {
+    return data.length;
+  } else {
+    return 0;
+  }
 };
 
 export const registerAccount = async (uid: string, email: string, nickname: string) => {

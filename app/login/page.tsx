@@ -3,6 +3,7 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../_utils/supabase/authAPI";
+import { registerAccount } from "../_utils/supabase/accountAPI";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
