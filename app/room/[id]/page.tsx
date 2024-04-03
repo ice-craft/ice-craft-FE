@@ -2,6 +2,7 @@
 
 import Timer from "@/app/_components/mafia/Timer";
 import { getToken } from "@/app/_hooks/useQuery";
+import { useModalStore } from "@/app/_utils/store/modal-store";
 import {
   ControlBar,
   GridLayout,
@@ -14,7 +15,6 @@ import "@livekit/components-styles";
 import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -24,7 +24,7 @@ export default function RoomPage() {
   const name = params.get("name");
 
   //임시 모달창 조건문
-  const [isTest, setIsTest] = useState(false);
+  const { isModal, setIsModal } = useModalStore();
 
   if (!room || !name) {
     return;
@@ -54,7 +54,13 @@ export default function RoomPage() {
 
   return (
     <>
-      <button onClick={() => setIsTest((prev) => !prev)}>버버버버트트트트트ㅡㄴ</button>
+      <button
+        onClick={() => {
+          setIsModal(true);
+        }}
+      >
+        타이머 버튼 클릭
+      </button>
       <LiveKitRoom
         token={token} // 필수 요소
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
@@ -66,7 +72,7 @@ export default function RoomPage() {
         style={{ height: "100vh", width: "100vw" }}
       >
         <MyVideoConference />
-        {isTest ? (
+        {isModal ? (
           <div className="w-full h-screen bg-black bg-opacity-60 fixed z-1 top-0 left-0 flex justify-center items-center">
             <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
               <div className="w-96 h-96 p-5 block">
