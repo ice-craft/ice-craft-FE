@@ -9,6 +9,7 @@ const Register = () => {
   const [nickname, setNickname] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
   const isPassed = useRef({
@@ -16,7 +17,9 @@ const Register = () => {
     email: false,
     inputNickname: false,
     nickname: false,
+    inputPassword: false,
     password: false,
+    inputCheckPassword: false,
     checkPassword: false
   });
 
@@ -62,6 +65,7 @@ const Register = () => {
       isPassed.current = { ...isPassed.current, inputNickname: false };
       return setNicknameMessage("닉네임의 길이가 올바르지 않습니다.");
     }
+
     isPassed.current = { ...isPassed.current, inputNickname: true };
     setNicknameMessage("");
   };
@@ -76,6 +80,32 @@ const Register = () => {
     isPassed.current = { ...isPassed.current, nickname: true };
     setNicknameMessage("사용 가능한 닉네임입니다.");
   };
+
+  const passwordChangeHandler = (inputPassword: string) => {
+    setPassword(inputPassword);
+
+    if (inputPassword.length === 0) {
+      isPassed.current = { ...isPassed.current, inputPassword: false };
+      return setPasswordMessage("비밀번호을 입력해주세요.");
+    }
+
+    if (inputPassword.length < 6 || 12 < inputPassword.length) {
+      isPassed.current = { ...isPassed.current, inputPassword: false };
+      return setPasswordMessage("비밀번호의 길이가 올바르지 않습니다.");
+    }
+
+    let passwordPattern = new RegExp(/.*[a-z]+.*[A-Z]+.*/); //FIXME - 정규식 틀림 반드시 고칠 것
+    const isContained = passwordPattern.test(inputPassword);
+
+    if (!isContained) {
+      isPassed.current = { ...isPassed.current, inputPassword: false };
+      return setPasswordMessage("비밀번호에 대문자와 소문자가 포함되어있지 않습니다.");
+    }
+
+    isPassed.current = { ...isPassed.current, inputPassword: true };
+    setPasswordMessage("");
+  };
+
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
       <h1 className="text-center">회원가입</h1>
@@ -85,6 +115,7 @@ const Register = () => {
       <div>
         <input
           className="px-4 py-2 mb-6 border rounded-md bg-inherit"
+          type="text"
           name="email"
           placeholder="이메일을 입력해주세요."
           value={email}
@@ -103,7 +134,9 @@ const Register = () => {
       <div>
         <input
           className="px-4 py-2 mb-6 border rounded-md bg-inherit"
+          type="text"
           name="nickname"
+          maxLength={6}
           placeholder="닉네임을 입력해주세요."
           value={nickname}
           onChange={(e) => nicknameChangeHandler(e.target.value)}
@@ -119,11 +152,15 @@ const Register = () => {
       </label>
       <input
         className="px-4 py-2 mb-6 border rounded-md bg-inherit"
+        type="text"
         name="password"
+        maxLength={12}
         placeholder="비밀번호를 입력해주세요."
+        value={password}
+        onChange={(e) => passwordChangeHandler(e.target.value)}
         required
       />
-      <p className="text-red-500">비밀번호 에러</p>
+      <InputMessage text={passwordMessage} />
       <label className="text-md" htmlFor="check-password">
         비밀번호 확인
       </label>

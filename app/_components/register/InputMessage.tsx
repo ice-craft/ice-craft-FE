@@ -2,7 +2,6 @@ import React from "react";
 
 export const InputMessage = ({ text }: { text: string }) => {
   let textColor = "text-red-500";
-  console.log(textColor);
 
   switch (text) {
     case "사용 가능한 이메일입니다.":
