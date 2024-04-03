@@ -1,4 +1,4 @@
-import { MainPage } from './main/page';
+import MainPage from "./main/page";
 
 export default async function Index() {
   return <MainPage />;
