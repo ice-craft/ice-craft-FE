@@ -7,13 +7,14 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [nickname, setNickname] = useState("");
+  const [nicknameMessage, setNicknameMessage] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
   const isPassed = useRef({ email: false, nickname: false, password: false, checkPassword: false });
 
   const emailChangeHandler = (inputEmail: string) => {
-    setEmail((prev) => inputEmail);
+    setEmail(inputEmail);
 
     if (inputEmail.length === 0) {
       isPassed.current = { ...isPassed.current, email: false };
@@ -42,6 +43,22 @@ const Register = () => {
     isPassed.current = { ...isPassed.current, email: true };
     setEmailMessage("사용 가능한 이메일입니다.");
   };
+
+  const nicknameChangeHandler = (inputNickname: string) => {
+    setNickname(inputNickname);
+
+    if (inputNickname.length === 0) {
+      isPassed.current = { ...isPassed.current, nickname: false };
+      return setNicknameMessage("닉네임을 입력해주세요.");
+    }
+
+    if (inputNickname.length < 2 || 6 < inputNickname.length) {
+      isPassed.current = { ...isPassed.current, nickname: false };
+      return setNicknameMessage("닉네임의 길이가 올바르지 않습니다.");
+    }
+    isPassed.current = { ...isPassed.current, nickname: true };
+    setNicknameMessage("사용 가능한 닉네임입니다.");
+  };
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
       <h1 className="text-center">회원가입</h1>
@@ -60,7 +77,6 @@ const Register = () => {
         <button onClick={(e) => checkEmailExistedHandler(e)} className="bg-slate-300">
           중복확인
         </button>
-        {/* <p className="text-red-500">{emailErrorMessage}</p> */}
         {<InputMessage isError={!isPassed.current.email} text={emailMessage} />}
       </div>
 
@@ -72,10 +88,12 @@ const Register = () => {
           className="px-4 py-2 mb-6 border rounded-md bg-inherit"
           name="nickname"
           placeholder="닉네임을 입력해주세요."
+          value={nickname}
+          onChange={(e) => nicknameChangeHandler(e.target.value)}
           required
         />
         <button className="bg-slate-300">중복확인</button>
-        <p className="text-red-500">닉네임 에러</p>
+        {<InputMessage isError={!isPassed.current.nickname} text={nicknameMessage} />}
       </div>
       <label className="text-md" htmlFor="password">
         비밀번호
