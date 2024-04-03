@@ -22,7 +22,7 @@ const Test = () => {
             const nickname = inputNickname;
             const uid = await getUserUid();
             if (email && nickname && uid) {
-              await setUserNickname(inputNickname);
+              await setUserNickname(nickname);
               await registerAccount(uid, email, nickname);
               break;
             }
