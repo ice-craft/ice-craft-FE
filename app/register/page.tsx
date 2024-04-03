@@ -11,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
+  const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
 
   const isPassed = useRef({
     inputEmail: false,
@@ -106,6 +107,23 @@ const Register = () => {
     setPasswordMessage("");
   };
 
+  const checkPasswordChangeHandler = (inputCheckPassword: string) => {
+    setCheckPassword(inputCheckPassword);
+
+    if (inputCheckPassword.length === 0) {
+      isPassed.current = { ...isPassed.current, inputPassword: false };
+      return setPasswordMessage("비밀번호 확인을 입력해주세요.");
+    }
+
+    if (inputCheckPassword !== password) {
+      isPassed.current = { ...isPassed.current, inputCheckPassword: false };
+      return setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
+    }
+
+    isPassed.current = { ...isPassed.current, inputCheckPassword: true };
+    setCheckPasswordMessage("");
+  };
+
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
       <h1 className="text-center">회원가입</h1>
@@ -168,10 +186,14 @@ const Register = () => {
         className="px-4 py-2 mb-6 border rounded-md bg-inherit"
         name="password"
         placeholder="비밀번호를 한번 더입력해주세요."
+        value={checkPassword}
+        onChange={(e) => checkPasswordChangeHandler(e.target.value)}
         required
       />
-      <p className="text-red-500">비밀번호 확인 에러</p>
-      <button className="bg-slate-300">회원가입</button>
+      {<InputMessage text={checkPasswordMessage} />}
+      <button type="submit" className="bg-slate-300">
+        회원가입
+      </button>
       <div className="flex flex-col gap-2">
         <p className="text-center">간편 가입하기</p>
         <button className="bg-slate-300">카카오톡으로 회원가입</button>
