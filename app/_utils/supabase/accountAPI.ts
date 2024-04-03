@@ -2,16 +2,16 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
-export const duplicateCheckUserNickname = async () => {
-  let { data, error } = await supabase.from("account_table").select("nickname");
+export const duplicateCheckUserNickname = async (nickname: string) => {
+  let { data: account_table, error } = await supabase.from("account_table").select("nickname").eq("nickname", nickname);
   if (error) {
     throw new Error(error.message);
   }
 
-  if (data) {
-    return data.length;
+  if (account_table) {
+    return account_table.length > 0;
   } else {
-    return 0;
+    return false;
   }
 };
 

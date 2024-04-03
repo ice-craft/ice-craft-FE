@@ -13,7 +13,7 @@ import { duplicateCheckUserNickname } from "../_utils/supabase/accountAPI";
 const Test = () => {
   useEffect(() => {
     const test = async () => {
-      const data = await duplicateCheckUserNickname();
+      const data = await duplicateCheckUserNickname("test1");
       console.log(data);
     };
     test();
