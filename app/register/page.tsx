@@ -1,27 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { checkUserEmailRegistered } from "../_utils/supabase/accountAPI";
+import { InputMessage } from "../_components/register/inputMessage";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
 
+  const isPassed = useRef({ email: false, nickname: false, password: false, checkPassword: false });
+
   const emailChangeHandler = (inputEmail: string) => {
-    setEmail(inputEmail);
+    setEmail((prev) => inputEmail);
 
     if (inputEmail.length === 0) {
-      return setEmailErrorMessage("이메일을 입력해주세요.");
+      isPassed.current = { ...isPassed.current, email: false };
+      return setEmailMessage("이메일을 입력해주세요.");
     }
 
     let emailPattern = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
     const isEmail = emailPattern.test(inputEmail);
 
     if (!isEmail) {
-      return setEmailErrorMessage("이메일 형식이 아닙니다.");
+      isPassed.current = { ...isPassed.current, email: false };
+      return setEmailMessage("이메일 형식이 아닙니다.");
     }
-    setEmailErrorMessage("");
+    isPassed.current = { ...isPassed.current, email: true };
+    setEmailMessage("");
+  };
+
+  const checkEmailExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    const isEmailRegistered = await checkUserEmailRegistered(email);
+    if (isEmailRegistered || emailMessage) {
+      isPassed.current = { ...isPassed.current, email: false };
+      return setEmailMessage("사용할 수 없는 이메일입니다.");
+    }
+    isPassed.current = { ...isPassed.current, email: true };
+    setEmailMessage("사용 가능한 이메일입니다.");
   };
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
@@ -38,8 +57,11 @@ const Register = () => {
           onChange={(e) => emailChangeHandler(e.target.value)}
           required
         />
-        <button className="bg-slate-300">중복확인</button>
-        <p className="text-red-500">{emailErrorMessage}</p>
+        <button onClick={(e) => checkEmailExistedHandler(e)} className="bg-slate-300">
+          중복확인
+        </button>
+        {/* <p className="text-red-500">{emailErrorMessage}</p> */}
+        {<InputMessage isError={!isPassed.current.email} text={emailMessage} />}
       </div>
 
       <label className="text-md" htmlFor="nickname">
