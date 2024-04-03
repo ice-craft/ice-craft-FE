@@ -9,12 +9,14 @@ import {
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
+  useChat,
   useTracks
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -22,6 +24,7 @@ export default function RoomPage() {
 
   const room = params.get("room");
   const name = params.get("name");
+  const [localParticipantSid, setLocalParticipantSid] = useState("");
 
   //임시 모달창 조건문
   const { isModal, setIsModal } = useModalStore();
@@ -71,7 +74,7 @@ export default function RoomPage() {
         // simulateParticipants={5} // 테스트용 카메라 생성
         style={{ height: "100vh", width: "100vw" }}
       >
-        <MyVideoConference />
+        <MyVideoConference localParticipantSid={localParticipantSid} />
         {isModal ? (
           <div className="w-full h-screen bg-black bg-opacity-60 fixed z-1 top-0 left-0 flex justify-center items-center">
             <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
@@ -91,9 +94,11 @@ export default function RoomPage() {
   );
 }
 
-function MyVideoConference() {
-  // `useTracks` returns all camera and screen share tracks. If a user
-  // joins without a published camera track, a placeholder track is returned.
+type MyVideoConferenceProps = {
+  localParticipantSid: string;
+};
+
+function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -101,11 +106,50 @@ function MyVideoConference() {
     ],
     { onlySubscribed: false }
   );
+
+  console.log(tracks[0]?.participant);
+  console.log(tracks[0]);
+
+  // 필터링하여 로컬 및 원격 트랙을 구분
+  const localTracks = tracks.filter((track) => track.participant.sid === localParticipantSid);
+  const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipantSid);
+
   return (
-    <GridLayout tracks={tracks} style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}>
-      {/* The GridLayout accepts zero or one child. The child is used
-      as a template to render all passed in tracks. */}
-      <ParticipantTile />
-    </GridLayout>
+    <div
+      style={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+        alignItems: "center",
+        padding: "0 20px",
+        gap: "30px",
+        justifyContent: "space-between"
+      }}
+    >
+      {/* 로컬 참가자 비디오 */}
+      <div style={{ width: "50%" }}>
+        {localTracks.map((track) => (
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "50px" }}>
+            <ParticipantTile trackRef={track} style={{ width: "100%", height: "100%" }} />
+            <ControlBar />
+          </div>
+        ))}
+      </div>
+      {/* 원격 참가자 비디오 */}
+      <div
+        style={{
+          width: "50%",
+          display: "flex",
+          alignItems: "baseline",
+          gap: "10px",
+          flexWrap: "wrap",
+          justifyContent: "flex-start"
+        }}
+      >
+        {remoteTracks.map((track, index) => (
+          <ParticipantTile key={index} trackRef={track} style={{ width: "225px", height: "200px" }} />
+        ))}
+      </div>
+    </div>
   );
 }
