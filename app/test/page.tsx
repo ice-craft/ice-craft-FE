@@ -1,27 +1,20 @@
 "use client";
 import React, { useEffect } from "react";
-import {
-  getUserEmail,
-  getUserInfo,
-  getUserNickname,
-  getUserUid,
-  logOut,
-  updateUserNickname
-} from "../_utils/supabase/authAPI";
-import { checkUserRegistered, duplicateCheckUserNickname, registerAccount } from "../_utils/supabase/accountAPI";
+import { getUserEmail, getUserNickname, getUserUid } from "../_utils/supabase/authAPI";
+import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
 
 const Test = () => {
   useEffect(() => {
     const test = async () => {
       const userEmail = await getUserEmail();
-      const isUserRegistered = await checkUserRegistered(userEmail!);
+      const isUserRegistered = await checkUserEmailRegistered(userEmail!);
       if (isUserRegistered) {
         return;
       }
       while (true) {
         let inputNickname = window.prompt("닉네임을 입력하세요.");
         if (inputNickname && 2 <= inputNickname.length && inputNickname.length <= 6) {
-          const isExistedNickname = await duplicateCheckUserNickname(inputNickname);
+          const isExistedNickname = await checkUserNicknameRegistered(inputNickname);
           if (!isExistedNickname) {
             const email = await getUserEmail();
             const nickname = await getUserNickname();

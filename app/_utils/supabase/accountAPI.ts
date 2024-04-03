@@ -2,7 +2,7 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
-export const duplicateCheckUserNickname = async (nickname: string) => {
+export const checkUserNicknameRegistered = async (nickname: string) => {
   let { data: account_table, error } = await supabase.from("account_table").select("nickname").eq("nickname", nickname);
   if (error) {
     throw new Error(error.message);
@@ -15,7 +15,7 @@ export const duplicateCheckUserNickname = async (nickname: string) => {
   }
 };
 
-export const checkUserRegistered = async (email: string) => {
+export const checkUserEmailRegistered = async (email: string) => {
   let { data: account_table, error } = await supabase.from("account_table").select("email").eq("email", email);
   if (error) {
     throw new Error(error.message);
