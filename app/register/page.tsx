@@ -14,8 +14,8 @@ const Register = () => {
           placeholder="이메일을 입력해주세요."
           required
         />
-        <button>중복확인</button>
-        <p className="">이메일 에러</p>
+        <button className="bg-slate-300">중복확인</button>
+        <p className="text-red-500">이메일 에러</p>
       </div>
 
       <label className="text-md" htmlFor="nickname">
@@ -28,7 +28,8 @@ const Register = () => {
           placeholder="닉네임을 입력해주세요."
           required
         />
-        <button>중복확인</button>
+        <button className="bg-slate-300">중복확인</button>
+        <p className="text-red-500">닉네임 에러</p>
       </div>
       <label className="text-md" htmlFor="password">
         비밀번호
@@ -39,6 +40,7 @@ const Register = () => {
         placeholder="비밀번호를 입력해주세요."
         required
       />
+      <p className="text-red-500">비밀번호 에러</p>
       <label className="text-md" htmlFor="check-password">
         비밀번호 확인
       </label>
@@ -48,13 +50,14 @@ const Register = () => {
         placeholder="비밀번호를 한번 더입력해주세요."
         required
       />
+      <p className="text-red-500">비밀번호 확인 에러</p>
       <button>회원가입</button>
       <div className="flex flex-col gap-2">
         <p className="text-center">간편 가입하기</p>
-        <button>카카오톡으로 회원가입</button>
-        <button>구글로 회원가입</button>
-        <button>깃헙으로 회원가입</button>
-        <button>페이스북으로 회원가입</button>
+        <button className="bg-slate-300">카카오톡으로 회원가입</button>
+        <button className="bg-slate-300">구글로 회원가입</button>
+        <button className="bg-slate-300">깃헙으로 회원가입</button>
+        <button className="bg-slate-300">페이스북으로 회원가입</button>
       </div>
     </form>
   );
