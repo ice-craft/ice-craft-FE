@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { checkUserEmailRegistered } from "../_utils/supabase/accountAPI";
+import { checkUserEmailRegistered, checkUserNicknameRegistered } from "../_utils/supabase/accountAPI";
 import { InputMessage } from "../_components/register/inputMessage";
 
 const Register = () => {
@@ -36,8 +36,7 @@ const Register = () => {
     e.preventDefault();
 
     const isEmailRegistered = await checkUserEmailRegistered(email);
-    if (isEmailRegistered || emailMessage) {
-      isPassed.current = { ...isPassed.current, email: false };
+    if (isEmailRegistered || !isPassed.current.email) {
       return setEmailMessage("사용할 수 없는 이메일입니다.");
     }
     isPassed.current = { ...isPassed.current, email: true };
@@ -58,6 +57,16 @@ const Register = () => {
     }
     isPassed.current = { ...isPassed.current, nickname: true };
     setNicknameMessage("사용 가능한 닉네임입니다.");
+  };
+
+  const checkNicknameExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    const isNicknameRegistered = await checkUserNicknameRegistered(nickname);
+    if (isNicknameRegistered || !isPassed.current.nickname) {
+      return setNicknameMessage("사용할 수 없는 닉네임입니다.");
+    }
+    isPassed.current = { ...isPassed.current, nickname: true };
   };
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
@@ -92,7 +101,9 @@ const Register = () => {
           onChange={(e) => nicknameChangeHandler(e.target.value)}
           required
         />
-        <button className="bg-slate-300">중복확인</button>
+        <button onClick={(e) => checkNicknameExistedHandler(e)} className="bg-slate-300">
+          중복확인
+        </button>
         {<InputMessage isError={!isPassed.current.nickname} text={nicknameMessage} />}
       </div>
       <label className="text-md" htmlFor="password">
