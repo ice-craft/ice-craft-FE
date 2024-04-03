@@ -50,21 +50,31 @@ const LogIn = () => {
     }
   };
 
-  const facebookLogIn = async () => {
-    try {
-      await oAuthLogIn("facebook");
-    } catch (error) {
-      setFirstErrorMessage("페이스북 계정을 통한 로그인에 실패했습니다.");
-      setSecondErrorMessage("");
-      return;
-    }
-  };
-
   const googleLogIn = async () => {
     try {
       await oAuthLogIn("google");
     } catch (error) {
       setFirstErrorMessage("구글 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
+  const githubLogIn = async () => {
+    try {
+      await oAuthLogIn("github");
+    } catch (error) {
+      setFirstErrorMessage("깃허브 계정을 통한 로그인에 실패했습니다.");
+      setSecondErrorMessage("");
+      return;
+    }
+  };
+
+  const facebookLogIn = async () => {
+    try {
+      await oAuthLogIn("facebook");
+    } catch (error) {
+      setFirstErrorMessage("페이스북 계정을 통한 로그인에 실패했습니다.");
       setSecondErrorMessage("");
       return;
     }
@@ -133,7 +143,9 @@ const LogIn = () => {
         <p onClick={googleLogIn} className="cursor-pointer">
           구글로 로그인
         </p>
-        <p className="cursor-pointer">깃헙으로 로그인</p>
+        <p onClick={githubLogIn} className="cursor-pointer">
+          깃헙으로 로그인
+        </p>
         <p onClick={facebookLogIn} className="cursor-pointer">
           페이스북으로 로그인
         </p>
