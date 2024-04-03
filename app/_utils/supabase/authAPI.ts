@@ -76,3 +76,9 @@ export const getUserUid = async () => {
 
   return user.user?.id;
 };
+
+export const getUserEmail = async () => {
+  const { data: user } = await supabase.auth.getUser();
+
+  return user.user?.email;
+};

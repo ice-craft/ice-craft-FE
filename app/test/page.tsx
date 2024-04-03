@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { getUserInfo, getUserNickname, getUserUid, updateUserNickname } from "../_utils/supabase/authAPI";
+import { getUserEmail, getUserInfo, getUserNickname, getUserUid, updateUserNickname } from "../_utils/supabase/authAPI";
 
 const Test = () => {
   useEffect(() => {
@@ -11,7 +11,7 @@ const Test = () => {
       //   console.log("닉네임", await getUserNickname());
       //   console.log("유저", await getUserInfo());
       // }
-      const result = await getUserUid();
+      const result = await getUserEmail();
       console.log("uid", result);
     };
 
