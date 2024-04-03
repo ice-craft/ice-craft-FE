@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const MainPage = () => {
+const MainPage = () => {
   // TODO: get user input for room and name
   const [room, setRoom] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -16,10 +16,15 @@ export const MainPage = () => {
   };
 
   return (
-    <form onSubmit={SubmitHandler} className="flex flex-col justify-center item-center min-h-screen">
-      <input type="text" placeholder="Room" value={room} className="mb-4" onChange={(e) => setRoom(e.target.value)} />
-      <input type="text" placeholder="Name" value={name} className="mb-4" onChange={(e) => setName(e.target.value)} />
-      <button type="submit">방 생성</button>
-    </form>
+    <>
+      <div>{/* <button onClick={}></button> */}</div>
+      <form onSubmit={SubmitHandler} className="flex flex-col justify-center item-center min-h-screen">
+        <input type="text" placeholder="Room" value={room} className="mb-4" onChange={(e) => setRoom(e.target.value)} />
+        <input type="text" placeholder="Name" value={name} className="mb-4" onChange={(e) => setName(e.target.value)} />
+        <button type="submit">방 생성</button>
+      </form>
+    </>
   );
 };
+
+export default MainPage;
