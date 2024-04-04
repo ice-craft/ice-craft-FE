@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { checkUserEmailRegistered, checkUserNicknameRegistered } from "../_utils/supabase/accountAPI";
+import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
 import { InputMessage } from "../_components/register/InputMessage";
 
 const Register = () => {
@@ -12,6 +12,7 @@ const Register = () => {
   const [passwordMessage, setPasswordMessage] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
+  const [registerMessage, setRegisterMessage] = useState("");
 
   const isPassed = useRef({
     inputEmail: false,
@@ -26,6 +27,7 @@ const Register = () => {
 
   const emailChangeHandler = (inputEmail: string) => {
     setEmail(inputEmail);
+    isPassed.current = { ...isPassed.current, email: false };
 
     if (inputEmail.length === 0) {
       isPassed.current = { ...isPassed.current, inputEmail: false };
@@ -39,6 +41,7 @@ const Register = () => {
       isPassed.current = { ...isPassed.current, inputEmail: false };
       return setEmailMessage("이메일 형식이 아닙니다.");
     }
+
     isPassed.current = { ...isPassed.current, inputEmail: true };
     setEmailMessage("");
   };
@@ -48,7 +51,7 @@ const Register = () => {
 
     const isEmailRegistered = await checkUserEmailRegistered(email);
     if (isEmailRegistered || !isPassed.current.inputEmail) {
-      return setEmailMessage("사용할 수 없는 이메일입니다.");
+      return setEmailMessage("이미 존재하는 이메일입니다.");
     }
     isPassed.current = { ...isPassed.current, email: true };
     setEmailMessage("사용 가능한 이메일입니다.");
@@ -56,6 +59,7 @@ const Register = () => {
 
   const nicknameChangeHandler = (inputNickname: string) => {
     setNickname(inputNickname);
+    isPassed.current = { ...isPassed.current, nickname: false };
 
     if (inputNickname.length === 0) {
       isPassed.current = { ...isPassed.current, inputNickname: false };
@@ -76,7 +80,7 @@ const Register = () => {
 
     const isNicknameRegistered = await checkUserNicknameRegistered(nickname);
     if (isNicknameRegistered || !isPassed.current.inputNickname) {
-      return setNicknameMessage("사용할 수 없는 닉네임입니다.");
+      return setNicknameMessage("이미 존재하는 닉네임입니다.");
     }
     isPassed.current = { ...isPassed.current, nickname: true };
     setNicknameMessage("사용 가능한 닉네임입니다.");
@@ -84,6 +88,7 @@ const Register = () => {
 
   const passwordChangeHandler = (inputPassword: string) => {
     setPassword(inputPassword);
+    isPassed.current = { ...isPassed.current, password: false };
 
     if (inputPassword.length === 0) {
       isPassed.current = { ...isPassed.current, inputPassword: false };
@@ -95,7 +100,7 @@ const Register = () => {
       return setPasswordMessage("비밀번호의 길이가 올바르지 않습니다.");
     }
 
-    let passwordPattern = new RegExp(/.*[a-z]+.*[A-Z]+.*/); //FIXME - 정규식 틀림 반드시 고칠 것
+    let passwordPattern = new RegExp(/(?=.*[a-z])(?=.*[A-Z])/);
     const isContained = passwordPattern.test(inputPassword);
 
     if (!isContained) {
@@ -104,15 +109,17 @@ const Register = () => {
     }
 
     isPassed.current = { ...isPassed.current, inputPassword: true };
+    isPassed.current = { ...isPassed.current, password: true };
     setPasswordMessage("");
   };
 
   const checkPasswordChangeHandler = (inputCheckPassword: string) => {
     setCheckPassword(inputCheckPassword);
+    isPassed.current = { ...isPassed.current, checkPassword: false };
 
     if (inputCheckPassword.length === 0) {
       isPassed.current = { ...isPassed.current, inputPassword: false };
-      return setPasswordMessage("비밀번호 확인을 입력해주세요.");
+      return setCheckPasswordMessage("비밀번호 확인을 입력해주세요.");
     }
 
     if (inputCheckPassword !== password) {
@@ -121,7 +128,24 @@ const Register = () => {
     }
 
     isPassed.current = { ...isPassed.current, inputCheckPassword: true };
+    isPassed.current = { ...isPassed.current, checkPassword: true };
     setCheckPasswordMessage("");
+  };
+
+  const register = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const isEmailPassed = isPassed.current.email;
+    const isNicknamePassed = isPassed.current.nickname;
+    const isPasswordPassed = isPassed.current.password;
+    const isCheckPasswordPassed = isPassed.current.checkPassword;
+
+    if (!isEmailPassed || !isNicknamePassed || !isPasswordPassed || !isCheckPasswordPassed) {
+      return setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
+    }
+    console.log("통과");
+    //NOTE - 회원가입 유효성 검사 다시 검증
+    //NOTE - auth에 넣기
+    //NOTE - account 테이블에 삽입 (uid 필요)
   };
 
   return (
@@ -191,7 +215,7 @@ const Register = () => {
         required
       />
       {<InputMessage text={checkPasswordMessage} />}
-      <button type="submit" className="bg-slate-300">
+      <button onClick={(e) => register(e)} type="submit" className="bg-slate-300">
         회원가입
       </button>
       <div className="flex flex-col gap-2">
