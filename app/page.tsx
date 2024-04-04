@@ -1,5 +1,6 @@
-import MainPage from "./main/page";
+import Intropage from "./_components/intro/Intropage";
+
 
 export default async function Index() {
-  return <MainPage />;
+  return <Intropage/>;
 }
