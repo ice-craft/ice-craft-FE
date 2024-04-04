@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import {
-  createRoom,
-  getRooms,
-  getRoomsWithKeyword,
-  getUserCountAvailable,
-  getUsersInRoom
-} from "../_utils/supabase/roomAPI";
+import { createRoom, getRooms, getRoomsWithKeyword, getUsersInRoom } from "../_utils/supabase/roomAPI";
 
 const Test2 = () => {
   useEffect(() => {

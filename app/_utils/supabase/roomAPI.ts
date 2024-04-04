@@ -42,10 +42,10 @@ export const createRoom = async (title: string, game_category: string, total_use
 
 //NOTE - 방에 들어가기
 export const joinRoom = async (room_id: string, user_id: string) => {
-  const userCountAvailable = await getUserCountAvailable(room_id);
+  const { total_user_count, current_user_count } = await getUserCountInRoom(room_id);
   const usersInRoom = await getUsersInRoom(room_id);
 
-  if (userCountAvailable > 0 && usersInRoom.indexOf(user_id) === -1) {
+  if (total_user_count - current_user_count > 0 && usersInRoom.indexOf(user_id) === -1) {
     const { data, error } = await supabase.from("room_user_match_table").insert([{ room_id, user_id }]).select();
 
     if (error) {
@@ -57,8 +57,17 @@ export const joinRoom = async (room_id: string, user_id: string) => {
   throw new Error("방에 입장할 수 없습니다.");
 };
 
-//NOTE - 방에 들어갈 수 있는 유저 수 반환
-export const getUserCountAvailable = async (room_id: string) => {
+// export const addUserCountInRoom = async (room_id: string) => {
+
+//   const { data, error } = await supabase
+//     .from("room_table")
+//     .update({ other_column: "otherValue" })
+//     .eq("some_column", "someValue")
+//     .select();
+// };
+
+//NOTE - 방에 들어갈 수 있는 총인원과 현재 인원 반환
+export const getUserCountInRoom = async (room_id: string) => {
   const { data: room_table, error } = await supabase
     .from("room_table")
     .select("current_user_count, total_user_count")
@@ -66,7 +75,7 @@ export const getUserCountAvailable = async (room_id: string) => {
   if (error) {
     throw new Error(error.message);
   }
-  return room_table[0].total_user_count - room_table[0].current_user_count;
+  return { total_user_count: room_table[0].total_user_count, current_user_count: room_table[0].current_user_count };
 };
 
 //NOTE - 방의 총 갯수 반환
