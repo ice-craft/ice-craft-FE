@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
 import { InputMessage } from "../_components/register/InputMessage";
-import { oAuthRegister } from "../_utils/supabase/authAPI";
+import { oAuthLogIn, oAuthRegister } from "../_utils/supabase/authAPI";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -159,6 +159,38 @@ const Register = () => {
     }
   };
 
+  const kakaoLogIn = async () => {
+    try {
+      await oAuthLogIn("kakao");
+    } catch (error) {
+      return;
+    }
+  };
+
+  const googleLogIn = async () => {
+    try {
+      await oAuthLogIn("google");
+    } catch (error) {
+      return;
+    }
+  };
+
+  const githubLogIn = async () => {
+    try {
+      await oAuthLogIn("github");
+    } catch (error) {
+      return;
+    }
+  };
+
+  const facebookLogIn = async () => {
+    try {
+      await oAuthLogIn("facebook");
+    } catch (error) {
+      return;
+    }
+  };
+
   return (
     <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
       <h1 className="text-center">회원가입</h1>
@@ -232,10 +264,18 @@ const Register = () => {
       {<InputMessage text={registerMessage} />}
       <div className="flex flex-col gap-2">
         <p className="text-center">간편 가입하기</p>
-        <button className="bg-slate-300">카카오톡으로 회원가입</button>
-        <button className="bg-slate-300">구글로 회원가입</button>
-        <button className="bg-slate-300">깃헙으로 회원가입</button>
-        <button className="bg-slate-300">페이스북으로 회원가입</button>
+        <button onClick={kakaoLogIn} className="bg-slate-300">
+          카카오톡으로 회원가입
+        </button>
+        <button onClick={googleLogIn} className="bg-slate-300">
+          구글로 회원가입
+        </button>
+        <button onClick={githubLogIn} className="bg-slate-300">
+          깃헙으로 회원가입
+        </button>
+        <button onClick={facebookLogIn} className="bg-slate-300">
+          페이스북으로 회원가입
+        </button>
       </div>
     </form>
   );
