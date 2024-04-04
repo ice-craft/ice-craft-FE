@@ -28,11 +28,11 @@ export const getRoomsWithKeyword = async (keyword: string) => {
   return room_table;
 };
 
-//NOTE - 방 만들기 (현재 인원은 방만든 사람 1명, 만든 시간은 현재)
-export const createRoom = async (title: string, game_category: string, total_user_count: number, user_id: string) => {
+//NOTE - 방 만들기
+export const createRoom = async (title: string, game_category: string, total_user_count: number) => {
   const { data, error } = await supabase
     .from("room_table")
-    .insert([{ title, game_category, current_user_count: 1, total_user_count }])
+    .insert([{ title, game_category, current_user_count: 0, total_user_count }])
     .select();
   if (error) {
     throw new Error(error.message);
