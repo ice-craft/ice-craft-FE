@@ -9,7 +9,11 @@ import {
   ParticipantTile,
   RoomAudioRenderer,
   useLocalParticipant,
+  useParticipantTracks,
   useParticipants,
+  useRemoteParticipant,
+  useRemoteParticipants,
+  useSpeakingParticipants,
   useTracks
 } from "@livekit/components-react";
 import "@livekit/components-styles";
@@ -96,10 +100,6 @@ export default function RoomPage() {
   );
 }
 
-// type MyVideoConferenceProps = {
-//   localParticipantSid: string;
-// };
-
 function MyVideoConference() {
   // 전체 데이터
   const tracks = useTracks(
@@ -112,9 +112,10 @@ function MyVideoConference() {
 
   // local 정보를 가져온다.
   const { localParticipant } = useLocalParticipant();
+  const remoteParticipant = useRemoteParticipants();
 
-  console.log(tracks[0]?.participant);
   console.log("로컬 정보 가져오기", localParticipant);
+  console.log("원격 사용자들의 정보 가져오기", remoteParticipant);
 
   // 필터링하여 로컬 및 원격 트랙을 구분
   // 자신
@@ -138,8 +139,12 @@ function MyVideoConference() {
       {/* 로컬 참가자 비디오 */}
       <div style={{ width: "50%" }}>
         {/* trackRef: 한 사람의 유저 track */}
+
         {localTracks.map((track) => (
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "50px" }}>
+          <div
+            key={track.source}
+            style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "50px" }}
+          >
             <ParticipantTile trackRef={track} style={{ width: "100%", height: "100%" }} />
 
             <ControlBar />
@@ -166,61 +171,71 @@ function MyVideoConference() {
 }
 
 const CamOrVideo = () => {
-  const localParticipant = useLocalParticipant();
-  const users = useParticipants();
+  const localParticipant = useLocalParticipant(); //local 사용자의 정보를 반환
+  const RemoteParticipants = useRemoteParticipants(); //현재 방의 모든 원격 참가자
+  const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
+  const Participants = useParticipants(); // 모든 참가자(로컬 및 원격)를 반환
+  const UserSpeaking = useSpeakingParticipants(); //모든 참가자의 활성 발언자만 반환
+  // const trackToggle = useTrackToggle(trackRef); //지정된 트랙의 상태와 기능을 반환
+
+  console.log("localParticipant", localParticipant);
+  console.log("UserSpeaking", UserSpeaking);
+  console.log("Participants", Participants);
+
+  //모든 트랙(데이터) 가져오기
   const tracks = useTracks();
+  const sources = tracks.map((item) => {
+    return item.source;
+  });
 
-  // 마이크 및 캠 경로
-  // const playerMike = tracks[1].publication.audioTrack?.mediaStreamTrack;
-  const mike = localParticipant.microphoneTrack?.track?.mediaStreamTrack;
-  const cam = localParticipant.cameraTrack?.track?.mediaStreamTrack;
+  // 특정 참가자의 track을 얻을 수 있다.
+  // (track.source[] , identity)
+  const ParticipantTrack = useParticipantTracks(sources, "identity");
+  console.log("ParticipantTrack", ParticipantTrack);
+  console.log("RemoteParticipant", RemoteParticipant);
 
-  console.log("Mike", mike);
-  console.log("cam", cam);
-
-  const mikeOn = () => {
-    if (mike) {
-      // 마이크를 활성화하려면 true로 설정합니다.
-      // mike.enabled = true;
-      localParticipant.localParticipant.setMicrophoneEnabled(true);
-      // playerMike.enabled = true;
-    }
+  // 투표 시간
+  // 모든 유저 마이크만 off
+  const AllMikeOff = () => {
+    tracks.forEach((track) => {
+      const trackAudioOn = track.publication.audioTrack;
+      if (trackAudioOn) {
+        trackAudioOn.mediaStreamTrack.enabled = false;
+      }
+    });
   };
 
-  const mikeOff = () => {
-    if (mike) {
-      // 마이크를 비활성화하려면 false로 설정합니다.
-      // mike.enabled = false;
-      localParticipant.localParticipant.setMicrophoneEnabled(false);
-      // playerMike.enabled = false;
-    }
-  };
+  //최후의 반론 시간
+  //특정 1명의 유저를 제외한 모든 캠 및 오디오 off
+  const lastSpeak = () => {
+    // 전체 마이크 및 캠 off
+    tracks.forEach((track) => {
+      const trackOff = track.publication.track;
+      if (trackOff) {
+        trackOff.mediaStreamTrack.enabled = false;
+      }
+    });
 
-  const camOn = () => {
-    if (cam) {
-      // 캠 활성화하려면 true로 설정합니다.
-      // cam.enabled = true;
-      localParticipant.localParticipant.setCameraEnabled(true);
-    }
-  };
+    //특정 유저 캠 및 오디오 on
+    if (RemoteParticipant) {
+      const testCam = ParticipantTrack[0].publication.track!;
+      const testVideo = ParticipantTrack[1].publication.track!;
 
-  const camOff = () => {
-    if (cam) {
-      // 캠을 비활성화하려면 false로 설정합니다.
-      // cam.enabled = false;
-      localParticipant.localParticipant.setCameraEnabled(false);
+      testCam.mediaStreamTrack.enabled = true;
+      testVideo.mediaStreamTrack.enabled = true;
     }
   };
 
   // 전체 캠 및 오디오 on
   const allCamOn = () => {
+    //죽은 유저를 제외한 tracks 가져오기
+    const lifeTrack = tracks.filter((item) => item.participant.sid === "dieUser.sid");
+
     tracks.forEach((track) => {
-      track.participant.trackPublications.forEach((item) => {
-        const test = item.track?.mediaStreamTrack;
-        if (test) {
-          test.enabled = true;
-        }
-      });
+      const trackOn = track.publication.track;
+      if (trackOn) {
+        trackOn.mediaStreamTrack.enabled = true;
+      }
     });
   };
 
@@ -237,25 +252,16 @@ const CamOrVideo = () => {
   return (
     <>
       <div>
-        <button onClick={mikeOn}>마이크 활성화 </button>
-      </div>
-
-      <div>
-        <button onClick={mikeOff}>마이크 비활성화 </button>
-      </div>
-
-      <div>
-        <button onClick={camOn}>캠 활성화 </button>
-      </div>
-
-      <div>
-        <button onClick={camOff}>캠 비활성화 </button>
+        <button onClick={AllMikeOff}> 투표 시간 </button>
       </div>
       <div>
-        <button onClick={allCamOn}>전체 마이크 활성화 </button>
+        <button onClick={lastSpeak}>최후의 반론 시간 </button>
       </div>
       <div>
-        <button onClick={allCamOff}>전체 마이크 비활성화 </button>
+        <button onClick={allCamOn}>전체 캠 및 오디오 on </button>
+      </div>
+      <div>
+        <button onClick={allCamOff}>전체 캠 및 오디오 off </button>
       </div>
     </>
   );
