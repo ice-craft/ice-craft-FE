@@ -13,14 +13,14 @@ import {
 
 const Test2 = () => {
   useEffect(() => {
-    const test = async () => {
-      try {
-        const data = await deleteRoom("26ee12bc-96c4-4cce-9085-89f9be3f5d19");
-        console.log(data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+    // const test = async () => {
+    //   try {
+    //     const data = await deleteRoom("26ee12bc-96c4-4cce-9085-89f9be3f5d19");
+    //     console.log(data);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
     // test();
   }, []);
   return <div>Test2</div>;

@@ -80,21 +80,28 @@ export const exitRoom = async (room_id: string, user_id: string) => {
 
     return data;
   } else if (current_user_count === 1 && usersInRoom.indexOf(user_id) !== -1) {
-    const data = deleteRoom(room_id);
+    const data = deleteRoom(room_id, user_id);
     return data;
   }
   throw new Error("방에서 나갈 수 없습니다.");
 };
 
 //NOTE - 방 삭제하기
-export const deleteRoom = async (room_id: string) => {
-  const { data, error } = await supabase.from("room_table").delete().eq("room_id", room_id);
+export const deleteRoom = async (room_id: string, user_id: string) => {
+  const { current_user_count } = await getUserCountInRoom(room_id);
+  const usersInRoom = await getUsersInRoom(room_id);
 
-  if (error) {
-    throw new Error(error.message);
+  if (current_user_count === 1 && usersInRoom.indexOf(room_id) !== -1) {
+    const { data, error } = await supabase.from("room_table").delete().eq("room_id", room_id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
   }
 
-  return data;
+  throw new Error("방을 삭제할 수 없습니다.");
 };
 
 //NOTE - 방의 현재 인원 변경
