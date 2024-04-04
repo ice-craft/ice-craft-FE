@@ -2,7 +2,7 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
-//NOTE - 해당 범위의 방들을 반환(인덱스는 0부터 시작, rowStart 인덱스와 rowEnd 인덱스는 포함), 날짜 내림차순
+//NOTE - 해당 범위의 방들을 반환(데이터베이스의 인덱스는 0부터 시작, rowStart 인덱스와 rowEnd 인덱스를 포함해서 반환), 날짜 내림차순
 export const getRooms = async (rowStart: number, rowEnd: number) => {
   const { data: room_table, error } = await supabase
     .from("room_table")
@@ -15,7 +15,7 @@ export const getRooms = async (rowStart: number, rowEnd: number) => {
   return room_table;
 };
 
-//NOTE - 제목에 키워드가 포함된 방 목록 반환
+//NOTE - 제목에 키워드가 포함된 방 목록 반환 (날짜 내림차순)
 export const getRoomsWithKeyword = async (keyword: string) => {
   const { data: room_table, error } = await supabase
     .from("room_table")
@@ -28,7 +28,7 @@ export const getRoomsWithKeyword = async (keyword: string) => {
   return room_table;
 };
 
-//NOTE - 방 만들기 (방만들 때, 방 접속하기도 해야함)
+//NOTE - 방 만들기 (방만 만듬, 방을 만들고 접속도 해야함)
 export const createRoom = async (title: string, game_category: string, total_user_count: number) => {
   const { data, error } = await supabase
     .from("room_table")
@@ -40,7 +40,7 @@ export const createRoom = async (title: string, game_category: string, total_use
   return data[0];
 };
 
-//NOTE - 방에 들어가기
+//NOTE - 방에 들어가기 (방 자리에 여유가 있고, 자신이 방에 없으면 방에 들어갈 수 있음 )
 export const joinRoom = async (room_id: string, user_id: string) => {
   const { total_user_count, current_user_count } = await getUserCountInRoom(room_id);
   const usersInRoom = await getUsersInRoom(room_id);
@@ -59,7 +59,7 @@ export const joinRoom = async (room_id: string, user_id: string) => {
   throw new Error("방에 입장할 수 없습니다.");
 };
 
-//NOTE - 방 나가기
+//NOTE - 방 나가기 (내가 방에 존재하고 나 이외에 유저가 있으면 방에서 나감, 다른 유저가 방에 없으면 방 삭제)
 export const exitRoom = async (room_id: string, user_id: string) => {
   const { current_user_count } = await getUserCountInRoom(room_id);
   const usersInRoom = await getUsersInRoom(room_id);
@@ -86,7 +86,7 @@ export const exitRoom = async (room_id: string, user_id: string) => {
   throw new Error("방에서 나갈 수 없습니다.");
 };
 
-//NOTE - 방 삭제하기
+//NOTE - 방 삭제하기 (방에 있는 유저가 오직 자신일 경우에 방 삭제)
 export const deleteRoom = async (room_id: string, user_id: string) => {
   const { current_user_count } = await getUserCountInRoom(room_id);
   const usersInRoom = await getUsersInRoom(room_id);
@@ -104,7 +104,7 @@ export const deleteRoom = async (room_id: string, user_id: string) => {
   throw new Error("방을 삭제할 수 없습니다.");
 };
 
-//NOTE - 방의 현재 인원 변경
+//NOTE - 방의 현재 인원 변경 (방의 인원을 change만큼 더함, change는 음수가 될 수 있어서, 인원을 감소할 수 있음)
 export const changeUserCountInRoom = async (room_id: string, change: number) => {
   const { current_user_count } = await getUserCountInRoom(room_id);
   const { data, error } = await supabase
