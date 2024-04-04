@@ -142,8 +142,7 @@ const Register = () => {
     if (!isEmailPassed || !isNicknamePassed || !isPasswordPassed || !isCheckPasswordPassed) {
       return setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
     }
-    console.log("통과");
-    //NOTE - 회원가입 유효성 검사 다시 검증
+    setRegisterMessage("");
     //NOTE - auth에 넣기
     //NOTE - account 테이블에 삽입 (uid 필요)
   };
@@ -218,6 +217,7 @@ const Register = () => {
       <button onClick={(e) => register(e)} type="submit" className="bg-slate-300">
         회원가입
       </button>
+      {<InputMessage text={registerMessage} />}
       <div className="flex flex-col gap-2">
         <p className="text-center">간편 가입하기</p>
         <button className="bg-slate-300">카카오톡으로 회원가입</button>
