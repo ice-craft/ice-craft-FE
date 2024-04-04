@@ -46,7 +46,7 @@ export const joinRoom = async (room_id: string, user_id: string) => {
   const usersInRoom = await getUsersInRoom(room_id);
 
   if (total_user_count - current_user_count > 0 && usersInRoom.indexOf(user_id) === -1) {
-    await addUserCountInRoom(room_id);
+    await changeUserCountInRoom(room_id, 1);
     const { data, error } = await supabase.from("room_user_match_table").insert([{ room_id, user_id }]).select();
 
     if (error) {
@@ -58,12 +58,12 @@ export const joinRoom = async (room_id: string, user_id: string) => {
   throw new Error("방에 입장할 수 없습니다.");
 };
 
-//NOTE - 방의 현재 인원 1명 증가
-export const addUserCountInRoom = async (room_id: string) => {
+//NOTE - 방의 현재 인원 변경
+export const changeUserCountInRoom = async (room_id: string, change: number) => {
   const { current_user_count } = await getUserCountInRoom(room_id);
   const { data, error } = await supabase
     .from("room_table")
-    .update({ current_user_count: current_user_count + 1 })
+    .update({ current_user_count: current_user_count + change })
     .eq("room_id", room_id)
     .select();
 
