@@ -104,6 +104,25 @@ export const deleteRoom = async (room_id: string, user_id: string) => {
   throw new Error("방을 삭제할 수 없습니다.");
 };
 
+//NOTE - 빠른 방 입장 (전체 인원 내림 차순으로 정렬 후, 현재 인원 오름 차순 정렬 후 첫 번째 방에 입장)
+export const fastJoinRoom = async (user_id: string) => {
+  const { data: room_table, error } = await supabase
+    .from("room_table")
+    .select("room_id")
+    .order("total_user_count", { ascending: false })
+    .order("current_user_count", { ascending: true });
+  if (error) {
+    throw new Error(error.message);
+  }
+  try {
+    const room_id = room_table[0].room_id;
+    const result = await joinRoom(room_id, user_id);
+    return result;
+  } catch (e) {
+    throw new Error("빠른 방 입장에 실패했습니다.");
+  }
+};
+
 //NOTE - 방의 현재 인원 변경 (방의 인원을 change만큼 더함, change는 음수가 될 수 있어서, 인원을 감소할 수 있음)
 export const changeUserCountInRoom = async (room_id: string, change: number) => {
   const { current_user_count } = await getUserCountInRoom(room_id);
