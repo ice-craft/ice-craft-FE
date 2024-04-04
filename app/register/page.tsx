@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
 import { InputMessage } from "../_components/register/InputMessage";
-import { emailLogIn, getUserNickname, oAuthLogIn, oAuthRegister } from "../_utils/supabase/authAPI";
+import { oAuthRegister } from "../_utils/supabase/authAPI";
 
 const Register = () => {
   const [email, setEmail] = useState("");
