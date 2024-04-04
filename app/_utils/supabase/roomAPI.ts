@@ -29,7 +29,7 @@ export const getRoomsWithKeyword = async (keyword: string) => {
 };
 
 //NOTE - 방 만들기 (현재 인원은 방만든 사람 1명, 만든 시간은 현재)
-export const createRoom = async (title: string, game_category: string, total_user_count: number) => {
+export const createRoom = async (title: string, game_category: string, total_user_count: number, user_id: string) => {
   const { data, error } = await supabase
     .from("room_table")
     .insert([{ title, game_category, current_user_count: 1, total_user_count }])
@@ -38,6 +38,23 @@ export const createRoom = async (title: string, game_category: string, total_use
     throw new Error(error.message);
   }
   return data;
+};
+
+//NOTE - 방에 들어가기
+export const joinRoom = async (room_id: string, user_id: string) => {
+  const userCountAvailable = await getUserCountAvailable(room_id);
+  const usersInRoom = await getUsersInRoom(room_id);
+
+  if (userCountAvailable > 0 && usersInRoom.indexOf(user_id) === -1) {
+    const { data, error } = await supabase.from("room_user_match_table").insert([{ room_id, user_id }]).select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  }
+  throw new Error("방에 입장할 수 없습니다.");
 };
 
 //NOTE - 방에 들어갈 수 있는 유저 수 반환
@@ -71,5 +88,5 @@ export const getUsersInRoom = async (roomId: string) => {
   if (error) {
     throw new Error(error.message);
   }
-  return room_user_match_table;
+  return room_user_match_table.map((row) => row.user_id);
 };
