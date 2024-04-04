@@ -5,18 +5,17 @@ import { getToken } from "@/app/_hooks/useQuery";
 import { useModalStore } from "@/app/_utils/store/modal-store";
 import {
   ControlBar,
-  GridLayout,
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
-  useChat,
+  useLocalParticipant,
+  useParticipants,
   useTracks
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -24,7 +23,6 @@ export default function RoomPage() {
 
   const room = params.get("room");
   const name = params.get("name");
-  const [localParticipantSid, setLocalParticipantSid] = useState("");
 
   //임시 모달창 조건문
   const { isModal, setIsModal } = useModalStore();
@@ -51,20 +49,22 @@ export default function RoomPage() {
   }
 
   //토큰을 별도로 저장하고 있지 않기에 임시로 route 변경
-  // 테스트 주석이니깐 발견하시면 삭제 부탁드립니다.
   const deleteToken = () => {
     routers.replace(`/room`);
   };
 
   return (
     <>
-      <button
-        onClick={() => {
-          setIsModal(true);
-        }}
-      >
-        타이머 버튼 클릭
-      </button>
+      <div>
+        <button
+          onClick={() => {
+            setIsModal(true);
+          }}
+        >
+          타이머 버튼 클릭
+        </button>
+      </div>
+
       <LiveKitRoom
         token={token} // 필수 요소
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
@@ -75,7 +75,8 @@ export default function RoomPage() {
         // simulateParticipants={5} // 테스트용 카메라 생성
         style={{ height: "100vh", width: "100vw" }}
       >
-        <MyVideoConference localParticipantSid={localParticipantSid} />
+        <CamOrVideo />
+        <MyVideoConference />
         {isModal ? (
           <div className="w-full h-screen bg-black bg-opacity-60 fixed z-1 top-0 left-0 flex justify-center items-center">
             <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
@@ -95,11 +96,12 @@ export default function RoomPage() {
   );
 }
 
-type MyVideoConferenceProps = {
-  localParticipantSid: string;
-};
+// type MyVideoConferenceProps = {
+//   localParticipantSid: string;
+// };
 
-function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
+function MyVideoConference() {
+  // 전체 데이터
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -108,12 +110,18 @@ function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
     { onlySubscribed: false }
   );
 
+  // local 정보를 가져온다.
+  const { localParticipant } = useLocalParticipant();
+
   console.log(tracks[0]?.participant);
-  console.log(tracks[0]);
+  console.log("로컬 정보 가져오기", localParticipant);
 
   // 필터링하여 로컬 및 원격 트랙을 구분
-  const localTracks = tracks.filter((track) => track.participant.sid === localParticipantSid);
-  const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipantSid);
+  // 자신
+  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
+
+  //나머지 player
+  const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.sid);
 
   return (
     <div
@@ -129,9 +137,11 @@ function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
     >
       {/* 로컬 참가자 비디오 */}
       <div style={{ width: "50%" }}>
+        {/* trackRef: 한 사람의 유저 track */}
         {localTracks.map((track) => (
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "50px" }}>
             <ParticipantTile trackRef={track} style={{ width: "100%", height: "100%" }} />
+
             <ControlBar />
           </div>
         ))}
@@ -154,3 +164,99 @@ function MyVideoConference({ localParticipantSid }: MyVideoConferenceProps) {
     </div>
   );
 }
+
+const CamOrVideo = () => {
+  const localParticipant = useLocalParticipant();
+  const users = useParticipants();
+  const tracks = useTracks();
+
+  // 마이크 및 캠 경로
+  // const playerMike = tracks[1].publication.audioTrack?.mediaStreamTrack;
+  const mike = localParticipant.microphoneTrack?.track?.mediaStreamTrack;
+  const cam = localParticipant.cameraTrack?.track?.mediaStreamTrack;
+
+  console.log("Mike", mike);
+  console.log("cam", cam);
+
+  const mikeOn = () => {
+    if (mike) {
+      // 마이크를 활성화하려면 true로 설정합니다.
+      // mike.enabled = true;
+      localParticipant.localParticipant.setMicrophoneEnabled(true);
+      // playerMike.enabled = true;
+    }
+  };
+
+  const mikeOff = () => {
+    if (mike) {
+      // 마이크를 비활성화하려면 false로 설정합니다.
+      // mike.enabled = false;
+      localParticipant.localParticipant.setMicrophoneEnabled(false);
+      // playerMike.enabled = false;
+    }
+  };
+
+  const camOn = () => {
+    if (cam) {
+      // 캠 활성화하려면 true로 설정합니다.
+      // cam.enabled = true;
+      localParticipant.localParticipant.setCameraEnabled(true);
+    }
+  };
+
+  const camOff = () => {
+    if (cam) {
+      // 캠을 비활성화하려면 false로 설정합니다.
+      // cam.enabled = false;
+      localParticipant.localParticipant.setCameraEnabled(false);
+    }
+  };
+
+  // 전체 캠 및 오디오 on
+  const allCamOn = () => {
+    tracks.forEach((track) => {
+      track.participant.trackPublications.forEach((item) => {
+        const test = item.track?.mediaStreamTrack;
+        if (test) {
+          test.enabled = true;
+        }
+      });
+    });
+  };
+
+  // 전체 캠 및 오디오 off
+  const allCamOff = () => {
+    tracks.forEach((track) => {
+      const trackOff = track.publication.track;
+      if (trackOff) {
+        trackOff.mediaStreamTrack.enabled = false;
+      }
+    });
+  };
+
+  return (
+    <>
+      <div>
+        <button onClick={mikeOn}>마이크 활성화 </button>
+      </div>
+
+      <div>
+        <button onClick={mikeOff}>마이크 비활성화 </button>
+      </div>
+
+      <div>
+        <button onClick={camOn}>캠 활성화 </button>
+      </div>
+
+      <div>
+        <button onClick={camOff}>캠 비활성화 </button>
+      </div>
+      <div>
+        <button onClick={allCamOn}>전체 마이크 활성화 </button>
+      </div>
+      <div>
+        <button onClick={allCamOff}>전체 마이크 비활성화 </button>
+      </div>
+    </>
+  );
+};
