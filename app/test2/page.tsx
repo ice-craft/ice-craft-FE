@@ -7,13 +7,13 @@ const Test2 = () => {
   useEffect(() => {
     const test = async () => {
       try {
-        const data = await fastJoinRoom("91ebbc96-766c-4868-b24f-a9ed9a9f4995");
+        const data = await fastJoinRoom("82e28071-e88b-4c91-ab58-718691c6f494");
         console.log(data);
       } catch (e) {
         console.log(e);
       }
     };
-    test();
+    // test();
   }, []);
   return <div>Test2</div>;
 };
