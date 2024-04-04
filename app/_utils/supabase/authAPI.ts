@@ -25,6 +25,23 @@ export const emailLogIn = async (email: string, password: string) => {
   return data;
 };
 
+export const oAuthRegister = async (email: string, password: string, nickname: string) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        nickname
+      }
+    }
+  });
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
 //NOTE - 배포 시 각 사이트에서 배포 사이트 작성할 것 (구글은 테스트버전에서 배포버전으로 변경할 것)
 export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
