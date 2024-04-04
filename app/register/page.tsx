@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
 import { InputMessage } from "../_components/register/InputMessage";
+import { emailLogIn, getUserNickname, oAuthLogIn, oAuthRegister } from "../_utils/supabase/authAPI";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -142,9 +143,20 @@ const Register = () => {
     if (!isEmailPassed || !isNicknamePassed || !isPasswordPassed || !isCheckPasswordPassed) {
       return setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
     }
+
     setRegisterMessage("");
-    //NOTE - auth에 넣기
-    //NOTE - account 테이블에 삽입 (uid 필요)
+
+    try {
+      const uid = await oAuthRegister(email, password, nickname);
+      if (uid) {
+        await registerAccount(uid, email, nickname);
+      } else {
+        throw new Error("회원 가입 실패");
+      }
+    } catch (e) {
+      console.log(e); //NOTE - 테스트 코드
+      setRegisterMessage("회원가입에 실패했습니다.");
+    }
   };
 
   return (
