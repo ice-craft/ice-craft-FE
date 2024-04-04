@@ -1,14 +1,21 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { createRoom, getRooms, getRoomsWithKeyword, getUsersInRoom } from "../_utils/supabase/roomAPI";
+import {
+  createRoom,
+  exitRoom,
+  getRooms,
+  getRoomsWithKeyword,
+  getUsersInRoom,
+  joinRoom
+} from "../_utils/supabase/roomAPI";
 
 const Test2 = () => {
   useEffect(() => {
     const test = async () => {
       try {
-        const result = await getUsersInRoom("26ee12bc-96c4-4cce-9085-89f9be3f5d19");
-        console.log(result);
+        const data = await exitRoom("ccbb58f7-a6f2-4a90-a3a5-74119847056a", "fcdb1cd9-2dec-4f19-9399-b4e28e777428");
+        console.log(data);
       } catch (e) {
         console.log(e);
       }

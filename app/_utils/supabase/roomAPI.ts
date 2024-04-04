@@ -2,7 +2,7 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
-//NOTE - 해당 범위의 방들을  반환(인덱스는 0부터 시작, rowStart 인덱스와 rowEnd 인덱스는 포함), 날짜 내림차순
+//NOTE - 해당 범위의 방들을 반환(인덱스는 0부터 시작, rowStart 인덱스와 rowEnd 인덱스는 포함), 날짜 내림차순
 export const getRooms = async (rowStart: number, rowEnd: number) => {
   const { data: room_table, error } = await supabase
     .from("room_table")
@@ -28,7 +28,7 @@ export const getRoomsWithKeyword = async (keyword: string) => {
   return room_table;
 };
 
-//NOTE - 방 만들기
+//NOTE - 방 만들기 (방만들 때, 방 접속하기도 해야함)
 export const createRoom = async (title: string, game_category: string, total_user_count: number) => {
   const { data, error } = await supabase
     .from("room_table")
@@ -37,7 +37,7 @@ export const createRoom = async (title: string, game_category: string, total_use
   if (error) {
     throw new Error(error.message);
   }
-  return data;
+  return data[0];
 };
 
 //NOTE - 방에 들어가기
@@ -56,6 +56,24 @@ export const joinRoom = async (room_id: string, user_id: string) => {
     return data;
   }
   throw new Error("방에 입장할 수 없습니다.");
+};
+
+//NOTE - 방 나가기
+export const exitRoom = async (room_id: string, user_id: string) => {
+  await changeUserCountInRoom(room_id, -1);
+
+  const { data, error } = await supabase
+    .from("room_user_match_table")
+    .delete()
+    .eq("room_id", room_id)
+    .eq("user_id", user_id)
+    .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 };
 
 //NOTE - 방의 현재 인원 변경
