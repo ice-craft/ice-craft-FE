@@ -237,7 +237,7 @@ const Register = () => {
       </label>
       <input
         className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-        type="text"
+        type="password"
         name="password"
         maxLength={12}
         placeholder="비밀번호를 입력해주세요."
@@ -251,6 +251,7 @@ const Register = () => {
       </label>
       <input
         className="px-4 py-2 mb-6 border rounded-md bg-inherit"
+        type="password"
         name="password"
         placeholder="비밀번호를 한번 더입력해주세요."
         value={checkPassword}
