@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import S from "@/app/_style/mafiaRoom/overlay.module.css";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -121,7 +122,7 @@ function MyVideoConference() {
 
   // 오버레이 토글 함수
   const toggleOverlay = (event: any, participantSid: string) => {
-    console.log(`Event type: ${event.type}`);
+    // console.log(`Event type: ${event.type}`);
     event.stopPropagation();
     setShowOverlay((prev) => {
       const newState = { ...prev, [participantSid]: !prev[participantSid] };
@@ -132,8 +133,8 @@ function MyVideoConference() {
   const { localParticipant } = useLocalParticipant();
   const remoteParticipant = useRemoteParticipants();
 
-  console.log("로컬 정보 가져오기", localParticipant);
-  console.log("원격 사용자들의 정보 가져오기", remoteParticipant);
+  // console.log("로컬 정보 가져오기", localParticipant);
+  // console.log("원격 사용자들의 정보 가져오기", remoteParticipant);
 
   // 필터링하여 로컬 및 원격 트랙을 구분
   // 자신
@@ -143,7 +144,7 @@ function MyVideoConference() {
   const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.sid);
 
   return (
-    <div
+    <main
       style={{
         display: "flex",
         height: "100%",
@@ -155,7 +156,7 @@ function MyVideoConference() {
       }}
     >
       {/* 로컬 참가자 비디오 */}
-      <div style={{ width: "35%", height: "100%" }}>
+      <section style={{ width: "35%", height: "100%" }}>
         {localTracks.map((track) => (
           <div
             key={track.participant.sid}
@@ -169,7 +170,6 @@ function MyVideoConference() {
           >
             <div
               onClick={(e) => toggleOverlay(e, track.participant.sid)}
-              className="video-container"
               style={{
                 position: "relative",
                 width: "100%",
@@ -181,7 +181,6 @@ function MyVideoConference() {
               <ParticipantTile trackRef={track} />
               {showOverlay[track.participant.sid] && (
                 <div
-                  className="video-overlay"
                   style={{
                     position: "absolute",
                     top: 0,
@@ -198,10 +197,10 @@ function MyVideoConference() {
             </div>
           </div>
         ))}
-      </div>
+      </section>
 
       {/* 원격 참가자 비디오 */}
-      <div
+      <section
         style={{
           width: "65%",
           display: "flex",
@@ -215,13 +214,11 @@ function MyVideoConference() {
         {remoteTracks.map((track, index) => (
           <div
             onClick={(e) => toggleOverlay(e, track.participant.sid)}
-            className="video-container"
             style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}
           >
             <ParticipantTile key={index} trackRef={track} style={{ width: "300px", height: "200px" }} />
             {showOverlay[track.participant.sid] && (
               <div
-                className="video-overlay"
                 style={{
                   position: "absolute",
                   top: 0,
@@ -237,8 +234,8 @@ function MyVideoConference() {
             )}
           </div>
         ))}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
@@ -250,9 +247,9 @@ const CamOrVideo = () => {
   const UserSpeaking = useSpeakingParticipants(); //모든 참가자의 활성 발언자만 반환
   // const trackToggle = useTrackToggle(trackRef); //지정된 트랙의 상태와 기능을 반환
 
-  console.log("localParticipant", localParticipant);
-  console.log("UserSpeaking", UserSpeaking);
-  console.log("Participants", Participants);
+  // console.log("localParticipant", localParticipant);
+  // console.log("UserSpeaking", UserSpeaking);
+  // console.log("Participants", Participants);
 
   //모든 트랙(데이터) 가져오기
   const tracks = useTracks();
@@ -263,8 +260,8 @@ const CamOrVideo = () => {
   // 특정 참가자의 track을 얻을 수 있다.
   // (track.source[] , identity)
   const ParticipantTrack = useParticipantTracks(sources, "identity");
-  console.log("ParticipantTrack", ParticipantTrack);
-  console.log("RemoteParticipant", RemoteParticipant);
+  // console.log("ParticipantTrack", ParticipantTrack);
+  // console.log("RemoteParticipant", RemoteParticipant);
 
   // 투표 시간
   // 모든 유저 마이크만 off
