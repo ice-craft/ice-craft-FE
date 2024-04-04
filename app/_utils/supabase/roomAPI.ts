@@ -40,7 +40,17 @@ export const createRoom = async (title: string, game_category: string, total_use
   return data;
 };
 
-export const joinRoom = () => {};
+//NOTE - 방에 들어갈 수 있는 유저 수 반환
+export const getUserCountAvailable = async (room_id: string) => {
+  const { data: room_table, error } = await supabase
+    .from("room_table")
+    .select("current_user_count, total_user_count")
+    .eq("room_id", room_id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return room_table[0].total_user_count - room_table[0].current_user_count;
+};
 
 //NOTE - 방의 총 갯수 반환
 export const getRoomsCount = async () => {
