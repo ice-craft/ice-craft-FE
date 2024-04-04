@@ -79,6 +79,9 @@ export const exitRoom = async (room_id: string, user_id: string) => {
     }
 
     return data;
+  } else if (current_user_count === 1 && usersInRoom.indexOf(user_id) !== -1) {
+    const data = deleteRoom(room_id);
+    return data;
   }
   throw new Error("방에서 나갈 수 없습니다.");
 };
