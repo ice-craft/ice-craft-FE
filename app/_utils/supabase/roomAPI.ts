@@ -55,19 +55,37 @@ export const joinRoom = async (room_id: string, user_id: string) => {
 
     return data;
   }
+
   throw new Error("방에 입장할 수 없습니다.");
 };
 
 //NOTE - 방 나가기
 export const exitRoom = async (room_id: string, user_id: string) => {
-  await changeUserCountInRoom(room_id, -1);
+  const { current_user_count } = await getUserCountInRoom(room_id);
+  const usersInRoom = await getUsersInRoom(room_id);
 
-  const { data, error } = await supabase
-    .from("room_user_match_table")
-    .delete()
-    .eq("room_id", room_id)
-    .eq("user_id", user_id)
-    .select();
+  if (current_user_count > 1 && usersInRoom.indexOf(user_id) !== -1) {
+    await changeUserCountInRoom(room_id, -1);
+
+    const { data, error } = await supabase
+      .from("room_user_match_table")
+      .delete()
+      .eq("room_id", room_id)
+      .eq("user_id", user_id)
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  }
+  throw new Error("방에서 나갈 수 없습니다.");
+};
+
+//NOTE - 방 삭제하기
+export const deleteRoom = async (room_id: string) => {
+  const { data, error } = await supabase.from("room_table").delete().eq("room_id", room_id);
 
   if (error) {
     throw new Error(error.message);

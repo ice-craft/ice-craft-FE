@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import {
   createRoom,
+  deleteRoom,
   exitRoom,
   getRooms,
   getRoomsWithKeyword,
@@ -14,13 +15,13 @@ const Test2 = () => {
   useEffect(() => {
     const test = async () => {
       try {
-        const data = await exitRoom("ccbb58f7-a6f2-4a90-a3a5-74119847056a", "fcdb1cd9-2dec-4f19-9399-b4e28e777428");
+        const data = await deleteRoom("26ee12bc-96c4-4cce-9085-89f9be3f5d19");
         console.log(data);
       } catch (e) {
         console.log(e);
       }
     };
-    test();
+    // test();
   }, []);
   return <div>Test2</div>;
 };
