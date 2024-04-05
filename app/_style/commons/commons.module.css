@@ -1,0 +1,21 @@
+.header {
+  background-color: #050b15;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 30px;
+}
+
+.ul {
+  color: #fff;
+  display: flex;
+  gap: 20px;
+}
+
+.footer {
+  background-color: #eee;
+  padding: 21px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
