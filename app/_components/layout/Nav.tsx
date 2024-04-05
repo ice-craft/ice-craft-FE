@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
+import S from "@/app/_style/commons/commons.module.css";
 
 const Nav = () => {
   return (
     <nav>
-      <ul>
+      <ul className={S.ul}>
         <li>
           <Link href="/ranking">랭킹</Link>
         </li>
