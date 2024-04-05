@@ -1,9 +1,4 @@
 {
-  "cSpell.words": [
-    "livekit",
-    "Mainpage",
-    "Rankingpage",
-    "Roombutton"
-  ],
+  "cSpell.words": ["livekit", "Mainpage", "Rankingpage", "Roombutton", "tanstack"],
   "git.ignoreLimitWarning": true
 }
