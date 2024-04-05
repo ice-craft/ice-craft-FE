@@ -1,28 +1,25 @@
-import { useModalStore } from "@/app/_utils/store/modal-store";
+import { useModalStore } from "@/app/_store/modal-store";
 import React, { useEffect, useState } from "react";
 
 const Timer = () => {
-  //임시 모달창 조건문
   const { isModal, setIsModal } = useModalStore();
 
-  //타이머
-  const [count, setCount] = useState(5);
+  const InitialTimerSecond = 5;
+  const [count, setCount] = useState(InitialTimerSecond);
 
   useEffect(() => {
-    let timer = 5;
+    let timer = InitialTimerSecond;
     const intervalId = setInterval(() => {
       timer--;
       setCount((prev) => prev - 1);
 
       if (timer === -1) {
-        // 반복 실행을 멈출 때 사용
         setIsModal(false);
-
-        setCount(5);
+        setCount(InitialTimerSecond);
         clearInterval(intervalId);
       }
-    }, 1100);
-    //언마운트 전에  시 종료
+    }, 1000);
+
     return () => clearInterval(intervalId);
   }, [isModal]);
 
