@@ -1,0 +1,86 @@
+.main {
+  height: 100%;
+  width: 100%;
+}
+
+.visualSection {
+  position: relative;
+}
+
+.visual {
+  position: absolute;
+  color: #fff;
+}
+
+.roomSection {
+  padding: 0 30px 54px;
+}
+
+.roomSearchAndButton {
+  display: flex;
+}
+
+.roomSearch label {
+  display: none;
+}
+
+.MainGnb {
+  padding: 42px 0;
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+.gameTitle {
+  position: absolute;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-left: 50px;
+}
+
+.gameTitle h2 {
+  font-size: 40px;
+}
+
+.gameButton {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.gameGoButton {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.roomList {
+  display: flex;
+  gap: 80px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.roomList li {
+  width: 370px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.roomTitle {
+  padding: 16px;
+}
+
+.roomTitle h3 {
+  font-size: 20px;
+  margin-bottom: 28px;
+  font-weight: 700;
+}
+
+.gameName {
+  display: flex;
+  justify-content: space-between;
+}
