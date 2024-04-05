@@ -211,7 +211,7 @@ const getYesOrNoVoteResult = (votes) => {
   isValid = yesCount !== noCount; //NOTE - 찬성과 반대가 동률인지 확인
   return {
     isValid,
-    result: { confirm: yesCount > noCount, yesCount, noCount }
+    result: { detail: yesCount > noCount, yesCount, noCount }
   }; //NOTE - 찬성과 반대가 다른 유효한 값인지, 찬성과 반대중 어떤게 더 많은지
 };
 
@@ -228,10 +228,10 @@ const saveCitizen = (players, index) => {
   return players[index];
 };
 
-//NOTE - 시민들 생존 리셋
-//FIXME - 모든 시민이 아닌 일부 시민만 리셋하도록 조정
-const resetCitizenLifeCount = (players) => {
-  players.forEach((player) => (player.isLived = true));
+//NOTE - 시민 생존 리셋
+const resetCitizenLived = (players, index) => {
+  players[index].isLived = true;
+  return players[index];
 };
 
 //NOTE - 플레이어가 죽었는지 확인
@@ -317,7 +317,7 @@ const moderator = {
   speak,
   shuffleParticipants,
   getRandomParticipant,
-  resetCitizenLifeCount,
+  resetCitizenLived,
   setPlayerMafia,
   setPlayerDoctor,
   setPlayerPolice,
@@ -530,7 +530,7 @@ const gamePlay = () => {
 
   if (yesOrNoVoteResult.isValid) {
     //NOTE - 투표 성공, 동률 아님
-    yesOrNoVoteResult.result.confirm //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
+    yesOrNoVoteResult.result.detail //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
       ? moderator.speak(
           `${mostVotedPlayer.result.userNickname}님이 마피아인 것으로 투표가 나왔습니다.\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
         )
