@@ -2,9 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import S from "@/app/_style/mainPage/main.module.css";
 
-const MainPage = () => {
+const RoomButton = () => {
   // TODO: get user input for room and name
   const [room, setRoom] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -25,4 +24,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default RoomButton;
