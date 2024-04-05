@@ -10,15 +10,13 @@ import {
   TrackReference,
   useLocalParticipant,
   useParticipantTracks,
-  useParticipants,
   useRemoteParticipant,
-  useRemoteParticipants,
   useTracks
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -70,7 +68,6 @@ export default function RoomPage() {
         // simulateParticipants={5} // 테스트용 카메라 생성
         style={{ height: "100vh", width: "100vw" }}
       >
-        <CamOrVideo />
         <MyVideoConference />
 
         {isModal ? (
@@ -90,12 +87,6 @@ export default function RoomPage() {
 }
 
 function MyVideoConference() {
-  // 인원 충족 시 방장에게 게임 시작 버튼 활성화
-  const [isGameStart, setIsGameStart] = useState(true);
-  const [isGameModal, setIsGameModal] = useState(false);
-  const timer = useTimer(0);
-
-  console.log("time", timer);
   // 모든 트랙(데이터) 가져오기
   const tracks = useTracks(
     [
@@ -118,7 +109,6 @@ function MyVideoConference() {
   };
   // local 정보를 가져온다.
   const { localParticipant } = useLocalParticipant();
-  const remoteParticipant = useRemoteParticipants();
 
   // 필터링하여 로컬 및 원격 트랙을 구분
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
@@ -178,19 +168,6 @@ function MyVideoConference() {
             </div>
           </div>
         ))}
-
-        {isGameStart && (
-          <div
-            style={{
-              width: "100%",
-              marginTop: "70px",
-              borderRadius: "10px",
-              background: "rgb(217, 217, 217)"
-            }}
-          >
-            <button style={{ width: "100%", height: "100px" }}>게임 시작</button>
-          </div>
-        )}
       </section>
 
       {/* 원격 참가자 비디오 */}
@@ -233,88 +210,6 @@ function MyVideoConference() {
   );
 }
 
-const CamOrVideo = () => {
-  const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
-
-  //모든 트랙(데이터) 가져오기
-  const tracks = useTracks();
-  const sources = tracks.map((item) => {
-    return item.source;
-  });
-
-  const ParticipantTrack = useParticipantTracks(sources, "identity");
-
-  //NOTE -  모든 유저 마이크만 off
-  const AllMikeOff = () => {
-    tracks.forEach((track) => {
-      const trackAudioOn = track.publication.audioTrack;
-      if (trackAudioOn) {
-        trackAudioOn.mediaStreamTrack.enabled = false;
-      }
-    });
-  };
-
-  //NOTE - 특정 1명의 유저를 제외한 모든 캠 및 오디오 off
-  const lastSpeak = () => {
-    // 전체 마이크 및 캠 off
-    tracks.forEach((track) => {
-      const trackOff = track.publication.track;
-      if (trackOff) {
-        trackOff.mediaStreamTrack.enabled = false;
-      }
-    });
-
-    // 특정 유저 캠 및 오디오 on
-    if (RemoteParticipant) {
-      const testCam = ParticipantTrack[0].publication.track!;
-      const testVideo = ParticipantTrack[1].publication.track!;
-
-      testCam.mediaStreamTrack.enabled = true;
-      testVideo.mediaStreamTrack.enabled = true;
-    }
-  };
-
-  //NOTE -  전체 캠 및 오디오 on
-  const allCamOn = () => {
-    //죽은 유저를 제외한 tracks 가져오기
-    const lifeTrack = tracks.filter((item) => item.participant.sid === "dieUser.sid");
-
-    tracks.forEach((track) => {
-      const trackOn = track.publication.track;
-      if (trackOn) {
-        trackOn.mediaStreamTrack.enabled = true;
-      }
-    });
-  };
-
-  //NOTE -  전체 캠 및 오디오 off
-  const allCamOff = () => {
-    tracks.forEach((track) => {
-      const trackOff = track.publication.track;
-      if (trackOff) {
-        trackOff.mediaStreamTrack.enabled = false;
-      }
-    });
-  };
-
-  return (
-    <>
-      <div>
-        <button onClick={AllMikeOff}> 투표 시간 </button>
-      </div>
-      <div>
-        <button onClick={lastSpeak}>최후의 반론 시간 </button>
-      </div>
-      <div>
-        <button onClick={allCamOn}>전체 캠 및 오디오 on </button>
-      </div>
-      <div>
-        <button onClick={allCamOff}>전체 캠 및 오디오 off </button>
-      </div>
-    </>
-  );
-};
-
 //NOTE -  전체 캠 및 오디오 off
 export const allCamOff = (tracks: TrackReference[]) => {
   tracks.forEach((track) => {
@@ -325,22 +220,51 @@ export const allCamOff = (tracks: TrackReference[]) => {
   });
 };
 
-export function useTimer(initialTime: number) {
-  const [time, setTime] = useState(initialTime);
+//NOTE -  전체 캠 및 오디오 on
+const allCamOn = (tracks: TrackReference[]) => {
+  //죽은 유저를 제외한 tracks 가져오기
+  const lifeTrack = tracks.filter((item) => item.participant.sid === "dieUser.sid");
 
-  useEffect(() => {
-    let timer = initialTime;
-    const intervalId = setInterval(() => {
-      timer--;
-      setTime((prevTime) => prevTime - 1);
-      if (timer === -1) {
-        // 반복 실행을 멈출 때 사용
-        clearInterval(intervalId);
-      }
-    }, 1000);
+  tracks.forEach((track) => {
+    const trackOn = track.publication.track;
+    if (trackOn) {
+      trackOn.mediaStreamTrack.enabled = true;
+    }
+  });
+};
 
-    return () => clearInterval(intervalId);
-  }, [initialTime]);
+//NOTE - 특정 1명의 유저를 제외한 모든 캠 및 오디오 off
+export const lastSpeak = (tracks: TrackReference[]) => {
+  const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
+  const sources = tracks.map((item) => {
+    return item.source;
+  });
+  const ParticipantTrack = useParticipantTracks(sources, "identity");
 
-  return time;
-}
+  // 전체 마이크 및 캠 off
+  tracks.forEach((track) => {
+    const trackOff = track.publication.track;
+    if (trackOff) {
+      trackOff.mediaStreamTrack.enabled = false;
+    }
+  });
+
+  // 특정 유저 캠 및 오디오 on
+  if (RemoteParticipant) {
+    const testCam = ParticipantTrack[0].publication.track!;
+    const testVideo = ParticipantTrack[1].publication.track!;
+
+    testCam.mediaStreamTrack.enabled = true;
+    testVideo.mediaStreamTrack.enabled = true;
+  }
+};
+
+//NOTE -  모든 유저 마이크만 off
+export const AllMikeOff = (tracks: TrackReference[]) => {
+  tracks.forEach((track) => {
+    const trackAudioOn = track.publication.audioTrack;
+    if (trackAudioOn) {
+      trackAudioOn.mediaStreamTrack.enabled = false;
+    }
+  });
+};
