@@ -234,8 +234,8 @@ const resetCitizenLived = (players, index) => {
   return players[index];
 };
 
-//NOTE - 플레이어가 죽었는지 확인
-const isPlayerDie = (players, index) => {
+//NOTE - 플레이어가 살았는지 확인
+const checkPlayerLived = (players, index) => {
   return players[index].isLived === true;
 };
 
@@ -313,7 +313,7 @@ const moderator = {
   getPlayersVoteResult,
   getMostVotedPlayer,
   getYesOrNoVoteResult,
-  isPlayerDie,
+  checkPlayerLived,
   speak,
   shuffleParticipants,
   getRandomParticipant,
