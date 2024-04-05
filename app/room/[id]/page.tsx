@@ -1,7 +1,7 @@
 "use client";
 
 import Timer from "@/app/_components/mafia/Timer";
-import { getToken } from "@/app/_hooks/useQuery";
+
 import { useModalStore } from "@/app/_utils/store/modal-store";
 import {
   ControlBar,
@@ -23,6 +23,7 @@ import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import S from "@/app/_style/mafiaRoom/overlay.module.css";
+import { useGetToken } from "@/app/_hooks/useToken";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -39,14 +40,7 @@ export default function RoomPage() {
     return;
   }
 
-  const {
-    data: token,
-    isLoading,
-    isError
-  } = useQuery({
-    queryKey: [`room${name}`],
-    queryFn: () => getToken({ room, name })
-  });
+  const { data: token, isLoading, isError } = useGetToken({ room, name });
 
   if (isLoading) {
     console.log("로딩중");
