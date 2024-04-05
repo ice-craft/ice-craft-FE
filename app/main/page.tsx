@@ -76,6 +76,18 @@ const Mainpage = () => {
               </div>
             </Link>
           </li>
+          <li>
+            <Link href="/">
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p>#마피아</p>
+                  <p>1/5</p>
+                </div>
+              </div>
+            </Link>
+          </li>
         </ul>
       </section>
       <RoomButton />
