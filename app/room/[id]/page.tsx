@@ -4,14 +4,13 @@ import Timer from "@/app/_components/mafia/Timer";
 import { getToken } from "@/app/_hooks/useQuery";
 import { useModalStore } from "@/app/_utils/store/modal-store";
 import {
-  ControlBar,
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
-  useChat,
-  useParticipants,
+  TrackReference,
   useLocalParticipant,
   useParticipantTracks,
+  useParticipants,
   useRemoteParticipant,
   useRemoteParticipants,
   useSpeakingParticipants,
@@ -21,12 +20,11 @@ import "@livekit/components-styles";
 import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
   const routers = useRouter();
-  const test = useRef();
 
   const room = params.get("room");
   const name = params.get("name");
@@ -84,6 +82,7 @@ export default function RoomPage() {
       >
         <CamOrVideo />
         <MyVideoConference />
+
         {isModal ? (
           <div className="w-full h-screen bg-black bg-opacity-60 fixed z-1 top-0 left-0 flex justify-center items-center">
             <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
@@ -101,6 +100,12 @@ export default function RoomPage() {
 }
 
 function MyVideoConference() {
+  // 인원 충족 시 방장에게 게임 시작 버튼 활성화
+  const [isGameStart, setIsGameStart] = useState(true);
+  const [isGameModal, setIsGameModal] = useState(false);
+  const timer = useTimer(0);
+
+  console.log("time", timer);
   // 전체 데이터
   const tracks = useTracks(
     [
@@ -109,12 +114,6 @@ function MyVideoConference() {
     ],
     { onlySubscribed: false }
   );
-
-  // console.log(tracks[0]?.participant);
-  // console.log(tracks[0]);
-
-  // const localParticipant = useLocalParticipant();
-  // const participants = useParticipants(); //전체 참가자 불러오기
 
   //클릭시 이미지 보임
   const [showOverlay, setShowOverlay] = useState<{ [key: string]: boolean }>({});
@@ -141,6 +140,8 @@ function MyVideoConference() {
 
   //나머지 player
   const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.sid);
+
+  const StartClickHandler = () => {};
 
   return (
     <div
@@ -198,6 +199,20 @@ function MyVideoConference() {
             </div>
           </div>
         ))}
+
+        {isGameStart && (
+          <div
+            style={{
+              width: "100%",
+              marginTop: "70px",
+              borderRadius: "10px",
+              background: "rgb(217, 217, 217)"
+            }}
+            onClick={StartClickHandler}
+          >
+            <button style={{ width: "100%", height: "100px" }}>게임 시작</button>
+          </div>
+        )}
       </div>
 
       {/* 원격 참가자 비디오 */}
@@ -311,30 +326,35 @@ const CamOrVideo = () => {
     });
   };
 
-  // 전체 캠 및 오디오 off
-  const allCamOff = () => {
-    tracks.forEach((track) => {
-      const trackOff = track.publication.track;
-      if (trackOff) {
-        trackOff.mediaStreamTrack.enabled = false;
-      }
-    });
-  };
-
-  return (
-    <>
-      <div>
-        <button onClick={AllMikeOff}> 투표 시간 </button>
-      </div>
-      <div>
-        <button onClick={lastSpeak}>최후의 반론 시간 </button>
-      </div>
-      <div>
-        <button onClick={allCamOn}>전체 캠 및 오디오 on </button>
-      </div>
-      <div>
-        <button onClick={allCamOff}>전체 캠 및 오디오 off </button>
-      </div>
-    </>
-  );
+  return <></>;
 };
+
+// 전체 캠 및 오디오 off
+export const allCamOff = (tracks: TrackReference[]) => {
+  tracks.forEach((track) => {
+    const trackOff = track.publication.track;
+    if (trackOff) {
+      trackOff.mediaStreamTrack.enabled = false;
+    }
+  });
+};
+
+export function useTimer(initialTime: number) {
+  const [time, setTime] = useState(initialTime);
+
+  useEffect(() => {
+    let timer = initialTime;
+    const intervalId = setInterval(() => {
+      timer--;
+      setTime((prevTime) => prevTime - 1);
+      if (timer === -1) {
+        // 반복 실행을 멈출 때 사용
+        clearInterval(intervalId);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [initialTime]);
+
+  return time;
+}

@@ -17,6 +17,7 @@ const Timer = () => {
       if (timer === -1) {
         // 반복 실행을 멈출 때 사용
         setIsModal(false);
+
         setCount(5);
         clearInterval(intervalId);
       }
