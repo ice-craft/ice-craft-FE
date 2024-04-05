@@ -1,40 +1,31 @@
 "use client";
 
 import Timer from "@/app/_components/mafia/Timer";
-
-import { useModalStore } from "@/app/_utils/store/modal-store";
+import { useGetToken } from "@/app/_hooks/useToken";
+import { useModalStore } from "@/app/_store/modal-store";
 import {
-  ControlBar,
   LiveKitRoom,
   ParticipantTile,
   RoomAudioRenderer,
-  useChat,
-  useParticipants,
   useLocalParticipant,
   useParticipantTracks,
   useRemoteParticipant,
   useRemoteParticipants,
-  useSpeakingParticipants,
   useTracks
 } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
-import S from "@/app/_style/mafiaRoom/overlay.module.css";
-import { useGetToken } from "@/app/_hooks/useToken";
+import { useState } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
   const routers = useRouter();
-  const test = useRef();
+
+  const { isModal, setIsModal } = useModalStore();
 
   const room = params.get("room");
   const name = params.get("name");
-
-  //임시 모달창 조건문
-  const { isModal, setIsModal } = useModalStore();
 
   if (!room || !name) {
     return;
@@ -84,8 +75,8 @@ export default function RoomPage() {
             <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
               <div className="w-96 h-96 p-5 block">
                 <p className="text-6xl text-black"> 밤이 시작되었습니다.</p>
-                <Timer />
               </div>
+              <Timer />
             </div>
           </div>
         ) : null}
@@ -105,12 +96,6 @@ function MyVideoConference() {
     { onlySubscribed: false }
   );
 
-  // console.log(tracks[0]?.participant);
-  // console.log(tracks[0]);
-
-  // const localParticipant = useLocalParticipant();
-  // const participants = useParticipants(); //전체 참가자 불러오기
-
   //클릭시 이미지 보임
   const [showOverlay, setShowOverlay] = useState<{ [key: string]: boolean }>({});
 
@@ -126,9 +111,6 @@ function MyVideoConference() {
   // local 정보를 가져온다.
   const { localParticipant } = useLocalParticipant();
   const remoteParticipant = useRemoteParticipants();
-
-  // console.log("로컬 정보 가져오기", localParticipant);
-  // console.log("원격 사용자들의 정보 가져오기", remoteParticipant);
 
   // 필터링하여 로컬 및 원격 트랙을 구분
   // 자신
@@ -234,16 +216,7 @@ function MyVideoConference() {
 }
 
 const CamOrVideo = () => {
-  const localParticipant = useLocalParticipant(); //local 사용자의 정보를 반환
-  const RemoteParticipants = useRemoteParticipants(); //현재 방의 모든 원격 참가자
   const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
-  const Participants = useParticipants(); // 모든 참가자(로컬 및 원격)를 반환
-  const UserSpeaking = useSpeakingParticipants(); //모든 참가자의 활성 발언자만 반환
-  // const trackToggle = useTrackToggle(trackRef); //지정된 트랙의 상태와 기능을 반환
-
-  // console.log("localParticipant", localParticipant);
-  // console.log("UserSpeaking", UserSpeaking);
-  // console.log("Participants", Participants);
 
   //모든 트랙(데이터) 가져오기
   const tracks = useTracks();
@@ -251,14 +224,9 @@ const CamOrVideo = () => {
     return item.source;
   });
 
-  // 특정 참가자의 track을 얻을 수 있다.
-  // (track.source[] , identity)
   const ParticipantTrack = useParticipantTracks(sources, "identity");
-  // console.log("ParticipantTrack", ParticipantTrack);
-  // console.log("RemoteParticipant", RemoteParticipant);
 
-  // 투표 시간
-  // 모든 유저 마이크만 off
+  //NOTE -  모든 유저 마이크만 off
   const AllMikeOff = () => {
     tracks.forEach((track) => {
       const trackAudioOn = track.publication.audioTrack;
@@ -268,8 +236,7 @@ const CamOrVideo = () => {
     });
   };
 
-  //최후의 반론 시간
-  //특정 1명의 유저를 제외한 모든 캠 및 오디오 off
+  //NOTE - 특정 1명의 유저를 제외한 모든 캠 및 오디오 off
   const lastSpeak = () => {
     // 전체 마이크 및 캠 off
     tracks.forEach((track) => {
@@ -289,7 +256,7 @@ const CamOrVideo = () => {
     }
   };
 
-  // 전체 캠 및 오디오 on
+  //NOTE -  전체 캠 및 오디오 on
   const allCamOn = () => {
     //죽은 유저를 제외한 tracks 가져오기
     const lifeTrack = tracks.filter((item) => item.participant.sid === "dieUser.sid");
@@ -302,7 +269,7 @@ const CamOrVideo = () => {
     });
   };
 
-  // 전체 캠 및 오디오 off
+  //NOTE -  전체 캠 및 오디오 off
   const allCamOff = () => {
     tracks.forEach((track) => {
       const trackOff = track.publication.track;
