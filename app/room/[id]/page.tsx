@@ -20,8 +20,7 @@ import "@livekit/components-styles";
 import { useQuery } from "@tanstack/react-query";
 import { Track } from "livekit-client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
-import S from "@/app/_style/mafiaRoom/overlay.module.css";
+import { useEffect, useState } from "react";
 
 export default function RoomPage() {
   const params = useSearchParams();
@@ -107,7 +106,7 @@ function MyVideoConference() {
   const timer = useTimer(0);
 
   console.log("time", timer);
-  // 전체 데이터
+  // 모든 트랙(데이터) 가져오기
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -116,12 +115,11 @@ function MyVideoConference() {
     { onlySubscribed: false }
   );
 
-  //클릭시 이미지 보임
+  // 클릭시 이미지 보임
   const [showOverlay, setShowOverlay] = useState<{ [key: string]: boolean }>({});
 
   // 오버레이 토글 함수
   const toggleOverlay = (event: any, participantSid: string) => {
-    // console.log(`Event type: ${event.type}`);
     event.stopPropagation();
     setShowOverlay((prev) => {
       const newState = { ...prev, [participantSid]: !prev[participantSid] };
@@ -132,17 +130,9 @@ function MyVideoConference() {
   const { localParticipant } = useLocalParticipant();
   const remoteParticipant = useRemoteParticipants();
 
-  // console.log("로컬 정보 가져오기", localParticipant);
-  // console.log("원격 사용자들의 정보 가져오기", remoteParticipant);
-
   // 필터링하여 로컬 및 원격 트랙을 구분
-  // 자신
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
-
-  //나머지 player
   const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.sid);
-
-  const StartClickHandler = () => {};
 
   return (
     <main
@@ -207,7 +197,6 @@ function MyVideoConference() {
               borderRadius: "10px",
               background: "rgb(217, 217, 217)"
             }}
-            onClick={StartClickHandler}
           >
             <button style={{ width: "100%", height: "100px" }}>게임 시작</button>
           </div>
@@ -262,24 +251,18 @@ const CamOrVideo = () => {
   const UserSpeaking = useSpeakingParticipants(); //모든 참가자의 활성 발언자만 반환
   // const trackToggle = useTrackToggle(trackRef); //지정된 트랙의 상태와 기능을 반환
 
-  // console.log("localParticipant", localParticipant);
-  // console.log("UserSpeaking", UserSpeaking);
-  // console.log("Participants", Participants);
-
-  //모든 트랙(데이터) 가져오기
+  // 모든 트랙(데이터) 가져오기
   const tracks = useTracks();
   const sources = tracks.map((item) => {
     return item.source;
   });
 
-  // 특정 참가자의 track을 얻을 수 있다.
-  // (track.source[] , identity)
+  //특정 참가자의 track   구성: (track.source[] , identity)
   const ParticipantTrack = useParticipantTracks(sources, "identity");
   // console.log("ParticipantTrack", ParticipantTrack);
   // console.log("RemoteParticipant", RemoteParticipant);
 
-  // 투표 시간
-  // 모든 유저 마이크만 off
+  //NOTE -  모든 유저 마이크만 off
   const AllMikeOff = () => {
     tracks.forEach((track) => {
       const trackAudioOn = track.publication.audioTrack;
@@ -289,10 +272,9 @@ const CamOrVideo = () => {
     });
   };
 
-  //최후의 반론 시간
-  //특정 1명의 유저를 제외한 모든 캠 및 오디오 off
+  //NOTE - 특정 유저 1명을 제외한 모든 캠 및 오디오 off (최후의 반론 시간)
   const lastSpeak = () => {
-    // 전체 마이크 및 캠 off
+    //NOTE - 전체 마이크 및 캠 off
     tracks.forEach((track) => {
       const trackOff = track.publication.track;
       if (trackOff) {
@@ -300,7 +282,7 @@ const CamOrVideo = () => {
       }
     });
 
-    //특정 유저 캠 및 오디오 on
+    //NOTE - 특정 유저 캠 및 오디오 on
     if (RemoteParticipant) {
       const testCam = ParticipantTrack[0].publication.track!;
       const testVideo = ParticipantTrack[1].publication.track!;
@@ -310,7 +292,7 @@ const CamOrVideo = () => {
     }
   };
 
-  // 전체 캠 및 오디오 on
+  //NOTE -  전체 캠 및 오디오 on
   const allCamOn = () => {
     //죽은 유저를 제외한 tracks 가져오기
     const lifeTrack = tracks.filter((item) => item.participant.sid === "dieUser.sid");
@@ -326,7 +308,7 @@ const CamOrVideo = () => {
   return <></>;
 };
 
-// 전체 캠 및 오디오 off
+//NOTE -  전체 캠 및 오디오 off
 export const allCamOff = (tracks: TrackReference[]) => {
   tracks.forEach((track) => {
     const trackOff = track.publication.track;
