@@ -1,7 +1,7 @@
 "use client";
 
 import MyVideoConference from "@/app/_components/mafia/MyVideoConference";
-import MafiaModal from "@/app/_components/mafia/Timer";
+import MafiaModal from "@/app/_components/mafia/MafiaModal";
 import { useModalStore } from "@/app/_store/modal-store";
 import { useParticipantTracks, useRemoteParticipant, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
