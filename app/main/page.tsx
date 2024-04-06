@@ -37,7 +37,9 @@ const Mainpage = () => {
               </div>
               <div className={S.gameGoButton}>
                 <Link href="/">빠른입장</Link>
-                <Link href="/">방 만들기</Link>
+                <div>
+                  <Link href="/">방 만들기</Link>
+                </div>
               </div>
             </div>
           </div>
