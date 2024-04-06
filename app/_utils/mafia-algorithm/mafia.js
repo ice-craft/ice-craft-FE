@@ -1,10 +1,5 @@
-//FIXME - 라운드, 밤, 아침 시작 및 종료 다시 확인할 것
 //FIXME - 리팩토링 반드시 할 것
-//FIXME - 객체 this 이용할 것
-//FIXME - 플레이어가 중간에 나갈 경우 (죽은 것으로 처리), 플레이어가 중간에 죽을 경우 (roles 재 설정) 생각
-//FIXME - 마피아끼리 회의하기 전에 카메라 마이크 켜지는거 빠짐
-//FIXME - 화면 켜짐이 카메라 이야기인지 플레이어 게임 화면이야기 인지 구체적으로 적기
-//FIXME - 사회자(시스템)가 누구에게 말하는지 정확하게 하기
+//FIXME - 플레이어가 중간에 나갈 경우 (죽은 것으로 처리)
 //FIXME - 플레이어가 자신의 역할을 하기전에 자신이 살아있는지 확인, 만약 역할을 해야하는 데 죽었을 경우 무엇을 해야할지 조치
 //FIXME - 유저들의 인덱스는 프로젝트에 적용할 때, user id로 변경해야 함
 
@@ -222,22 +217,23 @@ const getYesOrNoVoteResult = (votes) => {
   }; //NOTE - 찬성과 반대가 다른 유효한 값인지, 찬성과 반대중 어떤게 더 많은지
 };
 
+const showVoteResult = (players, vote) => {
+  players.forEach((player) => console.log(`사회자[to : ${player.userNickname}] : ${vote}`));
+};
+
 //NOTE - 플레이어 죽임
-const killCitizen = (players, index) => {
+const killCitizen = (players, index, roles) => {
   players[index].isLived = false;
+  setRoles(players, roles);
 
   return players[index];
 };
 
 //NOTE - 의사가 시민 살림
-const savePlayer = (players, index) => {
+const savePlayer = (players, index, roles) => {
   players[index].isLived = true;
-  return players[index];
-};
+  setRoles(players, roles);
 
-//NOTE - 시민 생존 리셋
-const resetCitizenLived = (players, index) => {
-  players[index].isLived = true;
   return players[index];
 };
 
@@ -281,12 +277,12 @@ const checkPlayerMafia = (players, index) => {
 };
 
 //NOTE - 방나가기
-const exit = (players, index) => {
+const exit = (players, index, roles) => {
   players[index].isLived = false;
+  setRoles(players, roles);
 };
 
 //NOTE - 어느 팀이 이겼는지
-//FIXME - 코드 수정
 const whoWins = (roles) => {
   const mafiaCount = roles["마피아"].length;
   const citizenCount = roles["시민"].length;
@@ -341,11 +337,11 @@ const moderator = {
   getPlayersVoteResult,
   getMostVotedPlayer,
   getYesOrNoVoteResult,
+  showVoteResult,
   checkPlayerLived,
   speak,
   shuffleParticipants,
   getRandomParticipant,
-  resetCitizenLived,
   setPlayerMafia,
   setPlayerDoctor,
   setPlayerPolice,
@@ -593,7 +589,7 @@ const gamePlay = () => {
 
   moderator.resetVote(players); //NOTE - 플레이어들이 한 투표 기록 리셋
   for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
-    moderator.speak(players, playerIndex, "투표 결과는 다음과 같습니다."); //FIXME - voteBoard 객체를 보내서 알리기
+    moderator.showVoteResult(players, voteBoard);
   }
 
   if (mostVoteResult.isValid) {
@@ -624,13 +620,12 @@ const gamePlay = () => {
     const yesOrNoVoteResult = moderator.getYesOrNoVoteResult(votes); //NOTE - 찬반 투표 결과 (확정X, 동률 나올 수 있음)
 
     for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
-      moderator.speak(players, playerIndex, "투표 결과는 다음과 같습니다."); //FIXME - yesOrNoVoteResult.result.detail로 객체로 보내기
+      moderator.showVoteResult(players, yesOrNoVoteResult.result.detail);
     }
 
     //NOTE - 투표 결과가 유효하고(동률이 아님), 찬성이 반대보다 많은 경우
     if (yesOrNoVoteResult.isValid && yesOrNoVoteResult.result) {
       killedPlayer = moderator.killCitizen(mostVoteResult.result.index); //NOTE - 투표를 가장 많이 받은 플레이어 사망
-      setRoles(players, roles); //NOTE - 역할별 플레이어들 목록 갱신
 
       mafiaIndexes = roles["마피아"];
       const isPlayerMafia = mafiaIndexes.indexOf(killedPlayer.index) !== -1; //NOTE - 죽은 플레이어가 마피아인지 확인
@@ -704,7 +699,6 @@ const gamePlay = () => {
 
   isPlayerMafia = players[policeIndex[0]].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
 
-  //FIXME - 경찰에게만 하는 말인데 고칠 것
   if (isPlayerMafia) {
     moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 맞습니다.");
   } else {
@@ -732,11 +726,9 @@ const gamePlay = () => {
     for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
       moderator.speak(players, playerIndex, `${killedPlayer.userNickname}님이 죽었습니다.`);
     }
-
-    setRoles(players, roles); //NOTE - 역할에 속하는 플레이어들 다시 설정
   }
 
-  moderator.speak(players, killedPlayer.index, "게임을 관전 하시겠습니까? 나가시겠습니까?"); //FIXME - 사망한 유저에게 보내도록 수정
+  moderator.speak(players, killedPlayer.index, "게임을 관전 하시겠습니까? 나가시겠습니까?");
   choiceToExit = true; //NOTE - 나간다고 가정
 
   //NOTE - 방을 나갈지 관전할지 선택
