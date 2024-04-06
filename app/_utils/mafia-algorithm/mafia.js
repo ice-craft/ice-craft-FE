@@ -704,7 +704,7 @@ const gamePlay = () => {
   if (roles["경찰"].length > 0) {
     policeIndex = roles["경찰"][0];
 
-    isPlayerMafia = players[policeIndex[0]].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
+    isPlayerMafia = players[policeIndex].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
 
     if (isPlayerMafia) {
       moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 맞습니다.");
