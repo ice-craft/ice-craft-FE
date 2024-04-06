@@ -336,6 +336,7 @@ const moderator = {
   nightOver,
   dayStart,
   dayOver,
+  killCitizen,
   resetVote,
   getPlayersVoteResult,
   getMostVotedPlayer,
@@ -366,7 +367,6 @@ const citizen = {
   setReady,
   voteToPlayer,
   voteYesOrNo,
-  killCitizen,
   exit
 };
 const mafia = {
@@ -601,16 +601,24 @@ const gamePlay = () => {
 
     const yesOrNoVoteResult = moderator.getYesOrNoVoteResult(votes); //NOTE - 찬반 투표 결과 (확정X, 동률 나올 수 있음)
 
-    if (yesOrNoVoteResult.isValid) {
-      //NOTE - 투표 성공, 동률 아님
+    moderator.speak("투표 결과는 다음과 같습니다."); //FIXME - yesOrNoVoteResult.result.detail로 객체로 보내기
 
-      moderator.speak("투표 결과는 다음과 같습니다."); //NOTE -
-      yesOrNoVoteResult.result //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
-        ? moderator.speak(`마피아가 죽었습니다.`)
-        : moderator.speak(`$시민이 죽었습니다.`);
-      moderator.speak("투표는 다음과 같습니다."); //FIXME - yesOrNoVoteResult.result.detail로 객체로 보내기
-      citizenIndexes = roles["시민"];
-      citizenIndexes[0].killCitizen(mostVoteResult.result.index); //NOTE - 투표를 가장 많이 받은 플레이어 사망
+    //NOTE - 투표 결과가 유효하고(동률이 아님), 찬성이 반대보다 많은 경우
+    if (yesOrNoVoteResult.isValid && yesOrNoVoteResult.result) {
+      killedPlayer = moderator.killCitizen(mostVoteResult.result.index); //NOTE - 투표를 가장 많이 받은 플레이어 사망
+      setRoles(players, roles); //NOTE - 역할별 플레이어들 목록 갱신
+
+      mafiaIndexes = roles["마피아"];
+      const isPlayerMafia = mafiaIndexes.indexOf(killedPlayer) !== -1; //NOTE - 죽은 플레이어가 마피아인지 확인
+
+      //NOTE - 죽은 플레이어가 마피아인지 시민인지 알림
+      isPlayerMafia ? moderator.speak(`마피아가 죽었습니다.`) : moderator.speak(`시민이 죽었습니다.`);
+
+      for (let clientIndex = 0; i < userCount; clientIndex++) {
+        const role = isPlayerMafia ? "마피아" : "시민";
+
+        moderator.openPlayerRole(clientIndex, killedPlayer, role);
+      }
     } else {
       //NOTE - 투표 실패, 동률이 나옴
       console.log("동률 나옴");
@@ -627,16 +635,6 @@ const gamePlay = () => {
       moderator.turnOffMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 끔
     }
   }
-
-  killedPlayer = moderator.killCitizen(players, mostVoteResult.result.index);
-
-  if (killedPlayer.role === "마피아") {
-    moderator.speak("마피아가 죽었습니다.");
-  } else {
-    moderator.speak("무고한 시민이 죽었습니다.");
-  }
-
-  setRoles(players, roles);
 
   moderator.speak("마피아는 일어나서 누구를 죽일지 결정해주세요.");
 
