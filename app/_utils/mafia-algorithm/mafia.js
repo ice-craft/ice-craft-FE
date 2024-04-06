@@ -694,7 +694,7 @@ const gamePlay = () => {
 
   moderator.startTimer(90); //NOTE - 시간 재기
 
-  doctorIndex.savePlayer(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
+  players[doctorIndex].savePlayer(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
 
   for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
     moderator.speak(players, playerIndex, "경찰은 마피아 의심자를 결정해주세요.");
