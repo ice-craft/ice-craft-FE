@@ -146,8 +146,8 @@ const nightOver = () => {
 };
 
 //NOTE - 낮 시작
-const dayStart = () => {
-  console.log("낮이 되었습니다.");
+const morningStart = () => {
+  console.log("아침이 되었습니다.");
 };
 
 //NOTE - 낮 종료
@@ -334,7 +334,7 @@ const moderator = {
   roundOver,
   nightStart,
   nightOver,
-  dayStart,
+  morningStart,
   dayOver,
   killCitizen,
   resetVote,
@@ -550,7 +550,7 @@ const gamePlay = () => {
   moderator.roundOver(); //NOTE - 라운드 종료
 
   moderator.roundStart(); //NOTE - 라운드 시작
-  moderator.dayStart(); //NOTE - 낮 시작
+  moderator.morningStart(); //NOTE - 낮 시작
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
@@ -683,7 +683,7 @@ const gamePlay = () => {
   moderator.nightOver(); //NOTE - 밤 종료
   moderator.roundOver(); //NOTE - 라운드 종료
   moderator.roundStart(); //NOTE - 라운드 시작
-  moderator.dayStart(); //NOTE - 낮 시작
+  moderator.morningStart(); //NOTE - 낮 시작
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
