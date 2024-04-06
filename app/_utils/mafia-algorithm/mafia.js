@@ -454,8 +454,11 @@ const gamePlay = () => {
 
   let randomParticipant;
 
-  randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
-  moderator.setPlayerMafia(players, randomParticipant); //NOTE - 참가자를 마피아 플레이어로 설정
+  //NOTE - 마피아 인원 수만큼 참감자들에게 마피아 역할 배정
+  for (let i = 0; i < roomComposition.mafiaCount; i++) {
+    randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
+    moderator.setPlayerMafia(players, randomParticipant); //NOTE - 참가자를 마피아 플레이어로 설정
+  }
 
   randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
   moderator.setPlayerMafia(players, randomParticipant); //NOTE - 참가자를 마피아 플레이어로 설정
