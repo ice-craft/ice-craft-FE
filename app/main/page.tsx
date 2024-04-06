@@ -5,6 +5,7 @@ import Image from "next/image";
 import MafiaVisual from "@/public/images/mafia_visual.png";
 import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/app/_style/mainPage/main.module.css";
+import mainCreateRoom from "../_utils/modal/mainCreateRoom";
 
 const Mainpage = () => {
   return (
@@ -35,7 +36,10 @@ const Mainpage = () => {
             </div>
             <div className={S.gameGoButton}>
               <Link href="/">빠른입장</Link>
-              <Link href="/">방 만들기</Link>
+              <div>
+                <button onClick="/mainCreateRoom">방 만들기</button>
+                <modal isOpen={isModalOpen}></modal>
+              </div>
             </div>
           </div>
         </div>

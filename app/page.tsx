@@ -1,4 +1,4 @@
-// import Intropage from "./_components/intro/Intropage";
+// import IntroPage from "./_components/intro/IntroPage";
 
 import MainPage from "./main/page";
 
