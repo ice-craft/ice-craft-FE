@@ -525,9 +525,23 @@ const gamePlay = () => {
   moderator.speak("고개를 숙이시구요. 이제 의사를 뽑겠습니다.");
   console.log("의사 뽑음");
 
+  doctorIndex = roles["의사"];
+
+  moderator.openPlayerRole(doctorIndex, doctorIndex, "의사"); //NOTE - 의사 플레이어의 화면에서 자신이 의사임을 알림
+
   moderator.speak("네, 이제 경찰 뽑겠습니다.");
   console.log("경찰 뽑음");
+
+  policeIndex = roles["경찰"];
+
+  moderator.openPlayerRole(policeIndex, policeIndex, "경찰"); //NOTE - 경찰 플레이어의 화면에서 자신이 경찰임을 알림
+
   console.log("나머지는 시민으로 뽑음");
+
+  citizenIndexes = roles["시민"];
+
+  //NOTE - 시민 플레이어의 화면에서 자신이 시민임을 알림
+  citizenIndexes.forEach((citizenIndex) => moderator.openPlayerRole(citizenIndex, citizenIndex, "시민"));
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
