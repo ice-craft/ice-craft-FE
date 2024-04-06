@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.mainWrap {
+  width: 1920px;
+  margin: 0 auto;
+}
+
 .visualSection {
   position: relative;
 }

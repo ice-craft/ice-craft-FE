@@ -1,5 +1,11 @@
-.header {
+.headerWrap {
+  width: 100%;
   background-color: #050b15;
+}
+
+.header {
+  width: 1920px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,8 +18,14 @@
   gap: 20px;
 }
 
-.footer {
+.footerWrap {
+  width: 100%;
   background-color: #eee;
+}
+
+.footer {
+  width: 1920px;
+  margin: 0 auto;
   padding: 21px 30px;
   display: flex;
   align-items: center;
