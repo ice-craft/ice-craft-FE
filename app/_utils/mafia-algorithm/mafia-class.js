@@ -31,7 +31,7 @@ class Citizen extends Participant {
     return votes;
   }
   //NOTE - 방나가기, setRoles 따로 처리하기
-  exit(roles) {
+  exit() {
     this.isLived = false;
   }
 }
