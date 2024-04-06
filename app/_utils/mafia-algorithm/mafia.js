@@ -230,7 +230,7 @@ const killCitizen = (players, index) => {
 };
 
 //NOTE - 의사가 시민 살림
-const saveCitizen = (players, index) => {
+const savePlayer = (players, index) => {
   players[index].isLived = true;
   return players[index];
 };
@@ -382,7 +382,7 @@ const police = {
 const doctor = {
   ...citizen,
   role: "의사",
-  saveCitizen
+  savePlayer
 };
 
 //NOTE - 현재 방 각 역할 인원 수
@@ -666,7 +666,7 @@ const gamePlay = () => {
 
   moderator.startTimer(90); //NOTE - 시간 재기
 
-  doctorIndex.saveCitizen(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
+  doctorIndex.savePlayer(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
 
   moderator.speak("이제 경찰은 일어나서 마피아 의심자를 결정해주세요.");
 
