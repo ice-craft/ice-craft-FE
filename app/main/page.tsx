@@ -37,8 +37,7 @@ const Mainpage = () => {
             <div className={S.gameGoButton}>
               <Link href="/">빠른입장</Link>
               <div>
-                <button onClick="/mainCreateRoom">방 만들기</button>
-                <modal isOpen={isModalOpen}></modal>
+                <Link href="/app/_utils/modal/mainCreateRoom.tsx">방 만들기</Link>
               </div>
             </div>
           </div>

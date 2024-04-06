@@ -1,14 +1,9 @@
 import React from "react";
 
-const mainCreateRoom = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
+const mainCreateRoom = () => {
   return (
     <div className="mainCreateRoom">
       <div className="mainCreateRoom-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
         <h2>게임을 선택해주세요</h2>
         <br />
         <p>게임 고르기</p>
