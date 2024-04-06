@@ -424,6 +424,8 @@ let choiceToExit;
 const gamePlay = () => {
   userCount = 8; //NOTE - 방 유저 정원 5명 결정
 
+  roomComposition = moderator.getRoomComposition(userCount); //NOTE - 현재 방 인원 수에 대한 역할 인원 수 반환
+
   //NOTE - 유저들 게임 참가
   for (let i = 0; i < userCount; i++) {
     participants[i] = { ...participant, userNickname: "user" + i, index: i };
