@@ -1,9 +1,9 @@
 import { useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useEffect } from "react";
 import LocalParticipant from "./LocalParticipant";
 import RemoteParticipant from "./RemoteParticipant";
 import useVideoStore from "@/app/_store/video-store";
+import S from "@/app/_style/livekit/livekit.module.css";
 
 const MyVideoConference = () => {
   const { setTracks } = useVideoStore();
@@ -24,7 +24,7 @@ const MyVideoConference = () => {
   const [remoteParticipant] = useRemoteParticipants();
   console.log(remoteParticipant);
   return (
-    <section>
+    <section className={S.section}>
       <LocalParticipant tracks={tracks} />
       <RemoteParticipant tracks={tracks} />
     </section>
