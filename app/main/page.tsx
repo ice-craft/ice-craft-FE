@@ -10,7 +10,7 @@ import mainCreateRoom from "../_utils/modal/mainCreateRoom";
 const Mainpage = () => {
   return (
     <main className={S.main}>
-      {/* <section className={S.visualSection}>
+      <section className={S.visualSection}>
         <div className={S.visual}>
           <ul>
             <li>
@@ -25,26 +25,24 @@ const Mainpage = () => {
             <button>More Info</button>
           </div>
         </div>
-      </section> */}
-      <section className={S.roomSection}>
-        <div className={S.MainGnb}>
-          <p>현재 활성화 되어있는 방</p>
-          <div className={S.roomSearchAndButton}>
-            <div className={S.roomSearch}>
-              <label htmlFor="RoomSearch">방 검색하기</label>
-              <input type="text" id="RoomSearch" />
-            </div>
-            <div className={S.gameGoButton}>
-              <Link href="/">빠른입장</Link>
-              <div>
-                <Link href="/app/_utils/modal/mainCreateRoom.tsx">방 만들기</Link>
+      </section>
+      <div className={S.roomSectionWrap}>
+        <section className={S.roomSection}>
+          <div className={S.MainGnb}>
+            <p>현재 활성화 되어있는 방</p>
+            <div className={S.roomSearchAndButton}>
+              <div className={S.roomSearch}>
+                <label htmlFor="RoomSearch">방 검색하기</label>
+                <input type="text" id="RoomSearch" />
+              </div>
+              <div className={S.gameGoButton}>
+                <Link href="/">빠른입장</Link>
+                <Link href="/">방 만들기</Link>
               </div>
             </div>
           </div>
-        </div>
-        <ul className={S.roomList}>
-          <li>
-            <Link href="/">
+          <ul className={S.roomList}>
+            <li>
               <Image src={MafiaItem} alt="room image" />
               <div className={S.roomTitle}>
                 <h3>방 제목</h3>
@@ -53,10 +51,9 @@ const Mainpage = () => {
                   <p>1/5</p>
                 </div>
               </div>
-            </Link>
-          </li>
-          <li>
-            <Link href="/">
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
               <Image src={MafiaItem} alt="room image" />
               <div className={S.roomTitle}>
                 <h3>방 제목</h3>
@@ -65,10 +62,9 @@ const Mainpage = () => {
                   <p>1/5</p>
                 </div>
               </div>
-            </Link>
-          </li>
-          <li>
-            <Link href="/">
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
               <Image src={MafiaItem} alt="room image" />
               <div className={S.roomTitle}>
                 <h3>방 제목</h3>
@@ -77,10 +73,9 @@ const Mainpage = () => {
                   <p>1/5</p>
                 </div>
               </div>
-            </Link>
-          </li>
-          <li>
-            <Link href="/">
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
               <Image src={MafiaItem} alt="room image" />
               <div className={S.roomTitle}>
                 <h3>방 제목</h3>
@@ -89,11 +84,12 @@ const Mainpage = () => {
                   <p>1/5</p>
                 </div>
               </div>
-            </Link>
-          </li>
-        </ul>
-      </section>
-      <RoomButton />
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+          </ul>
+        </section>
+        <RoomButton />
+      </div>
     </main>
   );
 };
