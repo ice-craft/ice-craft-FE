@@ -136,3 +136,10 @@
   display: flex;
   justify-content: space-between;
 }
+
+/*-------------- Respansive ----------------*/
+@media (max-width: 1420px) {
+  .roomSectionWrap {
+    width: 100%;
+  }
+}
