@@ -557,10 +557,12 @@ const gamePlay = () => {
     }
   }
 
-  moderator.speak("대화를 시작하세요.");
+  moderator.speak("모든 유저는 토론을 통해 마피아를 찾아내세요.");
   moderator.startTimer(90); //NOTE - 시간 재기
+  moderator.speak("토론이 끝났습니다..");
 
   moderator.speak("그럼 여기서 마피아일 것 같은 사람의 화면을 클릭해주세요.");
+
   players[0].voteToPlayer(players, 0, 1); //NOTE - 0번 인덱스 플레이어가 1번 인덱스 플레이어에게 투표
   players[1].voteToPlayer(players, 1, 2); //NOTE - 1번 인덱스 플레이어가 2번 인덱스 플레이어에게 투표
   players[2].voteToPlayer(players, 2, 1); //NOTE - 2번 인덱스 플레이어가 1번 인덱스 플레이어에게 투표
