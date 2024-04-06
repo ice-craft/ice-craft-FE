@@ -1,15 +1,30 @@
 .main {
-  height: 100%;
   width: 100%;
 }
 
+.roomSectionWrap {
+  width: 1920px;
+  margin: 0 auto;
+}
+
 .visualSection {
+  width: 100%;
+  height: 820px;
   position: relative;
+  left: 0;
+  top: 0;
 }
 
 .visual {
   position: absolute;
   color: #fff;
+  left: 0;
+  top: 0;
+}
+
+.visual img {
+  height: 820px;
+  object-fit: cover;
 }
 
 .roomSection {
@@ -69,22 +84,21 @@
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   position: relative;
+  cursor: pointer;
 }
 
-.roomList li::before {
-  content: "입장하기";
+.roomList .gotoButton {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 120px;
   height: 48px;
-  background-color: #fff;
-  z-index: 1;
   border-radius: 8px;
   line-height: 48px;
-  text-align: center;
   cursor: pointer;
+  background-color: #fff;
+  z-index: 1;
   display: none;
 }
 
@@ -102,7 +116,8 @@
   display: none;
   border-radius: 8px;
 }
-.roomList li:hover::before,
+
+.roomList li:hover .gotoButton,
 .roomList li:hover::after {
   display: block;
 }
