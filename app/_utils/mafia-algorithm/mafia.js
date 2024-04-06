@@ -318,6 +318,7 @@ const moderator = {
   checkParticipantsCountEnough,
   checkAllParticipantsReady,
   canGameStart,
+  getRoomComposition,
   gameStart,
   gameOver,
   startTimer,
