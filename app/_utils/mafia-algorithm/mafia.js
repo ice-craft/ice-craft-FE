@@ -217,7 +217,8 @@ const getYesOrNoVoteResult = (votes) => {
   isValid = yesCount !== noCount; //NOTE - 찬성과 반대가 동률인지 확인
   return {
     isValid,
-    result: { detail: yesCount > noCount, yesCount, noCount }
+    result: yesCount > noCount,
+    detail: { yesCount, noCount }
   }; //NOTE - 찬성과 반대가 다른 유효한 값인지, 찬성과 반대중 어떤게 더 많은지
 };
 
@@ -563,7 +564,7 @@ const gamePlay = () => {
   moderator.startTimer(90); //NOTE - 시간 재기
   moderator.speak("토론이 끝났습니다..");
 
-  moderator.speak("그럼 여기서 마피아일 것 같은 사람의 화면을 클릭해주세요.");
+  moderator.speak("마피아일 것 같은 사람의 화면을 클릭해주세요.");
 
   players[0].voteToPlayer(players, 0, 1); //NOTE - 0번 인덱스 플레이어가 1번 인덱스 플레이어에게 투표
   players[1].voteToPlayer(players, 1, 2); //NOTE - 1번 인덱스 플레이어가 2번 인덱스 플레이어에게 투표
@@ -571,48 +572,50 @@ const gamePlay = () => {
   players[3].voteToPlayer(players, 3, 1); //NOTE - 3번 인덱스 플레이어가 1번 인덱스 플레이어에게 투표
   players[4].voteToPlayer(players, 4, 1); //NOTE - 4번 인덱스 플레이어가 1번 인덱스 플레이어에게 투표
 
-  moderator.speak("셋 둘 하나!(카운트다운)");
   moderator.startTimer(90); //NOTE - 시간 재기
 
   const voteBoard = moderator.getPlayersVoteResult(players); //NOTE - 투표 결과 확인 (누가 얼마나 투표를 받았는지)
   const mostVoteResult = moderator.getMostVotedPlayer(players); //NOTE - 투표를 가장 많이 받은 사람 결과 (확정X, 동률일 가능성 존재)
+
   moderator.resetVote(players); //NOTE - 플레이어들이 한 투표 기록 리셋
+
+  moderator.speak("투표 결과는 다음과 같습니다."); //FIXME - voteBoard 객체를 보내서 알리기
 
   if (mostVoteResult.isValid) {
     //NOTE - 투표 성공
-    moderator.speak("투표 결과는 다음과 같습니다."); //FIXME - voteBoard 객체를 보내서 알리기
-
     moderator.speak(`${mostVoteResult.result.userNickname}님이 마피아로 지복되었습니다.`);
-  }
 
-  moderator.speak(`${mostVoteResult.result.userNickname}님은 최후의 변론을 시작하세요.`);
+    moderator.speak(`${mostVoteResult.result.userNickname}님은 최후의 변론을 시작하세요.`);
 
-  moderator.startTimer(90); //NOTE - 시간 재기
+    moderator.startTimer(90); //NOTE - 시간 재기
 
-  moderator.speak(`찬성/반대 투표를 해주세요.`);
+    moderator.speak(`찬성/반대 투표를 해주세요.`);
 
-  moderator.startTimer(90); //NOTE - 시간 재기
+    moderator.startTimer(90); //NOTE - 시간 재기
 
-  players[0].voteYesOrNo(votes, false); //NOTE - 0번 인덱스 플레이어가 찬성에 투표
-  players[1].voteYesOrNo(votes, true); //NOTE - 1번 인덱스 플레이어가 찬성에 투표
-  players[2].voteYesOrNo(votes, true); //NOTE - 2번 인덱스 플레이어가 찬성에 투표
-  players[3].voteYesOrNo(votes, false); //NOTE - 3번 인덱스 플레이어가 반대에 투표
-  players[4].voteYesOrNo(votes, false); //NOTE - 4번 인덱스 플레이어가 반대에 투표
+    players[0].voteYesOrNo(votes, false); //NOTE - 0번 인덱스 플레이어가 찬성에 투표
+    players[1].voteYesOrNo(votes, true); //NOTE - 1번 인덱스 플레이어가 찬성에 투표
+    players[2].voteYesOrNo(votes, true); //NOTE - 2번 인덱스 플레이어가 찬성에 투표
+    players[3].voteYesOrNo(votes, false); //NOTE - 3번 인덱스 플레이어가 반대에 투표
+    players[4].voteYesOrNo(votes, false); //NOTE - 4번 인덱스 플레이어가 반대에 투표
 
-  const yesOrNoVoteResult = moderator.getYesOrNoVoteResult(votes); //NOTE - 찬반 투표 결과 (확정X, 동률 나올 수 있음)
+    const yesOrNoVoteResult = moderator.getYesOrNoVoteResult(votes); //NOTE - 찬반 투표 결과 (확정X, 동률 나올 수 있음)
 
-  if (yesOrNoVoteResult.isValid) {
-    //NOTE - 투표 성공, 동률 아님
-    yesOrNoVoteResult.result.detail //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
-      ? moderator.speak(
-          `${mostVoteResult.result.userNickname}님이 마피아인 것으로 투표가 나왔습니다.\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
-        )
-      : moderator.speak(
-          `${mostVoteResult.result.userNickname}님이 마피아가 아닌 것으로 투표가 나왔습니다.\n\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
-        );
-  } else {
-    //NOTE - 투표 실패, 동률이 나옴
-    console.log("동률 나옴");
+    if (yesOrNoVoteResult.isValid) {
+      //NOTE - 투표 성공, 동률 아님
+
+      moderator.speak("투표 결과는 다음과 같습니다."); //NOTE -
+      yesOrNoVoteResult.result //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
+        ? moderator.speak(
+            `${mostVoteResult.result.userNickname}님이 마피아인 것으로 투표가 나왔습니다.\n찬성 : ${yesOrNoVoteResult.result.detail.yesCount} 반대 : ${yesOrNoVoteResult.result.detail.noCount}`
+          )
+        : moderator.speak(
+            `${mostVoteResult.result.userNickname}님이 마피아가 아닌 것으로 투표가 나왔습니다.\n\n찬성 : ${yesOrNoVoteResult.result.detail.yesCount} 반대 : ${yesOrNoVoteResult.result.detail.noCount}`
+          );
+    } else {
+      //NOTE - 투표 실패, 동률이 나옴
+      console.log("동률 나옴");
+    }
   }
 
   moderator.roundOver(); //NOTE - 라운드 종료
