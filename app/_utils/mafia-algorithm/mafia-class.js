@@ -135,7 +135,6 @@ class Moderator {
     console.log("게임이 종료되었습니다.");
   }
 
-  //FIXME - socket에 적용할 때, 고쳐야함
   startTimer(seconds) {
     console.log("타이머 시작");
     if (seconds >= 60) {
@@ -316,3 +315,27 @@ class Moderator {
     return { isValid: false };
   }
 }
+
+//NOTE - 플레이어들의 찬반 투표 결과
+const votes = [];
+
+//NOTE - 역할이 마피아인 플레이어 인덱스 목록
+let mafiaIndexes;
+
+//NOTE - 역할이 의사인 플레이어 인덱스
+let doctorIndex;
+
+//NOTE - 역할이 경찰인 플레이어 인덱스
+let policeIndex;
+
+//NOTE - 역할이 시민인 플레이어 인덱스 목록
+let citizenIndexes;
+
+//NOTE - 죽기로 결정된 플레이어
+let killedPlayer;
+
+//NOTE - 경찰이 조사한 플레이어가 마피아인지 여부
+let isPlayerMafia;
+
+//NOTE - 방을 나갈지 선택
+let choiceToExit;
