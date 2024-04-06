@@ -461,16 +461,16 @@ const gamePlay = () => {
   }
 
   randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
-  moderator.setPlayerMafia(players, randomParticipant); //NOTE - 참가자를 마피아 플레이어로 설정
-
-  randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
   moderator.setPlayerDoctor(players, randomParticipant); //NOTE - 참가자를 의사 플레이어로 설정
 
   randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
   moderator.setPlayerPolice(players, randomParticipant); //NOTE - 참가자를 경찰 플레이어로 설정
 
-  randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
-  moderator.setPlayerCitizen(players, randomParticipant); //NOTE - 참가자를 시민 플레이어로 설정
+  //NOTE - 시민 인원 수만큼 참가자들에게 시민 역할 배정
+  for (let i = 0; i < roomComposition.citizenCount; i++) {
+    randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
+    moderator.setPlayerCitizen(players, randomParticipant); //NOTE - 참가자를 시민 플레이어로 설정
+  }
 
   moderator.setRoles(players, roles); //NOTE - 플레이어들의 역할들을 정리해서 저장
 
