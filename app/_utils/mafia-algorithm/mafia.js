@@ -246,9 +246,9 @@ const checkPlayerLived = (players, index) => {
   return players[index].isLived === true;
 };
 
-//NOTE - 사회자가 진행 상황 말함
-const speak = (line) => {
-  console.log(`사회자 : ${line}`);
+//NOTE - 사회자가 특정 유저에게 진행 상황 말함
+const speak = (players, index, line) => {
+  console.log(`사회자[to : ${players[index].userNickname}] : ${line}`);
 };
 
 //NOTE - 사회자가 플레이어의 카메라를 켬
@@ -493,7 +493,11 @@ const gamePlay = () => {
     }
   }
 
-  moderator.speak("마피아를 뽑겠습니다.");
+  //NOTE - 모든 유저들 작업
+  for (let userIndex = 0; userIndex < userCount; userIndex++) {
+    moderator.speak(players, userIndex, "마피아를 뽑겠습니다.");
+  }
+
   console.log("마피아 뽑음");
   mafiaIndexes = roles["마피아"];
 
@@ -503,8 +507,10 @@ const gamePlay = () => {
       moderator.openPlayerRole(clientIndex, playerIndex, "마피아");
     });
   });
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "마피아 들은 고개를 들어 서로를 확인해 주세요.");
+  }
 
-  moderator.speak("마피아 들은 고개를 들어 서로를 확인해 주세요.");
   mafiaIndexes = roles["마피아"]; //NOTE - 마피아 플레이어들
 
   //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 켬
@@ -524,15 +530,18 @@ const gamePlay = () => {
       moderator.turnOffMike(clientIndex, cameraIndex);
     });
   });
-
-  moderator.speak("고개를 숙이시구요. 이제 의사를 뽑겠습니다.");
+  for (let userIndex = 0; userIndex < userCount; userIndex++) {
+    moderator.speak(players, userIndex, "의사를 뽑겠습니다.");
+  }
   console.log("의사 뽑음");
 
   doctorIndex = roles["의사"];
 
   moderator.openPlayerRole(doctorIndex, doctorIndex, "의사"); //NOTE - 의사 플레이어의 화면에서 자신이 의사임을 알림
 
-  moderator.speak("네, 이제 경찰 뽑겠습니다.");
+  for (let userIndex = 0; userIndex < userCount; userIndex++) {
+    moderator.speak(players, userIndex, "경찰을 뽑겠습니다.");
+  }
   console.log("경찰 뽑음");
 
   policeIndex = roles["경찰"];
@@ -559,12 +568,17 @@ const gamePlay = () => {
       moderator.turnOnMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 켬
     }
   }
-
-  moderator.speak("모든 유저는 토론을 통해 마피아를 찾아내세요.");
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "모든 유저는 토론을 통해 마피아를 찾아내세요.");
+  }
   moderator.startTimer(90); //NOTE - 시간 재기
-  moderator.speak("토론이 끝났습니다..");
 
-  moderator.speak("마피아일 것 같은 사람의 화면을 클릭해주세요.");
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "토론이 끝났습니다.");
+  }
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "마피아일 것 같은 사람의 화면을 클릭해주세요.");
+  }
 
   players[0].voteToPlayer(players, 0, 1); //NOTE - 0번 인덱스 플레이어가 1번 인덱스 플레이어에게 투표
   players[1].voteToPlayer(players, 1, 2); //NOTE - 1번 인덱스 플레이어가 2번 인덱스 플레이어에게 투표
@@ -578,18 +592,26 @@ const gamePlay = () => {
   const mostVoteResult = moderator.getMostVotedPlayer(players); //NOTE - 투표를 가장 많이 받은 사람 결과 (확정X, 동률일 가능성 존재)
 
   moderator.resetVote(players); //NOTE - 플레이어들이 한 투표 기록 리셋
-
-  moderator.speak("투표 결과는 다음과 같습니다."); //FIXME - voteBoard 객체를 보내서 알리기
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "투표 결과는 다음과 같습니다."); //FIXME - voteBoard 객체를 보내서 알리기
+  }
 
   if (mostVoteResult.isValid) {
     //NOTE - 투표 성공
-    moderator.speak(`${mostVoteResult.result.userNickname}님이 마피아로 지복되었습니다.`);
 
-    moderator.speak(`${mostVoteResult.result.userNickname}님은 최후의 변론을 시작하세요.`);
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex, `${mostVoteResult.result.userNickname}님이 마피아로 지복되었습니다.`);
+    }
+
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex, `${mostVoteResult.result.userNickname}님은 최후의 변론을 시작하세요.`);
+    }
 
     moderator.startTimer(90); //NOTE - 시간 재기
 
-    moderator.speak(`찬성/반대 투표를 해주세요.`);
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex, "찬성/반대 투표를 해주세요.");
+    }
 
     moderator.startTimer(90); //NOTE - 시간 재기
 
@@ -601,7 +623,9 @@ const gamePlay = () => {
 
     const yesOrNoVoteResult = moderator.getYesOrNoVoteResult(votes); //NOTE - 찬반 투표 결과 (확정X, 동률 나올 수 있음)
 
-    moderator.speak("투표 결과는 다음과 같습니다."); //FIXME - yesOrNoVoteResult.result.detail로 객체로 보내기
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex, "투표 결과는 다음과 같습니다."); //FIXME - yesOrNoVoteResult.result.detail로 객체로 보내기
+    }
 
     //NOTE - 투표 결과가 유효하고(동률이 아님), 찬성이 반대보다 많은 경우
     if (yesOrNoVoteResult.isValid && yesOrNoVoteResult.result) {
@@ -614,7 +638,7 @@ const gamePlay = () => {
       //NOTE - 죽은 플레이어가 마피아인지 시민인지 알림
       isPlayerMafia ? moderator.speak(`마피아가 죽었습니다.`) : moderator.speak(`시민이 죽었습니다.`);
 
-      for (let clientIndex = 0; i < userCount; clientIndex++) {
+      for (let clientIndex = 0; playerIndex < userCount; clientIndex++) {
         const role = isPlayerMafia ? "마피아" : "시민";
 
         moderator.openPlayerRole(clientIndex, killedPlayer.index, role);
@@ -635,8 +659,9 @@ const gamePlay = () => {
       moderator.turnOffMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 끔
     }
   }
-
-  moderator.speak("마피아는 누구를 죽일지 결정해주세요.");
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "마피아는 누구를 죽일지 결정해주세요.");
+  }
 
   //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 켬
   mafiaIndexes.forEach((clientIndex) => {
@@ -646,8 +671,10 @@ const gamePlay = () => {
     });
   });
 
-  moderator.speak("제스처를 통해 상의하세요."); //FIXME - 마피아 유저에게만 말함
-  moderator.speak("누구를 죽일지 선택하세요."); //FIXME - 마피아 유저에게만 말함
+  mafiaIndexes.forEach((mafiaIndex) => {
+    moderator.speak(players, mafiaIndex, "제스처를 통해 상의하세요.");
+    moderator.speak(players, mafiaIndex, "누구를 죽일지 선택하세요.");
+  });
 
   moderator.startTimer(90); //NOTE - 시간 재기
   killedPlayer = players[mafiaIndexes[0]].killCitizen(players, 0); //NOTE - 가장 먼저 선택한 마피아의 지시를 따름
@@ -659,8 +686,9 @@ const gamePlay = () => {
       moderator.turnOffMike(clientIndex, cameraIndex);
     });
   });
-
-  moderator.speak("의사는 누구를 살릴 지 결정하세요.");
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "의사는 누구를 살릴 지 결정하세요.");
+  }
 
   doctorIndex = roles["의사"]; //NOTE - 역할이 의사인 플레이어 인덱스 반환 (다수인 경우 상정)
 
@@ -668,7 +696,9 @@ const gamePlay = () => {
 
   doctorIndex.savePlayer(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
 
-  moderator.speak("이제 경찰은 일어나서 마피아 의심자를 결정해주세요.");
+  for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+    moderator.speak(players, playerIndex, "경찰은 마피아 의심자를 결정해주세요.");
+  }
 
   policeIndex = roles["경찰"];
 
@@ -676,9 +706,9 @@ const gamePlay = () => {
 
   //FIXME - 경찰에게만 하는 말인데 고칠 것
   if (isPlayerMafia) {
-    moderator.speak("해당 플레이어는 마피아가 맞습니다.");
+    moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 맞습니다.");
   } else {
-    moderator.speak("해당 플레이어는 마피아가 아닙니다.");
+    moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 아닙니다.");
   }
   moderator.nightOver(); //NOTE - 밤 종료
   moderator.roundOver(); //NOTE - 라운드 종료
@@ -695,13 +725,18 @@ const gamePlay = () => {
 
   //NOTE - 마피아가 죽일려고한 마피아가 살았는지 죽었는지 확인
   if (killedPlayer.isLived) {
-    moderator.speak("의사의 활약으로 아무도 죽지 않았습니다.");
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex, "의사의 활약으로 아무도 죽지 않았습니다.");
+    }
   } else {
-    moderator.speak(`${killedPlayer.userNickname}님이 죽었습니다.`);
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex, `${killedPlayer.userNickname}님이 죽었습니다.`);
+    }
+
     setRoles(players, roles); //NOTE - 역할에 속하는 플레이어들 다시 설정
   }
 
-  moderator.speak("게임을 관전 하시겠습니까? 나가시겠습니까?"); //FIXME - 사망한 유저에게 보내도록 수정
+  moderator.speak(players, killedPlayer.index, "게임을 관전 하시겠습니까? 나가시겠습니까?"); //FIXME - 사망한 유저에게 보내도록 수정
   choiceToExit = true; //NOTE - 나간다고 가정
 
   //NOTE - 방을 나갈지 관전할지 선택
@@ -713,7 +748,10 @@ const gamePlay = () => {
 
   if (moderator.whoWins.isValid) {
     //NOTE - 게임 종료 만족하는 지
-    moderator.speak(`${moderator.whoWins.result} 팀이 이겼습니다.`); //NOTE - 어느 팀이 이겼는지 알림
+    for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
+      moderator.speak(players, playerIndex`${moderator.whoWins.result} 팀이 이겼습니다.`); //NOTE - 어느 팀이 이겼는지 알림
+    }
+
     gameOver(); //NOTE - 게임 종료
   }
 };
