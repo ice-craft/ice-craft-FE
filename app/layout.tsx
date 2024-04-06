@@ -18,9 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className={GeistSans.className}>
       <body>
         <ToastContainer />
-        <Header />
+        {/* <Header /> */}
         <QueryProvider>{children}</QueryProvider>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );
