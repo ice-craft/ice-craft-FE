@@ -3,7 +3,7 @@ class Citizen {
     this.userId = userId;
     this.userNickname = userNickname;
     this.isReady = false;
-    this.index = index;
+    this.index = index; //NOTE - 필요한지 생각해보기
     this.role = "시민";
     this.isLived = true;
     this.voteTo = "";
@@ -32,8 +32,16 @@ class Citizen {
   }
 }
 
-class Mafia {
+class Mafia extends Citizen {
   constructor(citizen) {
-    super();
+    super(citizen.userId, citizen.userNickname, citizen.index);
+    this.role = "마피아";
+  }
+
+  //NOTE - 플레이어 죽임,setRoles 따로 처리하기
+  killCitizen(citizen, roles) {
+    citizen.isLived = false;
+
+    return citizen;
   }
 }
