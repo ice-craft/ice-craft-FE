@@ -131,22 +131,22 @@ const roundOver = () => {
 
 //NOTE - 밤 시작
 const nightStart = () => {
-  console.log("밤 시작");
+  console.log("밤이 되었습니다.");
 };
 
 //NOTE - 밤 종료
 const nightOver = () => {
-  console.log("밤 종료");
+  console.log("밤이 끝났습니다.");
 };
 
 //NOTE - 낮 시작
 const dayStart = () => {
-  console.log("낮 시작");
+  console.log("낮이 되었습니다.");
 };
 
 //NOTE - 낮 종료
 const dayOver = () => {
-  console.log("낮 종료");
+  console.log("낮이 끝났습니다.");
 };
 
 //NOTE - 유저 닉네임 설정
@@ -360,6 +360,19 @@ const doctor = {
   saveCitizen
 };
 
+//NOTE - 각 방 인원 수별 역할 인원 수
+const roomCompositions = {
+  player5Count: { mafiaCount: 1, citizenCount: 4, policeCount: 0, doctorCount: 0 },
+  player6Count: { mafiaCount: 2, citizenCount: 3, policeCount: 1, doctorCount: 0 },
+  player7Count: { mafiaCount: 2, citizenCount: 4, policeCount: 1, doctorCount: 0 },
+  player8Count: { mafiaCount: 3, citizenCount: 3, policeCount: 1, doctorCount: 1 },
+  player9Count: { mafiaCount: 3, citizenCount: 4, policeCount: 1, doctorCount: 1 },
+  player10Count: { mafiaCount: 3, citizenCount: 4, policeCount: 1, doctorCount: 1 }
+};
+
+//NOTE - 현재 방 각 역할 인원 수
+let roomComposition;
+
 //NOTE - 방 참가자 (방에 들어와서 역할이 없는 상태)
 const participant = { userNickname: "", isReady: false, index: -1 };
 
@@ -400,7 +413,8 @@ let isPlayerMafia;
 let choiceToExit;
 
 const gamePlay = () => {
-  userCount = 5; //NOTE - 방 유저 정원 5명 결정
+  userCount = 8; //NOTE - 방 유저 정원 5명 결정
+
   //NOTE - 유저들 게임 참가
   for (let i = 0; i < userCount; i++) {
     participants[i] = { ...participant, userNickname: "user" + i, index: i };
@@ -426,6 +440,7 @@ const gamePlay = () => {
   } else {
     console.log("게임 시작 불가"); //NOTE - 게임 시작 조건 못 갖춤
   }
+
   let randomParticipant;
 
   randomParticipant = moderator.getRandomParticipant(participants); //NOTE - 참가자들 중 한명 랜덤으로 뽑음
