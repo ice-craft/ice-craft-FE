@@ -16,9 +16,9 @@ class Citizen {
   }
 
   //NOTE - 플레이어를 선택하는 투표
-  voteToPlayer(citizen) {
-    this.voteTo = receiverIndex;
-    citizen.votedCount++;
+  voteToPlayer(player) {
+    this.voteTo = player;
+    player.votedCount++;
   }
 
   //NOTE - 찬성, 반대를 결정하는 투표
@@ -39,9 +39,9 @@ class Mafia extends Citizen {
   }
 
   //NOTE - 플레이어 죽임,setRoles 따로 처리하기
-  killCitizen(citizen, roles) {
-    citizen.isLived = false;
+  killCitizen(player) {
+    player.isLived = false;
 
-    return citizen;
+    return player;
   }
 }
