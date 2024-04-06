@@ -325,6 +325,7 @@ const moderator = {
   checkAllParticipantsReady,
   canGameStart,
   getRoomComposition,
+  openPlayerRole,
   gameStart,
   gameOver,
   startTimer,
@@ -493,6 +494,7 @@ const gamePlay = () => {
 
   moderator.speak("마피아를 뽑겠습니다.");
   console.log("마피아 뽑음");
+  mafiaIndexes = roles["마피아"];
 
   //NOTE - 마피아 유저들에게 자신이 마피아인 것을 알리고 마피아인 유저가 누구인지 공개
   mafiaIndexes.forEach((clientIndex) => {
@@ -572,28 +574,22 @@ const gamePlay = () => {
   moderator.speak("셋 둘 하나!(카운트다운)");
   moderator.startTimer(90); //NOTE - 시간 재기
 
-  const votedPlayers = moderator.getPlayersVoteResult(players); //NOTE - 투표 결과 확인 (누가 얼마나 투표를 받았는지)
-  const mostVotedPlayer = moderator.getMostVotedPlayer(players); //NOTE - 투표를 가장 많이 받은 사람 결과 (확정X, 동률일 가능성 존재)
+  const voteBoard = moderator.getPlayersVoteResult(players); //NOTE - 투표 결과 확인 (누가 얼마나 투표를 받았는지)
+  const mostVoteResult = moderator.getMostVotedPlayer(players); //NOTE - 투표를 가장 많이 받은 사람 결과 (확정X, 동률일 가능성 존재)
   moderator.resetVote(players); //NOTE - 플레이어들이 한 투표 기록 리셋
 
-  if (mostVotedPlayer.isValid) {
+  if (mostVoteResult.isValid) {
     //NOTE - 투표 성공
-    moderator.speak("투표 결과는 다음과 같습니다.");
-    console.log(votedPlayers);
-    moderator.speak(`자, ${mostVotedPlayer.result.userNickname}이(가) 나왔습니다.`);
-  } else {
-    //NOTE - 투표 실패, 투표 결과가 동률인 경우
-    console.log("투표 수가 동일한 사람이 있어서 투표가 실패했습니다.");
-    console.log("투표 다시 시작");
+    moderator.speak("투표 결과는 다음과 같습니다."); //FIXME - voteBoard 객체를 보내서 알리기
+
+    moderator.speak(`${mostVoteResult.result.userNickname}님이 마피아로 지복되었습니다.`);
   }
 
-  moderator.speak(
-    `${mostVotedPlayer.result.userNickname}님은 자신이 지목 되었으므로 자신이 마피아가 아닌 이유를 설명해보세요.`
-  );
+  moderator.speak(`${mostVoteResult.result.userNickname}님은 최후의 변론을 시작하세요.`);
 
   moderator.startTimer(90); //NOTE - 시간 재기
 
-  moderator.speak(`${mostVotedPlayer.result.userNickname}님이 마피아인지 투표해주세요.`);
+  moderator.speak(`찬성/반대 투표를 해주세요.`);
 
   moderator.startTimer(90); //NOTE - 시간 재기
 
@@ -609,10 +605,10 @@ const gamePlay = () => {
     //NOTE - 투표 성공, 동률 아님
     yesOrNoVoteResult.result.detail //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
       ? moderator.speak(
-          `${mostVotedPlayer.result.userNickname}님이 마피아인 것으로 투표가 나왔습니다.\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
+          `${mostVoteResult.result.userNickname}님이 마피아인 것으로 투표가 나왔습니다.\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
         )
       : moderator.speak(
-          `${mostVotedPlayer.result.userNickname}님이 마피아가 아닌 것으로 투표가 나왔습니다.\n\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
+          `${mostVoteResult.result.userNickname}님이 마피아가 아닌 것으로 투표가 나왔습니다.\n\n찬성 : ${yesOrNoVoteResult.result.yesCount} 반대 : ${yesOrNoVoteResult.result.noCount}`
         );
   } else {
     //NOTE - 투표 실패, 동률이 나옴
@@ -632,7 +628,7 @@ const gamePlay = () => {
     }
   }
 
-  killedPlayer = moderator.killCitizen(players, mostVotedPlayer.result.index);
+  killedPlayer = moderator.killCitizen(players, mostVoteResult.result.index);
 
   if (killedPlayer.role === "마피아") {
     moderator.speak("마피아가 죽었습니다.");
