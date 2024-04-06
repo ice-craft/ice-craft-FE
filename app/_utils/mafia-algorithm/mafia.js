@@ -1,4 +1,4 @@
-//FIXME - 라운드, 밤, 낮 시작 및 종료 다시 확인할 것
+//FIXME - 라운드, 밤, 아침 시작 및 종료 다시 확인할 것
 //FIXME - 리팩토링 반드시 할 것
 //FIXME - 객체 this 이용할 것
 //FIXME - 플레이어가 중간에 나갈 경우 (죽은 것으로 처리), 플레이어가 중간에 죽을 경우 (roles 재 설정) 생각
@@ -145,14 +145,14 @@ const nightOver = () => {
   console.log("밤이 끝났습니다.");
 };
 
-//NOTE - 낮 시작
+//NOTE - 아침 시작
 const morningStart = () => {
   console.log("아침이 되었습니다.");
 };
 
-//NOTE - 낮 종료
+//NOTE - 아침 종료
 const dayOver = () => {
-  console.log("낮이 끝났습니다.");
+  console.log("아침이 끝났습니다.");
 };
 
 //NOTE - 유저 닉네임 설정
@@ -559,7 +559,7 @@ const gamePlay = () => {
   moderator.roundOver(); //NOTE - 라운드 종료
 
   moderator.roundStart(); //NOTE - 라운드 시작
-  moderator.morningStart(); //NOTE - 낮 시작
+  moderator.morningStart(); //NOTE - 아침 시작
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
@@ -649,8 +649,8 @@ const gamePlay = () => {
     }
   }
 
-  moderator.dayOver(); //NOTE - 낮 종료
-  moderator.nightStart(); //NOTE - 밤이 시작됨 (이전에 밤이 끝나지 않았음)
+  moderator.dayOver(); //NOTE - 아침 종료
+  moderator.nightStart(); //NOTE - 밤이 시작됨
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
@@ -690,7 +690,7 @@ const gamePlay = () => {
     moderator.speak(players, playerIndex, "의사는 누구를 살릴 지 결정하세요.");
   }
 
-  doctorIndex = roles["의사"]; //NOTE - 역할이 의사인 플레이어 인덱스 반환 (다수인 경우 상정)
+  doctorIndex = roles["의사"]; //NOTE - 역할이 의사인 플레이어 인덱스 반환
 
   moderator.startTimer(90); //NOTE - 시간 재기
 
@@ -713,7 +713,7 @@ const gamePlay = () => {
   moderator.nightOver(); //NOTE - 밤 종료
   moderator.roundOver(); //NOTE - 라운드 종료
   moderator.roundStart(); //NOTE - 라운드 시작
-  moderator.morningStart(); //NOTE - 낮 시작
+  moderator.morningStart(); //NOTE - 아침 시작
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
@@ -743,7 +743,7 @@ const gamePlay = () => {
   if (choiceToExit) {
     exit(players, killedPlayer.index); //NOTE - 플레이어는 방을 나감, 중간에 나가는 경우에도 사용할 수 있음
   }
-  moderator.dayOver(); //NOTE - 낮 종료
+  moderator.dayOver(); //NOTE - 아침 종료
   moderator.roundOver(); //NOTE - 라운드 종료
 
   if (moderator.whoWins.isValid) {
