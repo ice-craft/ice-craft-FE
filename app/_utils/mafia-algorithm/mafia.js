@@ -6,6 +6,7 @@
 //FIXME - 화면 켜짐이 카메라 이야기인지 플레이어 게임 화면이야기 인지 구체적으로 적기
 //FIXME - 사회자(시스템)가 누구에게 말하는지 정확하게 하기
 //FIXME - 플레이어가 자신의 역할을 하기전에 자신이 살아있는지 확인, 만약 역할을 해야하는 데 죽었을 경우 무엇을 해야할지 조치
+//FIXME - 유저들의 인덱스는 프로젝트에 적용할 때, user id로 변경해야 함
 
 //NOTE - 타이머로 시간 잼
 const startTimer = (seconds) => {
@@ -55,7 +56,7 @@ const shuffleParticipants = (participants) => {
 
 //NOTE - 참감자들 중 한명 랜덤으로 뽑기
 const getRandomParticipant = (participants) => {
-  shuffleParticipants(participants); //NOTE - 앞에 moderator 붙여야 하나?
+  shuffleParticipants(participants); //FIXME - 클래스로 리팩토링할 때, this 붙여야 함
   return participants.pop();
 };
 
@@ -245,23 +246,23 @@ const speak = (line) => {
 };
 
 //NOTE - 사회자가 플레이어의 카메라를 켬
-const turnOnCamera = (players, index) => {
-  players[index].isCameraOn = true;
+const turnOnCamera = (clientIndex, cameraIndex) => {
+  console.log(`${clientIndex} 클라이언트의 ${cameraIndex} 카메라 켬`);
 };
 
 //NOTE - 사회자가 플레이어의 카메라를 끔
-const turnOffCamera = (players, index) => {
-  players[index].isCameraOn = false;
+const turnOffCamera = (clientIndex, cameraIndex) => {
+  console.log(`${clientIndex} 클라이언트의 ${cameraIndex} 카메라 끔`);
 };
 
 //NOTE - 사회자가 플레이어의 마이크를 켬
-const turnOnMike = (players, index) => {
-  players[index].isMikeOn = true;
+const turnOnMike = (clientIndex, mikeIndex) => {
+  console.log(`${clientIndex} 클라이언트의 ${mikeIndex} 마이크 켬`);
 };
 
 //NOTE - 사회자가 플레이어의 마이크를 끔
-const turnOffMike = (players, index) => {
-  players[index].isMikeO = false;
+const turnOffMike = (clientIndex, mikeIndex) => {
+  console.log(`${clientIndex} 클라이언트의 ${mikeIndex} 마이크 끔`);
 };
 
 //NOTE - 경찰이 플레이어가 마피아 인지 알아냄
@@ -354,8 +355,6 @@ const citizen = {
   role: "시민",
   index: -1,
   isLived: true,
-  isCameraOn: true,
-  isMikeOn: true,
   voteTo: "",
   votedCount: 0,
   setReady,
