@@ -99,7 +99,7 @@ const RoomPage = () => {
       </div>
 
       <MyVideoConference />
-      {isModal ?? <MafiaModal context={context} />}
+      {isModal ? <MafiaModal context={context} /> : null}
     </>
   );
 };

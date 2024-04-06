@@ -1,7 +1,8 @@
-import { useCountDown } from "@/app/_hooks/useTimer";
+import { useCountDown } from "@/app/_hooks/useCountDown";
 
 const MafiaModal = ({ context }: { context: string }) => {
-  const count = useCountDown(5);
+  const testTime = 5;
+  const count = useCountDown(testTime);
 
   return (
     <>
