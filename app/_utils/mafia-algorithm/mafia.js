@@ -479,9 +479,11 @@ const gamePlay = () => {
   moderator.nightStart(); //NOTE - 밤이 시작됨
 
   //NOTE - 모든 플레이어들 작업
-  for (let index = 0; index < userCount; index++) {
-    moderator.turnOffCamera(players, index); //NOTE - 모든 플레이어들 카메라 끔
-    moderator.turnOffMike(players, index); //NOTE - 모든 플레이어들 마이크 끔
+  for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
+    for (let cameraIndex = 0; cameraIndex < userCount; cameraIndex++) {
+      moderator.turnOffCamera(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 카메라 끔
+      moderator.turnOffMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 끔
+    }
   }
 
   moderator.speak("마피아를 뽑겠습니다.");
@@ -490,13 +492,23 @@ const gamePlay = () => {
   moderator.speak("마피아 들은 고개를 들어 서로를 확인해 주세요.");
   mafiaIndexes = roles["마피아"]; //NOTE - 마피아 플레이어들
 
-  mafiaIndexes.forEach((index) => moderator.turnOnCamera(players, index)); //NOTE - 마피아들 카메라 켬
-  mafiaIndexes.forEach((index) => moderator.turnOnMike(players, index)); //NOTE - 마피아들 마이크 켬
+  //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 켬
+  mafiaIndexes.forEach((clientIndex) => {
+    mafiaIndexes.forEach((cameraIndex) => {
+      moderator.turnOnCamera(clientIndex, cameraIndex);
+      moderator.turnOnMike(clientIndex, cameraIndex);
+    });
+  });
 
   moderator.startTimer(90); //NOTE - 시간 재기
 
-  mafiaIndexes.forEach((index) => moderator.turnOffCamera(players, index)); //NOTE - 마피아들 카메라 끔
-  mafiaIndexes.forEach((index) => moderator.turnOffMike(players, index)); //NOTE - 마피아들 마이크 끔
+  //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 끔
+  mafiaIndexes.forEach((clientIndex) => {
+    mafiaIndexes.forEach((cameraIndex) => {
+      moderator.turnOffCamera(clientIndex, cameraIndex);
+      moderator.turnOffMike(clientIndex, cameraIndex);
+    });
+  });
 
   moderator.speak("고개를 숙이시구요. 이제 의사를 뽑겠습니다.");
   console.log("의사 뽑음");
@@ -505,9 +517,12 @@ const gamePlay = () => {
   console.log("경찰 뽑음");
   console.log("나머지는 시민으로 뽑음");
 
-  for (let index = 0; index < userCount; index++) {
-    moderator.turnOnCamera(players, index); //NOTE - 모든 플레이어들 카메라 켬
-    moderator.turnOnMike(players, index); //NOTE - 모든 플레이어들 마이크 켬
+  //NOTE - 모든 플레이어들 작업
+  for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
+    for (let cameraIndex = 0; cameraIndex < userCount; cameraIndex++) {
+      moderator.turnOnCamera(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 카메라 켬
+      moderator.turnOnMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 켬
+    }
   }
 
   moderator.speak("대화를 시작하세요.");
@@ -576,9 +591,11 @@ const gamePlay = () => {
   moderator.roundStart(); //NOTE - 라운드 시작
 
   //NOTE - 모든 플레이어들 작업
-  for (let index = 0; index < userCount; index++) {
-    moderator.turnOffCamera(players, index); //NOTE - 모든 플레이어들 카메라 끔
-    moderator.turnOffMike(players, index); //NOTE - 모든 플레이어들 마이크 끔
+  for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
+    for (let cameraIndex = 0; cameraIndex < userCount; cameraIndex++) {
+      moderator.turnOffCamera(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 카메라 끔
+      moderator.turnOffMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 끔
+    }
   }
 
   killedPlayer = moderator.killCitizen(players, mostVotedPlayer.result.index);
@@ -593,14 +610,24 @@ const gamePlay = () => {
 
   moderator.speak("마피아는 일어나서 누구를 죽일지 결정해주세요.");
 
-  mafiaIndexes.forEach((index) => moderator.turnOnCamera(players, index)); //NOTE - 마피아들 카메라 켬
-  mafiaIndexes.forEach((index) => moderator.turnOnMike(players, index)); //NOTE - 마피아들 마이크 켬
+  //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 켬
+  mafiaIndexes.forEach((clientIndex) => {
+    mafiaIndexes.forEach((cameraIndex) => {
+      moderator.turnOnCamera(clientIndex, cameraIndex);
+      moderator.turnOnMike(clientIndex, cameraIndex);
+    });
+  });
 
   moderator.startTimer(90); //NOTE - 시간 재기
   killedPlayer = players[mafiaIndexes[0]].killCitizen(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아가 아니라고 가정하고 0번 인덱스 플레이어 죽임
 
-  mafiaIndexes.forEach((index) => moderator.turnOffCamera(players, index)); //NOTE - 마피아들 카메라 끔
-  mafiaIndexes.forEach((index) => moderator.turnOffMike(players, index)); //NOTE - 마피아들 마이크 끔
+  //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 끔
+  mafiaIndexes.forEach((clientIndex) => {
+    mafiaIndexes.forEach((cameraIndex) => {
+      moderator.turnOffCamera(clientIndex, cameraIndex);
+      moderator.turnOffMike(clientIndex, cameraIndex);
+    });
+  });
 
   moderator.speak("이제 의사는 일어나서 누구를 살릴 지 결정해주세요.");
 
@@ -626,10 +653,12 @@ const gamePlay = () => {
   moderator.roundOver(); //NOTE - 라운드 종료
   moderator.roundStart(); //NOTE - 라운드 시작
 
-  //NOTE - 모든 플레이어에 대해서 작업
-  for (let index = 0; index < userCount; index++) {
-    moderator.turnOnCamera(players, index); //NOTE - 카메라를 켬
-    moderator.turnOnMike(players, index); //NOTE - 마이크를 켬
+  //NOTE - 모든 플레이어들 작업
+  for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
+    for (let cameraIndex = 0; cameraIndex < userCount; cameraIndex++) {
+      moderator.turnOnCamera(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 카메라 켬
+      moderator.turnOnMike(clientIndex, cameraIndex); //NOTE - clientIndex 클라이언트 화면의 cameraIndex 마이크 켬
+    }
   }
 
   if (killedPlayer.isLived) {
