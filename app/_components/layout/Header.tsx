@@ -10,7 +10,7 @@ const Header = () => {
     <div className={S.headerWrap}>
       <header className={S.header}>
         <h1>
-          <Link href="/">
+          <Link href="/main">
             <Image src={Logo} alt="Logo" />
           </Link>
         </h1>

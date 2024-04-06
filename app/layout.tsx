@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const showHeaderAndFooter = pathname !== "/";
 
   return (
-    <html lang="ko">
+    <>
       <Head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
@@ -27,6 +27,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <QueryProvider>{children}</QueryProvider>
         {showHeaderAndFooter && <Footer />}
       </body>
-    </html>
+    </>
   );
 }
