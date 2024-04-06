@@ -32,4 +32,15 @@
 
 .remoteParticipant {
   flex: 2;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.remoteCam {
+  width: 32.5%;
+  height: 30%;
 }

@@ -1,5 +1,5 @@
 import { Participants } from "@/app/_types";
-import { ParticipantTile, useGridLayout, useLocalParticipant } from "@livekit/components-react";
+import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import React from "react";
 import S from "@/app/_style/livekit/livekit.module.css";
 
@@ -10,7 +10,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
   return (
     <div className={S.remoteParticipant}>
       {remoteTracks.map((track) => (
-        <ParticipantTile key={track.participant.sid} trackRef={track} />
+        <ParticipantTile key={track.participant.sid} trackRef={track} className={S.remoteCam} />
       ))}
     </div>
   );
