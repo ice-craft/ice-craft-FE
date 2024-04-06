@@ -7,14 +7,16 @@ import S from "@/app/_style/commons/commons.module.css";
 
 const Header = () => {
   return (
-    <header className={S.header}>
-      <h1>
-        <Link href="/">
-          <Image src={Logo} alt="Logo" />
-        </Link>
-      </h1>
-      <Nav />
-    </header>
+    <div className={S.headerWrap}>
+      <header className={S.header}>
+        <h1>
+          <Link href="/main">
+            <Image src={Logo} alt="Logo" />
+          </Link>
+        </h1>
+        <Nav />
+      </header>
+    </div>
   );
 };
 

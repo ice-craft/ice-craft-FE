@@ -1,0 +1,83 @@
+/*-------------- INTRO HEADER ----------------*/
+.introHeaderWrap {
+  width: 100%;
+  position: relative;
+}
+
+.introHeaderWrap header {
+  position: absolute;
+  left: 30px;
+  top: 21px;
+  z-index: 2;
+}
+
+.section {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+}
+
+.video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+}
+
+.introTitle {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.h1 {
+  color: #fff;
+  font-size: 60px;
+  margin-bottom: 104px;
+}
+
+.introTitle > a {
+  width: 454px;
+  height: 68px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 68px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.mainButton {
+  background-color: #5c5bad;
+  color: #fff;
+}
+
+.loginButton {
+  background-color: #fff;
+  color: #111;
+}
+
+.signUpButton {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+}
+
+.signUpButton a {
+  text-decoration: underline;
+}
+
+/*-------------- INTRO TextTyping ----------------*/
+.tegName {
+  color: #fff;
+  font-size: 60px;
+  margin-bottom: 104px;
+  z-index: 99;
+}
