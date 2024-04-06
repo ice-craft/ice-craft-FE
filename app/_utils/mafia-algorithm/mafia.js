@@ -672,7 +672,7 @@ const gamePlay = () => {
   });
 
   moderator.startTimer(90); //NOTE - 시간 재기
-  killedPlayer = players[mafiaIndexes[0]].killCitizen(players, 0); //NOTE - 가장 먼저 선택한 마피아의 지시를 따름
+  killedPlayer = players[mafiaIndexes[0]].killCitizen(players, 0, roles); //NOTE - 가장 먼저 선택한 마피아의 지시를 따름
 
   //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 끔
   mafiaIndexes.forEach((clientIndex) => {
@@ -685,25 +685,33 @@ const gamePlay = () => {
     moderator.speak(players, playerIndex, "의사는 누구를 살릴 지 결정하세요.");
   }
 
-  doctorIndex = roles["의사"]; //NOTE - 역할이 의사인 플레이어 인덱스 반환
+  //NOTE - 의사가 살아있을 경우
+  if (roles["의사"].length > 0) {
+    doctorIndex = roles["의사"][0]; //NOTE - 역할이 의사인 플레이어 인덱스 반환
 
-  moderator.startTimer(90); //NOTE - 시간 재기
+    moderator.startTimer(90); //NOTE - 시간 재기
 
-  players[doctorIndex].savePlayer(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
+    console.log("의사 인덱스", doctorIndex);
+    players[doctorIndex].savePlayer(players, killedPlayer.index, roles); //NOTE - 의사가 플레이어를 살림
+  }
 
   for (let playerIndex = 0; playerIndex < userCount; playerIndex++) {
     moderator.speak(players, playerIndex, "경찰은 마피아 의심자를 결정해주세요.");
   }
 
-  policeIndex = roles["경찰"];
+  //NOTE - 경찰이 살아있을 경우
+  if (roles["경찰"].length > 0) {
+    policeIndex = roles["경찰"][0];
 
-  isPlayerMafia = players[policeIndex[0]].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
+    isPlayerMafia = players[policeIndex[0]].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
 
-  if (isPlayerMafia) {
-    moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 맞습니다.");
-  } else {
-    moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 아닙니다.");
+    if (isPlayerMafia) {
+      moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 맞습니다.");
+    } else {
+      moderator.speak(players, policeIndex, "해당 플레이어는 마피아가 아닙니다.");
+    }
   }
+
   moderator.nightOver(); //NOTE - 밤 종료
   moderator.roundOver(); //NOTE - 라운드 종료
   moderator.roundStart(); //NOTE - 라운드 시작
@@ -733,7 +741,7 @@ const gamePlay = () => {
 
   //NOTE - 방을 나갈지 관전할지 선택
   if (choiceToExit) {
-    exit(players, killedPlayer.index); //NOTE - 플레이어는 방을 나감, 중간에 나가는 경우에도 사용할 수 있음
+    exit(players, killedPlayer.index, roles); //NOTE - 플레이어는 방을 나감, 중간에 나가는 경우에도 사용할 수 있음
   }
   moderator.dayOver(); //NOTE - 아침 종료
   moderator.roundOver(); //NOTE - 라운드 종료
