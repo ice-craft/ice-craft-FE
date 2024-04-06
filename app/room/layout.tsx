@@ -32,7 +32,7 @@ const layout = ({ children }: PropsWithChildren) => {
       video={true}
       audio={true}
       data-lk-theme="default"
-      simulateParticipants={10} // 테스트용 카메라 생성
+      // simulateParticipants={10} // 테스트용 카메라 생성
     >
       {children}
       <RoomAudioRenderer />

@@ -44,3 +44,10 @@
   width: 32.5%;
   height: 30%;
 }
+
+/*-------------- Respansive ----------------*/
+@media (max-width: 1430px) {
+  .remoteCam {
+    width: 30%;
+  }
+}
