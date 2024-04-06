@@ -1,8 +1,7 @@
-import React from "react";
-("use client");
+"use client";
 
 import MyVideoConference from "@/app/_components/mafia/MyVideoConference";
-import Timer from "@/app/_components/mafia/Timer";
+import MafiaModal from "@/app/_components/mafia/MafiaModal";
 import { useModalStore } from "@/app/_store/modal-store";
 import { useParticipantTracks, useRemoteParticipant, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
@@ -13,6 +12,7 @@ const RoomPage = () => {
   const tracks = useTracks();
   const { isModal, setIsModal } = useModalStore();
   const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
+  const context = "밤이 시작되었습니다.";
 
   const sources = tracks.map((item) => {
     return item.source;
@@ -99,16 +99,7 @@ const RoomPage = () => {
       </div>
 
       <MyVideoConference />
-      {isModal ? (
-        <div className="w-full h-screen bg-black bg-opacity-60 fixed z-1 top-0 left-0 flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
-            <div className="w-96 h-96 p-5 block">
-              <p className="text-6xl text-black"> 밤이 시작되었습니다.</p>
-            </div>
-            <Timer />
-          </div>
-        </div>
-      ) : null}
+      {isModal ? <MafiaModal context={context} /> : null}
     </>
   );
 };
