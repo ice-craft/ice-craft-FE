@@ -609,7 +609,7 @@ const gamePlay = () => {
       setRoles(players, roles); //NOTE - 역할별 플레이어들 목록 갱신
 
       mafiaIndexes = roles["마피아"];
-      const isPlayerMafia = mafiaIndexes.indexOf(killedPlayer) !== -1; //NOTE - 죽은 플레이어가 마피아인지 확인
+      const isPlayerMafia = mafiaIndexes.indexOf(killedPlayer.index) !== -1; //NOTE - 죽은 플레이어가 마피아인지 확인
 
       //NOTE - 죽은 플레이어가 마피아인지 시민인지 알림
       isPlayerMafia ? moderator.speak(`마피아가 죽었습니다.`) : moderator.speak(`시민이 죽었습니다.`);
@@ -617,7 +617,7 @@ const gamePlay = () => {
       for (let clientIndex = 0; i < userCount; clientIndex++) {
         const role = isPlayerMafia ? "마피아" : "시민";
 
-        moderator.openPlayerRole(clientIndex, killedPlayer, role);
+        moderator.openPlayerRole(clientIndex, killedPlayer.index, role);
       }
     } else {
       //NOTE - 투표 실패, 동률이 나옴
@@ -636,7 +636,7 @@ const gamePlay = () => {
     }
   }
 
-  moderator.speak("마피아는 일어나서 누구를 죽일지 결정해주세요.");
+  moderator.speak("마피아는 누구를 죽일지 결정해주세요.");
 
   //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 켬
   mafiaIndexes.forEach((clientIndex) => {
@@ -646,8 +646,11 @@ const gamePlay = () => {
     });
   });
 
+  moderator.speak("제스처를 통해 상의하세요."); //FIXME - 마피아 유저에게만 말함
+  moderator.speak("누구를 죽일지 선택하세요."); //FIXME - 마피아 유저에게만 말함
+
   moderator.startTimer(90); //NOTE - 시간 재기
-  killedPlayer = players[mafiaIndexes[0]].killCitizen(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아가 아니라고 가정하고 0번 인덱스 플레이어 죽임
+  killedPlayer = players[mafiaIndexes[0]].killCitizen(players, 0); //NOTE - 가장 먼저 선택한 마피아의 지시를 따름
 
   //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 끔
   mafiaIndexes.forEach((clientIndex) => {
@@ -657,19 +660,19 @@ const gamePlay = () => {
     });
   });
 
-  moderator.speak("이제 의사는 일어나서 누구를 살릴 지 결정해주세요.");
+  moderator.speak("의사는 누구를 살릴 지 결정하세요.");
 
-  doctorIndexes = roles["의사"]; //NOTE - 역할이 의사인 플레이어 인덱스 반환 (다수인 경우 상정)
-  //FIXME - 화면 켜짐이 나오는데 카메라 이야기인가요?
+  doctorIndex = roles["의사"]; //NOTE - 역할이 의사인 플레이어 인덱스 반환 (다수인 경우 상정)
+
   moderator.startTimer(90); //NOTE - 시간 재기
-  //FIXME - 의사가 살리는 코드 누락
+
+  doctorIndex.saveCitizen(players, killedPlayer.index); //NOTE - 의사가 플레이어를 살림
 
   moderator.speak("이제 경찰은 일어나서 마피아 의심자를 결정해주세요.");
-  //FIXME - 화면 켜짐이 나오는데 카메라 이야기인가요?
 
-  policeIndexes = roles["경찰"];
+  policeIndex = roles["경찰"];
 
-  isPlayerMafia = players[policeIndexes[0]].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
+  isPlayerMafia = players[policeIndex[0]].checkPlayerMafia(players, 0); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
 
   //FIXME - 경찰에게만 하는 말인데 고칠 것
   if (isPlayerMafia) {
@@ -677,9 +680,10 @@ const gamePlay = () => {
   } else {
     moderator.speak("해당 플레이어는 마피아가 아닙니다.");
   }
-
+  moderator.nightOver(); //NOTE - 밤 종료
   moderator.roundOver(); //NOTE - 라운드 종료
   moderator.roundStart(); //NOTE - 라운드 시작
+  moderator.dayStart(); //NOTE - 낮 시작
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
@@ -689,26 +693,27 @@ const gamePlay = () => {
     }
   }
 
+  //NOTE - 마피아가 죽일려고한 마피아가 살았는지 죽었는지 확인
   if (killedPlayer.isLived) {
-    moderator.speak("간밤에 아무도 죽지 않았습니다.");
+    moderator.speak("의사의 활약으로 아무도 죽지 않았습니다.");
   } else {
-    moderator.speak(`간밤에 ${killedPlayer.userNickname}님이 죽었습니다.`);
+    moderator.speak(`${killedPlayer.userNickname}님이 죽었습니다.`);
     setRoles(players, roles); //NOTE - 역할에 속하는 플레이어들 다시 설정
   }
 
-  moderator.speak("게임을 관전 하시겠습니까? 아니면 나가시겠습니까?");
+  moderator.speak("게임을 관전 하시겠습니까? 나가시겠습니까?"); //FIXME - 사망한 유저에게 보내도록 수정
   choiceToExit = true; //NOTE - 나간다고 가정
 
+  //NOTE - 방을 나갈지 관전할지 선택
   if (choiceToExit) {
-    //NOTE - 방을 나갈지 관전할지 선택
     exit(players, killedPlayer.index); //NOTE - 플레이어는 방을 나감, 중간에 나가는 경우에도 사용할 수 있음
   }
-
+  moderator.dayOver(); //NOTE - 낮 종료
   moderator.roundOver(); //NOTE - 라운드 종료
 
   if (moderator.whoWins.isValid) {
     //NOTE - 게임 종료 만족하는 지
-    console.log(`${moderator.whoWins.result} 팀이 이겼습니다.`); //NOTE - 어느 팀이 이겼는지 결정 남
+    moderator.speak(`${moderator.whoWins.result} 팀이 이겼습니다.`); //NOTE - 어느 팀이 이겼는지 알림
     gameOver(); //NOTE - 게임 종료
   }
 };
