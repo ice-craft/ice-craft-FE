@@ -354,7 +354,6 @@ const moderator = {
   turnOffCamera,
   turnOnMike,
   turnOffMike,
-  killCitizen,
   whoWins
 };
 const citizen = {
@@ -367,6 +366,7 @@ const citizen = {
   setReady,
   voteToPlayer,
   voteYesOrNo,
+  killCitizen,
   exit
 };
 const mafia = {
@@ -606,22 +606,19 @@ const gamePlay = () => {
 
       moderator.speak("투표 결과는 다음과 같습니다."); //NOTE -
       yesOrNoVoteResult.result //NOTE - 투표 결과 찬성이 과반수인지 반대가 과반수인지 출력
-        ? moderator.speak(
-            `${mostVoteResult.result.userNickname}님이 마피아인 것으로 투표가 나왔습니다.\n찬성 : ${yesOrNoVoteResult.result.detail.yesCount} 반대 : ${yesOrNoVoteResult.result.detail.noCount}`
-          )
-        : moderator.speak(
-            `${mostVoteResult.result.userNickname}님이 마피아가 아닌 것으로 투표가 나왔습니다.\n\n찬성 : ${yesOrNoVoteResult.result.detail.yesCount} 반대 : ${yesOrNoVoteResult.result.detail.noCount}`
-          );
+        ? moderator.speak(`마피아가 죽었습니다.`)
+        : moderator.speak(`$시민이 죽었습니다.`);
+      moderator.speak("투표는 다음과 같습니다."); //FIXME - yesOrNoVoteResult.result.detail로 객체로 보내기
+      citizenIndexes = roles["시민"];
+      citizenIndexes[0].killCitizen(mostVoteResult.result.index); //NOTE - 투표를 가장 많이 받은 플레이어 사망
     } else {
       //NOTE - 투표 실패, 동률이 나옴
       console.log("동률 나옴");
     }
   }
 
-  moderator.roundOver(); //NOTE - 라운드 종료
-
+  moderator.dayOver(); //NOTE - 낮 종료
   moderator.nightStart(); //NOTE - 밤이 시작됨 (이전에 밤이 끝나지 않았음)
-  moderator.roundStart(); //NOTE - 라운드 시작
 
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
