@@ -543,6 +543,12 @@ const gamePlay = () => {
   //NOTE - 시민 플레이어의 화면에서 자신이 시민임을 알림
   citizenIndexes.forEach((citizenIndex) => moderator.openPlayerRole(citizenIndex, citizenIndex, "시민"));
 
+  moderator.nightOver(); //NOTE - 밤 종료
+  moderator.roundOver(); //NOTE - 라운드 종료
+
+  moderator.roundStart(); //NOTE - 라운드 시작
+  moderator.dayStart(); //NOTE - 낮 시작
+
   //NOTE - 모든 플레이어들 작업
   for (let clientIndex = 0; clientIndex < userCount; clientIndex++) {
     for (let cameraIndex = 0; cameraIndex < userCount; cameraIndex++) {
