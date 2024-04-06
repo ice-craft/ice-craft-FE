@@ -1,24 +1,20 @@
-class Participant {
+class Citizen {
   constructor(userId, userNickname, index) {
     this.userId = userId;
     this.userNickname = userNickname;
     this.isReady = false;
     this.index = index;
-  }
-  //NOTE - 게임 준비하기
-  ready(isReady) {
-    this.isReady = isReady;
-  }
-}
-
-class Citizen extends Participant {
-  constructor(participant) {
-    super(participant.userId, participant.userNickname, participant.index);
     this.role = "시민";
     this.isLived = true;
     this.voteTo = "";
     this.votedCount = 0;
   }
+
+  //NOTE - 게임 준비하기
+  ready(isReady) {
+    this.isReady = isReady;
+  }
+
   //NOTE - 플레이어를 선택하는 투표
   voteToPlayer(citizen) {
     this.voteTo = receiverIndex;
@@ -33,5 +29,11 @@ class Citizen extends Participant {
   //NOTE - 방나가기, setRoles 따로 처리하기
   exit() {
     this.isLived = false;
+  }
+}
+
+class Mafia {
+  constructor(citizen) {
+    super();
   }
 }
