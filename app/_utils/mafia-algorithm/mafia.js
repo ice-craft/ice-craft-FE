@@ -294,6 +294,24 @@ const whoWins = (roles) => {
   return { isValid: false };
 };
 
+//NOTE - 현재 방의 각 역할 정원 인원 수 반환
+const getRoomComposition = (userCount) => {
+  switch (userCount) {
+    case 5:
+      return { mafiaCount: 1, citizenCount: 4, policeCount: 0, doctorCount: 0 };
+    case 6:
+      return { mafiaCount: 2, citizenCount: 3, policeCount: 1, doctorCount: 0 };
+    case 7:
+      return { mafiaCount: 2, citizenCount: 4, policeCount: 1, doctorCount: 0 };
+    case 8:
+      return { mafiaCount: 3, citizenCount: 3, policeCount: 1, doctorCount: 1 };
+    case 9:
+      return { mafiaCount: 3, citizenCount: 4, policeCount: 1, doctorCount: 1 };
+    case 10:
+      return { mafiaCount: 3, citizenCount: 4, policeCount: 1, doctorCount: 1 };
+  }
+};
+
 //NOTE - 각 역할
 const moderator = {
   setUserNickname,
@@ -358,16 +376,6 @@ const doctor = {
   ...citizen,
   role: "의사",
   saveCitizen
-};
-
-//NOTE - 각 방 인원 수별 역할 인원 수
-const roomCompositions = {
-  player5Count: { mafiaCount: 1, citizenCount: 4, policeCount: 0, doctorCount: 0 },
-  player6Count: { mafiaCount: 2, citizenCount: 3, policeCount: 1, doctorCount: 0 },
-  player7Count: { mafiaCount: 2, citizenCount: 4, policeCount: 1, doctorCount: 0 },
-  player8Count: { mafiaCount: 3, citizenCount: 3, policeCount: 1, doctorCount: 1 },
-  player9Count: { mafiaCount: 3, citizenCount: 4, policeCount: 1, doctorCount: 1 },
-  player10Count: { mafiaCount: 3, citizenCount: 4, policeCount: 1, doctorCount: 1 }
 };
 
 //NOTE - 현재 방 각 역할 인원 수
