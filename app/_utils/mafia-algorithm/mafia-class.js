@@ -61,3 +61,17 @@ class Police extends Citizen {
     }
   }
 }
+
+class Doctor extends Citizen {
+  constructor(citizen) {
+    super(citizen.userId, citizen.userNickname, citizen.index);
+    this.role = "의사";
+  }
+
+  //NOTE - 의사가 시민 살림, setRoles 따로 처리
+  savePlayer(player) {
+    player.isLived = true;
+
+    return player;
+  }
+}
