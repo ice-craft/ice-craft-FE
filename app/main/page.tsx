@@ -9,23 +9,23 @@ import S from "@/app/_style/mainPage/main.module.css";
 const Mainpage = () => {
   return (
     <main className={S.main}>
-      <div className={S.mainWrap}>
-        <section className={S.visualSection}>
-          <div className={S.visual}>
-            <ul>
-              <li>
-                <Image src={MafiaVisual} alt="mafia_visual" />
-              </li>
-            </ul>
+      <section className={S.visualSection}>
+        <div className={S.visual}>
+          <ul>
+            <li>
+              <Image src={MafiaVisual} alt="mafia_visual" />
+            </li>
+          </ul>
+        </div>
+        <div className={S.gameTitle}>
+          <h2>Mafia Game</h2>
+          <div className={S.gameButton}>
+            <button>Game Start</button>
+            <button>More Info</button>
           </div>
-          <div className={S.gameTitle}>
-            <h2>Mafia Game</h2>
-            <div className={S.gameButton}>
-              <button>Game Start</button>
-              <button>More Info</button>
-            </div>
-          </div>
-        </section>
+        </div>
+      </section>
+      <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
@@ -50,6 +50,40 @@ const Mainpage = () => {
                   <p>1/5</p>
                 </div>
               </div>
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p>#마피아</p>
+                  <p>1/5</p>
+                </div>
+              </div>
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p>#마피아</p>
+                  <p>1/5</p>
+                </div>
+              </div>
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p>#마피아</p>
+                  <p>1/5</p>
+                </div>
+              </div>
+              <button className={S.gotoButton}>입장하기</button>
             </li>
           </ul>
         </section>
