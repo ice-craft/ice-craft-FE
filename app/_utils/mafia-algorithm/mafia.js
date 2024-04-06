@@ -110,6 +110,11 @@ const setRoles = (players, roles) => {
   });
 };
 
+//NOTE - 플레이어에게 다른 플레이어의 역할 공개
+const openPlayerRole = (clientIndex, playerIndex, roleName) => {
+  console.log(`${clientIndex} 클라이언트의 ${playerIndex}의 역할은 ${roleName}입니다.`);
+};
+
 //NOTE - 게임 시작
 const gameStart = () => {
   console.log("게임 시작");
@@ -421,7 +426,7 @@ let isPlayerMafia;
 let choiceToExit;
 
 const gamePlay = () => {
-  userCount = 8; //NOTE - 방 유저 정원 5명 결정
+  userCount = 8; //NOTE - 방 유저 정원 8명 결정
 
   roomComposition = moderator.getRoomComposition(userCount); //NOTE - 현재 방 인원 수에 대한 역할 인원 수 반환
 
@@ -488,6 +493,13 @@ const gamePlay = () => {
 
   moderator.speak("마피아를 뽑겠습니다.");
   console.log("마피아 뽑음");
+
+  //NOTE - 마피아 유저들에게 자신이 마피아인 것을 알리고 마피아인 유저가 누구인지 공개
+  mafiaIndexes.forEach((clientIndex) => {
+    mafiaIndexes.forEach((playerIndex) => {
+      moderator.openPlayerRole(clientIndex, playerIndex, "mafia");
+    });
+  });
 
   moderator.speak("마피아 들은 고개를 들어 서로를 확인해 주세요.");
   mafiaIndexes = roles["마피아"]; //NOTE - 마피아 플레이어들
