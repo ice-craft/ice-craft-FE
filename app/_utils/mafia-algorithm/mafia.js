@@ -407,11 +407,11 @@ let userCount = -1;
 //NOTE - 역할이 마피아인 플레이어 인덱스 목록
 let mafiaIndexes;
 
-//NOTE - 역할이 의사인 플레이어 인덱스 목록
-let doctorIndexes;
+//NOTE - 역할이 의사인 플레이어 인덱스
+let doctorIndex;
 
-//NOTE - 역할이 경찰인 플레이어 인덱스 목록
-let policeIndexes;
+//NOTE - 역할이 경찰인 플레이어 인덱스
+let policeIndex;
 
 //NOTE - 역할이 시민인 플레이어 인덱스 목록
 let citizenIndexes;
@@ -497,7 +497,7 @@ const gamePlay = () => {
   //NOTE - 마피아 유저들에게 자신이 마피아인 것을 알리고 마피아인 유저가 누구인지 공개
   mafiaIndexes.forEach((clientIndex) => {
     mafiaIndexes.forEach((playerIndex) => {
-      moderator.openPlayerRole(clientIndex, playerIndex, "mafia");
+      moderator.openPlayerRole(clientIndex, playerIndex, "마피아");
     });
   });
 
