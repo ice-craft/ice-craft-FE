@@ -8,6 +8,7 @@ const useOverlayStore = create<OverlayState>((set) => ({
 
   setActiveParticipant: (sid: string | null, index: number | null) =>
     set({ activeParticipantSid: sid, activeParticipantIndex: index }),
+
   toggleOverlay: (participantSid, index) =>
     set((state) => {
       if (state.activeParticipantSid === participantSid) {
@@ -20,7 +21,9 @@ const useOverlayStore = create<OverlayState>((set) => ({
           activeParticipantIndex: index
         };
       }
-    })
+    }),
+
+  clearActiveParticipant: () => set({ activeParticipantSid: null, activeParticipantIndex: null })
 }));
 
 export default useOverlayStore;
