@@ -13,7 +13,9 @@ export interface Participants {
   checkClickHandle: (event: any, participantSid: string) => void;
 }
 
-export interface activeState {
-  isToggle: boolean;
-  setIsToggle: (a: boolean) => void;
+export interface OverlayState {
+  showOverlay: string | null;
+  activeParticipantSid: string | null;
+  setActiveParticipantSid: (sid: string | null) => void;
+  toggleOverlay: (participantSid: string) => void;
 }

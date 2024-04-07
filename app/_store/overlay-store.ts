@@ -1,11 +1,5 @@
 import { create } from "zustand";
-
-interface OverlayState {
-  showOverlay: string | null;
-  activeParticipantSid: string | null;
-  setActiveParticipantSid: (sid: string | null) => void;
-  toggleOverlay: (participantSid: string) => void;
-}
+import { OverlayState } from "../_types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
   showOverlay: null,
