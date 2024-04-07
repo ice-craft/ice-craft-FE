@@ -16,9 +16,15 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
     <div className={S.localParticipant}>
       <h2>05 : 00</h2>
       {localTracks.map((track) => (
-        <div className={S.participantOverlay} onClick={(e) => checkClickHandle(e, track.participant.sid)}>
-          <ParticipantTile key={track.participant.sid} trackRef={track} />
-          <Image src={CamCheck} alt={track.participant.sid} />
+        <div
+          key={track.participant.sid}
+          className={S.participantOverlay}
+          onClick={(e) => checkClickHandle(e, track.participant.sid)}
+        >
+          <ParticipantTile trackRef={track} className={S.localCam} />
+          <div className={S.imageOverlay}>
+            <Image src={CamCheck} alt={track.participant.sid} />
+          </div>
         </div>
       ))}
       <button>START</button>

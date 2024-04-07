@@ -34,13 +34,27 @@
   position: relative;
 }
 
-.participantOverlay > img {
+.localCam {
+  cursor: pointer;
+}
+
+.imageOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  top: 0;
+  z-index: 1;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.imageOverlay > img {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .remoteParticipant {
@@ -56,7 +70,10 @@
 .remoteCam {
   width: 32.5%;
   height: 30%;
+  cursor: pointer;
 }
+
+
 
 /*-------------- Respansive ----------------*/
 @media (max-width: 1430px) {
