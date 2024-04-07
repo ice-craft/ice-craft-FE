@@ -8,13 +8,14 @@ import React from "react";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const timer = useCountDown(60);
+  // const timer = useCountDown(60);
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
+  console.log("렌더링");
 
   return (
     <div className={S.localParticipant}>
-      <h2>{timer}</h2>
+      {/* <h2>{timer}</h2> */}
       {localTracks.map((track) => (
         <div
           key={track.participant.sid}
