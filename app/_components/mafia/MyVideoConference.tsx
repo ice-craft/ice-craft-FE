@@ -13,7 +13,7 @@ const MyVideoConference = () => {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false }
+      { source: Track.Source.Microphone, withPlaceholder: true }
     ],
     { onlySubscribed: false }
   );
@@ -33,7 +33,7 @@ const MyVideoConference = () => {
     <section className={S.section}>
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
-      <MafiaToolTip />
+      <MafiaToolTip role="mafia" />
     </section>
   );
 };
