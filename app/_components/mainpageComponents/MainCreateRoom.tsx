@@ -1,30 +1,52 @@
-import React from "react";
+import React, { useState, FormEvent } from "react";
 import S from "@/app/_style/modal/modal.module.css";
 import { useModalStore } from "@/app/_store/modal-store";
+import { useRouter } from "next/router";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
-  const closeModalHandler = (e: any) => {
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [roomTitle, setRoomTitle] = useState<string>("");
+  const [numberOfPlayers, setNumberOfPlayers] = useState<number | null>(null);
+  const router = useRouter();
+
+  const closeModalHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       setIsModal(false);
     }
   };
+
+  const createRoomSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedGame && roomTitle && numberOfPlayers) {
+      router.push(`/selectedGame/${selectedGame}?roomTitle=${roomTitle}&numberOfPlayers=${numberOfPlayers}`);
+    }
+  };
+
   return (
     <div className={S.modalWrap} onClick={closeModalHandler}>
       <div className={S.modal}>
         <div className="MainCreateRoom">
           <div className="MainCreateRoom-content">
-            <h2>게임을 선택해주세요</h2>
-            <p>게임 고르기</p>
-            <button>마피아</button>
-            <button>노래 맞추기</button>
-            <p>방제목</p>
-            <input type="text" />
-            <p>인원수</p>
-            {/* 인원수 선택 드랍다운 */}
-            <button>인원수를 선택하세요</button>
-            <button onClick={() => setIsModal(false)}>닫기</button>
-            <button>확인</button>
+            <form onSubmit={createRoomSubmitHandler}>
+              <h2>게임을 선택해주세요</h2>
+              <p>게임 고르기</p>
+              <button onClick={() => setSelectedGame("마피아")}>마피아</button>
+              <button onClick={() => setSelectedGame("노래 맞추기")}>노래 맞추기</button>
+              <p>방제목</p>
+              <input type="text" value={roomTitle} onChange={(e) => setRoomTitle(e.target.value)} />
+              <p>인원수</p>
+              <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
+                <option value="5">5명</option>
+                <option value="6">6명</option>
+                <option value="7">7명</option>
+                <option value="8">8명</option>
+                <option value="9">9명</option>
+                <option value="10">10명</option>
+              </select>
+              <button onClick={() => setIsModal(false)}>닫기</button>
+              <button type="submit">확인</button>
+            </form>
           </div>
         </div>
       </div>
