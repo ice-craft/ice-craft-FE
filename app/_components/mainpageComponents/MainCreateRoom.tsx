@@ -1,13 +1,15 @@
 import React, { useState, FormEvent } from "react";
 import S from "@/app/_style/modal/modal.module.css";
 import { useModalStore } from "@/app/_store/modal-store";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [roomTitle, setRoomTitle] = useState<string>("");
   const [numberOfPlayers, setNumberOfPlayers] = useState<number | null>(null);
+  // 임시 닉네임
+  const [nickname, setNickname] = useState<string>("");
   const router = useRouter();
 
   const closeModalHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -19,7 +21,7 @@ const MainCreateRoom = () => {
   const createRoomSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedGame && roomTitle && numberOfPlayers) {
-      router.push(`/selectedGame/${selectedGame}?roomTitle=${roomTitle}&numberOfPlayers=${numberOfPlayers}`);
+      router.push(`/room/${roomTitle}?room=${roomTitle}&name=${nickname}`);
     }
   };
 
@@ -35,6 +37,8 @@ const MainCreateRoom = () => {
               <button onClick={() => setSelectedGame("노래 맞추기")}>노래 맞추기</button>
               <p>방제목</p>
               <input type="text" value={roomTitle} onChange={(e) => setRoomTitle(e.target.value)} />
+              {/* 임시 닉네임 */}
+              <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
               <p>인원수</p>
               <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
                 <option value="5">5명</option>
