@@ -22,9 +22,9 @@ const MyVideoConference = () => {
     const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
   */
 
-  const checkClickHandle = (event: any, participantSid: any) => {
+  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => {
     event.stopPropagation();
-    toggleOverlay(participantSid);
+    toggleOverlay(participantSid, index);
   };
 
   return (

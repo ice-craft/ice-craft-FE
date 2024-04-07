@@ -4,14 +4,22 @@ import { OverlayState } from "../_types";
 const useOverlayStore = create<OverlayState>((set) => ({
   showOverlay: null,
   activeParticipantSid: null,
-  setActiveParticipantSid: (sid) => set({ activeParticipantSid: sid }),
-  toggleOverlay: (participantSid) =>
+  activeParticipantIndex: null,
+
+  setActiveParticipant: (sid: string | null, index: number | null) =>
+    set({ activeParticipantSid: sid, activeParticipantIndex: index }),
+  toggleOverlay: (participantSid, index) =>
     set((state) => {
-      const isSameParticipant = state.activeParticipantSid === participantSid;
-      return {
-        showOverlay: isSameParticipant ? null : participantSid,
-        activeParticipantSid: isSameParticipant ? null : participantSid
-      };
+      if (state.activeParticipantSid === participantSid) {
+        return { ...state };
+      } else {
+        return {
+          ...state,
+          showOverlay: participantSid,
+          activeParticipantSid: participantSid,
+          activeParticipantIndex: index
+        };
+      }
     })
 }));
 
