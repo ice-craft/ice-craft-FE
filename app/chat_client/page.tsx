@@ -10,6 +10,7 @@ const ChatClient = () => {
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    write("test");
   };
 
   const connect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -26,9 +27,7 @@ const ChatClient = () => {
     setDisplay((prev) => `${prev}\n${line}`);
   };
 
-  useEffect(() => {
-    socket.connect();
-  }, []);
+  useEffect(() => {}, []);
 
   socket.on("connect", () => {
     write("서버와 연결되었습니다.");
@@ -44,6 +43,7 @@ const ChatClient = () => {
         value={display}
         id="message"
         className="w-2/3 border-2 border-black border-solid h-3/3"
+        rows={30}
         readOnly
       ></textarea>
       <form id="form" action="">
