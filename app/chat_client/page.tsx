@@ -10,7 +10,8 @@ const ChatClient = () => {
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    write("test");
+
+    socket.emit(eventName, message);
   };
 
   const connect = () => {
@@ -32,6 +33,19 @@ const ChatClient = () => {
 
     socket.on("disconnect", () => {
       write("서버와 연결이 끊어졌습니다.");
+    });
+
+    socket.on("server", (message: string) => {
+      write(message);
+    });
+
+    socket.on("connect_error", (error) => {
+      if (socket.active) {
+        write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
+      } else {
+        write("서버와의 연결이 끊어졌습니다.\n다시 접속하십시오.");
+        console.log(error.message);
+      }
     });
   }, []);
 
