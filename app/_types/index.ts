@@ -21,6 +21,6 @@ export interface OverlayState {
 }
 
 export type Role = "citizens" | "mafia" | "doctor" | "police";
-export interface MafiaToolTip {
+export interface MafiaGameToolTip {
   role: Role;
 }

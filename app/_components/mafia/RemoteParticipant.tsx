@@ -9,7 +9,9 @@ import useOverlayStore from "@/app/_store/overlay-store";
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid } = useOverlayStore();
-  const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.sid);
+
+  const cameraTracks = tracks.filter((track) => track.source === "camera");
+  const remoteTracks = cameraTracks.filter((track) => track.participant.sid !== localParticipant.sid);
 
   return (
     <div className={S.remoteParticipant}>
