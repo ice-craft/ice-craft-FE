@@ -4,9 +4,10 @@ export interface MafiaRoom {
   room: string;
   name: string;
 }
+
 export interface ModalState {
   isModal: boolean;
-  setIsModal: (a: boolean) => void;
+  setIsModal: (newModal: boolean) => void;
 }
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
@@ -23,4 +24,17 @@ export interface OverlayState {
 export type Role = "citizens" | "mafia" | "doctor" | "police";
 export interface MafiaGameToolTip {
   role: Role;
+}
+
+export interface MafiaModalContent {
+  count: number;
+  content: string;
+  nickname?: string;
+}
+
+export interface CountState {
+  isStart: boolean;
+  timer: number;
+  setTimer: (newCount: number) => void;
+  setIsStart: (newToggle: boolean) => void;
 }

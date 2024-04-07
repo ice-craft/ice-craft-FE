@@ -1,10 +1,10 @@
+import useOverlayStore from "@/app/_store/overlay-store";
+import S from "@/app/_style/livekit/livekit.module.css";
 import { useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import LocalParticipant from "./LocalParticipant";
-import RemoteParticipant from "./RemoteParticipant";
-import S from "@/app/_style/livekit/livekit.module.css";
-import useOverlayStore from "@/app/_store/overlay-store";
 import MafiaToolTip from "./MafiaToolTip";
+import RemoteParticipant from "./RemoteParticipant";
 
 const MyVideoConference = () => {
   const { toggleOverlay } = useOverlayStore();
