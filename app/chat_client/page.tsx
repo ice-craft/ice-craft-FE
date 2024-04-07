@@ -6,23 +6,30 @@ import { socket } from "@/app/_utils/socket/socket";
 const ChatClient = () => {
   const [eventName, setEventName] = useState("");
   const [message, setMessage] = useState("");
+  const [display, setDisplay] = useState("");
 
-  useEffect(() => {
-    console.log("first");
-    socket.disconnect();
-  }, []);
+  const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+  };
+
+  useEffect(() => {}, []);
 
   socket.on("connect", () => {
-    console.log("연결됨");
+    setDisplay((prev) => `${prev}\n서버와 연결 됨`);
   });
 
   socket.on("disconnect", () => {
-    console.log("연결 종료");
+    setDisplay((prev) => `${prev}\n서버와 연결 끊김`);
   });
 
   return (
     <>
-      <textarea id="message" className="w-2/3 border-2 border-black border-solid h-3/3"></textarea>
+      <textarea
+        value={display}
+        onChange={(e) => setDisplay(e.target.value)}
+        id="message"
+        className="w-2/3 border-2 border-black border-solid h-3/3"
+      ></textarea>
       <form id="form" action="">
         <input
           value={eventName}
@@ -39,7 +46,9 @@ const ChatClient = () => {
           maxLength={100}
           className="border-2 border-black border-solid"
         />
-        <button className="border-2 border-black border-solid">보내기</button>
+        <button className="border-2 border-black border-solid" onClick={(e) => sendHandler(e)}>
+          보내기
+        </button>
       </form>
     </>
   );
