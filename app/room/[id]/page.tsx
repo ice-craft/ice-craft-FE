@@ -12,7 +12,6 @@ const RoomPage = () => {
   const tracks = useTracks();
   const { isModal, setIsModal } = useModalStore();
   const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
-  const context = "밤이 시작되었습니다.";
 
   const sources = tracks.map((item) => {
     return item.source;
@@ -99,7 +98,7 @@ const RoomPage = () => {
       </div>
 
       <MyVideoConference />
-      {isModal ? <MafiaModal context={context} /> : null}
+      {isModal ? <MafiaModal /> : null}
     </>
   );
 };

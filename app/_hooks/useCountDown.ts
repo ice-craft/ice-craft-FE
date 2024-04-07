@@ -11,7 +11,7 @@ export const useCountDown = (initialTime: number) => {
       timer--;
       setCount((prev) => prev - 1);
 
-      if (timer === -1) {
+      if (timer === 0) {
         setIsModal(false);
         setCount(0);
         clearInterval(intervalId);
