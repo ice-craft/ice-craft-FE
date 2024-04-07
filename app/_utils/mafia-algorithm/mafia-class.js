@@ -276,22 +276,22 @@ class Moderator {
 
   //NOTE - 사회자가 플레이어의 카메라를 켬
   turnOnCamera(clientPlayer, cameraPlayer) {
-    console.log(`${clientPlayer.userNickname} 클라이언트의 ${cameraPlayer} 카메라 켬`);
+    console.log(`${clientPlayer.userNickname} 클라이언트의 ${cameraPlayer.userNickname} 카메라 켬`);
   }
 
   //NOTE - 사회자가 플레이어의 카메라를 끔
   turnOffCamera(clientPlayer, cameraPlayer) {
-    console.log(`${clientPlayer.userNickname} 클라이언트의 ${cameraPlayer} 카메라 끔`);
+    console.log(`${clientPlayer.userNickname} 클라이언트의 ${cameraPlayer.userNickname} 카메라 끔`);
   }
 
   //NOTE - 사회자가 플레이어의 마이크를 켬
   turnOnMike(clientPlayer, mikePlayer) {
-    console.log(`${clientPlayer} 클라이언트의 ${mikePlayer} 마이크 켬`);
+    console.log(`${clientPlayer.userNickname} 클라이언트의 ${mikePlayer.userNickname} 마이크 켬`);
   }
 
   //NOTE - 사회자가 플레이어의 마이크를 끔
   turnOffMike(clientPlayer, mikePlayer) {
-    console.log(`${clientPlayer} 클라이언트의 ${mikePlayer} 마이크 끔`);
+    console.log(`${clientPlayer.userNickname} 클라이언트의 ${mikePlayer.userNickname} 마이크 끔`);
   }
 
   //NOTE - 어느 팀이 이겼는지 결과 반환
