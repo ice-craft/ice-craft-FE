@@ -17,6 +17,7 @@ const RoomPage = () => {
   const sources = tracks.map((item) => {
     return item.source;
   });
+
   const ParticipantTrack = useParticipantTracks(sources, "identity");
 
   //토큰을 별도로 저장하고 있지 않기에 임시로 route 변경
