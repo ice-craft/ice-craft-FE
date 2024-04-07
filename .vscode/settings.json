@@ -1,11 +1,13 @@
 {
   "cSpell.words": [
+    "Intropage",
     "livekit",
     "Mainpage",
     "Rankingpage",
     "Roombutton",
     "tanstack",
-    "toastify"
+    "toastify",
+    "zustand"
   ],
   "git.ignoreLimitWarning": true
 }

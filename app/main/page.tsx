@@ -2,7 +2,6 @@ import React from "react";
 import RoomButton from "../_components/mainpageComponents/Roombutton";
 import Link from "next/link";
 import Image from "next/image";
-import MafiaVisual from "@/public/images/mafia_visual.png";
 import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/app/_style/mainPage/main.module.css";
 
@@ -10,19 +9,18 @@ const Mainpage = () => {
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
-        <div className={S.visual}>
-          <ul>
-            <li>
-              <Image src={MafiaVisual} alt="mafia_visual" />
+        <div>
+          <ul className={S.gameList}>
+            <li className={S.mafiaImage}>
+              <div className={S.gameTitle}>
+                <h2>Mafia Game</h2>
+                <div className={S.gameButton}>
+                  <button>Game Start</button>
+                  <button>More Info</button>
+                </div>
+              </div>
             </li>
           </ul>
-        </div>
-        <div className={S.gameTitle}>
-          <h2>Mafia Game</h2>
-          <div className={S.gameButton}>
-            <button>Game Start</button>
-            <button>More Info</button>
-          </div>
         </div>
       </section>
       <div className={S.roomSectionWrap}>

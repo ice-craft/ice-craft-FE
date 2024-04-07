@@ -1,0 +1,81 @@
+.section {
+  display: flex;
+  height: 100vh;
+}
+
+.localParticipant {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  background-color: #fff;
+  padding: 0 100px;
+}
+
+.localParticipant h2 {
+  font-size: 40px;
+  border: 1px solid #bfbfbf;
+  padding: 5px 50px;
+  border-radius: 100px;
+  color: #111;
+  white-space: nowrap;
+}
+
+.localParticipant button {
+  font-size: 24px;
+  background-color: #bfbfbf;
+  padding: 5px 50px;
+  border-radius: 100px;
+}
+
+.participantOverlay {
+  position: relative;
+}
+
+.localCam {
+  cursor: pointer;
+}
+
+.imageOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  top: 0;
+  z-index: 1;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.imageOverlay > img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.remoteParticipant {
+  flex: 2;
+  padding: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.remoteCam {
+  width: 32.5%;
+  height: 30%;
+  cursor: pointer;
+}
+
+/*-------------- Respansive ----------------*/
+@media (max-width: 1430px) {
+  .remoteCam {
+    width: 30%;
+  }
+}
