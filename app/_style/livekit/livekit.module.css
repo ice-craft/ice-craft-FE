@@ -109,9 +109,9 @@
 
 /*-------------- ToolTipIcon ----------------*/
 .toolTipWrap {
-  position: fixed;
-  left: 35px;
-  bottom: 5%;
+  position: absolute;
+  left: 100px;
+  bottom: 35px;
   color: #111;
 }
 
