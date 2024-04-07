@@ -1,15 +1,13 @@
-import useVideoStore from "@/app/_store/video-store";
-import { Participants } from "@/app/_types";
-import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
-import React from "react";
 import S from "@/app/_style/livekit/livekit.module.css";
-import useOverlayStore from "@/app/_store/overlay-store";
+import { Participants } from "@/app/_types";
 import CamCheck from "@/public/images/cam_check.png";
+import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
+import React from "react";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  // const { tracks } = useVideoStore();
+
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
   return (

@@ -1,13 +1,11 @@
-import { useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
+import useOverlayStore from "@/app/_store/overlay-store";
+import S from "@/app/_style/livekit/livekit.module.css";
+import { useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import LocalParticipant from "./LocalParticipant";
 import RemoteParticipant from "./RemoteParticipant";
-import useVideoStore from "@/app/_store/video-store";
-import S from "@/app/_style/livekit/livekit.module.css";
-import useOverlayStore from "@/app/_store/overlay-store";
 
 const MyVideoConference = () => {
-  const { setTracks } = useVideoStore();
   // 전체 데이터
   const tracks = useTracks(
     [
