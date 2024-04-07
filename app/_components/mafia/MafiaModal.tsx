@@ -8,11 +8,11 @@ const MafiaModal = ({ context }: { context: string }) => {
   return (
     <>
       <div className={S.modalWrap}>
-        <div className="flex flex-col justify-center items-center bg-white p-5 border border-solid border-gray-300 rounded-lg">
-          <div className="w-96 h-96 p-5 block">
-            <p></p>
-            <h2 className="text-6xl text-black"> {context}</h2>
-            <p className="text-6xl text-black"> {count}</p>
+        <div className={S.modal}>
+          <div>
+            <h1>첫번째 턴</h1>
+            <h2>{context}</h2>
+            <p>{count}</p>
           </div>
         </div>
       </div>
