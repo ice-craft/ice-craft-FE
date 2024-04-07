@@ -21,6 +21,11 @@ export interface OverlayState {
   toggleOverlay: (participantSid: string, index: number) => void;
 }
 
+export type Role = "citizens" | "mafia" | "doctor" | "police";
+export interface MafiaGameToolTip {
+  role: Role;
+}
+
 export interface MafiaModalContent {
   count: number;
   content: string;

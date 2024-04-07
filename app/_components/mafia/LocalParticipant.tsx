@@ -24,7 +24,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
       <h2>05 : 00</h2>
       {localTracks.map((track, index) => (
         <div
-          key={track.participant.sid}
+          key={`${track.participant.sid}-${index}`}
           className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
           onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
         >
