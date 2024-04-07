@@ -73,8 +73,6 @@
   cursor: pointer;
 }
 
-
-
 /*-------------- Respansive ----------------*/
 @media (max-width: 1430px) {
   .remoteCam {
