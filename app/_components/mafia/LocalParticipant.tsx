@@ -1,4 +1,3 @@
-import useVideoStore from "@/app/_store/video-store";
 import { Participants } from "@/app/_types";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import React from "react";
