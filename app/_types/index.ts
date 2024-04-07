@@ -18,3 +18,9 @@ export interface activeState {
   isToggle: boolean;
   setIsToggle: (a: boolean) => void;
 }
+
+export interface MafiaModalContent {
+  count: number;
+  content: string;
+  nickname?: string;
+}
