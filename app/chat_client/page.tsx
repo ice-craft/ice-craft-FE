@@ -25,15 +25,15 @@ const ChatClient = () => {
     setDisplay((prev) => `${prev}\n${line}`);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    socket.on("connect", () => {
+      write("서버와 연결되었습니다.");
+    });
 
-  socket.on("connect", () => {
-    write("서버와 연결되었습니다.");
-  });
-
-  socket.on("disconnect", () => {
-    write("서버와 연결이 끊어졌습니다.");
-  });
+    socket.on("disconnect", () => {
+      write("서버와 연결이 끊어졌습니다.");
+    });
+  }, []);
 
   return (
     <>
