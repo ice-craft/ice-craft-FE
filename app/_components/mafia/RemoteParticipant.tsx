@@ -15,7 +15,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
     <div className={S.remoteParticipant}>
       {remoteTracks.map((track, index) => (
         <div
-          key={track.participant.sid}
+          key={`${track.participant.sid}-${index}`}
           className={`${S.remoteParticipantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
           onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
         >

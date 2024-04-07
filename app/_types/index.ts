@@ -19,3 +19,8 @@ export interface OverlayState {
   setActiveParticipant: (sid: string | null, index: number | null) => void;
   toggleOverlay: (participantSid: string, index: number) => void;
 }
+
+export type Role = "citizens" | "mafia" | "doctor" | "police";
+export interface MafiaToolTip {
+  role: Role;
+}
