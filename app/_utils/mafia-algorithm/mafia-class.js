@@ -549,7 +549,7 @@ const gamePlay = () => {
     }
   }
 
-  moderator.dayOver(); //NOTE - 아침 종료
+  moderator.morningOver(); //NOTE - 아침 종료
   moderator.nightStart(); //NOTE - 밤이 시작됨
 
   //NOTE - 모든 유저들 화상 카메라와 마이크만 끔
@@ -601,7 +601,7 @@ const gamePlay = () => {
 
   //NOTE - 경찰이 살아있을 경우
   if (moderator.roles["경찰"] !== undefined) {
-    policePlayer = roles["경찰"];
+    policePlayer = moderator.roles["경찰"];
 
     isPlayerMafia = policePlayer.checkPlayerMafia(moderator.players[0]); //NOTE - 0번 인덱스 플레이어가 마피아인지 의심
 
@@ -643,7 +643,7 @@ const gamePlay = () => {
   if (choiceToExit) {
     killedPlayer.exit(); //NOTE - 플레이어는 방을 나감, 중간에 나가는 경우에도 사용할 수 있음
   }
-  moderator.dayOver(); //NOTE - 아침 종료
+  moderator.morningOver(); //NOTE - 아침 종료
   moderator.roundOver(); //NOTE - 라운드 종료
 
   if (moderator.whoWins.isValid) {
