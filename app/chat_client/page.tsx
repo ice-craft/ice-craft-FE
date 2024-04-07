@@ -12,23 +12,29 @@ const ChatClient = () => {
     e.preventDefault();
   };
 
-  useEffect(() => {}, []);
+  const write = (line: string) => {
+    setDisplay((prev) => `${prev}\n${line}`);
+  };
+
+  useEffect(() => {
+    socket.connect();
+  }, []);
 
   socket.on("connect", () => {
-    setDisplay((prev) => `${prev}\n서버와 연결 됨`);
+    write("연결");
   });
 
   socket.on("disconnect", () => {
-    setDisplay((prev) => `${prev}\n서버와 연결 끊김`);
+    write("연결 끊김");
   });
 
   return (
     <>
       <textarea
         value={display}
-        onChange={(e) => setDisplay(e.target.value)}
         id="message"
         className="w-2/3 border-2 border-black border-solid h-3/3"
+        readOnly
       ></textarea>
       <form id="form" action="">
         <input
