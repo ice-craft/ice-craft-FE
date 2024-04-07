@@ -48,6 +48,7 @@
   z-index: 1;
   border-radius: 8px;
   cursor: pointer;
+  display: none;
 }
 
 .imageOverlay > img {
@@ -75,7 +76,7 @@
 
 .remoteParticipantOverlay > .remoteCam {
   width: 100%;
-  height:100%;
+  height: 100%;
   cursor: pointer;
 }
 
@@ -89,7 +90,7 @@
   z-index: 1;
   border-radius: 8px;
   cursor: pointer;
-
+  display: none;
 }
 
 .remoteOverlay > img {
@@ -97,6 +98,11 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.remoteParticipantOverlay.active .remoteOverlay,
+.participantOverlay.active .imageOverlay {
+  display: block;
 }
 
 /*-------------- Respansive ----------------*/

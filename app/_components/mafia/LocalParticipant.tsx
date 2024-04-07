@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  // const { tracks } = useVideoStore();
+  const { activeParticipantSid } = useOverlayStore();
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
   return (
@@ -18,7 +18,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
       {localTracks.map((track) => (
         <div
           key={track.participant.sid}
-          className={S.participantOverlay}
+          className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
           onClick={(e) => checkClickHandle(e, track.participant.sid)}
         >
           <ParticipantTile trackRef={track} className={S.localCam} />
