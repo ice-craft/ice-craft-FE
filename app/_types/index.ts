@@ -11,12 +11,14 @@ export interface ModalState {
 }
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
-  checkClickHandle: (event: any, participantSid: string) => void;
+  checkClickHandle: (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => void;
 }
-
-export interface activeState {
-  isToggle: boolean;
-  setIsToggle: (a: boolean) => void;
+export interface OverlayState {
+  showOverlay: string | null;
+  activeParticipantSid: string | null;
+  activeParticipantIndex: number | null;
+  setActiveParticipant: (sid: string | null, index: number | null) => void;
+  toggleOverlay: (participantSid: string, index: number) => void;
 }
 
 export interface MafiaModalContent {
