@@ -113,6 +113,21 @@
   left: 100px;
   bottom: 35px;
   color: #111;
+  cursor: pointer;
+}
+
+.toolTipWrap li {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.toolTipWrap li p {
+  display: none;
+}
+
+.toolTipWrap li:hover p {
+  display: block;
 }
 
 /*-------------- Respansive ----------------*/
