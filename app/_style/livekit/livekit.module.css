@@ -46,7 +46,7 @@
   left: 0;
   top: 0;
   z-index: 1;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -67,10 +67,36 @@
   align-items: center;
 }
 
-.remoteCam {
+.remoteParticipantOverlay {
+  position: relative;
   width: 32.5%;
   height: 30%;
+}
+
+.remoteParticipantOverlay > .remoteCam {
+  width: 100%;
+  height:100%;
   cursor: pointer;
+}
+
+.remoteOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  top: 0;
+  z-index: 1;
+  border-radius: 8px;
+  cursor: pointer;
+
+}
+
+.remoteOverlay > img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /*-------------- Respansive ----------------*/
