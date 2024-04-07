@@ -1,11 +1,7 @@
 import { create } from "zustand";
+import { ModalState } from "../_types";
 
-type modalState = {
-  isModal: boolean;
-  setIsModal: (a: boolean) => void;
-};
-
-export const useModalStore = create<modalState>((set) => ({
+export const useModalStore = create<ModalState>((set) => ({
   isModal: false,
 
   setIsModal: (newToggle: boolean) => set({ isModal: newToggle })
