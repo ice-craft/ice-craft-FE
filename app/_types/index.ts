@@ -10,4 +10,10 @@ export interface ModalState {
 }
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
+  checkClickHandle: (event: any, participantSid: string) => void;
+}
+
+export interface activeState {
+  isToggle: boolean;
+  setIsToggle: (a: boolean) => void;
 }

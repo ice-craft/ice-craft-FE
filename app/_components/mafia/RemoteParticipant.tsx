@@ -3,7 +3,7 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import React from "react";
 import S from "@/app/_style/livekit/livekit.module.css";
 
-const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
+const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const remoteTracks = tracks.filter((track) => track.participant.sid !== localParticipant.sid);
 
