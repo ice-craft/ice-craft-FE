@@ -1,11 +1,16 @@
+"use client";
 import React from "react";
 import RoomButton from "../_components/mainpageComponents/Roombutton";
 import Link from "next/link";
 import Image from "next/image";
 import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/app/_style/mainPage/main.module.css";
+import { useModalStore } from "../_store/modal-store";
+import MainCreateRoom from "../_components/mainpageComponents/MainCreateRoom";
+import Modal from "../_utils/modal/modal";
 
 const Mainpage = () => {
+  const { isModal, setIsModal } = useModalStore();
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -34,7 +39,10 @@ const Mainpage = () => {
               </div>
               <div className={S.gameGoButton}>
                 <Link href="/">빠른입장</Link>
-                <Link href="/">방 만들기</Link>
+                <div>
+                  <button onClick={() => setIsModal(true)}>방 만들기</button>
+                </div>
+                {isModal ? <MainCreateRoom /> : null}
               </div>
             </div>
           </div>
