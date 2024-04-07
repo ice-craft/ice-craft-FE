@@ -14,7 +14,10 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const { activeParticipantSid } = useOverlayStore();
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
-  const startGameHandler = () => {};
+  const startGameHandler = () => {
+    allCamOff(tracks);
+    setIsModal(true);
+  };
 
   return (
     <div className={S.localParticipant}>
