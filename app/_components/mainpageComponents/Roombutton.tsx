@@ -12,7 +12,7 @@ const RoomButton = () => {
 
   const SubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/room/room?room=${room}&name=${name}`);
+    router.push(`/room/${room}?room=${room}&name=${name}`);
   };
 
   return (

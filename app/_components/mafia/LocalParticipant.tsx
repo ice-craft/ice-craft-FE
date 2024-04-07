@@ -1,4 +1,6 @@
+import { allCamOff } from "@/app/_utils/participantCamSettings/camSetting";
 import { useCountDown } from "@/app/_hooks/useCountDown";
+import { useModalStore } from "@/app/_store/modal-store";
 import S from "@/app/_style/livekit/livekit.module.css";
 import { Participants } from "@/app/_types";
 import CamCheck from "@/public/images/cam_check.png";
@@ -7,15 +9,21 @@ import Image from "next/image";
 import React from "react";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
+  const { setIsModal } = useModalStore();
+  let initialTime = 0;
+  const timer = useCountDown(initialTime);
   const { localParticipant } = useLocalParticipant();
-  // const timer = useCountDown(60);
+
+  const startGameHandler = () => {
+    allCamOff(tracks);
+    setIsModal(true);
+  };
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
-  console.log("렌더링");
 
   return (
     <div className={S.localParticipant}>
-      {/* <h2>{timer}</h2> */}
+      {timer > 0 ? <h2>{timer}</h2> : null}
       {localTracks.map((track) => (
         <div
           key={track.participant.sid}
@@ -28,7 +36,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           </div>
         </div>
       ))}
-      <button>START</button>
+      <button onClick={startGameHandler}>START</button>
     </div>
   );
 };

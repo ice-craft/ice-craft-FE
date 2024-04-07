@@ -13,6 +13,10 @@ const MafiaModal = () => {
   const agreeClickHandler = () => {};
 
   const oppositionClickHandler = () => {};
+
+  if (timer == 100) {
+  }
+
   return (
     <>
       <div className={S.modalWrap}>
@@ -20,7 +24,7 @@ const MafiaModal = () => {
           <div>
             <h1>첫번째 턴</h1>
             <h2>{content}</h2>
-            <p>{count}</p>
+            <p>{timer}</p>
           </div>
         </div>
       </div>
