@@ -108,8 +108,12 @@
 }
 
 /*-------------- ToolTipIcon ----------------*/
-
-
+.toolTipWrap {
+  position: fixed;
+  left: 35px;
+  bottom: 5%;
+  color: #111;
+}
 
 /*-------------- Respansive ----------------*/
 @media (max-width: 1430px) {

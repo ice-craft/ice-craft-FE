@@ -4,6 +4,7 @@ import LocalParticipant from "./LocalParticipant";
 import RemoteParticipant from "./RemoteParticipant";
 import S from "@/app/_style/livekit/livekit.module.css";
 import useOverlayStore from "@/app/_store/overlay-store";
+import MafiaToolTip from "./MafiaToolTip";
 
 const MyVideoConference = () => {
   const { toggleOverlay } = useOverlayStore();
@@ -32,6 +33,7 @@ const MyVideoConference = () => {
     <section className={S.section}>
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
+      <MafiaToolTip />
     </section>
   );
 };
