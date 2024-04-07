@@ -13,13 +13,11 @@ const ChatClient = () => {
     write("test");
   };
 
-  const connect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const connect = () => {
     socket.connect();
   };
 
-  const disconnect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  const disconnect = () => {
     socket.disconnect();
   };
 
@@ -65,10 +63,10 @@ const ChatClient = () => {
         <button type="submit" className="border-2 border-black border-solid" onClick={(e) => sendHandler(e)}>
           보내기
         </button>
-        <button className="border-2 border-black border-solid" onClick={connect}>
+        <button type="button" className="border-2 border-black border-solid" onClick={connect}>
           연결
         </button>
-        <button className="border-2 border-black border-solid" onClick={disconnect}>
+        <button type="button" className="border-2 border-black border-solid" onClick={disconnect}>
           끊기
         </button>
       </form>
