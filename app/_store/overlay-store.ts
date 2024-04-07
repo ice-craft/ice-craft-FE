@@ -1,18 +1,29 @@
 import { create } from "zustand";
-
-interface OverlayState {
-  showOverlay: string | null;
-  setShowOverlay: (sid: string | null) => void;
-  toggleOverlay: (participantSid: string) => void;
-}
+import { OverlayState } from "../_types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
   showOverlay: null,
-  setShowOverlay: (sid: string | null) => set({ showOverlay: sid }),
-  toggleOverlay: (participantSid: string) =>
-    set((state) => ({
-      showOverlay: state.showOverlay === participantSid ? null : participantSid
-    }))
+  activeParticipantSid: null,
+  activeParticipantIndex: null,
+
+  setActiveParticipant: (sid: string | null, index: number | null) =>
+    set({ activeParticipantSid: sid, activeParticipantIndex: index }),
+
+  toggleOverlay: (participantSid, index) =>
+    set((state) => {
+      if (state.activeParticipantSid === participantSid) {
+        return { ...state };
+      } else {
+        return {
+          ...state,
+          showOverlay: participantSid,
+          activeParticipantSid: participantSid,
+          activeParticipantIndex: index
+        };
+      }
+    }),
+
+  clearActiveParticipant: () => set({ activeParticipantSid: null, activeParticipantIndex: null })
 }));
 
 export default useOverlayStore;
