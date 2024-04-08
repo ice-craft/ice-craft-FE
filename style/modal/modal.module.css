@@ -14,18 +14,18 @@
 
 .modal {
   position: absolute;
-  background-color: #fff;
+  background-color: var(--white);
   opacity: 1;
   border-radius: 12px;
   z-index: 999;
-  color: #111;
+  color: var(--text-black);
   padding: 80px;
   text-align: center;
 }
 
 .modal h1 {
   color: #999;
-  font-size: 25px;
+  font-size: var(--font-size-modal-title);
   margin-bottom: 30px;
 }
 
@@ -40,11 +40,11 @@
 /*------------ UserCardImage ------------*/
 .workModal {
   position: absolute;
-  background-color: #fff;
+  background-color: var(--white);
   opacity: 1;
   border-radius: var(--border-radius);
   z-index: 999;
-  color: #111;
+  color: var(--text-black);
   padding: 80px;
   text-align: center;
   margin: 0 10%;
@@ -52,7 +52,7 @@
 
 .workTitle {
   margin-bottom: 50px;
-  font-size: 35px;
+  font-size: var(--font-size-modal-content);
 }
 
 .workList {
