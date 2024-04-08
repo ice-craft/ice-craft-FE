@@ -8,6 +8,7 @@
   "dependencies": {
     "@livekit/components-react": "^2.0.5",
     "@livekit/components-styles": "^1.0.11",
+    "@next/font": "^14.1.4",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tanstack/react-query": "^5.28.9",

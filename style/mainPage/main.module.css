@@ -19,20 +19,52 @@
 }
 
 .roomSectionWrap {
-  max-width: 1920px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
 .roomSection {
-  padding: 0 30px 54px;
+  padding: 0 30px 154px;
 }
 
 .roomSearchAndButton {
   display: flex;
 }
 
+.roomSearch {
+  position: relative;
+}
+
+.roomSearch input {
+  padding: 10px 40px 10px 25px;
+  border: 1px solid #d3d3d3;
+  border-radius: var(--border-radius);
+  width: 357px;
+}
+
+.roomSearch:after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-55%);
+  width: 20px;
+  height: 20px;
+  background: url("../../public/images/icon_search.png") no-repeat;
+  cursor: pointer;
+}
+
 .roomSearch label {
   display: none;
+}
+
+.roomSearch input[type="text"]:placeholder {
+  color: var(--silver-gray);
+}
+
+.roomSearch input[type="text"]:focus {
+  outline: 1px solid var(--main-color);
+  opacity: 0.5;
 }
 
 .MainGnb {
@@ -40,11 +72,16 @@
   display: flex;
   justify-content: space-between;
   white-space: nowrap;
+  align-items: center;
+}
+
+.MainGnb p {
+  font-weight: var(--font-bold);
 }
 
 .gameTitle {
   position: absolute;
-  color: #fff;
+  color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -52,7 +89,18 @@
 }
 
 .gameTitle h2 {
-  font-size: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.gameTitle h2:before {
+  content: "";
+  position: absolute;
+  left: 130px;
+  top: -30px;
+  background: url("../../public/images/icon_taget.png") no-repeat;
+  width: 145px;
+  height: 81px;
 }
 
 .gameButton {
@@ -60,12 +108,69 @@
   gap: 15px;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.gameButton button {
+  padding: 10px 25px 9px;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  color: var(--text-black);
+}
+
+.gameButton button.mafiaInfo {
+  background-color: var(--main-color);
+  color: var(--white);
+  position: relative;
+  padding-left: 45px;
+}
+
+.gameButton button.mafiaInfo:before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-51%);
+  background: url("../../public/images/icon_point.png") no-repeat;
+  width: 20px;
+  height: 21px;
 }
 
 .gameGoButton {
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-left: 40px;
+}
+
+.gameGoButton button {
+  padding: 10px 15px 9px;
+  background-color: var(--main-color);
+  border-radius: var(--border-radius);
+  color: var(--white);
+  border: 1px solid var(--main-color);
+}
+
+.gameGoButton > button {
+  color: var(--main-color);
+  background-color: var(--white);
+  border: 1px solid var(--main-color);
+}
+
+.gameGoButton button.makeRoom {
+  padding-left: 35px;
+  position: relative;
+}
+
+.gameGoButton button.makeRoom:before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  background: url("../../public/images/icon_plus.png") no-repeat;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-48%);
 }
 
 .roomList {
@@ -78,7 +183,7 @@
 .roomList li {
   width: 370px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   position: relative;
   cursor: pointer;
 }
@@ -90,10 +195,10 @@
   transform: translate(-50%, -50%);
   width: 120px;
   height: 48px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   line-height: 48px;
   cursor: pointer;
-  background-color: #fff;
+  background-color: var(--white);
   z-index: 1;
   display: none;
 }
@@ -107,10 +212,10 @@
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: #000;
+  background-color: var(--white);
   opacity: 0.5;
   display: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .roomList li:hover .gotoButton,
@@ -123,12 +228,31 @@
 }
 
 .roomTitle h3 {
-  font-size: 20px;
+  font-size: var(--font-size-title);
   margin-bottom: 28px;
-  font-weight: 700;
+  font-weight: var(--font-bold);
 }
 
 .gameName {
   display: flex;
   justify-content: space-between;
+  font-size: var(--font-size-small);
+  color: var(--white);
+}
+
+.gameName p {
+  border-radius: 30px;
+  padding: 5px 12px;
+}
+
+.mafiaHashtag {
+  background-color: var(--text-black);
+}
+
+.currentPeople {
+  background-color: var(--main-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
 }

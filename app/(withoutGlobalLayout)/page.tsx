@@ -1,8 +1,9 @@
 import React from "react";
-import S from "@/style/Intropage/intro.module.css"
+import S from "@/style/Intropage/intro.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/images/logo.svg";
+import TextTyping from "@/utils/TextTyping";
 
 const IntroPage = () => {
   return (
@@ -22,7 +23,7 @@ const IntroPage = () => {
             loop
           ></video>
           <div className={S.introTitle}>
-            <h1 className={S.h1}>INTO STUNNING SPACE</h1>
+            <TextTyping />
             <Link href="/main" className={S.mainButton}>
               Get Started
             </Link>
