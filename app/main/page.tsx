@@ -7,13 +7,15 @@ import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/app/_style/mainPage/main.module.css";
 import { useModalStore } from "../_store/modal-store";
 import MainCreateRoom from "../_components/mainpageComponents/MainCreateRoom";
-import Modal from "../_utils/modal/modal";
+
+import UserWorkModal from "../_components/mafia/UserWorkModal";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
+        <UserWorkModal />
         <div>
           <ul className={S.gameList}>
             <li className={S.mafiaImage}>
