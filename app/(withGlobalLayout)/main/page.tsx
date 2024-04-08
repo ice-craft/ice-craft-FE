@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import RoomButton from "../../../components/mainpageComponents/Roombutton";
 import Link from "next/link";
 import Image from "next/image";
 import MafiaItem from "@/public/images/mafia_item.png";
