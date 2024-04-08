@@ -7,6 +7,7 @@ import S from "@/style/mainPage/main.module.css";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 import MafiaGameTitle from "@/public/images/mafia_game_title.png";
+import PeopleIcon from "@/public/images/icon_person.png";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -36,12 +37,14 @@ const Mainpage = () => {
             <div className={S.roomSearchAndButton}>
               <div className={S.roomSearch}>
                 <label htmlFor="RoomSearch">방 검색하기</label>
-                <input type="text" id="RoomSearch" />
+                <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
               </div>
               <div className={S.gameGoButton}>
-                <Link href="/">빠른입장</Link>
+                <button>빠른입장</button>
                 <div>
-                  <button onClick={() => setIsModal(true)}>방 만들기</button>
+                  <button onClick={() => setIsModal(true)} className={S.makeRoom}>
+                    방 만들기
+                  </button>
                 </div>
                 {isModal ? <MainCreateRoom /> : null}
               </div>
@@ -53,41 +56,11 @@ const Mainpage = () => {
               <div className={S.roomTitle}>
                 <h3>방 제목</h3>
                 <div className={S.gameName}>
-                  <p>#마피아</p>
-                  <p>1/5</p>
-                </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p>#마피아</p>
-                  <p>1/5</p>
-                </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p>#마피아</p>
-                  <p>1/5</p>
-                </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p>#마피아</p>
-                  <p>1/5</p>
+                  <p className={S.mafiaHashtag}># 마피아</p>
+                  <p className={S.currentPeople}>
+                    <Image src={PeopleIcon} alt="people icon" />
+                    <span>1/10</span>
+                  </p>
                 </div>
               </div>
               <button className={S.gotoButton}>입장하기</button>
