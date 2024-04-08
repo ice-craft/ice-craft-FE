@@ -10,9 +10,9 @@ export const checkUserNicknameRegistered = async (nickname: string) => {
 
   if (account_table) {
     return account_table.length > 0;
-  } else {
-    return false;
   }
+
+  return false;
 };
 
 export const checkUserEmailRegistered = async (email: string) => {
@@ -23,9 +23,9 @@ export const checkUserEmailRegistered = async (email: string) => {
 
   if (account_table) {
     return account_table.length > 0;
-  } else {
-    return false;
   }
+
+  return false;
 };
 
 export const registerAccount = async (uid: string, email: string, nickname: string) => {
