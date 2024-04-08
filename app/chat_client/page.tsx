@@ -18,12 +18,17 @@ const ChatClient = () => {
   };
 
   const connect = () => {
-    socket.connect();
-    socket.emit("enter", nickname.current);
+    if (!socket.connected) {
+      socket.connect();
+      socket.emit("enter", nickname.current);
+    }
   };
 
   const disconnect = () => {
-    socket.disconnect();
+    if (socket.connected) {
+      socket.emit("exit", nickname.current);
+      socket.disconnect();
+    }
   };
 
   const write = (line: string) => {
