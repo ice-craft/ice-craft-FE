@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useModalStore } from "../store/modal-store";
+import { useModalStore } from "../store/toggle-store";
 
 export const useCountDown = (initialTime: number) => {
   const { isModal, setIsModal } = useModalStore();
