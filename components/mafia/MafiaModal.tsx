@@ -1,7 +1,6 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import S from "@/style/modal/modal.module.css";
 
-//FIXME - 추후 Zustand로 관리
 const MafiaModal = () => {
   // const count = 1;
   // const content = "밤이 시작되었습니다.";
