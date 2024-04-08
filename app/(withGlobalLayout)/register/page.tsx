@@ -52,8 +52,6 @@ const Register = () => {
   };
 
   const checkEmailExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-
     const isEmailRegistered = await checkUserEmailRegistered(email);
     if (isEmailRegistered || !isPassed.current.inputEmail) {
       return setEmailMessage("이미 존재하는 이메일입니다.");
@@ -81,8 +79,6 @@ const Register = () => {
   };
 
   const checkNicknameExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-
     const isNicknameRegistered = await checkUserNicknameRegistered(nickname);
     if (isNicknameRegistered || !isPassed.current.inputNickname) {
       return setNicknameMessage("이미 존재하는 닉네임입니다.");
@@ -137,7 +133,7 @@ const Register = () => {
     setCheckPasswordMessage("");
   };
 
-  const register = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isEmailPassed = isPassed.current.email;
     const isNicknamePassed = isPassed.current.nickname;
@@ -196,7 +192,7 @@ const Register = () => {
   };
 
   return (
-    <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
+    <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4" onSubmit={(e) => register(e)}>
       <h1 className="text-center">회원가입</h1>
       <label className="text-md" htmlFor="email">
         이메일
@@ -211,7 +207,7 @@ const Register = () => {
           onChange={(e) => emailChangeHandler(e.target.value)}
           required
         />
-        <button onClick={(e) => checkEmailExistedHandler(e)} className="bg-slate-300">
+        <button type="button" onClick={(e) => checkEmailExistedHandler(e)} className="bg-slate-300">
           중복확인
         </button>
         {<InputMessage text={emailMessage} />}
@@ -231,7 +227,7 @@ const Register = () => {
           onChange={(e) => nicknameChangeHandler(e.target.value)}
           required
         />
-        <button onClick={(e) => checkNicknameExistedHandler(e)} className="bg-slate-300">
+        <button type="button" onClick={(e) => checkNicknameExistedHandler(e)} className="bg-slate-300">
           중복확인
         </button>
         {<InputMessage text={nicknameMessage} />}
@@ -263,22 +259,22 @@ const Register = () => {
         required
       />
       {<InputMessage text={checkPasswordMessage} />}
-      <button onClick={(e) => register(e)} type="submit" className="bg-slate-300">
+      <button type="submit" className="bg-slate-300">
         회원가입
       </button>
       {<InputMessage text={registerMessage} />}
       <div className="flex flex-col gap-2">
         <p className="text-center">간편 가입하기</p>
-        <button onClick={kakaoLogIn} className="bg-slate-300">
+        <button type="button" onClick={kakaoLogIn} className="bg-slate-300">
           카카오톡으로 회원가입
         </button>
-        <button onClick={googleLogIn} className="bg-slate-300">
+        <button type="button" onClick={googleLogIn} className="bg-slate-300">
           구글로 회원가입
         </button>
-        <button onClick={githubLogIn} className="bg-slate-300">
+        <button type="button" onClick={githubLogIn} className="bg-slate-300">
           깃헙으로 회원가입
         </button>
-        <button onClick={facebookLogIn} className="bg-slate-300">
+        <button type="button" onClick={facebookLogIn} className="bg-slate-300">
           페이스북으로 회원가입
         </button>
       </div>
