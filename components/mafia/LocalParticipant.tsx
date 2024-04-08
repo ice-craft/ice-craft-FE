@@ -8,7 +8,7 @@ import { allCamOff } from "@/utils/participantCamSettings/camSetting";
 import CamCheck from "@/public/images/cam_check.png";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { setIsModal } = useModalStore();
@@ -20,9 +20,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
   const startGameHandler = () => {
-    // allCamOff(tracks);
-    // setIsModal(true);
-    // setIsStart(true);
+    allCamOff(tracks);
+    setIsModal(true);
+    setIsStart(true);
     setIsReady(isReady);
   };
 
