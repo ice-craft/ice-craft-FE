@@ -13,6 +13,8 @@ import GithubLogin from "@/public/images/join_github.png";
 import FacebookLogin from "@/public/images/join_facebook.png";
 import Image from "next/image";
 import S from "@/style/register/register.module.css";
+import Logo from "@/public/images/logo.svg";
+import Link from "next/link";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -202,100 +204,107 @@ const Register = () => {
   };
 
   return (
-    <main className={S.mainWrapper}>
-      <form>
-        <h2>회원가입</h2>
-        <div className={S.userForm}>
-          <div className={S.userEmail}>
-            <label htmlFor="email">이메일</label>
+    <div className={S.wrapper}>
+      <header>
+        <Link href="/">
+          <Image src={Logo} alt="logo" />
+        </Link>
+      </header>
+      <main className={S.mainWrapper}>
+        <form>
+          <h2>회원가입</h2>
+          <div className={S.userForm}>
+            <div className={S.userEmail}>
+              <label htmlFor="email">이메일</label>
+              <div>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="이메일을 입력해주세요."
+                  value={email}
+                  onChange={(e) => emailChangeHandler(e.target.value)}
+                  required
+                />
+                <button onClick={(e) => checkEmailExistedHandler(e)}>중복확인</button>
+              </div>
+              {<InputMessage text={emailMessage} />}
+            </div>
+            <div className={S.userNickname}>
+              <label htmlFor="nickname">닉네임</label>
+              <div>
+                <input
+                  type="text"
+                  name="nickname"
+                  maxLength={6}
+                  placeholder="닉네임을 입력해주세요."
+                  value={nickname}
+                  onChange={(e) => nicknameChangeHandler(e.target.value)}
+                  required
+                />
+                <button onClick={(e) => checkNicknameExistedHandler(e)}>중복확인</button>
+              </div>
+              {<InputMessage text={nicknameMessage} />}
+            </div>
             <div>
+              <label htmlFor="password">비밀번호</label>
               <input
-                type="text"
-                name="email"
-                placeholder="이메일을 입력해주세요."
-                value={email}
-                onChange={(e) => emailChangeHandler(e.target.value)}
+                type="password"
+                name="password"
+                maxLength={12}
+                placeholder="비밀번호를 입력해주세요."
+                value={password}
+                onChange={(e) => passwordChangeHandler(e.target.value)}
                 required
               />
-              <button onClick={(e) => checkEmailExistedHandler(e)}>중복확인</button>
+              <InputMessage text={passwordMessage} />
             </div>
-            {<InputMessage text={emailMessage} />}
-          </div>
-          <div className={S.userNickname}>
-            <label htmlFor="nickname">닉네임</label>
             <div>
+              <label htmlFor="check-password">비밀번호 확인</label>
               <input
-                type="text"
-                name="nickname"
-                maxLength={6}
-                placeholder="닉네임을 입력해주세요."
-                value={nickname}
-                onChange={(e) => nicknameChangeHandler(e.target.value)}
+                type="password"
+                name="password"
+                placeholder="비밀번호를 한번 더입력해주세요."
+                value={checkPassword}
+                onChange={(e) => checkPasswordChangeHandler(e.target.value)}
                 required
               />
-              <button onClick={(e) => checkNicknameExistedHandler(e)}>중복확인</button>
+              {<InputMessage text={checkPasswordMessage} />}
             </div>
-            {<InputMessage text={nicknameMessage} />}
           </div>
           <div>
-            <label htmlFor="password">비밀번호</label>
-            <input
-              type="password"
-              name="password"
-              maxLength={12}
-              placeholder="비밀번호를 입력해주세요."
-              value={password}
-              onChange={(e) => passwordChangeHandler(e.target.value)}
-              required
-            />
-            <InputMessage text={passwordMessage} />
+            <button className={S.registerButton} onClick={(e) => register(e)} type="submit">
+              회원가입
+            </button>
+            {<InputMessage text={registerMessage} />}
           </div>
-          <div>
-            <label htmlFor="check-password">비밀번호 확인</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="비밀번호를 한번 더입력해주세요."
-              value={checkPassword}
-              onChange={(e) => checkPasswordChangeHandler(e.target.value)}
-              required
-            />
-            {<InputMessage text={checkPasswordMessage} />}
+          <div className={S.simpleLogin}>
+            <h3>간편 가입하기</h3>
+            <ul>
+              <li>
+                <button onClick={kakaoLogIn}>
+                  <Image src={KakaoLogin} alt="카카오톡 로그인" />
+                </button>
+              </li>
+              <li>
+                <button onClick={googleLogIn}>
+                  <Image src={GoogleLogin} alt="구글 로그인" />
+                </button>
+              </li>
+              <li>
+                <button onClick={githubLogIn}>
+                  <Image src={GithubLogin} alt="깃허브 로그인" />
+                </button>
+              </li>
+              <li>
+                <button onClick={facebookLogIn}>
+                  <Image src={FacebookLogin} alt="페이스북 로그인" />
+                </button>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div>
-          <button className={S.registerButton} onClick={(e) => register(e)} type="submit">
-            회원가입
-          </button>
-          {<InputMessage text={registerMessage} />}
-        </div>
-        <div className={S.simpleLogin}>
-          <h3>간편 가입하기</h3>
-          <ul>
-            <li>
-              <button onClick={kakaoLogIn}>
-                <Image src={KakaoLogin} alt="카카오톡 로그인" />
-              </button>
-            </li>
-            <li>
-              <button onClick={googleLogIn}>
-                <Image src={GoogleLogin} alt="구글 로그인" />
-              </button>
-            </li>
-            <li>
-              <button onClick={githubLogIn}>
-                <Image src={GithubLogin} alt="깃허브 로그인" />
-              </button>
-            </li>
-            <li>
-              <button onClick={facebookLogIn}>
-                <Image src={FacebookLogin} alt="페이스북 로그인" />
-              </button>
-            </li>
-          </ul>
-        </div>
-      </form>
-    </main>
+        </form>
+      </main>
+    </div>
   );
 };
 

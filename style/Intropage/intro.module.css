@@ -1,9 +1,9 @@
 /*-------------- INTRO HEADER ----------------*/
-.introHeaderWrap {
+.introWrapper {
   position: relative;
 }
 
-.introHeaderWrap header {
+.introWrapper header {
   position: absolute;
   left: 30px;
   top: 21px;
