@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { OverlayState } from "../_types";
+import { OverlayState } from "../types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
   showOverlay: null,

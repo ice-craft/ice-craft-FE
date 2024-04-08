@@ -1,5 +1,5 @@
 import React from "react";
-import S from "@/app/_style/introPage/intro.module.css";
+import S from "@/style/introPage/intro.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/images/logo.svg";
