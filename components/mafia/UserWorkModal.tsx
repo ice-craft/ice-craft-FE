@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import S from "@/style/modal/modal.module.css";
 import DoctorCard from "@/public/images/Doctor_Card.png";
 import PoliceCard from "@/public/images/Police_Card.png";
@@ -9,6 +9,7 @@ import { Role } from "@/types/index";
 
 const UserWorkModal = () => {
   const [role, setRole] = useState<Role>("mafia");
+  const [showAllCards, setShowAllCards] = useState(true);
 
   const cards = {
     doctor: { src: DoctorCard, alt: "의사" },
@@ -17,7 +18,16 @@ const UserWorkModal = () => {
     citizens: { src: CitizensCard, alt: "시민" }
   };
 
-  const currentCard = cards[role];
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const roles = ["doctor", "police", "mafia", "citizens"];
+      //NOTE - 데이터 불러오면 바꿀 예정(임시)
+      const randomRole = roles[Math.floor(Math.random() * roles.length)];
+      setRole(randomRole as Role);
+      setShowAllCards(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
@@ -25,9 +35,18 @@ const UserWorkModal = () => {
         <div className={S.workModal}>
           <h2 className={S.workTitle}>직업을 선택합니다.</h2>
           <ul className={S.workList}>
-            <li>
-              <Image src={currentCard.src} alt={currentCard.alt} />
-            </li>
+            {showAllCards ? (
+              //NOTE - 객체 순회 함수
+              Object.entries(cards).map(([key, { src, alt }]) => (
+                <li key={key}>
+                  <Image src={src} alt={alt} />
+                </li>
+              ))
+            ) : role ? (
+              <li>
+                <Image src={cards[role].src} alt={cards[role].alt} />
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>
