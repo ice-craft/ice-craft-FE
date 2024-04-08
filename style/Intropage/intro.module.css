@@ -39,6 +39,8 @@
   color: #fff;
   font-size: 60px;
   margin-bottom: 104px;
+  font-weight: var(--font-bold);
+  
 }
 
 .introTitle > a {
@@ -71,12 +73,4 @@
 
 .signUpButton a {
   text-decoration: underline;
-}
-
-/*-------------- INTRO TextTyping ----------------*/
-.tegName {
-  color: #fff;
-  font-size: 60px;
-  margin-bottom: 104px;
-  z-index: 99;
 }

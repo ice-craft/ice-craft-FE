@@ -12,17 +12,13 @@
   --font-size-modal-title: 24px;
   --font-size-modal-content: 35px;
   --font-size-small: 14px;
-  --font-bold: 700;
+  --font-bold: 600;
 
   /* Setting Variables : Text Color */
   --text-black: #111111;
   --white: #ffffff;
   --silver-gray: #bfbfbf;
   --variation-error: #e72424;
-
-  /* Setting Variables : Font Family */
-  --primary-kr: sans-serif;
-  --secondary-kr: sans-serif;
 }
 
 * {
