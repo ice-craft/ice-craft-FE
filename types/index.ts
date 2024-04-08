@@ -38,3 +38,8 @@ export interface CountState {
   setTimer: (newCount: number) => void;
   setIsStart: (newToggle: boolean) => void;
 }
+
+export interface ReadyState {
+  isReady: boolean;
+  setIsReady: (newModal: boolean) => void;
+}
