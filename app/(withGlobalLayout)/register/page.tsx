@@ -1,8 +1,12 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
-import { InputMessage } from "../_components/register/InputMessage";
-import { oAuthLogIn, oAuthRegister } from "../_utils/supabase/authAPI";
+import {
+  checkUserEmailRegistered,
+  checkUserNicknameRegistered,
+  registerAccount
+} from "../../_utils/supabase/accountAPI";
+import { InputMessage } from "../../_components/register/InputMessage";
+import { oAuthLogIn, oAuthRegister } from "../../_utils/supabase/authAPI";
 
 const Register = () => {
   const [email, setEmail] = useState("");
