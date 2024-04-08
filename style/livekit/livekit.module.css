@@ -46,7 +46,7 @@
   left: 0;
   top: 0;
   z-index: 1;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   display: none;
 }
@@ -89,7 +89,7 @@
   left: 0;
   top: 0;
   z-index: 1;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   display: none;
 }
