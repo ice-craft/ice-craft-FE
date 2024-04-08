@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --max-width: 1920px;
+  --main-color: #5c5bad;
+  --sub-color: #bebdde;
+  --header-background-color: #050b15;
+  --font-size-base: 16px;
+  --font-size-title: 20px;
+  --font-size-modal-title: 24px;
+  --font-size-modal-content: 35px;
+  --font-size-small: 14px;
+  --font-bold: 700;
+
+  /* Setting Variables : Text Color */
+  --text-black: #111111;
+  --white: #ffffff;
+  --silver-gray: #bfbfbf;
+  --variation-error: #e72424;
+
+  /* Setting Variables : Font Family */
+  --primary-kr: sans-serif;
+  --secondary-kr: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+html,
+body {
+  width: 100%;
+}
