@@ -1,12 +1,10 @@
 "use client";
-import React from "react";
-import RoomButton from "../../../components/mainpageComponents/Roombutton";
-import Link from "next/link";
-import Image from "next/image";
 import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
-import { useModalStore } from "../../../store/modal-store";
+import Image from "next/image";
+import Link from "next/link";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
+import { useModalStore } from "../../../store/modal-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
