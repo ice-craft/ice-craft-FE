@@ -1,8 +1,6 @@
 import "./globals.css";
 import QueryProvider from "./provider";
 import { ToastContainer } from "react-toastify";
-import Header from "./_components/layout/Header";
-import Footer from "./_components/layout/Footer";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
@@ -17,9 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <body>
         <ToastContainer />
-        <Header />
         <QueryProvider>{children}</QueryProvider>
-        <Footer />
       </body>
     </html>
   );

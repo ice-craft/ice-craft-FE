@@ -3,7 +3,7 @@
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import { useSearchParams } from "next/navigation";
 import { PropsWithChildren } from "react";
-import { useGetToken } from "../_hooks/useToken";
+import { useGetToken } from "../../_hooks/useToken";
 
 const layout = ({ children }: PropsWithChildren) => {
   const params = useSearchParams();
