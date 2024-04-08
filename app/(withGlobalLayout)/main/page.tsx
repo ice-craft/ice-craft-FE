@@ -7,7 +7,6 @@ import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
 import { useModalStore } from "../../../store/modal-store";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
-import Modal from "../../../utils/modal/modal";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -93,7 +92,6 @@ const Mainpage = () => {
             </li>
           </ul>
         </section>
-        <RoomButton />
       </div>
     </main>
   );

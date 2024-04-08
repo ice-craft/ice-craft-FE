@@ -2,7 +2,7 @@
 import { LiveKitRoom, LocalUserChoices, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import React, { PropsWithChildren } from "react";
 import { useGetToken } from "../../../hooks/useToken";
 
@@ -14,29 +14,28 @@ const PreJoinNoSSR = dynamic(
 );
 
 const layout = ({ children }: PropsWithChildren) => {
+  const { id } = useParams();
   const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(undefined);
 
-  const params = useSearchParams();
-  const room = params.get("room");
-  const name = params.get("name");
+  const room = id as string;
+  const name = preJoinChoices?.username as string;
 
-  function handlePreJoinSubmit(values: LocalUserChoices) {
+  const handlePreJoinSubmit = (values: LocalUserChoices) => {
     setPreJoinChoices(values);
-  }
+  };
 
-  if (!room || !name) {
+  if (!room) {
     console.log("useSearchParams의 인자 error 발생 ");
     return;
   }
+
   const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, name });
 
   if (isLoading || !isSuccess) {
-    console.log("token 발급 로딩중 발생");
-    return;
+    console.log("token 발생 로딩중 발생");
   }
   if (isError) {
     console.log("token 발급 로딩중 발생");
-    return;
   }
 
   return (
