@@ -44,6 +44,7 @@ const Mainpage = () => {
               </div>
             </div>
           </div>
+
           <ul className={S.roomList}>
             <li>
               <Image src={MafiaItem} alt="room image" />

@@ -2,12 +2,13 @@ import React, { useState, FormEvent } from "react";
 import S from "@/style/modal/modal.module.css";
 import { useModalStore } from "@/store/modal-store";
 import { useRouter } from "next/navigation";
+import { createRoom } from "@/utils/supabase/roomAPI";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
-  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [selectedGame, setSelectedGame] = useState<string>("");
   const [roomTitle, setRoomTitle] = useState<string>("");
-  const [numberOfPlayers, setNumberOfPlayers] = useState<number | null>(null);
+  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(0);
 
   const router = useRouter();
 
@@ -16,16 +17,14 @@ const MainCreateRoom = () => {
       setIsModal(false);
     }
   };
-
   const createRoomSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    // 유효성검사필요
+    // if (!selectedGame || !roomTitle || !numberOfPlayers) {
+    // }
+    createRoom(roomTitle, selectedGame, numberOfPlayers);
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
-
-    // if (selectedGame && roomTitle && numberOfPlayers) {
-
-    // }
   };
 
   return (
@@ -36,8 +35,12 @@ const MainCreateRoom = () => {
             <form onSubmit={createRoomSubmitHandler}>
               <h2>게임을 선택해주세요</h2>
               <p>게임 고르기</p>
-              <button onClick={() => setSelectedGame("마피아")}>마피아</button>
-              <button onClick={() => setSelectedGame("노래 맞추기")}>노래 맞추기</button>
+              <button type="button" onClick={() => setSelectedGame("마피아")}>
+                마피아
+              </button>
+              <button type="button" onClick={() => setSelectedGame("노래 맞추기")}>
+                노래 맞추기
+              </button>
               <p>방제목</p>
               <input type="text" value={roomTitle} onChange={(e) => setRoomTitle(e.target.value)} />
               <p>인원수</p>
