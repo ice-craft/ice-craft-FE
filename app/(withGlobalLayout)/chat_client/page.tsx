@@ -20,7 +20,7 @@ const ChatClient = () => {
   const connect = () => {
     if (!socket.connected) {
       socket.connect();
-      socket.emit("enter", nickname.current);
+      socket.emit("enterMafia", nickname.current);
     }
   };
 
