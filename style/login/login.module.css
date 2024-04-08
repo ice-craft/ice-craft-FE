@@ -1,0 +1,17 @@
+.mainWrapper {
+  height: 100vh;
+  background: url("../../public/images/bg.png") center center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainWrapper form {
+  background-color: var(--white);
+  padding: 80px;
+}
+
+.mainWrapper form h2 {
+  font-weight: var(--font-bold);
+  font-size: var(--font-size-title);
+}

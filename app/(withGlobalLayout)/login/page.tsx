@@ -3,6 +3,13 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/authAPI";
+import S from "@/style/login/login.module.css";
+import Link from "next/link";
+import Image from "next/image";
+import KakaoLogin from "@/public/images/join_kakaotalk.png";
+import GoogleLogin from "@/public/images/join_google.png";
+import GithubLogin from "@/public/images/join_github.png";
+import FacebookLogin from "@/public/images/join_facebook.png";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -91,66 +98,77 @@ const LogIn = () => {
   });
 
   return (
-    <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
-      <label className="text-md" htmlFor="email">
-        Email
-      </label>
-      <input
-        className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-        name="email"
-        placeholder="이메일을 입력하세요."
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-        onFocus={emailFocusHandler}
-        required
-      />
-      <label className="text-md" htmlFor="password">
-        Password
-      </label>
-      <input
-        className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-        type="password"
-        name="password"
-        placeholder="비밀번호를 입력하세요."
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-        onFocus={passwordFocusHandler}
-        required
-      />
-      <button onClick={(e) => logInHandler(e)} className="px-4 py-2 mb-2 bg-green-700 rounded-md text-foreground">
-        로그인
-      </button>
-      <div>
-        <input type="checkbox" id="saveEmail" />
-        <label htmlFor="saveEmail"> 이메일 저장</label>
-      </div>
-      <div>
-        <p className="text-red-500 ">{firstErrorMessage}</p>
-        <p className="text-red-500 ">{secondErrorMessage}</p>
-      </div>
-      <p className="cursor-pointer" onClick={(e) => registerHandler(e)}>
-        회원가입
-      </p>
-
-      <div>
-        <p onClick={kakaoLogIn} className="cursor-pointer">
-          카카오톡으로 로그인
+    <main className={S.mainWrapper}>
+      <form>
+        <h2>로그인</h2>
+        <div>
+          <label htmlFor="email">이메일</label>
+          <input
+            name="email"
+            placeholder="이메일을 입력하세요."
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            onFocus={emailFocusHandler}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">비밀번호</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="비밀번호를 입력하세요."
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            onFocus={passwordFocusHandler}
+            required
+          />
+        </div>
+        <button onClick={(e) => logInHandler(e)}>로그인</button>
+        <div>
+          <p>
+            <input type="checkbox" id="saveEmail" />
+            <label htmlFor="saveEmail">이메일 저장</label>
+          </p>
+          <p className="cursor-pointer" onClick={(e) => registerHandler(e)}>
+            회원가입
+          </p>
+        </div>
+        <p className="text-red-500">
+          {firstErrorMessage}
+          <span>{secondErrorMessage}</span>
         </p>
-        <p onClick={googleLogIn} className="cursor-pointer">
-          구글로 로그인
-        </p>
-        <p onClick={githubLogIn} className="cursor-pointer">
-          깃헙으로 로그인
-        </p>
-        <p onClick={facebookLogIn} className="cursor-pointer">
-          페이스북으로 로그인
-        </p>
-      </div>
-    </form>
+        <div>
+          <h3>간편 로그인하기</h3>
+          <ul>
+            <li>
+              <button onClick={kakaoLogIn}>
+                <Image src={KakaoLogin} alt="카카오톡 로그인" />
+              </button>
+            </li>
+            <li>
+              <button onClick={googleLogIn}>
+                <Image src={GoogleLogin} alt="구글 로그인" />
+              </button>
+            </li>
+            <li>
+              <button onClick={githubLogIn}>
+                <Image src={GithubLogin} alt="깃허브 로그인" />
+              </button>
+            </li>
+            <li>
+              <button onClick={facebookLogIn}>
+                <Image src={FacebookLogin} alt="페이스북 로그인" />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </main>
   );
 };
 export default LogIn;
