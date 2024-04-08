@@ -4,8 +4,8 @@ import { createClient } from "./client";
 const supabase = createClient();
 
 export const checkUserLogIn = async () => {
-  const { data: user } = await supabase.auth.getUser();
-  if (user.user) {
+  const { data } = await supabase.auth.getUser();
+  if (data.user) {
     return true;
   } else {
     return false;
@@ -26,7 +26,7 @@ export const emailLogIn = async (email: string, password: string) => {
 };
 
 export const oAuthRegister = async (email: string, password: string, nickname: string) => {
-  const { data: user, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -39,7 +39,7 @@ export const oAuthRegister = async (email: string, password: string, nickname: s
     throw new Error(error.message);
   }
 
-  return user.user?.id;
+  return data.user?.id;
 };
 
 //NOTE - 배포 시 각 사이트에서 배포 사이트 작성할 것 (구글은 테스트버전에서 배포버전으로 변경할 것)
@@ -79,23 +79,23 @@ export const setUserNickname = async (nickname: string) => {
 };
 
 export const getUserInfo = async () => {
-  const { data: user } = await supabase.auth.getUser();
-  return user.user;
+  const { data } = await supabase.auth.getUser();
+  return data.user;
 };
 
 export const getUserNickname = async () => {
-  const { data: user } = await supabase.auth.getUser();
-  return user.user?.user_metadata.nickname;
+  const { data } = await supabase.auth.getUser();
+  return data.user?.user_metadata.nickname;
 };
 
 export const getUserUid = async () => {
-  const { data: user } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
-  return user.user?.id;
+  return data.user?.id;
 };
 
 export const getUserEmail = async () => {
-  const { data: user } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
-  return user.user?.email;
+  return data.user?.email;
 };
