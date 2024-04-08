@@ -6,6 +6,7 @@ import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
+import MafiaGameTitle from "@/public/images/mafia_game_title.png";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -16,10 +17,12 @@ const Mainpage = () => {
           <ul className={S.gameList}>
             <li className={S.mafiaImage}>
               <div className={S.gameTitle}>
-                <h2>Mafia Game</h2>
+                <h2>
+                  <Image src={MafiaGameTitle} alt="mafia game title" />
+                </h2>
                 <div className={S.gameButton}>
                   <button>Game Start</button>
-                  <button>More Info</button>
+                  <button className={S.mafiaInfo}>More Info</button>
                 </div>
               </div>
             </li>
