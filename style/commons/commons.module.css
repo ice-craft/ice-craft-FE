@@ -1,6 +1,6 @@
 /*-------------- HEADER ----------------*/
 .headerWrap {
-  background-color: #050b15;
+  background-color: var(--header-background-color);
 }
 
 .header {
@@ -13,14 +13,14 @@
 }
 
 .ul {
-  color: #fff;
+  color: var(--white);
   display: flex;
   gap: 20px;
 }
 
 /*-------------- HEADER ----------------*/
 .footerWrap {
-  background-color: #eee;
+  background-color: var(--footer-background-color);
 }
 
 .footer {
