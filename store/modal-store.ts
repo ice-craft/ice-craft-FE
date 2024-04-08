@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ModalState } from "../_types";
+import { ModalState } from "../types";
 
 export const useModalStore = create<ModalState>((set) => ({
   isModal: false,

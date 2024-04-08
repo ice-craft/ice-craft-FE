@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { socket } from "@/app/_utils/socket/socket";
+import { socket } from "@/utils/socket/socket";
 
 const ChatClient = () => {
   const [eventName, setEventName] = useState("");

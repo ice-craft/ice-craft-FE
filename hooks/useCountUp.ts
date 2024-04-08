@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useCountStore } from "../_store/count-store";
+import { useCountStore } from "../store/count-store";
 
 const useCountUp = (): number => {
   const { timer, setTimer, isStart } = useCountStore();

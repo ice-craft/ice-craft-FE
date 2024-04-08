@@ -1,5 +1,5 @@
 import React from "react";
-import S from "@/app/_style/livekit/livekit.module.css";
+import S from "@/style/livekit/livekit.module.css";
 import Image from "next/image";
 import CitizensToolTipIcon from "@/public/images/citizens_ToolTip_Icon.png";
 import CitizensToolTipText from "@/public/images/citizens_ToolTip_text.png";
@@ -9,7 +9,7 @@ import DoctorToolTipIcon from "@/public/images/doctor_ToolTip_Icon.png";
 import DoctorToolTipText from "@/public/images/doctor_ToolTip_text.png";
 import PoliceToolTipIcon from "@/public/images/police_ToolTip_Icon.png";
 import PoliceToolTipText from "@/public/images/police_ToolTip_Text.png";
-import { MafiaGameToolTip } from "@/app/_types/index";
+import { MafiaGameToolTip } from "@/types/index";
 
 const MafiaToolTip: React.FC<MafiaGameToolTip> = ({ role }) => {
   const toolTipInfo = {

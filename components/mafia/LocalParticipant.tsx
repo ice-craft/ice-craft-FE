@@ -1,10 +1,10 @@
-import useCountUp from "@/app/_hooks/useCountUp";
-import { useCountStore } from "@/app/_store/count-store";
-import { useModalStore } from "@/app/_store/modal-store";
-import useOverlayStore from "@/app/_store/overlay-store";
-import S from "@/app/_style/livekit/livekit.module.css";
-import { Participants } from "@/app/_types";
-import { allCamOff } from "@/app/_utils/participantCamSettings/camSetting";
+import useCountUp from "@/hooks/useCountUp";
+import { useCountStore } from "@/store/count-store";
+import { useModalStore } from "@/store/modal-store";
+import useOverlayStore from "@/store/overlay-store";
+import S from "@/style/livekit/livekit.module.css";
+import { Participants } from "@/types";
+import { allCamOff } from "@/utils/participantCamSettings/camSetting";
 import CamCheck from "@/public/images/cam_check.png";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";

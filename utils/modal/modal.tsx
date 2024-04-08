@@ -1,5 +1,5 @@
 import React from "react";
-import S from "@/app/_style/modal/modal.module.css";
+import S from "@/style/modal/modal.module.css";
 // 공용 모달창
 const Modal = () => {
   return (
