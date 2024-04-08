@@ -1,21 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { socket } from "@/app/_utils/socket/socket";
 
 const ChatClient = () => {
   const [eventName, setEventName] = useState("");
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState("");
+  const nickname = useRef(`user${crypto.getRandomValues(new Int8Array(1))}`);
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-
-    socket.emit(eventName, message);
+    if (eventName) {
+      return socket.emit(eventName, nickname.current, message);
+    }
+    alert("이벤트 명을 적으세요.");
   };
 
   const connect = () => {
     socket.connect();
+    socket.emit("enter", nickname.current);
   };
 
   const disconnect = () => {
@@ -27,6 +31,7 @@ const ChatClient = () => {
   };
 
   useEffect(() => {
+    console.log(nickname);
     socket.on("connect", () => {
       write("서버와 연결되었습니다.");
     });
