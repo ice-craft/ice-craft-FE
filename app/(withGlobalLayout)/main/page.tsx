@@ -1,20 +1,17 @@
 "use client";
 import React from "react";
-import RoomButton from "../../../components/mainpageComponents/Roombutton";
 import Link from "next/link";
 import Image from "next/image";
 import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
 import { useModalStore } from "../../../store/modal-store";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
-import UserWorkModal from "@/components/mafia/UserWorkModal";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
-        <UserWorkModal />
         <div>
           <ul className={S.gameList}>
             <li className={S.mafiaImage}>
@@ -94,7 +91,6 @@ const Mainpage = () => {
             </li>
           </ul>
         </section>
-        <RoomButton />
       </div>
     </main>
   );
