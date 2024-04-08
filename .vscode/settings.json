@@ -2,6 +2,7 @@
   "cSpell.words": [
     "Intropage",
     "Kakao",
+    "kakaotalk",
     "livekit",
     "Mainpage",
     "pretendard",
@@ -9,6 +10,7 @@
     "Roombutton",
     "tanstack",
     "toastify",
+    "userform",
     "zustand"
   ],
   "git.ignoreLimitWarning": true

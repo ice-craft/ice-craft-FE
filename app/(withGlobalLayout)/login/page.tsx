@@ -25,7 +25,7 @@ const LogIn = () => {
       await emailLogIn(email, password);
     } catch (error) {
       console.log(error); //NOTE - 테스트 코드
-      setFirstErrorMessage("이메일또는 비밀번호를 잘못 입력했습니다.");
+      setFirstErrorMessage("이메일 또는 비밀번호를 잘못 입력했습니다.");
       setSecondErrorMessage("입력하신 내용을 다시 확인해주세요.");
       return;
     }
@@ -33,9 +33,9 @@ const LogIn = () => {
 
     router.push("/"); //NOTE - 메인 페이지로 이동
   };
-  const registerHandler = async (e: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>) => {
-    e.preventDefault();
-  };
+  // const registerHandler = async (e: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>) => {
+  //   e.preventDefault();
+  // };
 
   const emailFocusHandler = () => {
     setFirstErrorMessage("");
@@ -101,48 +101,48 @@ const LogIn = () => {
     <main className={S.mainWrapper}>
       <form>
         <h2>로그인</h2>
-        <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            name="email"
-            placeholder="이메일을 입력하세요."
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            onFocus={emailFocusHandler}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력하세요."
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            onFocus={passwordFocusHandler}
-            required
-          />
-        </div>
-        <button onClick={(e) => logInHandler(e)}>로그인</button>
-        <div>
+        <div className={S.userform}>
           <p>
-            <input type="checkbox" id="saveEmail" />
-            <label htmlFor="saveEmail">이메일 저장</label>
+            <label htmlFor="email">이메일</label>
+            <input
+              name="email"
+              placeholder="이메일을 입력해주세요."
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              onFocus={emailFocusHandler}
+              required
+            />
           </p>
-          <p className="cursor-pointer" onClick={(e) => registerHandler(e)}>
-            회원가입
+          <p>
+            <label htmlFor="password">비밀번호</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="비밀번호를 입력해주세요."
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              onFocus={passwordFocusHandler}
+              required
+            />
+          </p>
+          <div className={S.emailSave}>
+            <p>
+              <input type="checkbox" id="saveEmail" />
+              <label htmlFor="saveEmail">이메일 저장</label>
+            </p>
+            {/* <button onClick={(e) => registerHandler(e)}>회원가입</button> */}
+            <Link href="/register">회원가입</Link>
+          </div>
+          <p className={S.error}>
+            {firstErrorMessage}
+            <span>{secondErrorMessage}</span>
           </p>
         </div>
-        <p className="text-red-500">
-          {firstErrorMessage}
-          <span>{secondErrorMessage}</span>
-        </p>
-        <div>
+        <div className={S.simpleLogin}>
           <h3>간편 로그인하기</h3>
           <ul>
             <li>
@@ -167,6 +167,9 @@ const LogIn = () => {
             </li>
           </ul>
         </div>
+        <button className={S.loginButton} onClick={(e) => logInHandler(e)}>
+          로그인
+        </button>
       </form>
     </main>
   );
