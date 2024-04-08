@@ -1,9 +1,9 @@
 "use client";
 
-import { AllMikeOff, allCamOff, allCamOn, lastSpeak } from "@/app/_utils/participantCamSettings/camSetting";
-import MafiaModal from "@/app/_components/mafia/MafiaModal";
-import MyVideoConference from "@/app/_components/mafia/MyVideoConference";
-import { useModalStore } from "@/app/_store/modal-store";
+import { AllMikeOff, allCamOff, allCamOn, lastSpeak } from "@/utils/participantCamSettings/camSetting";
+import MafiaModal from "@/components/mafia/MafiaModal";
+import MyVideoConference from "@/components/mafia/MyVideoConference";
+import { useModalStore } from "@/store/modal-store";
 import { useParticipantTracks, useRemoteParticipant, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";

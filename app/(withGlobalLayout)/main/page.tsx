@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
-import RoomButton from "../../_components/mainpageComponents/Roombutton";
+import RoomButton from "../../../components/mainpageComponents/Roombutton";
 import Link from "next/link";
 import Image from "next/image";
 import MafiaItem from "@/public/images/mafia_item.png";
-import S from "@/app/_style/mainPage/main.module.css";
-import { useModalStore } from "@/app/_store/modal-store";
-import MainCreateRoom from "@/app/_components/mainpageComponents/MainCreateRoom";
-
-import UserWorkModal from "@/app/_components/mafia/UserWorkModal";
+import S from "@/style/mainPage/main.module.css";
+import { useModalStore } from "../../../store/modal-store";
+import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
+import UserWorkModal from "@/components/mafia/UserWorkModal";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();

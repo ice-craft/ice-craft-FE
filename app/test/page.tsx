@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
-import { getUserEmail, getUserNickname, getUserUid, setUserNickname } from "../_utils/supabase/authAPI";
-import { checkUserEmailRegistered, checkUserNicknameRegistered, registerAccount } from "../_utils/supabase/accountAPI";
+import { getUserEmail, getUserNickname, getUserUid, setUserNickname } from "../../utils/supabase/authAPI";
+import {
+  checkUserEmailRegistered,
+  checkUserNicknameRegistered,
+  registerAccount
+} from "../../utils/supabase/accountAPI";
 import { useRouter } from "next/navigation";
 
 const Test = () => {
