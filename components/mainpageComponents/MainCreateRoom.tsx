@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from "react";
-import S from "@/app/_style/modal/modal.module.css";
-import { useModalStore } from "@/app/_store/modal-store";
+import S from "@/style/modal/modal.module.css";
+import { useModalStore } from "@/store/modal-store";
 import { useRouter } from "next/navigation";
 
 const MainCreateRoom = () => {

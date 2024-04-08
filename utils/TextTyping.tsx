@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, FunctionComponent } from "react";
-import S from "@/app/_style/introPage/intro.module.css";
+import S from "@/style/introPage/intro.module.css";
 
 const TextTyping: FunctionComponent = () => {
   const typingName = "INTO STUNNING SPACE";

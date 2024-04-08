@@ -1,6 +1,6 @@
 import React from "react";
 import FooterLogo from "@/public/images/footer_logo.svg";
-import S from "@/app/_style/commons/commons.module.css";
+import S from "@/style/commons/commons.module.css";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -4,9 +4,9 @@ import {
   checkUserEmailRegistered,
   checkUserNicknameRegistered,
   registerAccount
-} from "../../_utils/supabase/accountAPI";
-import { InputMessage } from "../../_components/register/InputMessage";
-import { oAuthLogIn, oAuthRegister } from "../../_utils/supabase/authAPI";
+} from "../../../utils/supabase/accountAPI";
+import { InputMessage } from "../../../components/register/InputMessage";
+import { oAuthLogIn, oAuthRegister } from "../../../utils/supabase/authAPI";
 
 const Register = () => {
   const [email, setEmail] = useState("");

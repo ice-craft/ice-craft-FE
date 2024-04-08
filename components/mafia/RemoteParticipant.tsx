@@ -1,10 +1,10 @@
-import { Participants } from "@/app/_types";
+import { Participants } from "@/types";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import React from "react";
-import S from "@/app/_style/livekit/livekit.module.css";
+import S from "@/style/livekit/livekit.module.css";
 import CamCheck from "@/public/images/cam_check.png";
 import Image from "next/image";
-import useOverlayStore from "@/app/_store/overlay-store";
+import useOverlayStore from "@/store/overlay-store";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();

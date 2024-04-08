@@ -1,5 +1,5 @@
-import { useCountDown } from "@/app/_hooks/useCountDown";
-import S from "@/app/_style/modal/modal.module.css";
+import { useCountDown } from "@/hooks/useCountDown";
+import S from "@/style/modal/modal.module.css";
 
 //FIXME - 추후 Zustand로 관리
 const MafiaModal = () => {

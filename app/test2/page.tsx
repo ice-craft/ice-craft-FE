@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { fastJoinRoom } from "../_utils/supabase/roomAPI";
+import { fastJoinRoom } from "../../utils/supabase/roomAPI";
 
 const Test2 = () => {
   useEffect(() => {

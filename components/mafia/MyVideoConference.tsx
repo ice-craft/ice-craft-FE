@@ -1,5 +1,5 @@
-import useOverlayStore from "@/app/_store/overlay-store";
-import S from "@/app/_style/livekit/livekit.module.css";
+import useOverlayStore from "@/store/overlay-store";
+import S from "@/style/livekit/livekit.module.css";
 import { useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import LocalParticipant from "./LocalParticipant";

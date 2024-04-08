@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getToken } from "../_api/liveKitApi";
-import { MafiaRoom } from "../_types";
+import { getToken } from "../api/liveKitApi";
+import { MafiaRoom } from "../types";
 
 export const useGetToken = ({ room, name }: MafiaRoom) => {
   return useQuery({
