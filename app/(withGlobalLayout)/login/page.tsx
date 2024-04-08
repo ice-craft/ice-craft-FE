@@ -1,6 +1,6 @@
 "use client";
 
-import { MouseEvent, useEffect, useState } from "react";
+import { FormEvent, MouseEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/authAPI";
 
@@ -11,7 +11,7 @@ const LogIn = () => {
   const [secondErrorMessage, setSecondErrorMessage] = useState("");
   const router = useRouter();
 
-  const logInHandler = async (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+  const logInHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -27,7 +27,7 @@ const LogIn = () => {
     router.push("/"); //NOTE - 메인 페이지로 이동
   };
   const registerHandler = async (e: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>) => {
-    e.preventDefault();
+    router.push("/register");
   };
 
   const emailFocusHandler = () => {
@@ -91,7 +91,7 @@ const LogIn = () => {
   });
 
   return (
-    <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4">
+    <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4" onSubmit={(e) => logInHandler(e)}>
       <label className="text-md" htmlFor="email">
         Email
       </label>
@@ -121,7 +121,7 @@ const LogIn = () => {
         onFocus={passwordFocusHandler}
         required
       />
-      <button onClick={(e) => logInHandler(e)} className="px-4 py-2 mb-2 bg-green-700 rounded-md text-foreground">
+      <button type="submit" className="px-4 py-2 mb-2 bg-green-700 rounded-md text-foreground">
         로그인
       </button>
       <div>
