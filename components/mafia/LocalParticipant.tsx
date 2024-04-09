@@ -1,7 +1,7 @@
 import useCountUp from "@/hooks/useCountUp";
 import { useCountStore } from "@/store/count-store";
-import { useModalStore } from "@/store/modal-store";
 import useOverlayStore from "@/store/overlay-store";
+import { useModalStore, useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { allCamOff } from "@/utils/participantCamSettings/camSetting";
@@ -13,6 +13,7 @@ import React from "react";
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { setIsModal } = useModalStore();
   const { setIsStart } = useCountStore();
+  const { isReady, setIsReady } = useReadyStore();
   const timer = useCountUp();
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid } = useOverlayStore();
@@ -22,6 +23,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
     allCamOff(tracks);
     setIsModal(true);
     setIsStart(true);
+    setIsReady(isReady);
   };
 
   return (
@@ -39,7 +41,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           </div>
         </div>
       ))}
-      <button onClick={startGameHandler}>START</button>
+      <button style={{ backgroundColor: isReady ? "red" : "blue" }} onClick={startGameHandler}>
+        {isReady ? "취소" : "Ready"}
+      </button>
     </div>
   );
 };

@@ -3,7 +3,7 @@
 import { AllMikeOff, allCamOff, allCamOn, lastSpeak } from "@/utils/participantCamSettings/camSetting";
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
-import { useModalStore } from "@/store/modal-store";
+import { useModalStore } from "@/store/toggle-store";
 import { useParticipantTracks, useRemoteParticipant, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";

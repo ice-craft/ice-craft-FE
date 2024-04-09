@@ -1,6 +1,7 @@
 import "./globals.css";
 import QueryProvider from "./provider";
 import { ToastContainer } from "react-toastify";
+import { pretendard } from "@/public/fonts/fonts";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
@@ -13,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body>
+      <body className={pretendard.className}>
         <ToastContainer />
         <QueryProvider>{children}</QueryProvider>
       </body>

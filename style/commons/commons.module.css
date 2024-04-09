@@ -1,11 +1,10 @@
 /*-------------- HEADER ----------------*/
 .headerWrap {
-  width: 100%;
-  background-color: #050b15;
+  background-color: var(--header-background-color);
 }
 
 .header {
-  max-width: 1920px;
+  max-width: var(--max-width);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -14,19 +13,18 @@
 }
 
 .ul {
-  color: #fff;
+  color: var(--white);
   display: flex;
   gap: 20px;
 }
 
 /*-------------- HEADER ----------------*/
 .footerWrap {
-  width: 100%;
-  background-color: #eee;
+  background-color: var(--footer-background-color);
 }
 
 .footer {
-  max-width: 1920px;
+  max-width: var(--max-width);
   margin: 0 auto;
   padding: 21px 30px;
   display: flex;
