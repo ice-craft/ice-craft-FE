@@ -1,9 +1,9 @@
 /*-------------- INTRO HEADER ----------------*/
-.introHeaderWrap {
+.introWrapper {
   position: relative;
 }
 
-.introHeaderWrap header {
+.introWrapper header {
   position: absolute;
   left: 30px;
   top: 21px;
@@ -45,7 +45,7 @@
 .introTitle > a {
   width: 454px;
   height: 68px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   text-align: center;
   line-height: 68px;
   text-transform: uppercase;

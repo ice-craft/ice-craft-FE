@@ -2,11 +2,15 @@ import React, { useState, FormEvent } from "react";
 import S from "@/style/modal/modal.module.css";
 import { useModalStore } from "@/store/toggle-store";
 import { useRouter } from "next/navigation";
-import { createRoom } from "@/utils/supabase/roomAPI";
+import MafiaGameChoice from "@/public/images/game_choice_mafia.png";
+import MafiaGameChoiceActive from "@/public/images/game_choice_mafia_active.png";
+import MafiaGameSong from "@/public/images/game_choice_song.png";
+import MafiaGameSongActive from "@/public/images/game_choice_mafia_song_active.png";
+import Image from "next/image";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
-  const [selectedGame, setSelectedGame] = useState<string>("");
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [roomTitle, setRoomTitle] = useState<string>("");
   const [numberOfPlayers, setNumberOfPlayers] = useState<number>(0);
 
@@ -35,12 +39,8 @@ const MainCreateRoom = () => {
             <form onSubmit={createRoomSubmitHandler}>
               <h2>게임을 선택해주세요</h2>
               <p>게임 고르기</p>
-              <button type="button" onClick={() => setSelectedGame("마피아")}>
-                마피아
-              </button>
-              <button type="button" onClick={() => setSelectedGame("노래 맞추기")}>
-                노래 맞추기
-              </button>
+              <button onClick={() => setSelectedGame("마피아")}>마피아</button>
+              <button onClick={() => setSelectedGame("노래 맞추기")}>노래 맞추기</button>
               <p>방제목</p>
               <input type="text" value={roomTitle} onChange={(e) => setRoomTitle(e.target.value)} />
               <p>인원수</p>

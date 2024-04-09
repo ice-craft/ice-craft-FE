@@ -10,23 +10,23 @@
   justify-content: center;
   gap: 30px;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--white);
   padding: 0 30px;
 }
 
 .localParticipant h2 {
-  font-size: 40px;
-  border: 1px solid #bfbfbf;
+  font-size: var(--font-size-modal-content);
+  border: 1px solid var(--silver-gray);
   padding: 5px 50px;
   border-radius: 100px;
-  color: #111;
+  color: var(--text-black);
   white-space: nowrap;
 }
 
 .localParticipant button {
-  font-size: 24px;
-  background-color: #bfbfbf;
-  padding: 5px 50px;
+  font-size: var(--font-size-modal-title);
+  background-color: var(--silver-gray);
+  padding: 15px 100px;
   border-radius: 100px;
 }
 
@@ -46,7 +46,7 @@
   left: 0;
   top: 0;
   z-index: 1;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   display: none;
 }
@@ -89,7 +89,7 @@
   left: 0;
   top: 0;
   z-index: 1;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   display: none;
 }
@@ -112,7 +112,7 @@
   position: absolute;
   left: 30px;
   bottom: 35px;
-  color: #111;
+  color: var(--text-black);
   cursor: pointer;
 }
 
