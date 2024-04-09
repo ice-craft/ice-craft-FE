@@ -7,6 +7,14 @@ import {
 } from "../../../utils/supabase/accountAPI";
 import { InputMessage } from "../../../components/register/InputMessage";
 import { oAuthLogIn, oAuthRegister } from "../../../utils/supabase/authAPI";
+import KakaoLogin from "@/public/images/join_kakaotalk.png";
+import GoogleLogin from "@/public/images/join_google.png";
+import GithubLogin from "@/public/images/join_github.png";
+import FacebookLogin from "@/public/images/join_facebook.png";
+import Image from "next/image";
+import S from "@/style/register/register.module.css";
+import Logo from "@/public/images/logo.svg";
+import Link from "next/link";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -106,7 +114,7 @@ const Register = () => {
 
     if (!isContained) {
       isPassed.current = { ...isPassed.current, inputPassword: false };
-      return setPasswordMessage("비밀번호에 대문자와 소문자가 포함되어있지 않습니다.");
+      return setPasswordMessage("비밀번호에 대문자와 소문자가 포함되어 있지 않습니다.");
     }
 
     isPassed.current = { ...isPassed.current, inputPassword: true };
@@ -192,93 +200,107 @@ const Register = () => {
   };
 
   return (
-    <form className="flex flex-col justify-center flex-1 w-2/3 gap-2 p-4 m-4" onSubmit={(e) => register(e)}>
-      <h1 className="text-center">회원가입</h1>
-      <label className="text-md" htmlFor="email">
-        이메일
-      </label>
-      <div>
-        <input
-          className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-          type="text"
-          name="email"
-          placeholder="이메일을 입력해주세요."
-          value={email}
-          onChange={(e) => emailChangeHandler(e.target.value)}
-          required
-        />
-        <button type="button" onClick={(e) => checkEmailExistedHandler(e)} className="bg-slate-300">
-          중복확인
-        </button>
-        {<InputMessage text={emailMessage} />}
-      </div>
-
-      <label className="text-md" htmlFor="nickname">
-        닉네임
-      </label>
-      <div>
-        <input
-          className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-          type="text"
-          name="nickname"
-          maxLength={6}
-          placeholder="닉네임을 입력해주세요."
-          value={nickname}
-          onChange={(e) => nicknameChangeHandler(e.target.value)}
-          required
-        />
-        <button type="button" onClick={(e) => checkNicknameExistedHandler(e)} className="bg-slate-300">
-          중복확인
-        </button>
-        {<InputMessage text={nicknameMessage} />}
-      </div>
-      <label className="text-md" htmlFor="password">
-        비밀번호
-      </label>
-      <input
-        className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-        type="password"
-        name="password"
-        maxLength={12}
-        placeholder="비밀번호를 입력해주세요."
-        value={password}
-        onChange={(e) => passwordChangeHandler(e.target.value)}
-        required
-      />
-      <InputMessage text={passwordMessage} />
-      <label className="text-md" htmlFor="check-password">
-        비밀번호 확인
-      </label>
-      <input
-        className="px-4 py-2 mb-6 border rounded-md bg-inherit"
-        type="password"
-        name="password"
-        placeholder="비밀번호를 한번 더입력해주세요."
-        value={checkPassword}
-        onChange={(e) => checkPasswordChangeHandler(e.target.value)}
-        required
-      />
-      {<InputMessage text={checkPasswordMessage} />}
-      <button type="submit" className="bg-slate-300">
-        회원가입
-      </button>
-      {<InputMessage text={registerMessage} />}
-      <div className="flex flex-col gap-2">
-        <p className="text-center">간편 가입하기</p>
-        <button type="button" onClick={kakaoLogIn} className="bg-slate-300">
-          카카오톡으로 회원가입
-        </button>
-        <button type="button" onClick={googleLogIn} className="bg-slate-300">
-          구글로 회원가입
-        </button>
-        <button type="button" onClick={githubLogIn} className="bg-slate-300">
-          깃헙으로 회원가입
-        </button>
-        <button type="button" onClick={facebookLogIn} className="bg-slate-300">
-          페이스북으로 회원가입
-        </button>
-      </div>
-    </form>
+    <div className={S.wrapper}>
+      <header>
+        <Link href="/">
+          <Image src={Logo} alt="logo" />
+        </Link>
+      </header>
+      <main className={S.mainWrapper}>
+        <form>
+          <h2>회원가입</h2>
+          <div className={S.userForm}>
+            <div className={S.userEmail}>
+              <label htmlFor="email">이메일</label>
+              <div>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="이메일을 입력해주세요."
+                  value={email}
+                  onChange={(e) => emailChangeHandler(e.target.value)}
+                  required
+                />
+                <button onClick={(e) => checkEmailExistedHandler(e)}>중복확인</button>
+              </div>
+              {<InputMessage text={emailMessage} />}
+            </div>
+            <div className={S.userNickname}>
+              <label htmlFor="nickname">닉네임</label>
+              <div>
+                <input
+                  type="text"
+                  name="nickname"
+                  maxLength={6}
+                  placeholder="닉네임을 입력해주세요."
+                  value={nickname}
+                  onChange={(e) => nicknameChangeHandler(e.target.value)}
+                  required
+                />
+                <button onClick={(e) => checkNicknameExistedHandler(e)}>중복확인</button>
+              </div>
+              {<InputMessage text={nicknameMessage} />}
+            </div>
+            <div>
+              <label htmlFor="password">비밀번호</label>
+              <input
+                type="password"
+                name="password"
+                maxLength={12}
+                placeholder="비밀번호를 입력해주세요."
+                value={password}
+                onChange={(e) => passwordChangeHandler(e.target.value)}
+                required
+              />
+              <InputMessage text={passwordMessage} />
+            </div>
+            <div>
+              <label htmlFor="check-password">비밀번호 확인</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="비밀번호를 한번 더입력해주세요."
+                value={checkPassword}
+                onChange={(e) => checkPasswordChangeHandler(e.target.value)}
+                required
+              />
+              {<InputMessage text={checkPasswordMessage} />}
+            </div>
+          </div>
+          <div>
+            <button className={S.registerButton} onClick={(e) => register(e)} type="submit">
+              회원가입
+            </button>
+            {<InputMessage text={registerMessage} />}
+          </div>
+          <div className={S.simpleLogin}>
+            <h3>간편 가입하기</h3>
+            <ul>
+              <li>
+                <button onClick={kakaoLogIn}>
+                  <Image src={KakaoLogin} alt="카카오톡 로그인" />
+                </button>
+              </li>
+              <li>
+                <button onClick={googleLogIn}>
+                  <Image src={GoogleLogin} alt="구글 로그인" />
+                </button>
+              </li>
+              <li>
+                <button onClick={githubLogIn}>
+                  <Image src={GithubLogin} alt="깃허브 로그인" />
+                </button>
+              </li>
+              <li>
+                <button onClick={facebookLogIn}>
+                  <Image src={FacebookLogin} alt="페이스북 로그인" />
+                </button>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </main>
+    </div>
   );
 };
 
