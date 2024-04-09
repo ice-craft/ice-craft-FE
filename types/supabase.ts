@@ -24,27 +24,27 @@ export interface Database {
       room_table: {
         Row: {
           created_at: string | null;
-          current_user_count: number | null;
+          current_user_count: number;
           game_category: string | null;
           room_id: string;
           title: string | null;
-          total_user_count: number | null;
+          total_user_count: number;
         };
         Insert: {
           created_at?: string | null;
-          current_user_count?: number | null;
+          current_user_count?: number;
           game_category?: string | null;
           room_id?: string;
           title?: string | null;
-          total_user_count?: number | null;
+          total_user_count?: number;
         };
         Update: {
           created_at?: string | null;
-          current_user_count?: number | null;
+          current_user_count?: number;
           game_category?: string | null;
           room_id?: string;
           title?: string | null;
-          total_user_count?: number | null;
+          total_user_count?: number;
         };
         Relationships: [];
       };
