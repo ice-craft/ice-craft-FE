@@ -7,6 +7,7 @@ import MafiaGameChoiceActive from "@/public/images/game_choice_mafia_active.png"
 import MafiaGameSong from "@/public/images/game_choice_song.png";
 import MafiaGameSongActive from "@/public/images/game_choice_mafia_song_active.png";
 import Image from "next/image";
+import { createRoom } from "@/utils/supabase/roomAPI";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
