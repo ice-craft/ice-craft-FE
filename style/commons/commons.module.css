@@ -31,3 +31,14 @@
   align-items: center;
   justify-content: space-between;
 }
+
+/*-------------- NotFoundPage ----------------*/
+.mainSection {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-modal-content);
+  text-align: center;
+  font-weight: var(--font-bold);
+}

@@ -14,18 +14,18 @@
 
 .modal {
   position: absolute;
-  background-color: #fff;
+  background-color: var(--white);
   opacity: 1;
-  border-radius: 8px;
+  border-radius: 12px;
   z-index: 999;
-  color: #111;
+  color: var(--text-black);
   padding: 80px;
   text-align: center;
 }
 
 .modal h1 {
   color: #999;
-  font-size: 25px;
+  font-size: var(--font-size-modal-title);
   margin-bottom: 30px;
 }
 
@@ -40,11 +40,11 @@
 /*------------ UserCardImage ------------*/
 .workModal {
   position: absolute;
-  background-color: #fff;
+  background-color: var(--white);
   opacity: 1;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   z-index: 999;
-  color: #111;
+  color: var(--text-black);
   padding: 80px;
   text-align: center;
   margin: 0 10%;
@@ -52,7 +52,7 @@
 
 .workTitle {
   margin-bottom: 50px;
-  font-size: 35px;
+  font-size: var(--font-size-modal-content);
 }
 
 .workList {
@@ -85,6 +85,68 @@
 
 .workList li:nth-child(4) img {
   animation: doctorCard 1s 1s 1 ease forwards;
+}
+
+/*------------ mainpage modal ------------*/
+.gameForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.gameChoice {
+  font-weight: var(--font-bold);
+  font-size: var(--font-size-modal-title);
+}
+
+.gameTitle {
+  font-size: var(--font-size-small);
+  text-align: left;
+  color: var(--modal-title-color);
+  margin-bottom: 10px;
+}
+
+.gameNameText input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--silver-gray);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.gameNameText input[type="text"]:focus {
+  outline: 1px solid var(--main-color);
+  opacity: 0.5;
+}
+
+.playerPeopleChoice select {
+  width: 100%;
+  border: 1px solid var(--silver-gray);
+  border-radius: 4px;
+  padding: 12px 12px;
+}
+
+.gameChoiceList {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gameChoiceList li {
+  cursor: pointer;
+}
+
+.gameChoiceButton {
+  display: flex;
+  gap: 18px;
+}
+
+.gameChoiceButton > button {
+  width: 50%;
+}
+
+.closedButton {
+  border: 1px solid var(--silver-gray) !important;
+  background-color: var(--white) !important;
+  color: var(--text-black) !important;
 }
 
 /*------------ animation ------------*/
