@@ -1,6 +1,6 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       account_table: {
@@ -88,7 +88,7 @@ export type Database = {
       [_ in never]: never;
     };
   };
-};
+}
 
 type PublicSchema = Database[Extract<keyof Database, "public">];
 
