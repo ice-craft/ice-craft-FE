@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   checkUserEmailRegistered,
   checkUserNicknameRegistered,
@@ -15,6 +15,7 @@ import Image from "next/image";
 import S from "@/style/register/register.module.css";
 import Logo from "@/public/images/logo.svg";
 import Link from "next/link";
+import { RegisterButton } from "@/components/register/RegisterButton";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -32,11 +33,11 @@ const Register = () => {
     email: false,
     inputNickname: false,
     nickname: false,
-    inputPassword: false,
     password: false,
-    inputCheckPassword: false,
     checkPassword: false
   });
+
+  const [canRegister, setCanRegister] = useState(false);
 
   const emailChangeHandler = (inputEmail: string) => {
     setEmail(inputEmail);
@@ -60,8 +61,6 @@ const Register = () => {
   };
 
   const checkEmailExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-
     const isEmailRegistered = await checkUserEmailRegistered(email);
     if (isEmailRegistered || !isPassed.current.inputEmail) {
       return setEmailMessage("이미 존재하는 이메일입니다.");
@@ -89,8 +88,6 @@ const Register = () => {
   };
 
   const checkNicknameExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-
     const isNicknameRegistered = await checkUserNicknameRegistered(nickname);
     if (isNicknameRegistered || !isPassed.current.inputNickname) {
       return setNicknameMessage("이미 존재하는 닉네임입니다.");
@@ -104,12 +101,12 @@ const Register = () => {
     isPassed.current = { ...isPassed.current, password: false };
 
     if (inputPassword.length === 0) {
-      isPassed.current = { ...isPassed.current, inputPassword: false };
+      isPassed.current = { ...isPassed.current, password: false };
       return setPasswordMessage("비밀번호을 입력해주세요.");
     }
 
     if (inputPassword.length < 6 || 12 < inputPassword.length) {
-      isPassed.current = { ...isPassed.current, inputPassword: false };
+      isPassed.current = { ...isPassed.current, password: false };
       return setPasswordMessage("비밀번호의 길이가 올바르지 않습니다.");
     }
 
@@ -117,11 +114,10 @@ const Register = () => {
     const isContained = passwordPattern.test(inputPassword);
 
     if (!isContained) {
-      isPassed.current = { ...isPassed.current, inputPassword: false };
+      isPassed.current = { ...isPassed.current, password: false };
       return setPasswordMessage("비밀번호에 대문자와 소문자가 포함되어 있지 않습니다.");
     }
 
-    isPassed.current = { ...isPassed.current, inputPassword: true };
     isPassed.current = { ...isPassed.current, password: true };
     setPasswordMessage("");
   };
@@ -131,28 +127,29 @@ const Register = () => {
     isPassed.current = { ...isPassed.current, checkPassword: false };
 
     if (inputCheckPassword.length === 0) {
-      isPassed.current = { ...isPassed.current, inputPassword: false };
+      isPassed.current = { ...isPassed.current, checkPassword: false };
       return setCheckPasswordMessage("비밀번호 확인을 입력해주세요.");
     }
 
     if (inputCheckPassword !== password) {
-      isPassed.current = { ...isPassed.current, inputCheckPassword: false };
+      isPassed.current = { ...isPassed.current, checkPassword: false };
       return setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
     }
 
-    isPassed.current = { ...isPassed.current, inputCheckPassword: true };
     isPassed.current = { ...isPassed.current, checkPassword: true };
     setCheckPasswordMessage("");
   };
 
-  const register = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isEmailPassed = isPassed.current.email;
     const isNicknamePassed = isPassed.current.nickname;
     const isPasswordPassed = isPassed.current.password;
     const isCheckPasswordPassed = isPassed.current.checkPassword;
 
-    if (!isEmailPassed || !isNicknamePassed || !isPasswordPassed || !isCheckPasswordPassed) {
+    setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
+
+    if (!canRegister) {
       return setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
     }
 
@@ -203,6 +200,16 @@ const Register = () => {
     }
   };
 
+  useEffect(() => {
+    const isEmailPassed = isPassed.current.email;
+    const isNicknamePassed = isPassed.current.nickname;
+    const isPasswordPassed = isPassed.current.password;
+    const isCheckPasswordPassed = isPassed.current.checkPassword;
+
+    setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
+    console.log(canRegister); //NOTE - 테스트 코드, 출력 안됨, 렌더링이 꼬여서 그럼, 리액트 폼 훅으로 리펙토링해야 함
+  }, [isPassed.current]);
+
   return (
     <div className={S.wrapper}>
       <header>
@@ -211,7 +218,7 @@ const Register = () => {
         </Link>
       </header>
       <main className={S.mainWrapper}>
-        <form>
+        <form onSubmit={(e) => register(e)}>
           <h2>회원가입</h2>
           <div className={S.userForm}>
             <div className={S.userEmail}>
@@ -241,7 +248,9 @@ const Register = () => {
                   onChange={(e) => nicknameChangeHandler(e.target.value)}
                   required
                 />
-                <button onClick={(e) => checkNicknameExistedHandler(e)}>중복확인</button>
+                <button type="button" onClick={(e) => checkNicknameExistedHandler(e)}>
+                  중복확인
+                </button>
               </div>
               {<InputMessage text={nicknameMessage} />}
             </div>
@@ -272,31 +281,32 @@ const Register = () => {
             </div>
           </div>
           <div>
-            <button className={S.registerButton} onClick={(e) => register(e)} type="submit">
+            {/* <button className={S.registerButton} type="submit">
               회원가입
-            </button>
+            </button> */}
+            <RegisterButton active={canRegister} />
             {<InputMessage text={registerMessage} />}
           </div>
           <div className={S.simpleLogin}>
             <h3>간편 가입하기</h3>
             <ul>
               <li>
-                <button onClick={kakaoLogIn}>
+                <button type="button" onClick={kakaoLogIn}>
                   <Image src={KakaoLogin} alt="카카오톡 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={googleLogIn}>
+                <button type="button" onClick={googleLogIn}>
                   <Image src={GoogleLogin} alt="구글 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={githubLogIn}>
+                <button type="button" onClick={githubLogIn}>
                   <Image src={GithubLogin} alt="깃허브 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={facebookLogIn}>
+                <button type="button" onClick={facebookLogIn}>
                   <Image src={FacebookLogin} alt="페이스북 로그인" />
                 </button>
               </li>
