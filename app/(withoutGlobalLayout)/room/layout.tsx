@@ -54,7 +54,7 @@ const layout = ({ children }: PropsWithChildren) => {
       ) : (
         <div style={{ display: "grid", placeItems: "center", height: "100", width: "100%" }}>
           <PreJoinNoSSR
-            onError={(err) => console.log("error while setting up prejoin", err)}
+            onError={(err) => console.log("setting error", err)}
             defaults={{
               username: "",
               videoEnabled: true,
