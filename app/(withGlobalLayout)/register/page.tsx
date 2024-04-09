@@ -207,7 +207,7 @@ const Register = () => {
         </Link>
       </header>
       <main className={S.mainWrapper}>
-        <form>
+        <form onSubmit={(e) => register(e)}>
           <h2>회원가입</h2>
           <div className={S.userForm}>
             <div className={S.userEmail}>
@@ -237,7 +237,9 @@ const Register = () => {
                   onChange={(e) => nicknameChangeHandler(e.target.value)}
                   required
                 />
-                <button onClick={(e) => checkNicknameExistedHandler(e)}>중복확인</button>
+                <button type="button" onClick={(e) => checkNicknameExistedHandler(e)}>
+                  중복확인
+                </button>
               </div>
               {<InputMessage text={nicknameMessage} />}
             </div>
@@ -268,7 +270,7 @@ const Register = () => {
             </div>
           </div>
           <div>
-            <button className={S.registerButton} onClick={(e) => register(e)} type="submit">
+            <button className={S.registerButton} type="submit">
               회원가입
             </button>
             {<InputMessage text={registerMessage} />}
@@ -277,22 +279,22 @@ const Register = () => {
             <h3>간편 가입하기</h3>
             <ul>
               <li>
-                <button onClick={kakaoLogIn}>
+                <button type="button" onClick={kakaoLogIn}>
                   <Image src={KakaoLogin} alt="카카오톡 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={googleLogIn}>
+                <button type="button" onClick={googleLogIn}>
                   <Image src={GoogleLogin} alt="구글 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={githubLogIn}>
+                <button type="button" onClick={githubLogIn}>
                   <Image src={GithubLogin} alt="깃허브 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={facebookLogIn}>
+                <button type="button" onClick={facebookLogIn}>
                   <Image src={FacebookLogin} alt="페이스북 로그인" />
                 </button>
               </li>
