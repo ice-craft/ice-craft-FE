@@ -78,12 +78,21 @@
   border-radius: 4px;
 }
 
-.registerButton {
+.registerButtonInactive {
   width: 100%;
   font-weight: var(--font-bold);
   padding: 16px 0;
   border-radius: var(--border-radius);
   background-color: var(--silver-gray);
+  color: var(--white);
+}
+
+.registerButtonActive {
+  width: 100%;
+  font-weight: var(--font-bold);
+  padding: 16px 0;
+  border-radius: var(--border-radius);
+  background-color: var(--main-color);
   color: var(--white);
 }
 
@@ -102,6 +111,12 @@
 
 .error {
   color: var(--variation-error);
+  font-size: var(--font-size-small);
+  margin: 8px 0 0 5px;
+}
+
+.success {
+  color: var(--main-color);
   font-size: var(--font-size-small);
   margin: 8px 0 0 5px;
 }

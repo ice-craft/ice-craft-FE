@@ -4,7 +4,7 @@ const supabase = createClient();
 
 //NOTE - 해당 범위의 방들을 반환(데이터베이스의 인덱스는 0부터 시작, rowStart 인덱스와 rowEnd 인덱스를 포함해서 반환), 날짜 내림차순
 export const getRooms = async (rowStart: number, rowEnd: number) => {
-  const { data: room_table, error } = await supabase
+  const { data, error } = await supabase
     .from("room_table")
     .select("*, users:room_user_match_table(user_id)")
     .range(rowStart, rowEnd)
@@ -12,12 +12,12 @@ export const getRooms = async (rowStart: number, rowEnd: number) => {
   if (error) {
     throw new Error(error.message);
   }
-  return room_table;
+  return data;
 };
 
 //NOTE - 제목에 키워드가 포함된 방 목록 반환 (날짜 내림차순)
 export const getRoomsWithKeyword = async (keyword: string) => {
-  const { data: room_table, error } = await supabase
+  const { data, error } = await supabase
     .from("room_table")
     .select("*, users:room_user_match_table(user_id)")
     .like("title", `%${keyword}%`)
@@ -25,7 +25,7 @@ export const getRoomsWithKeyword = async (keyword: string) => {
   if (error) {
     throw new Error(error.message);
   }
-  return room_table;
+  return data;
 };
 
 //NOTE - 방 만들기 (방만 만듬, 방을 만들고 접속도 해야함)
@@ -106,7 +106,7 @@ export const deleteRoom = async (room_id: string, user_id: string) => {
 
 //NOTE - 빠른 방 입장 (전체 인원 오름차순으로 정렬 후, 현재 인원 내림차순 정렬 후, 남은 인원이 0명인 방을 제외한 후, 첫 번째 방 입장)
 export const fastJoinRoom = async (user_id: string) => {
-  const { data: room_table, error } = await supabase
+  const { data, error } = await supabase
     .from("room_table")
     .select("*")
     .order("total_user_count", { ascending: true })
@@ -115,7 +115,7 @@ export const fastJoinRoom = async (user_id: string) => {
     throw new Error(error.message);
   }
   try {
-    const rows = room_table.filter((row) => row.current_user_count !== row.total_user_count);
+    const rows = data.filter((row) => row.current_user_count !== row.total_user_count);
     const room_id = rows[0].room_id;
     const result = await joinRoom(room_id, user_id);
     return result;
@@ -142,14 +142,14 @@ export const changeUserCountInRoom = async (room_id: string, change: number) => 
 
 //NOTE - 방에 들어갈 수 있는 총인원과 현재 인원 반환
 export const getUserCountInRoom = async (room_id: string) => {
-  const { data: room_table, error } = await supabase
+  const { data, error } = await supabase
     .from("room_table")
     .select("current_user_count, total_user_count")
     .eq("room_id", room_id);
   if (error) {
     throw new Error(error.message);
   }
-  return { total_user_count: room_table[0].total_user_count, current_user_count: room_table[0].current_user_count };
+  return { total_user_count: data[0].total_user_count, current_user_count: data[0].current_user_count };
 };
 
 //NOTE - 방의 총 갯수 반환
@@ -163,13 +163,10 @@ export const getRoomsCount = async () => {
 
 //NOTE - roomId의 방에 입장한 유저들 id 목록 반환
 export const getUsersInRoom = async (roomId: string) => {
-  const { data: room_user_match_table, error } = await supabase
-    .from("room_user_match_table")
-    .select("user_id")
-    .eq("room_id", roomId);
+  const { data, error } = await supabase.from("room_user_match_table").select("user_id").eq("room_id", roomId);
 
   if (error) {
     throw new Error(error.message);
   }
-  return room_user_match_table.map((row) => row.user_id);
+  return data.map((row) => row.user_id);
 };
