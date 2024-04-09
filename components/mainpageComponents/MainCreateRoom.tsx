@@ -27,7 +27,7 @@ const MainCreateRoom = () => {
     // 유효성검사필요
     // if (!selectedGame || !roomTitle || !numberOfPlayers) {
     // }
-    createRoom(roomTitle, selectedGame, numberOfPlayers);
+    createRoom(roomTitle, selectedGame!, numberOfPlayers);
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
   };
