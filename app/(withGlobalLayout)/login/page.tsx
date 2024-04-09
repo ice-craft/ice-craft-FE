@@ -34,9 +34,6 @@ const LogIn = () => {
 
     router.push("/"); //NOTE - 메인 페이지로 이동
   };
-  const registerHandler = async (e: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>) => {
-    e.preventDefault();
-  };
 
   const emailFocusHandler = () => {
     setFirstErrorMessage("");
@@ -106,7 +103,7 @@ const LogIn = () => {
         </Link>
       </header>
       <main className={S.mainWrapper}>
-        <form>
+        <form onSubmit={(e) => logInHandler(e)}>
           <h2>로그인</h2>
           <div className={S.userform}>
             <p>
@@ -141,7 +138,6 @@ const LogIn = () => {
                 <input type="checkbox" id="saveEmail" />
                 <label htmlFor="saveEmail">이메일 저장</label>
               </p>
-              {/* <button onClick={(e) => registerHandler(e)}>회원가입</button> */}
               <Link href="/register">회원가입</Link>
             </div>
             <p className={S.error}>
@@ -153,28 +149,28 @@ const LogIn = () => {
             <h3>간편 로그인하기</h3>
             <ul>
               <li>
-                <button onClick={kakaoLogIn}>
+                <button type="button" onClick={kakaoLogIn}>
                   <Image src={KakaoLogin} alt="카카오톡 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={googleLogIn}>
+                <button type="button" onClick={googleLogIn}>
                   <Image src={GoogleLogin} alt="구글 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={githubLogIn}>
+                <button type="button" onClick={githubLogIn}>
                   <Image src={GithubLogin} alt="깃허브 로그인" />
                 </button>
               </li>
               <li>
-                <button onClick={facebookLogIn}>
+                <button type="button" onClick={facebookLogIn}>
                   <Image src={FacebookLogin} alt="페이스북 로그인" />
                 </button>
               </li>
             </ul>
           </div>
-          <button className={S.loginButton} onClick={(e) => logInHandler(e)}>
+          <button type="submit" className={S.loginButton}>
             로그인
           </button>
         </form>
