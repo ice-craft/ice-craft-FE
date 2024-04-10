@@ -7,10 +7,10 @@ import {
 } from "../../../utils/supabase/accountAPI";
 import { InputMessage } from "../../../components/register/InputMessage";
 import { oAuthLogIn, oAuthRegister } from "../../../utils/supabase/authAPI";
-import KakaoLoginIcon from "@/app/assets/images/join_kakaotalk.svg";
-import GoogleLoginIcon from "@/app/assets/images/join_google.svg";
-import GithubLoginIcon from "@/app/assets/images/join_github.svg";
-import FacebookLoginIcon from "@/app/assets/images/join_facebook.svg";
+import KakaoLoginIcon from "@/assets/images/join_kakaotalk.svg";
+import GoogleLoginIcon from "@/assets/images/join_google.svg";
+import GithubLoginIcon from "@/assets/images/join_github.svg";
+import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
 import Logo from "@/assets/images/logo.svg";
 import Image from "next/image";
 import S from "@/style/register/register.module.css";

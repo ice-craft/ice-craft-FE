@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   height: inherit;
-  background: url("../../app/assets/images/mafia_visual.png") center center/cover no-repeat;
+  background: url("../../assets/images/mafia_visual.png") center center/cover no-repeat;
 }
 
 .roomSectionWrap {
@@ -50,7 +50,7 @@
   transform: translateY(-55%);
   width: 20px;
   height: 20px;
-  background: url("../../app/assets/images/icon_search.png") no-repeat;
+  background: url("../../assets/images/icon_search.png") no-repeat;
   cursor: pointer;
 }
 
@@ -121,7 +121,7 @@
   left: 20px;
   top: 50%;
   transform: translateY(-51%);
-  background: url("../../app/assets/images/icon_point.png") no-repeat;
+  background: url("../../assets/images/icon_point.png") no-repeat;
   width: 20px;
   height: 21px;
 }
@@ -156,7 +156,7 @@
   content: "";
   width: 15px;
   height: 15px;
-  background: url("../../app/assets/images/icon_plus.png") no-repeat;
+  background: url("../../assets/images/icon_plus.png") no-repeat;
   position: absolute;
   left: 15px;
   top: 50%;

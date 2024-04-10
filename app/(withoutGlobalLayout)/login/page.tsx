@@ -6,10 +6,10 @@ import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/
 import S from "@/style/login/login.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import KakaoLoginIcon from "@/app/assets/images/join_kakaotalk.svg";
-import GoogleLoginIcon from "@/app/assets/images/join_google.svg";
-import GithubLoginIcon from "@/app/assets/images/join_github.svg";
-import FacebookLoginIcon from "@/app/assets/images/join_facebook.svg";
+import KakaoLoginIcon from "@/assets/images/join_kakaotalk.svg";
+import GoogleLoginIcon from "@/assets/images/join_google.svg";
+import GithubLoginIcon from "@/assets/images/join_github.svg";
+import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
 import Logo from "@/assets/images/logo.svg";
 
 const LogIn = () => {
