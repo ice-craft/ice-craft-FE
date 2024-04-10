@@ -1,7 +1,7 @@
 import React from "react";
 import Nav from "./Nav";
 import Link from "next/link";
-import Logo from "@/app/assets/images/logo.svg";
+import Logo from "@/assets/images/logo.svg";
 import Image from "next/image";
 import S from "@/style/commons/commons.module.css";
 

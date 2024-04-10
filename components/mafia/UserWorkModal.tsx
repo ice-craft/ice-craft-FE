@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import S from "@/style/modal/modal.module.css";
-import DoctorCard from "@/app/assets/images/Doctor_Card.png";
-import PoliceCard from "@/app/assets/images/Police_Card.png";
-import MafiaCard from "@/app/assets/images/Mafia_Card.png";
-import CitizensCard from "@/app/assets/images/Citizens_Card.png";
+import DoctorCard from "@/assets/images/Doctor_Card.png";
+import PoliceCard from "@/assets/images/Police_Card.png";
+import MafiaCard from "@/assets/images/Mafia_Card.png";
+import CitizensCard from "@/assets/images/Citizens_Card.png";
 import Image from "next/image";
 import { Role } from "@/types/index";
 

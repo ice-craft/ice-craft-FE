@@ -1,4 +1,4 @@
-import CamCheck from "@/app/assets/images/cam_check.png";
+import CamCheck from "@/assets/images/cam_check.png";
 import useOverlayStore from "@/store/overlay-store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";

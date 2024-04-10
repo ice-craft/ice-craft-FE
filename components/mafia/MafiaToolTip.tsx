@@ -1,14 +1,14 @@
 import React from "react";
 import S from "@/style/livekit/livekit.module.css";
 import Image from "next/image";
-import CitizensToolTipIcon from "@/app/assets/images/citizens_ToolTip_Icon.png";
-import CitizensToolTipText from "@/app/assets/images/citizens_ToolTip_text.png";
-import MafiaToolTipIcon from "@/app/assets/images/mafia_ToolTip_Icon.png";
-import MafiaToolTipText from "@/app/assets/images/mafia_ToolTip_text.png";
-import DoctorToolTipIcon from "@/app/assets/images/doctor_ToolTip_Icon.png";
-import DoctorToolTipText from "@/app/assets/images/doctor_ToolTip_text.png";
-import PoliceToolTipIcon from "@/app/assets/images/police_ToolTip_Icon.png";
-import PoliceToolTipText from "@/app/assets/images/police_ToolTip_Text.png";
+import CitizensToolTipIcon from "@/assets/images/citizens_ToolTip_Icon.png";
+import CitizensToolTipText from "@/assets/images/citizens_ToolTip_text.png";
+import MafiaToolTipIcon from "@/assets/images/mafia_ToolTip_Icon.png";
+import MafiaToolTipText from "@/assets/images/mafia_ToolTip_text.png";
+import DoctorToolTipIcon from "@/assets/images/doctor_ToolTip_Icon.png";
+import DoctorToolTipText from "@/assets/images/doctor_ToolTip_text.png";
+import PoliceToolTipIcon from "@/assets/images/police_ToolTip_Icon.png";
+import PoliceToolTipText from "@/assets/images/police_ToolTip_Text.png";
 import { MafiaGameToolTip } from "@/types/index";
 
 const MafiaToolTip: React.FC<MafiaGameToolTip> = ({ role }) => {
