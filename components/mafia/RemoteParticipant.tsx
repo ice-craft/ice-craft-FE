@@ -22,9 +22,9 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
           onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
         >
           <ParticipantTile trackRef={track} className={S.remoteCam} />
-          <div className={S.remoteOverlay}>
+          {/* <div className={S.remoteOverlay}>
             <Image src={CamCheck} alt={track.participant.sid} />
-          </div>
+          </div> */}
         </div>
       ))}
     </div>

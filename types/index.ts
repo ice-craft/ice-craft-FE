@@ -25,20 +25,17 @@ export type Role = "citizens" | "mafia" | "doctor" | "police";
 export interface MafiaGameToolTip {
   role: Role;
 }
-
 export interface MafiaModalContent {
   count: number;
   content: string;
   nickname?: string;
 }
-
 export interface CountState {
   isStart: boolean;
   timer: number;
   setTimer: (newCount: number) => void;
   setIsStart: (newToggle: boolean) => void;
 }
-
 export interface ReadyState {
   isReady: boolean;
   setIsReady: (newModal: boolean) => void;
