@@ -1,6 +1,7 @@
 .section {
   display: flex;
   height: 100vh;
+  position: relative;
 }
 
 .localParticipant {
@@ -105,6 +106,14 @@
 .remoteParticipantOverlay.active .remoteOverlay,
 .participantOverlay.active .imageOverlay {
   display: block;
+}
+
+.goToMainPage {
+  position: absolute;
+  color: var(--text-black);
+  left: 30px;
+  top: 15px;
+  font-weight: var(--font-bold);
 }
 
 /*-------------- ToolTipIcon ----------------*/
