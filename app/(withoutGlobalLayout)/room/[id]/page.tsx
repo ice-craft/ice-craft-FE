@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 const RoomPage = () => {
   const tracks = useTracks();
   const sources = tracks.map((item) => item.source);
-  const routers = useRouter();
 
   const { isModal, setIsModal } = useModalStore();
 
@@ -26,10 +25,6 @@ const RoomPage = () => {
 
   const localParticipant = useLocalParticipant();
   const localIdentity = localParticipant.localParticipant.identity;
-
-  const leaveRoom = () => {
-    routers.replace(`/main`);
-  };
 
   const MafiaLogic = () => {
     if (localIdentity == "12323123" || "321") {
@@ -44,9 +39,6 @@ const RoomPage = () => {
 
   return (
     <>
-      <DisconnectButton style={{ width: "200px" }} onClick={leaveRoom}>
-        나가기
-      </DisconnectButton>
       <div>
         <button
           onClick={() => {
