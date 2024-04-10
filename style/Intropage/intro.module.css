@@ -1,4 +1,4 @@
-/*-------------- INTRO HEADER ----------------*/
+/*-------------- INTRO HEADER --------------*/
 .introWrapper {
   position: relative;
 }
@@ -10,6 +10,7 @@
   z-index: 2;
 }
 
+/*-------------- INTRO --------------*/
 .section {
   position: absolute;
   width: 100%;
@@ -38,8 +39,9 @@
 .h1 {
   color: var(--white);
   font-size: 60px;
-  margin-bottom: 104px;
   font-weight: var(--font-bold);
+  margin-bottom: 104px;
+  min-height: 90px;
 }
 
 .introTitle > a {

@@ -1,9 +1,9 @@
 import React from "react";
-import FooterLogo from "@/public/images/footer_logo.svg";
+import FooterLogo from "@/app/assets/images/footer_logo.svg";
+import GithubIcon from "@/app/assets/images/icon-github.png";
 import S from "@/style/commons/commons.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import GithubIcon from "@/public/images/icon-github.png";
 
 const Footer = () => {
   return (
