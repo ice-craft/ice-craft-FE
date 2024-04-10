@@ -47,6 +47,7 @@ const layout = ({ children }: PropsWithChildren) => {
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
           video={true}
           audio={true}
+
           // simulateParticipants={10} // 테스트용 카메라 생성
         >
           {children}

@@ -1,55 +1,47 @@
 import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
 
-// //NOTE -  전체 비디오 및 오디오 on
-export const allMediaOn = (tracks: TrackReferenceOrPlaceholder[]) => {
+// //NOTE -  전체의 비디오 및 오디오 on/off
+export const allMediaSetting = (tracks: TrackReferenceOrPlaceholder[], isAllMedia: boolean) => {
   tracks.forEach((track: TrackReferenceOrPlaceholder) => {
     const allTracks = track.publication;
 
     if (allTracks && allTracks.track) {
-      allTracks.track.mediaStreamTrack.enabled = true;
+      const allMedia = allTracks.track.mediaStreamTrack;
+      isAllMedia ? (allMedia.enabled = true) : (allMedia.enabled = false);
     }
   });
 };
 
-// //NOTE -  전체 비디오 및 오디오 off
-export const allMediaOff = (tracks: TrackReferenceOrPlaceholder[]) => {
-  tracks.forEach((track: TrackReferenceOrPlaceholder) => {
-    const allTracks = track.publication;
-
-    if (allTracks && allTracks.track) {
-      allTracks.track.mediaStreamTrack.enabled = false;
-    }
-  });
-};
-
-//NOTE -  모든 유저의 오디오만 off
-export const allMikeOff = (tracks: TrackReferenceOrPlaceholder[]) => {
+//NOTE -  전체의 오디오 on/off
+export const allAudioSetting = (tracks: TrackReferenceOrPlaceholder[], isAllAudio: boolean) => {
   tracks.forEach((track: TrackReferenceOrPlaceholder) => {
     const allTracks = track.publication;
 
     if (allTracks && allTracks.audioTrack) {
-      allTracks.audioTrack.mediaStreamTrack.enabled = false;
+      const allAudio = allTracks.audioTrack.mediaStreamTrack;
+      isAllAudio ? (allAudio.enabled = true) : (allAudio.enabled = false);
     }
   });
 };
 
-//NOTE - 특정 유저의 비디오 및 오디오 on
-export const specificUserMediaOn = (ParticipantTrack: TrackReference[]) => {
-  const remoteAudio = ParticipantTrack[0].publication.track;
-  const remoteVideo = ParticipantTrack[1].publication.track;
+//NOTE - 특정 유저의 오디오 on/off
+export const specificUserAudioSetting = (ParticipantTrack: TrackReference[], isAudio: boolean) => {
+  const remoteAudioTrack = ParticipantTrack[0].publication.track;
 
-  if (remoteAudio && remoteVideo) {
-    remoteAudio.mediaStreamTrack.enabled = true;
-    remoteVideo.mediaStreamTrack.enabled = true;
+  if (remoteAudioTrack) {
+    const remoteAudio = remoteAudioTrack.mediaStreamTrack;
+
+    isAudio ? (remoteAudio.enabled = true) : (remoteAudio.enabled = false);
   }
 };
 
-//NOTE - 특정 유저의 비디오만 on/off
-export const specificUserVideoOn = (ParticipantTrack: TrackReference[], isVideo: boolean) => {
-  const remoteTrack = ParticipantTrack[0].publication.track;
+//NOTE - 특정 유저의 비디오 on/off
+// 특정 유저가 여러 명일 경우 객체로 받기
+export const specificUserVideoSetting = (ParticipantTrack: TrackReference[], isVideo: boolean) => {
+  const remoteVideoTrack = ParticipantTrack[1].publication.track;
 
-  if (remoteTrack) {
-    const remoteCam = remoteTrack.mediaStreamTrack;
+  if (remoteVideoTrack) {
+    const remoteCam = remoteVideoTrack.mediaStreamTrack;
 
     isVideo ? (remoteCam.enabled = true) : (remoteCam.enabled = false);
   }
