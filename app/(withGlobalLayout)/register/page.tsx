@@ -7,13 +7,13 @@ import {
 } from "../../../utils/supabase/accountAPI";
 import { InputMessage } from "../../../components/register/InputMessage";
 import { oAuthLogIn, oAuthRegister } from "../../../utils/supabase/authAPI";
-import KakaoLogin from "@/public/images/join_kakaotalk.png";
-import GoogleLogin from "@/public/images/join_google.png";
-import GithubLogin from "@/public/images/join_github.png";
-import FacebookLogin from "@/public/images/join_facebook.png";
+import KakaoLoginIcon from "@/app/assets/images/join_kakaotalk.svg";
+import GoogleLoginIcon from "@/app/assets/images/join_google.svg";
+import GithubLoginIcon from "@/app/assets/images/join_github.svg";
+import FacebookLoginIcon from "@/app/assets/images/join_facebook.svg";
+import Logo from "@/app/assets/images/logo.svg";
 import Image from "next/image";
 import S from "@/style/register/register.module.css";
-import Logo from "@/public/images/logo.svg";
 import Link from "next/link";
 import { RegisterButton } from "@/components/register/RegisterButton";
 
@@ -292,22 +292,22 @@ const Register = () => {
             <ul>
               <li>
                 <button type="button" onClick={kakaoLogIn}>
-                  <Image src={KakaoLogin} alt="카카오톡 로그인" />
+                  <Image src={KakaoLoginIcon} alt="카카오톡 로그인" />
                 </button>
               </li>
               <li>
                 <button type="button" onClick={googleLogIn}>
-                  <Image src={GoogleLogin} alt="구글 로그인" />
+                  <Image src={GoogleLoginIcon} alt="구글 로그인" />
                 </button>
               </li>
               <li>
                 <button type="button" onClick={githubLogIn}>
-                  <Image src={GithubLogin} alt="깃허브 로그인" />
+                  <Image src={GithubLoginIcon} alt="깃허브 로그인" />
                 </button>
               </li>
               <li>
                 <button type="button" onClick={facebookLogIn}>
-                  <Image src={FacebookLogin} alt="페이스북 로그인" />
+                  <Image src={FacebookLoginIcon} alt="페이스북 로그인" />
                 </button>
               </li>
             </ul>

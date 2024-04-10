@@ -6,8 +6,8 @@ import MafiaItem from "@/public/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
-import MafiaGameTitle from "@/public/images/mafia_game_title.png";
-import PeopleIcon from "@/public/images/icon_person.png";
+import MafiaGameTitle from "@/app/assets/images/mafia_game_title.png";
+import PeopleIcon from "@/app/assets/images/icon_person.png";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
