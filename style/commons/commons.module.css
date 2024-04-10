@@ -18,7 +18,7 @@
   gap: 20px;
 }
 
-/*-------------- HEADER ----------------*/
+/*-------------- FOOTER ----------------*/
 .footerWrap {
   background-color: var(--footer-background-color);
 }
@@ -30,6 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: var(--font-size-small);
 }
 
 /*-------------- NotFoundPage ----------------*/

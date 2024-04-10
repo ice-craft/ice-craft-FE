@@ -2,7 +2,7 @@ import { Participants } from "@/types";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import React from "react";
 import S from "@/style/livekit/livekit.module.css";
-import CamCheck from "@/public/images/cam_check.png";
+import CamCheck from "@/app/assets/images/cam_check.png";
 import Image from "next/image";
 import useOverlayStore from "@/store/overlay-store";
 

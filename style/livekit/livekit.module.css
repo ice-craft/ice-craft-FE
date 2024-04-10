@@ -1,6 +1,7 @@
 .section {
   display: flex;
   height: 100vh;
+  position: relative;
 }
 
 .localParticipant {
@@ -107,6 +108,14 @@
   display: block;
 }
 
+.goToMainPage {
+  position: absolute;
+  color: var(--text-black);
+  left: 30px;
+  top: 15px;
+  font-weight: var(--font-bold);
+}
+
 /*-------------- ToolTipIcon ----------------*/
 .toolTipWrap {
   position: absolute;
@@ -130,9 +139,92 @@
   display: block;
 }
 
+/*-------------- Setting page ----------------*/
+.settingWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--text-black);
+  flex-direction: column;
+}
+
+.settingWrapper > h2 {
+  margin-bottom: 25px;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-bold);
+}
+
+.settingCam {
+  position: relative;
+  width: 450px;
+}
+
+.lk-prejoin .lk-username-container {
+  display: none;
+}
+
+.settingUserButton li {
+  position: absolute;
+  border-radius: 8px 0 0 8px;
+  white-space: nowrap;
+  width: 35.5%;
+  text-align: center;
+  padding: 10px 0px;
+  background-color: #373737;
+  bottom: 138px;
+}
+
+.settingUserButton li:nth-child(1) {
+  left: 16px;
+}
+
+.settingUserButton li:nth-child(2) {
+  right: 56px;
+}
+
+.cover {
+  position: absolute;
+  background-color: var(--text-black);
+  bottom: 76px;
+  width: 100%;
+  height: 50px;
+  user-select: none;
+}
+
+.settingJoinButton {
+  margin: 0 16px;
+}
+
+.settingJoinButton > button {
+  position: absolute;
+  bottom: 16px;
+  width: 93%;
+  background-color: var(--main-color);
+  padding: 10px 0;
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+
 /*-------------- Respansive ----------------*/
 @media (max-width: 1430px) {
   .remoteCam {
     width: 30%;
+  }
+}
+
+@media (max-width: 400px) {
+  .settingUserButton li {
+    width: 81.5%;
+  }
+
+  .settingUserButton li:nth-child(1) {
+    left: 16px;
+    bottom: 198px;
+  }
+
+  .settingUserButton li:nth-child(2) {
+    left: 16px;
   }
 }
