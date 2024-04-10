@@ -6,6 +6,7 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import { useRouter } from "next/navigation";
+import UserWorkModal from "./UserWorkModal";
 
 const MyVideoConference = () => {
   const { toggleOverlay } = useOverlayStore();
@@ -42,6 +43,7 @@ const MyVideoConference = () => {
       <div className={S.goToMainPage}>
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
+      <UserWorkModal />
     </section>
   );
 };

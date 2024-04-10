@@ -1,4 +1,4 @@
-import CamCheck from "@/public/images/cam_check.png";
+import CamCheck from "@/app/assets/images/cam_check.png";
 import useOverlayStore from "@/store/overlay-store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
@@ -19,11 +19,12 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
     allMediaSetting(tracks, false);
 
     setIsReady(isReady);
+    console.log(isReady);
   };
 
   return (
     <div className={S.localParticipant}>
-      <h2></h2>
+      <h2>00:00</h2>
       {localTracks.map((track, index) => (
         <div
           key={`${track.participant.sid}-${index}`}
@@ -31,9 +32,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
         >
           <ParticipantTile trackRef={track} className={S.localCam} />
-          {/* <div className={S.imageOverlay}>
+          <div className={S.imageOverlay}>
             <Image src={CamCheck} alt={track.participant.sid} />
-          </div> */}
+          </div>
         </div>
       ))}
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>

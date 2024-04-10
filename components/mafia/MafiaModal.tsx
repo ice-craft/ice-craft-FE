@@ -22,8 +22,8 @@ const MafiaModal = () => {
         <div className={S.modal}>
           <div>
             <h1>첫번째 턴</h1>
-            {/* <h2>{content}</h2>
-            <p>{timer}</p> */}
+            {/* <h2>{content}</h2> */}
+            {/* <p>{timer}</p> */}
           </div>
         </div>
       </div>
