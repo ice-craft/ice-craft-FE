@@ -8,6 +8,7 @@ import { useModalStore } from "../../../store/toggle-store";
 import MafiaGameTitle from "@/app/assets/images/mafia_game_title.svg";
 import PeopleIcon from "@/app/assets/images/icon_person.png";
 import MafiaItem from "@/app/assets/images/mafia_item.png";
+import { createRoom } from "@/utils/supabase/roomAPI";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -51,7 +52,7 @@ const Mainpage = () => {
             </div>
           </div>
           <ul className={S.roomList}>
-            <li></li>
+            <li>createRoom</li>
             <li>
               <Image src={MafiaItem} alt="room image" />
               <div className={S.roomTitle}>
