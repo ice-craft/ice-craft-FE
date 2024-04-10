@@ -19,12 +19,11 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
     allMediaSetting(tracks, false);
 
     setIsReady(isReady);
-    console.log(isReady);
   };
 
   return (
     <div className={S.localParticipant}>
-      <h2>00:00</h2>
+      <h2></h2>
       {localTracks.map((track, index) => (
         <div
           key={`${track.participant.sid}-${index}`}
