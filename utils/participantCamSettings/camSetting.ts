@@ -1,49 +1,49 @@
+import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
+
 // //NOTE -  전체 비디오 및 오디오 on
-export const allCamOn = (tracks: any) => {
-  tracks.forEach((track: any) => {
-    const trackOn = track.publication.track;
-    if (trackOn) {
-      trackOn.mediaStreamTrack.enabled = true;
+export const allMediaOn = (tracks: TrackReferenceOrPlaceholder[]) => {
+  tracks.forEach((track: TrackReferenceOrPlaceholder) => {
+    const allTracks = track.publication;
+
+    if (allTracks && allTracks.track) {
+      //전체 비디오 및 오디오 on
+      allTracks.track.mediaStreamTrack.enabled = true;
     }
   });
 };
 
-// //NOTE -  전체  비디오 및 오디오 off
-export const allCamOff = (tracks: any) => {
-  tracks.forEach((track: any) => {
-    const trackOff = track.publication.track;
-    if (trackOff) {
-      trackOff.mediaStreamTrack.enabled = false;
+// //NOTE -  전체 비디오 및 오디오 off
+export const allMediaOff = (tracks: TrackReferenceOrPlaceholder[]) => {
+  tracks.forEach((track: TrackReferenceOrPlaceholder) => {
+    const allTracks = track.publication;
+
+    if (allTracks && allTracks.track) {
+      allTracks.track.mediaStreamTrack.enabled = false;
     }
   });
 };
 
-//NOTE -  모든 유저의 마이크만 off
-export const AllMikeOff = (tracks: any) => {
-  tracks.forEach((track: any) => {
-    const trackAudioOn = track.publication.audioTrack;
-    if (trackAudioOn) {
-      trackAudioOn.mediaStreamTrack.enabled = false;
+//NOTE -  모든 유저의 오디오만 off
+export const allMikeOff = (tracks: TrackReferenceOrPlaceholder[]) => {
+  tracks.forEach((track: TrackReferenceOrPlaceholder) => {
+    const allTracks = track.publication;
+    if (allTracks && allTracks.audioTrack) {
+      allTracks.audioTrack.mediaStreamTrack.enabled = false;
     }
   });
 };
 
-//NOTE - 특정 유저 1명을 제외한 모든 캠 및 오디오 off
-export const lastSpeak = (tracks: any, RemoteParticipant: any, ParticipantTrack: any) => {
-  // 전체 마이크 및 캠 off
-  tracks.forEach((track: any) => {
-    const trackOff = track.publication.track;
-    if (trackOff) {
-      trackOff.mediaStreamTrack.enabled = false;
-    }
-  });
+//NOTE - 특정 유저 1명의 비디오 및 오디오 on
+export const oneUserMediaOn = (ParticipantTrack: TrackReference[]) => {
+  //순서:
+  //1) 전체 비디오 및 오디오 off
 
-  //특정 유저의 캠 및 오디오 on
-  if (RemoteParticipant) {
-    const testCam = ParticipantTrack[0].publication.track!;
-    const testVideo = ParticipantTrack[1].publication.track!;
+  //2) 특정 유저의 비디오 및 오디오 on
+  const remoteCam = ParticipantTrack[0].publication.track;
+  const remoteVideo = ParticipantTrack[1].publication.track;
 
-    testCam.mediaStreamTrack.enabled = true;
-    testVideo.mediaStreamTrack.enabled = true;
+  if (remoteCam && remoteVideo) {
+    remoteCam.mediaStreamTrack.enabled = true;
+    remoteVideo.mediaStreamTrack.enabled = true;
   }
 };

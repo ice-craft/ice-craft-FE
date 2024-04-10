@@ -3,7 +3,7 @@ import { LiveKitRoom, LocalUserChoices, RoomAudioRenderer } from "@livekit/compo
 import "@livekit/components-styles";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { useGetToken } from "../../../hooks/useToken";
 
 const PreJoinNoSSR = dynamic(
@@ -15,7 +15,8 @@ const PreJoinNoSSR = dynamic(
 
 const layout = ({ children }: PropsWithChildren) => {
   const { id } = useParams();
-  const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(undefined);
+
+  const [preJoinChoices, setPreJoinChoices] = useState<LocalUserChoices>();
 
   const room = id as string;
   const name = preJoinChoices?.username as string;
@@ -32,10 +33,10 @@ const layout = ({ children }: PropsWithChildren) => {
   const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, name });
 
   if (isLoading || !isSuccess) {
-    console.log("token 발생 로딩중 발생");
+    console.log("token 발급 중입니다.");
   }
   if (isError) {
-    console.log("token 발급 로딩중 발생");
+    console.log("token 발급 중 에러가 발생했습니다.");
   }
 
   return (
@@ -57,8 +58,8 @@ const layout = ({ children }: PropsWithChildren) => {
             onError={(err) => console.log("setting error", err)}
             defaults={{
               username: "",
-              videoEnabled: true,
-              audioEnabled: true
+              audioEnabled: true,
+              videoEnabled: true
             }}
             onSubmit={handlePreJoinSubmit}
           ></PreJoinNoSSR>
