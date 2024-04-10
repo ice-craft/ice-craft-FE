@@ -41,13 +41,16 @@ export const createRoom = async (title: string, game_category: string, total_use
 };
 
 //NOTE - 방에 들어가기 (방 자리에 여유가 있고, 자신이 방에 없으면 방에 들어갈 수 있음 )
-export const joinRoom = async (room_id: string, user_id: string) => {
+export const joinRoom = async (room_id: string, user_id: string, user_nickname: string) => {
   const { total_user_count, current_user_count } = await getUserCountInRoom(room_id);
   const usersInRoom = await getUsersInRoom(room_id);
 
   if (total_user_count - current_user_count > 0 && usersInRoom.indexOf(user_id) === -1) {
     await changeUserCountInRoom(room_id, 1);
-    const { data, error } = await supabase.from("room_user_match_table").insert([{ room_id, user_id }]).select();
+    const { data, error } = await supabase
+      .from("room_user_match_table")
+      .insert([{ room_id, user_id, user_nickname }])
+      .select();
 
     if (error) {
       throw new Error(error.message);
@@ -105,7 +108,7 @@ export const deleteRoom = async (room_id: string, user_id: string) => {
 };
 
 //NOTE - 빠른 방 입장 (전체 인원 오름차순으로 정렬 후, 현재 인원 내림차순 정렬 후, 남은 인원이 0명인 방을 제외한 후, 첫 번째 방 입장)
-export const fastJoinRoom = async (user_id: string) => {
+export const fastJoinRoom = async (user_id: string, user_nickname: string) => {
   const { data, error } = await supabase
     .from("room_table")
     .select("*")
@@ -117,7 +120,7 @@ export const fastJoinRoom = async (user_id: string) => {
   try {
     const rows = data.filter((row) => row.current_user_count !== row.total_user_count);
     const room_id = rows[0].room_id;
-    const result = await joinRoom(room_id, user_id);
+    const result = await joinRoom(room_id, user_id, user_nickname);
     return result;
   } catch (e) {
     throw new Error("빠른 방 입장에 실패했습니다.");
