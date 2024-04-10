@@ -1,4 +1,5 @@
 import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
+import { TrackPublication } from "livekit-client";
 
 // //NOTE -  전체의 비디오 및 오디오 on/off
 export const allMediaSetting = (tracks: TrackReferenceOrPlaceholder[], isAllMedia: boolean) => {
@@ -44,5 +45,19 @@ export const specificUserVideoSetting = (ParticipantTrack: TrackReference[], isV
     const remoteCam = remoteVideoTrack.mediaStreamTrack;
 
     isVideo ? (remoteCam.enabled = true) : (remoteCam.enabled = false);
+  }
+};
+
+//NOTE - 특정 유저를 제외한 비디오 및 오디오 off
+export const remainUserMediaSetting = (
+  CamTrack: TrackPublication | undefined,
+  AudioTrack: TrackPublication | undefined
+) => {
+  if (CamTrack?.track && AudioTrack?.track) {
+    const remainVideo = CamTrack.track.mediaStreamTrack;
+    const remainAudio = AudioTrack.track.mediaStreamTrack;
+
+    remainAudio.enabled = false;
+    remainVideo.enabled = false;
   }
 };

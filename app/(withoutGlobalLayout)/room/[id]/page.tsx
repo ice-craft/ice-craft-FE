@@ -6,10 +6,11 @@ import { useModalStore } from "@/store/toggle-store";
 import {
   allAudioSetting,
   allMediaSetting,
+  remainUserMediaSetting,
   specificUserAudioSetting,
   specificUserVideoSetting
 } from "@/utils/participantCamSettings/camSetting";
-import { DisconnectButton, useParticipantTracks, useTracks } from "@livekit/components-react";
+import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";
 
@@ -20,16 +21,31 @@ const RoomPage = () => {
 
   const sources = tracks.map((item) => item.source);
 
-  const participantTrack = useParticipantTracks(sources, "123");
-  console.log(participantTrack);
+  // 서버에서 userId or nickName 부여
+  const participantTrack = useParticipantTracks(sources, "12323123");
+  const participantTrack2 = useParticipantTracks(sources, "321");
+  const localParticipant = useLocalParticipant();
 
   const leaveRoom = () => {
     routers.replace(`/main`);
   };
 
+  const MafiaLogic = () => {
+    if (
+      localParticipant.localParticipant.identity == "12323123" ||
+      localParticipant.localParticipant.identity == "321"
+    ) {
+      specificUserVideoSetting(participantTrack, true);
+      specificUserVideoSetting(participantTrack2, true);
+    } else {
+      const remainAudio = localParticipant.microphoneTrack;
+      const remainCam = localParticipant.cameraTrack;
+      remainUserMediaSetting(remainAudio, remainCam);
+    }
+  };
+
   return (
     <>
-      <div></div>
       <DisconnectButton style={{ width: "200px" }} onClick={leaveRoom}>
         나가기
       </DisconnectButton>
@@ -39,18 +55,11 @@ const RoomPage = () => {
             allMediaSetting(tracks, false);
           }}
         >
-          {" "}
           밤이 되었습니다.
         </button>
       </div>
       <div>
-        <button
-          onClick={() => {
-            specificUserVideoSetting(participantTrack, true);
-          }}
-        >
-          마피아 카메라 켜짐
-        </button>
+        <button onClick={MafiaLogic}>마피아 카메라 켜짐</button>
       </div>
       <div>
         <button onClick={() => allMediaSetting(tracks, true)}> 아침이 밝았습니다. </button>
@@ -67,20 +76,24 @@ const RoomPage = () => {
         >
           최후의 반론 시간
         </button>
-        <button
-          onClick={() => {
-            allAudioSetting(tracks, false);
-          }}
-        >
-          최후의 반론 이후 모든 유저의 오디오 off
-        </button>
-        <button
-          onClick={() => {
-            setIsModal(true);
-          }}
-        >
-          정해진 타이머 이후 모달창 on/off
-        </button>
+        <div>
+          <button
+            onClick={() => {
+              allAudioSetting(tracks, false);
+            }}
+          >
+            모든 유저의 오디오 off
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              setIsModal(true);
+            }}
+          >
+            정해진 타이머 이후 모달창 on/off
+          </button>
+        </div>
       </div>
 
       <MyVideoConference />
