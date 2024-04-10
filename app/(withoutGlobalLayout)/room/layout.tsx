@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import React, { PropsWithChildren } from "react";
 import { useGetToken } from "../../../hooks/useToken";
+import S from "@/style/livekit/livekit.module.css";
 
 const PreJoinNoSSR = dynamic(
   async () => {
@@ -52,17 +53,28 @@ const layout = ({ children }: PropsWithChildren) => {
           <RoomAudioRenderer />
         </LiveKitRoom>
       ) : (
-        <div style={{ display: "grid", placeItems: "center", height: "100", width: "100%" }}>
-          <PreJoinNoSSR
-            onError={(err) => console.log("setting error", err)}
-            defaults={{
-              username: "",
-              videoEnabled: true,
-              audioEnabled: true
-            }}
-            onSubmit={handlePreJoinSubmit}
-          ></PreJoinNoSSR>
-        </div>
+        <section className={S.settingWrapper}>
+          <h2>오디오 & 캠 설정 창 입니다.</h2>
+          <div className={S.settingCam}>
+            <PreJoinNoSSR
+              onError={(err) => console.log("setting error", err)}
+              defaults={{
+                username: "",
+                videoEnabled: true,
+                audioEnabled: true
+              }}
+              joinLabel="입장하기"
+              onSubmit={handlePreJoinSubmit}
+            ></PreJoinNoSSR>
+            <div className={S.settingUserButton}>
+              {/* <ul>
+                <li>오디오 설정 확인</li>
+                <li>캠 설정 확인</li>
+              </ul> */}
+            </div>
+            {/* <div className={S.cover}></div> */}
+          </div>
+        </section>
       )}
     </main>
   );
