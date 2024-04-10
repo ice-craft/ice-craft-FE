@@ -30,6 +30,8 @@ const MainCreateRoom = () => {
     // }
     const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
     const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
+    console.log("으하하하", room_id);
+    console.log("zkzkzkz", userId);
     await joinRoom(room_id, userId);
     router.push(`/room/${roomTitle}`);
     setIsModal(false);

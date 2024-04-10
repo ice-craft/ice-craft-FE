@@ -21,7 +21,7 @@ const RoomPage = () => {
   const { isModal, setIsModal } = useModalStore();
 
   const mafiaTrack = useParticipantTracks(sources, "12323123");
-  // const mafiaTrackSecond = useParticipantTracks(sources, "321");
+  const mafiaTrackSecond = useParticipantTracks(sources, "321");
 
   const localParticipant = useLocalParticipant();
   const localIdentity = localParticipant.localParticipant.identity;
@@ -29,7 +29,7 @@ const RoomPage = () => {
   const MafiaLogic = () => {
     if (localIdentity == "12323123" || "321") {
       specificUserVideoSetting(mafiaTrack, true);
-      // specificUserVideoSetting(participantTrack2, true);
+      specificUserVideoSetting(mafiaTrackSecond, true);
     } else {
       const remainAudio = localParticipant.microphoneTrack;
       const remainCam = localParticipant.cameraTrack;
