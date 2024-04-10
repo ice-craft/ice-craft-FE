@@ -8,7 +8,7 @@ import useOverlayStore from "@/store/overlay-store";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid } = useOverlayStore();
+  const { activeParticipantSid, isOverlay } = useOverlayStore();
 
   const cameraTracks = tracks.filter((track) => track.source === "camera");
   const remoteTracks = cameraTracks.filter((track) => track.participant.sid !== localParticipant.sid);
@@ -19,9 +19,9 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
         <div
           key={`${track.participant.sid}-${index}`}
           className={`${S.remoteParticipantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
+          onClick={isOverlay ? (e) => checkClickHandle(e, track.participant.sid, index) : undefined}
         >
-          <ParticipantTile trackRef={track} className={S.remoteCam} />
+          <ParticipantTile trackRef={track} className={`${S.remoteCam} ${isOverlay ? "cursor-pointer" : ""}`} />
           <div className={S.remoteOverlay}>
             <Image src={CamCheck} alt={track.participant.sid} />
           </div>

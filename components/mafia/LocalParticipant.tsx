@@ -11,7 +11,7 @@ import React from "react";
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { isReady, setIsReady } = useReadyStore();
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid } = useOverlayStore();
+  const { activeParticipantSid, isOverlay } = useOverlayStore();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
@@ -28,9 +28,10 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         <div
           key={`${track.participant.sid}-${index}`}
           className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
+          onClick={isOverlay ? (e) => checkClickHandle(e, track.participant.sid, index) : undefined}
         >
-          <ParticipantTile trackRef={track} className={S.localCam} />
+          <ParticipantTile trackRef={track} className={isOverlay ? S.localCam : undefined} />
+
           <div className={S.imageOverlay}>
             <Image src={CamCheck} alt={track.participant.sid} />
           </div>
