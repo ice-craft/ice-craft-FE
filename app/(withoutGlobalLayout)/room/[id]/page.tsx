@@ -15,28 +15,26 @@ import "@livekit/components-styles";
 import { useRouter } from "next/navigation";
 
 const RoomPage = () => {
-  const routers = useRouter();
   const tracks = useTracks();
+  const sources = tracks.map((item) => item.source);
+  const routers = useRouter();
+
   const { isModal, setIsModal } = useModalStore();
 
-  const sources = tracks.map((item) => item.source);
+  const mafiaTrack = useParticipantTracks(sources, "12323123");
+  // const mafiaTrackSecond = useParticipantTracks(sources, "321");
 
-  // 서버에서 userId or nickName 부여
-  const participantTrack = useParticipantTracks(sources, "12323123");
-  const participantTrack2 = useParticipantTracks(sources, "321");
   const localParticipant = useLocalParticipant();
+  const localIdentity = localParticipant.localParticipant.identity;
 
   const leaveRoom = () => {
     routers.replace(`/main`);
   };
 
   const MafiaLogic = () => {
-    if (
-      localParticipant.localParticipant.identity == "12323123" ||
-      localParticipant.localParticipant.identity == "321"
-    ) {
-      specificUserVideoSetting(participantTrack, true);
-      specificUserVideoSetting(participantTrack2, true);
+    if (localIdentity == "12323123" || "321") {
+      specificUserVideoSetting(mafiaTrack, true);
+      // specificUserVideoSetting(participantTrack2, true);
     } else {
       const remainAudio = localParticipant.microphoneTrack;
       const remainCam = localParticipant.cameraTrack;
@@ -71,7 +69,7 @@ const RoomPage = () => {
         <button
           onClick={() => {
             allAudioSetting(tracks, false);
-            specificUserAudioSetting(participantTrack, true);
+            specificUserAudioSetting(mafiaTrack, true);
           }}
         >
           최후의 반론 시간
