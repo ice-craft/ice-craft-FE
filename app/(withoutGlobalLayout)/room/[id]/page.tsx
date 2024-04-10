@@ -3,7 +3,7 @@
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
 import { useModalStore } from "@/store/toggle-store";
-import { allMediaOff, allMikeOff, allMediaOn, oneUserMediaOn } from "@/utils/participantCamSettings/camSetting";
+import { allMediaOff, allMikeOff, allMediaOn, specificUserMediaOn } from "@/utils/participantCamSettings/camSetting";
 import { useParticipantTracks, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,7 @@ const RoomPage = () => {
     return item.source;
   });
 
-  const ParticipantTrack = useParticipantTracks(sources, "identity");
+  const ParticipantTrack = useParticipantTracks(sources, "1212");
 
   //토큰을 별도로 저장하고 있지 않기에 임시로 route 변경
   const deleteToken = () => {
@@ -43,7 +43,14 @@ const RoomPage = () => {
         <button onClick={() => allMikeOff(tracks)}> 투표 시간 </button>
       </div>
       <div>
-        <button onClick={() => oneUserMediaOn(ParticipantTrack)}>최후의 반론 시간 </button>
+        <button
+          onClick={() => {
+            specificUserMediaOn(ParticipantTrack);
+            console.log("asdfsdf", ParticipantTrack);
+          }}
+        >
+          최후의 반론 시간{" "}
+        </button>
       </div>
       <div>
         <button onClick={() => allMediaOn(tracks)}>전체 캠 및 오디오 on </button>
