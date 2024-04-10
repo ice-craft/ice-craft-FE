@@ -2,6 +2,7 @@
 
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
+import UserWorkModal from "@/components/mafia/UserWorkModal";
 import { useModalStore } from "@/store/toggle-store";
 import {
   allAudioSetting,
