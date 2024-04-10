@@ -11,7 +11,7 @@ import React from "react";
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { isReady, setIsReady } = useReadyStore();
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid } = useOverlayStore();
+  const { activeParticipantSid, isOverlay } = useOverlayStore();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
@@ -31,9 +31,11 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           onClick={(e) => checkClickHandle(e, track.participant.sid, index)}
         >
           <ParticipantTile trackRef={track} className={S.localCam} />
-          <div className={S.imageOverlay}>
-            <Image src={CamCheck} alt={track.participant.sid} />
-          </div>
+          {isOverlay ? (
+            <div className={S.imageOverlay}>
+              <Image src={CamCheck} alt={track.participant.sid} />
+            </div>
+          ) : null}
         </div>
       ))}
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
