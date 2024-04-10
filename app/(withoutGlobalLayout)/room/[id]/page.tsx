@@ -1,28 +1,40 @@
 "use client";
 
-import { AllMikeOff, allCamOff, allCamOn, lastSpeak } from "@/utils/participantCamSettings/camSetting";
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
 import { useModalStore } from "@/store/toggle-store";
-import { useParticipantTracks, useRemoteParticipant, useTracks } from "@livekit/components-react";
+import {
+  allAudioSetting,
+  allMediaSetting,
+  remainUserMediaSetting,
+  specificUserAudioSetting,
+  specificUserVideoSetting
+} from "@/utils/participantCamSettings/camSetting";
+import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";
 
 const RoomPage = () => {
-  const routers = useRouter();
   const tracks = useTracks();
+  const sources = tracks.map((item) => item.source);
+
   const { isModal, setIsModal } = useModalStore();
-  const RemoteParticipant = useRemoteParticipant("identity"); //현재 방의 특정 원격 참가자
 
-  const sources = tracks.map((item) => {
-    return item.source;
-  });
+  const mafiaTrack = useParticipantTracks(sources, "12323123");
+  // const mafiaTrackSecond = useParticipantTracks(sources, "321");
 
-  const ParticipantTrack = useParticipantTracks(sources, "identity");
+  const localParticipant = useLocalParticipant();
+  const localIdentity = localParticipant.localParticipant.identity;
 
-  //토큰을 별도로 저장하고 있지 않기에 임시로 route 변경
-  const deleteToken = () => {
-    routers.replace(`/room`);
+  const MafiaLogic = () => {
+    if (localIdentity == "12323123" || "321") {
+      specificUserVideoSetting(mafiaTrack, true);
+      // specificUserVideoSetting(participantTrack2, true);
+    } else {
+      const remainAudio = localParticipant.microphoneTrack;
+      const remainCam = localParticipant.cameraTrack;
+      remainUserMediaSetting(remainAudio, remainCam);
+    }
   };
 
   return (
@@ -30,23 +42,48 @@ const RoomPage = () => {
       <div>
         <button
           onClick={() => {
-            setIsModal(true);
+            allMediaSetting(tracks, false);
           }}
         >
-          타이머 버튼 클릭
+          밤이 되었습니다.
         </button>
       </div>
       <div>
-        <button onClick={() => AllMikeOff(tracks)}> 투표 시간 </button>
+        <button onClick={MafiaLogic}>마피아 카메라 켜짐</button>
       </div>
       <div>
-        <button onClick={() => lastSpeak(tracks, RemoteParticipant, ParticipantTrack)}>최후의 반론 시간 </button>
+        <button onClick={() => allMediaSetting(tracks, true)}> 아침이 밝았습니다. </button>
       </div>
       <div>
-        <button onClick={() => allCamOn(tracks)}>전체 캠 및 오디오 on </button>
+        <button onClick={() => allAudioSetting(tracks, false)}> 투표 시간 </button>
       </div>
       <div>
-        <button onClick={() => allCamOff(tracks)}>전체 캠 및 오디오 off </button>
+        <button
+          onClick={() => {
+            allAudioSetting(tracks, false);
+            specificUserAudioSetting(mafiaTrack, true);
+          }}
+        >
+          최후의 반론 시간
+        </button>
+        <div>
+          <button
+            onClick={() => {
+              allAudioSetting(tracks, false);
+            }}
+          >
+            모든 유저의 오디오 off
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              setIsModal(true);
+            }}
+          >
+            정해진 타이머 이후 모달창 on/off
+          </button>
+        </div>
       </div>
 
       <MyVideoConference />
