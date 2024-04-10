@@ -10,7 +10,7 @@ import KakaoLoginIcon from "@/app/assets/images/join_kakaotalk.svg";
 import GoogleLoginIcon from "@/app/assets/images/join_google.svg";
 import GithubLoginIcon from "@/app/assets/images/join_github.svg";
 import FacebookLoginIcon from "@/app/assets/images/join_facebook.svg";
-import Logo from "@/app/assets/images/logo.svg";
+import Logo from "@/assets/images/logo.svg";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
