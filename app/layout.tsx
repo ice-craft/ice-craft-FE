@@ -13,8 +13,8 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
-      <body className={pretendard.className}>
+    <html lang="ko" className={pretendard.className}>
+      <body>
         <ToastContainer />
         <QueryProvider>{children}</QueryProvider>
       </body>

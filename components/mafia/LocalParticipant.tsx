@@ -5,7 +5,7 @@ import { useModalStore, useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { allCamOff } from "@/utils/participantCamSettings/camSetting";
-import CamCheck from "@/public/images/cam_check.png";
+import CamCheck from "@/app/assets/images/cam_check.png";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import React from "react";
