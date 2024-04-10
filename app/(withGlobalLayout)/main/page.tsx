@@ -50,8 +50,8 @@ const Mainpage = () => {
               </div>
             </div>
           </div>
-
           <ul className={S.roomList}>
+            <li></li>
             <li>
               <Image src={MafiaItem} alt="room image" />
               <div className={S.roomTitle}>
