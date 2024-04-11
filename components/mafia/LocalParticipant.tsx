@@ -30,10 +30,11 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
           onClick={isOverlay ? (e) => checkClickHandle(e, track.participant.sid, index) : undefined}
         >
-          <ParticipantTile trackRef={track} className={S.localCam} />
+          <ParticipantTile trackRef={track} className={isOverlay ? S.localCam : undefined} />
+
           <div className={S.imageOverlay}>
             <Image src={CamCheck} alt={track.participant.sid} />
-          </div> */}
+          </div>
         </div>
       ))}
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
