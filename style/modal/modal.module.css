@@ -148,7 +148,21 @@
   background-color: var(--white) !important;
   color: var(--text-black) !important;
 }
-
+/*------------ progress bar ------------*/
+.progress {
+  appearance: none;
+}
+.progress::-webkit-progress-bar {
+  background: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: inset 3px 3px 10px #ccc;
+}
+.progress::-webkit-progress-value {
+  border-radius: 10px;
+  background: #1d976c;
+  background: -webkit-linear-gradient(to right, #93f9b9, #1d976c);
+  background: linear-gradient(to right, #93f9b9, #1d976c);
+}
 /*------------ animation ------------*/
 @keyframes citizensCard {
   0% {
