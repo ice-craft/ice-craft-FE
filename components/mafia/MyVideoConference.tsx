@@ -35,29 +35,29 @@ const MyVideoConference = () => {
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => {
     event.stopPropagation();
 
+    const exampleServerData: string = "마피아시간";
+    const exampleJob: string = "시민";
+
     // 해당 시간(투표 시간 및 저녁시간의 특정 직업의 능력)에 캠 클릭 시 user의 정보(id 및 nickname)을 서버에 전달 ==> 서버에서 직업 및 특정 값을 알려준다.
     // 클라이언트에서는 정답에 대한 이미지를 띄어준다.
 
     // 이미지 조건부
-
     //마피아 시간 or 의사시간 or 투표시간
-    if ("마피아" || "시민" || "의사") {
+    if (exampleServerData === "마피아시간" || "의사시간" || "투표시간") {
       setImageState(CamCheck);
     }
 
     // 경찰 시간
-    if ("경찰") {
-      // 특정 유저 캠 클릭 시 유저의 직업 공개
-      if ("otherUser == 의사") {
+    if (exampleServerData === "경찰") {
+      if (exampleJob == "의사") {
         setImageState(Doctor);
-      } else if ("otherUser == 마피아") {
+      } else if (exampleJob == "마피아") {
         setImageState(Mafia);
-      } else if ("otherUser == 시민") {
+      } else if (exampleJob == "시민") {
         setImageState(Citizen);
       }
     }
 
-    //
     toggleOverlay(participantSid, index);
   };
 

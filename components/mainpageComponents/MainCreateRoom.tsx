@@ -23,19 +23,19 @@ const MainCreateRoom = () => {
     }
   };
 
-  // const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   // 유효성검사필요
-  //   // if (!selectedGame || !roomTitle || !numberOfPlayers) {
-  //   // }
-  //   const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
-  //   const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
-  //   console.log("으하하하", room_id);
-  //   console.log("zkzkzkz", userId);
-  //   await joinRoom(room_id, userId);
-  //   router.push(`/room/${roomTitle}`);
-  //   setIsModal(false);
-  // };
+  const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // 유효성검사필요
+    // if (!selectedGame || !roomTitle || !numberOfPlayers) {
+    // }
+    const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
+    const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
+    console.log("으하하하", room_id);
+    console.log("zkzkzkz", userId);
+    await joinRoom(room_id, userId);
+    router.push(`/room/${roomTitle}`);
+    setIsModal(false);
+  };
 
   const test = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,8 +47,7 @@ const MainCreateRoom = () => {
   return (
     <div className={S.modalWrap} onClick={closeModalHandler}>
       <div className={S.modal}>
-        <form onSubmit={test}>
-          {/* <form onSubmit={createRoomSubmitHandler} className={S.gameForm}> */}
+        <form onSubmit={createRoomSubmitHandler} className={S.gameForm}>
           <h2 className={S.gameChoice}>게임을 선택해 주세요</h2>
           <div>
             <h3 className={S.gameTitle}>게임 고르기</h3>
