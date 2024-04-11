@@ -12,15 +12,29 @@ const MafiaPlay = () => {
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (eventName) {
-      return socket.emit(eventName, nickname.current, message);
+      switch (eventName) {
+        case "enterMafia":
+          console.log(eventName);
+          socket.emit(eventName);
+          break;
+        case "getUserIdInRoom":
+          console.log(eventName, message);
+          socket.emit(eventName, message);
+          break;
+        case "getUserInfoInRoom":
+          console.log(eventName, message);
+          socket.emit(eventName, message);
+          break;
+      }
+    } else {
+      alert("이벤트 명을 적으세요.");
     }
-    alert("이벤트 명을 적으세요.");
   };
 
   const connect = () => {
     if (!socket.connected) {
       socket.connect();
-      socket.emit("enterMafia", nickname.current);
+      console.log("서버와 연결이 되었습니다.");
     }
   };
 
@@ -36,7 +50,7 @@ const MafiaPlay = () => {
   };
 
   useEffect(() => {
-    console.log(nickname);
+    console.log("나의 닉네임", nickname.current);
     socket.on("connect", () => {
       write("서버와 연결되었습니다.");
     });
@@ -47,6 +61,18 @@ const MafiaPlay = () => {
 
     socket.on("server", (message: string) => {
       write(message);
+    });
+
+    socket.on("rooms", (rooms) => {
+      console.log(rooms);
+    });
+
+    socket.on("userIdInRoom", (userId) => {
+      console.log(userId);
+    });
+
+    socket.on("userInfoInRoom", (userInfo) => {
+      console.log(userInfo);
     });
 
     socket.on("connect_error", (error) => {
