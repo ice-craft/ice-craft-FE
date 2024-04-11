@@ -39,7 +39,6 @@ const MyVideoConference = () => {
     <section className={S.section}>
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
-      <MafiaToolTip role="mafia" />
       <div className={S.goToMainPage}>
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
