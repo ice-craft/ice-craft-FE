@@ -186,6 +186,10 @@ const MafiaPlay = () => {
       console.log(voteResult);
     });
 
+    socket.on("showVoteToResult", (voteResult) => {
+      console.log(voteResult);
+    });
+
     socket.on("connect_error", (error) => {
       if (socket.active) {
         write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
