@@ -17,14 +17,15 @@ const MafiaPlay = () => {
           console.log(eventName);
           socket.emit(eventName);
           break;
-        case "getUserIdInRoom":
-          console.log(eventName, message);
-          socket.emit(eventName, message);
-          break;
-        case "getUserInfoInRoom":
-          console.log(eventName, message);
-          socket.emit(eventName, message);
-          break;
+        //NOTE - 테스트 코드
+        // case "getUserIdInRoom":
+        //   console.log(eventName, message);
+        //   socket.emit(eventName, message);
+        //   break;
+        // case "getUserInfoInRoom":
+        //   console.log(eventName, message);
+        //   socket.emit(eventName, message);
+        //   break;
       }
     } else {
       alert("이벤트 명을 적으세요.");
@@ -67,9 +68,10 @@ const MafiaPlay = () => {
       console.log(rooms);
     });
 
-    socket.on("userIdInRoom", (userId) => {
-      console.log(userId);
-    });
+    //NOTE - 테스트 코드
+    // socket.on("userIdInRoom", (userId) => {
+    //   console.log(userId);
+    // });
 
     socket.on("userInfoInRoom", (userInfo) => {
       console.log(userInfo);
