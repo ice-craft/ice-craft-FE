@@ -16,6 +16,8 @@
   align-items: center;
   height: inherit;
   background: url("../../assets/images/mafia_visual.png") center center/cover no-repeat;
+  justify-content: center;
+  min-width: var(--max-width);
 }
 
 .roomSectionWrap {
@@ -86,6 +88,7 @@
   flex-direction: column;
   justify-content: flex-start;
   padding-left: 50px;
+  min-width: var(--max-width);
 }
 
 .gameTitle h2 {
