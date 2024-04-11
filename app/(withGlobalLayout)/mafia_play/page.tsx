@@ -39,6 +39,11 @@ const MafiaPlay = () => {
         case "voteTo":
           console.log(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
           socket.emit(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
+          break;
+        case "voteYesOrNo":
+          console.log(eventName, userId.current, "yes");
+          socket.emit(eventName, userId.current, "yes");
+          break;
 
         //NOTE - 테스트 코드
         // case "getUserIdInRoom":
@@ -138,6 +143,14 @@ const MafiaPlay = () => {
     });
 
     socket.on("voteToError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteYesOrNo", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteYesOrNoError", (message) => {
       console.log(message);
     });
 
