@@ -23,7 +23,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
 
   return (
     <div className={S.localParticipant}>
-      <h2></h2>
+      <h2>시간</h2>
       {localTracks.map((track, index) => (
         <div
           key={`${track.participant.sid}-${index}`}

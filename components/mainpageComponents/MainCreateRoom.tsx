@@ -37,6 +37,13 @@ const MainCreateRoom = () => {
     setIsModal(false);
   };
 
+  const test = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(roomTitle);
+    router.push(`/room/${roomTitle}`);
+    setIsModal(false);
+  };
+
   return (
     <div className={S.modalWrap} onClick={closeModalHandler}>
       <div className={S.modal}>
