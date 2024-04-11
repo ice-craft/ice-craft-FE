@@ -3,6 +3,7 @@
 import CheckModal from "@/components/mafia/CheckModal";
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
+import { useActiveStore } from "@/store/active-store";
 import useOverlayStore from "@/store/overlay-store";
 import { useModalStore } from "@/store/toggle-store";
 import {
@@ -21,6 +22,7 @@ const RoomPage = () => {
 
   const { isModal, setIsModal } = useModalStore();
   const { setIsOverlay, clearActiveParticipant } = useOverlayStore();
+  const { activeName, setActiveName } = useActiveStore();
 
   const mafiaTrack = useParticipantTracks(sources, "12323123");
   const mafiaTrackSecond = useParticipantTracks(sources, "321");
@@ -90,6 +92,7 @@ const RoomPage = () => {
           <button
             onClick={() => {
               setIsModal(true);
+              setActiveName("morning");
             }}
           >
             정해진 타이머 이후 모달창 on/off
@@ -99,6 +102,7 @@ const RoomPage = () => {
           <button
             onClick={() => {
               setIsModal(true);
+              setActiveName("check");
             }}
           >
             투표 찬성 반대 모달
@@ -107,8 +111,8 @@ const RoomPage = () => {
       </div>
 
       <MyVideoConference />
-      {isModal ? <MafiaModal /> : null}
-      {isModal ? <CheckModal /> : null}
+      {isModal && activeName === "morning" && <MafiaModal />}
+      {isModal && activeName === "check" && <CheckModal />}
     </>
   );
 };
