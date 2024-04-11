@@ -178,6 +178,10 @@ const MafiaPlay = () => {
       console.log(userId, isOn);
     });
 
+    socket.on("openPlayerRole", (userId, role) => {
+      console.log(userId, role);
+    });
+
     socket.on("connect_error", (error) => {
       if (socket.active) {
         write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
