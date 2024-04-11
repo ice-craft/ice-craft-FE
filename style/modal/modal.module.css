@@ -33,9 +33,9 @@
   font-size: 35px;
 }
 
-.modal p {
+/* .modal > p {
   margin-top: 50px;
-}
+} */
 
 /*------------ UserCardImage ------------*/
 .workModal {
@@ -148,9 +148,53 @@
   background-color: var(--white) !important;
   color: var(--text-black) !important;
 }
+/*------------ button modal ------------*/
+.modal .userCheckNickName {
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: var(--font-size-modal-content);
+}
+
+.userCheckNickName > p > span {
+  font-weight: var(--font-bold);
+}
+
+.checkButton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 20px;
+}
+
+.checkButton > button {
+  width: 50%;
+  border-radius: var(--border-radius);
+  padding: 12px 0;
+}
+
+.checkButton > button:nth-of-type(1) {
+  background-color: var(--sub-color);
+  color: var(--white);
+}
+
+.checkButton > button:nth-of-type(2) {
+  background-color: #eee;
+  color: var(--text-black);
+}
+
+.checkButton > button:nth-of-type(1):hover {
+  background-color: var(--main-color);
+}
+
+.checkButton > button:nth-of-type(2):hover {
+  background-color: var(--silver-gray);
+}
+
 /*------------ progress bar ------------*/
 .progress {
   appearance: none;
+  width: 100%;
+  margin-top: 50px;
 }
 .progress::-webkit-progress-bar {
   background: #eee;
@@ -165,6 +209,7 @@
   background: linear-gradient(to right, var(--sub-color), var(--main-color));
   transition: 0.3s ease-out;
 }
+
 /*------------ animation ------------*/
 @keyframes citizensCard {
   0% {

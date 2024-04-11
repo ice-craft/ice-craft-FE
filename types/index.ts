@@ -43,3 +43,8 @@ export interface ReadyState {
   isReady: boolean;
   setIsReady: (newModal: boolean) => void;
 }
+
+export interface ActiveNameState {
+  activeName: string | null;
+  setActiveName: (newName: string | null) => void;
+}

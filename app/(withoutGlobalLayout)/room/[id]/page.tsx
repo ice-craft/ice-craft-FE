@@ -1,5 +1,6 @@
 "use client";
 
+import CheckModal from "@/components/mafia/CheckModal";
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
 import useOverlayStore from "@/store/overlay-store";
@@ -94,10 +95,20 @@ const RoomPage = () => {
             정해진 타이머 이후 모달창 on/off
           </button>
         </div>
+        <div>
+          <button
+            onClick={() => {
+              setIsModal(true);
+            }}
+          >
+            투표 찬성 반대 모달
+          </button>
+        </div>
       </div>
 
       <MyVideoConference />
       {isModal ? <MafiaModal /> : null}
+      {isModal ? <CheckModal /> : null}
     </>
   );
 };

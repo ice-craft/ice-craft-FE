@@ -11,6 +11,7 @@ const MafiaModal = () => {
         <div className={S.modal}>
           <div>
             <h1>첫번째 턴</h1>
+            <h2>아침이 밝았습니다.</h2>
             <progress
               className={S.progress}
               value={(initialTime * 10 - count) * (100 / (initialTime * 10))}
