@@ -76,7 +76,9 @@ const Mainpage = () => {
                     <p className={S.mafiaHashtag}>{item.game_category}</p>
                     <p className={S.currentPeople}>
                       <Image src={PeopleIcon} alt="people icon" />
-                      <span>{item.total_user_count}</span>
+                      <span>
+                        {item.current_user_count}/{item.total_user_count}
+                      </span>
                     </p>
                   </div>
                 </div>

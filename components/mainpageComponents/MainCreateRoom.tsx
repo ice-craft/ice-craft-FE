@@ -13,7 +13,7 @@ const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
   const [selectedGame, setSelectedGame] = useState<string>("마피아");
   const [roomTitle, setRoomTitle] = useState<string>("");
-  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(-1);
+  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(5);
 
   const router = useRouter();
 
