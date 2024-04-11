@@ -9,7 +9,7 @@ const MafiaPlay = () => {
   const [display, setDisplay] = useState("");
 
   const nickname = useRef("user3");
-  const userId = useRef("c2ee089f-b30b-4db0-9f3a-5126e5cb804c");
+  const userId = useRef("81df5115-d3eb-4d94-a7ce-6aa7d2629f93");
   const roomId = useRef("63a68d95-8ecf-440a-ba06-37a493d8252f");
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -31,6 +31,10 @@ const MafiaPlay = () => {
         case "exitRoom":
           console.log(eventName, roomId.current, userId.current); //NOTE - 테스트 코드
           socket.emit(eventName, roomId.current, userId.current);
+          break;
+        case "setReady":
+          console.log(eventName, userId.current, true);
+          socket.emit(eventName, userId.current, true);
           break;
 
         //NOTE - 테스트 코드
@@ -115,6 +119,14 @@ const MafiaPlay = () => {
     });
 
     socket.on("exitRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("setReady", (message) => {
+      console.log(message);
+    });
+
+    socket.on("setReadyError", (message) => {
       console.log(message);
     });
 
