@@ -153,15 +153,17 @@
   appearance: none;
 }
 .progress::-webkit-progress-bar {
-  background: #f0f0f0;
+  background: #eee;
+  height: 5px;
   border-radius: 10px;
   box-shadow: inset 3px 3px 10px #ccc;
 }
 .progress::-webkit-progress-value {
   border-radius: 10px;
-  background: #1d976c;
-  background: -webkit-linear-gradient(to right, #93f9b9, #1d976c);
-  background: linear-gradient(to right, #93f9b9, #1d976c);
+  background: var(--main-color);
+  background: -webkit-linear-gradient(to right, var(--sub-color), var(--main-color));
+  background: linear-gradient(to right, var(--sub-color), var(--main-color));
+  transition: 0.3s ease-out;
 }
 /*------------ animation ------------*/
 @keyframes citizensCard {
