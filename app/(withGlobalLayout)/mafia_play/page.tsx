@@ -44,6 +44,10 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, "yes");
           socket.emit(eventName, userId.current, "yes");
           break;
+        case "choosePlayer":
+          console.log(eventName, userId.current);
+          socket.emit(eventName, userId.current);
+          break;
 
         //NOTE - 테스트 코드
         // case "getUserIdInRoom":
@@ -151,6 +155,14 @@ const MafiaPlay = () => {
     });
 
     socket.on("voteYesOrNoError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("choosePlayer", (message) => {
+      console.log(message);
+    });
+
+    socket.on("choosePlayerError", (message) => {
       console.log(message);
     });
 
