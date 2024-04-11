@@ -9,8 +9,8 @@ const MafiaPlay = () => {
   const [display, setDisplay] = useState("");
 
   const nickname = useRef("user3");
-  const userId = useRef("81df5115-d3eb-4d94-a7ce-6aa7d2629f93");
-  const roomId = useRef("63a68d95-8ecf-440a-ba06-37a493d8252f");
+  const userId = useRef("79043912-e9c4-4658-987c-6715bebb1223"); //NOTE - 테스트용
+  const roomId = useRef("30ed837a-fc34-4fcd-9d5d-9c31bbde2726"); //NOTE - 테스트용
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -36,6 +36,9 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, true);
           socket.emit(eventName, userId.current, true);
           break;
+        case "voteTo":
+          console.log(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
+          socket.emit(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
 
         //NOTE - 테스트 코드
         // case "getUserIdInRoom":
@@ -127,6 +130,14 @@ const MafiaPlay = () => {
     });
 
     socket.on("setReadyError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteTo", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteToError", (message) => {
       console.log(message);
     });
 
