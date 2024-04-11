@@ -1,4 +1,5 @@
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
+import { StaticImageData } from "next/image";
 
 export interface MafiaRoom {
   room: string;
@@ -45,4 +46,9 @@ export interface CountState {
 export interface ReadyState {
   isReady: boolean;
   setIsReady: (newModal: boolean) => void;
+}
+
+export interface ImageState {
+  imageState: StaticImageData;
+  setImageState: (newImage: StaticImageData) => void;
 }
