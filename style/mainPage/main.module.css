@@ -246,3 +246,54 @@
   gap: 5px;
   justify-content: center;
 }
+
+/*---------------- respansive --------------*/
+@media (max-width: 1430px) {
+  .roomList {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1330px) {
+  .roomList {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 860px) {
+  .MainGnb {
+    flex-wrap: wrap;
+  }
+
+  .MainGnb p {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .roomSearchAndButton {
+    display: block;
+    width: 100%;
+  }
+
+  .roomSearch input {
+    width: 100%;
+  }
+
+  .gameGoButton {
+    margin-top: 15px;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .gameGoButton > button {
+    width: 50%;
+  }
+
+  .gameGoButton > div {
+    width: 50%;
+  }
+
+  .gameGoButton button.makeRoom {
+    width: 100%;
+  }
+}

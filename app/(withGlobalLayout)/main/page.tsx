@@ -63,6 +63,48 @@ const Mainpage = () => {
               </div>
               <button className={S.gotoButton}>입장하기</button>
             </li>
+            <li>
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p className={S.mafiaHashtag}># 마피아</p>
+                  <p className={S.currentPeople}>
+                    <Image src={PeopleIcon} alt="people icon" />
+                    <span>1/10</span>
+                  </p>
+                </div>
+              </div>
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p className={S.mafiaHashtag}># 마피아</p>
+                  <p className={S.currentPeople}>
+                    <Image src={PeopleIcon} alt="people icon" />
+                    <span>1/10</span>
+                  </p>
+                </div>
+              </div>
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
+            <li>
+              <Image src={MafiaItem} alt="room image" />
+              <div className={S.roomTitle}>
+                <h3>방 제목</h3>
+                <div className={S.gameName}>
+                  <p className={S.mafiaHashtag}># 마피아</p>
+                  <p className={S.currentPeople}>
+                    <Image src={PeopleIcon} alt="people icon" />
+                    <span>1/10</span>
+                  </p>
+                </div>
+              </div>
+              <button className={S.gotoButton}>입장하기</button>
+            </li>
           </ul>
         </section>
       </div>
