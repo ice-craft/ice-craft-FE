@@ -154,6 +154,10 @@ const MafiaPlay = () => {
       console.log(message);
     });
 
+    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
+      console.log(title, message, timer, nickname, yesOrNo);
+    });
+
     socket.on("connect_error", (error) => {
       if (socket.active) {
         write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
