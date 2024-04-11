@@ -5,6 +5,7 @@ const useOverlayStore = create<OverlayState>((set) => ({
   showOverlay: null,
   activeParticipantSid: null,
   activeParticipantIndex: null,
+  isOverlay: false,
 
   setActiveParticipant: (sid: string | null, index: number | null) =>
     set({ activeParticipantSid: sid, activeParticipantIndex: index }),
@@ -23,7 +24,8 @@ const useOverlayStore = create<OverlayState>((set) => ({
       }
     }),
 
-  clearActiveParticipant: () => set({ activeParticipantSid: null, activeParticipantIndex: null })
+  clearActiveParticipant: () => set({ activeParticipantSid: null, activeParticipantIndex: null }),
+  setIsOverlay: (newIsOverlay) => set({ isOverlay: newIsOverlay })
 }));
 
 export default useOverlayStore;

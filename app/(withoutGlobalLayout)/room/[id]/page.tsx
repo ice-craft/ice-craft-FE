@@ -2,6 +2,7 @@
 
 import MafiaModal from "@/components/mafia/MafiaModal";
 import MyVideoConference from "@/components/mafia/MyVideoConference";
+import useOverlayStore from "@/store/overlay-store";
 import { useModalStore } from "@/store/toggle-store";
 import {
   allAudioSetting,
@@ -18,6 +19,7 @@ const RoomPage = () => {
   const sources = tracks.map((item) => item.source);
 
   const { isModal, setIsModal } = useModalStore();
+  const { setIsOverlay, clearActiveParticipant } = useOverlayStore();
 
   const mafiaTrack = useParticipantTracks(sources, "12323123");
   const mafiaTrackSecond = useParticipantTracks(sources, "321");
@@ -54,13 +56,22 @@ const RoomPage = () => {
         <button onClick={() => allMediaSetting(tracks, true)}> 아침이 밝았습니다. </button>
       </div>
       <div>
-        <button onClick={() => allAudioSetting(tracks, false)}> 투표 시간 </button>
+        <button
+          onClick={() => {
+            setIsOverlay(true);
+            allAudioSetting(tracks, false);
+          }}
+        >
+          투표 시간
+        </button>
       </div>
       <div>
         <button
           onClick={() => {
+            setIsOverlay(false);
             allAudioSetting(tracks, false);
             specificUserAudioSetting(mafiaTrack, true);
+            clearActiveParticipant();
           }}
         >
           최후의 반론 시간

@@ -17,8 +17,11 @@ export interface OverlayState {
   showOverlay: string | null;
   activeParticipantSid: string | null;
   activeParticipantIndex: number | null;
+  isOverlay: boolean;
+  clearActiveParticipant: () => void;
   setActiveParticipant: (sid: string | null, index: number | null) => void;
   toggleOverlay: (participantSid: string, index: number) => void;
+  setIsOverlay: (newIsOverlay: boolean) => void;
 }
 
 export type Role = "citizens" | "mafia" | "doctor" | "police";
