@@ -7,12 +7,13 @@ import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.png"
 import MafiaGameSong from "@/assets/images/game_choice_song.png";
 import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.png";
 import Image from "next/image";
+import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
-  // const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [selectedGame, setSelectedGame] = useState<string>("마피아");
   const [roomTitle, setRoomTitle] = useState<string>("");
-  const [numberOfPlayers, setNumberOfPlayers] = useState<number | null>(null);
+  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(5);
 
   const router = useRouter();
 
@@ -22,15 +23,18 @@ const MainCreateRoom = () => {
     }
   };
 
-  const createRoomSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    // 유효성검사필요
+    // if (!selectedGame || !roomTitle || !numberOfPlayers) {
+    // }
+    const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
+    const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
+    console.log("으하하하", room_id);
+    console.log("zkzkzkz", userId);
+    await joinRoom(room_id, userId);
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
-
-    // if (selectedGame && roomTitle && numberOfPlayers) {
-
-    // }
   };
 
   return (
@@ -40,15 +44,11 @@ const MainCreateRoom = () => {
           <h2 className={S.gameChoice}>게임을 선택해 주세요</h2>
           <div>
             <h3 className={S.gameTitle}>게임 고르기</h3>
-            {/* <div>
-            <button onClick={() => setSelectedGame("마피아")}>마피아</button>
-            <button onClick={() => setSelectedGame("노래 맞추기")}>노래 맞추기</button>
-          </div> */}
             <ul className={S.gameChoiceList}>
-              <li>
+              <li onClick={() => setSelectedGame("마피아")}>
                 <Image src={MafiaGameChoiceActive} alt="마피아 게임" />
               </li>
-              <li>
+              <li onClick={() => setSelectedGame("노래 맞추기")}>
                 <Image src={MafiaGameSong} alt="노래 맞추기 게임" />
               </li>
             </ul>
