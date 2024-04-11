@@ -10,6 +10,7 @@ import { Role } from "@/types/index";
 const UserWorkModal = () => {
   const [role, setRole] = useState<Role>("mafia");
   const [showAllCards, setShowAllCards] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const cards = {
     doctor: { src: DoctorCard, alt: "의사" },
@@ -21,13 +22,18 @@ const UserWorkModal = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       const roles = ["doctor", "police", "mafia", "citizens"];
-      //NOTE - 데이터 불러오면 바꿀 예정(임시)
+      //NOTE - 임시 데이터 불러오면 변경할 예정
       const randomRole = roles[Math.floor(Math.random() * roles.length)];
       setRole(randomRole as Role);
       setShowAllCards(false);
+      setTimeout(() => {
+        setIsModalOpen(false);
+      }, 3000);
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  if (!isModalOpen) return null;
 
   return (
     <>
