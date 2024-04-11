@@ -7,16 +7,32 @@ const MafiaPlay = () => {
   const [eventName, setEventName] = useState("");
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState("");
-  const nickname = useRef(`user${crypto.getRandomValues(new Int8Array(1))}`);
+
+  const nickname = useRef("user3");
+  const userId = useRef("c2ee089f-b30b-4db0-9f3a-5126e5cb804c");
+  const roomId = useRef("63a68d95-8ecf-440a-ba06-37a493d8252f");
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (eventName) {
       switch (eventName) {
         case "enterMafia":
-          console.log(eventName);
+          console.log(eventName); //NOTE - 테스트 코드
           socket.emit(eventName);
           break;
+        case "joinRoom":
+          console.log(eventName, userId.current, roomId.current, nickname.current); //NOTE - 테스트 코드
+          socket.emit(eventName, userId.current, roomId.current, nickname.current);
+          break;
+        case "fastJoinRoom":
+          console.log(eventName, userId.current, nickname.current); //NOTE - 테스트 코드
+          socket.emit(eventName, userId.current, nickname.current);
+          break;
+        case "exitRoom":
+          console.log(eventName, roomId.current, userId.current); //NOTE - 테스트 코드
+          socket.emit(eventName, roomId.current, userId.current);
+          break;
+
         //NOTE - 테스트 코드
         // case "getUserIdInRoom":
         //   console.log(eventName, message);
@@ -64,6 +80,11 @@ const MafiaPlay = () => {
       write(message);
     });
 
+    //NOTE - 테스트 코드
+    // socket.on("rooms", (rooms) => {
+    //   console.log(rooms);
+    // });
+
     socket.on("rooms", (rooms) => {
       console.log(rooms);
     });
@@ -73,8 +94,28 @@ const MafiaPlay = () => {
     //   console.log(userId);
     // });
 
-    socket.on("userInfoInRoom", (userInfo) => {
+    socket.on("joinRoom", (userInfo) => {
       console.log(userInfo);
+    });
+
+    socket.on("joinRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("fastJoinRoom", (room_id, userInfo) => {
+      console.log(room_id, userInfo);
+    });
+
+    socket.on("fastJoinRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("exitRoom", (userInfo) => {
+      console.log(userInfo);
+    });
+
+    socket.on("exitRoomError", (message) => {
+      console.log(message);
     });
 
     socket.on("connect_error", (error) => {
