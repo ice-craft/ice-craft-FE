@@ -3,8 +3,9 @@ import { LiveKitRoom, LocalUserChoices, RoomAudioRenderer } from "@livekit/compo
 import "@livekit/components-styles";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { useGetToken } from "../../../hooks/useToken";
+import S from "@/style/livekit/livekit.module.css";
 
 const PreJoinNoSSR = dynamic(
   async () => {
@@ -15,7 +16,8 @@ const PreJoinNoSSR = dynamic(
 
 const layout = ({ children }: PropsWithChildren) => {
   const { id } = useParams();
-  const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(undefined);
+
+  const [preJoinChoices, setPreJoinChoices] = useState<LocalUserChoices>();
 
   const room = id as string;
   const name = preJoinChoices?.username as string;
@@ -32,10 +34,10 @@ const layout = ({ children }: PropsWithChildren) => {
   const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, name });
 
   if (isLoading || !isSuccess) {
-    console.log("token 발생 로딩중 발생");
+    console.log("token 발급 중입니다.");
   }
   if (isError) {
-    console.log("token 발급 로딩중 발생");
+    console.log("token 발급 중 에러가 발생했습니다.");
   }
 
   return (
@@ -46,23 +48,35 @@ const layout = ({ children }: PropsWithChildren) => {
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
           video={true}
           audio={true}
+
           // simulateParticipants={10} // 테스트용 카메라 생성
         >
           {children}
           <RoomAudioRenderer />
         </LiveKitRoom>
       ) : (
-        <div style={{ display: "grid", placeItems: "center", height: "100", width: "100%" }}>
-          <PreJoinNoSSR
-            onError={(err) => console.log("setting error", err)}
-            defaults={{
-              username: "",
-              videoEnabled: true,
-              audioEnabled: true
-            }}
-            onSubmit={handlePreJoinSubmit}
-          ></PreJoinNoSSR>
-        </div>
+        <section className={S.settingWrapper}>
+          <h2>오디오 & 캠 설정 창 입니다.</h2>
+          <div className={S.settingCam}>
+            <PreJoinNoSSR
+              onError={(err) => console.log("setting error", err)}
+              defaults={{
+                username: "",
+                videoEnabled: true,
+                audioEnabled: true
+              }}
+              joinLabel="입장하기"
+              onSubmit={handlePreJoinSubmit}
+            ></PreJoinNoSSR>
+            <div className={S.settingUserButton}>
+              {/* <ul>
+                <li>오디오 설정 확인</li>
+                <li>캠 설정 확인</li>
+              </ul> */}
+            </div>
+            {/* <div className={S.cover}></div> */}
+          </div>
+        </section>
       )}
     </main>
   );

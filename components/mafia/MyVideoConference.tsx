@@ -1,13 +1,15 @@
 import useOverlayStore from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { useTracks } from "@livekit/components-react";
+import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
+import { useRouter } from "next/navigation";
 
 const MyVideoConference = () => {
   const { toggleOverlay } = useOverlayStore();
+  const router = useRouter();
 
   // 전체 데이터
   const tracks = useTracks(
@@ -29,11 +31,18 @@ const MyVideoConference = () => {
     toggleOverlay(participantSid, index);
   };
 
+  const leaveRoom = () => {
+    router.replace(`/main`);
+  };
+
   return (
     <section className={S.section}>
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <MafiaToolTip role="mafia" />
+      <div className={S.goToMainPage}>
+        <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
+      </div>
     </section>
   );
 };

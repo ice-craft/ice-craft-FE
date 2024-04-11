@@ -1,13 +1,11 @@
 "use client";
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import MafiaItem from "@/public/images/mafia_item.png";
+import PeopleIcon from "@/assets/images/icon_person.png";
+import MafiaItem from "@/assets/images/mafia_item.png";
+import MafiaGameTitle from "@/assets/images/logo.svg";
 import S from "@/style/mainPage/main.module.css";
+import Image from "next/image";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
-import MafiaGameTitle from "@/public/images/mafia_game_title.png";
-import PeopleIcon from "@/public/images/icon_person.png";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();

@@ -1,7 +1,7 @@
 import localFont from "next/font/local";
 
 export const pretendard = localFont({
-  src: "./PretendardVariable.ttf",
+  src: "./PretendardVariable.otf",
   display: "swap",
   weight: "400 700"
 });

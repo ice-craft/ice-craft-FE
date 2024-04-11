@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   height: inherit;
-  background: url("../../public/images/mafia_visual.png") center center/cover no-repeat;
+  background: url("../../assets/images/mafia_visual.png") center center/cover no-repeat;
 }
 
 .roomSectionWrap {
@@ -50,7 +50,7 @@
   transform: translateY(-55%);
   width: 20px;
   height: 20px;
-  background: url("../../public/images/icon_search.png") no-repeat;
+  background: url("../../assets/images/icon_search.png") no-repeat;
   cursor: pointer;
 }
 
@@ -93,16 +93,6 @@
   z-index: 1;
 }
 
-.gameTitle h2:before {
-  content: "";
-  position: absolute;
-  left: 130px;
-  top: -30px;
-  background: url("../../public/images/icon_taget.png") no-repeat;
-  width: 145px;
-  height: 81px;
-}
-
 .gameButton {
   display: flex;
   gap: 15px;
@@ -131,7 +121,7 @@
   left: 20px;
   top: 50%;
   transform: translateY(-51%);
-  background: url("../../public/images/icon_point.png") no-repeat;
+  background: url("../../assets/images/icon_point.png") no-repeat;
   width: 20px;
   height: 21px;
 }
@@ -166,7 +156,7 @@
   content: "";
   width: 15px;
   height: 15px;
-  background: url("../../public/images/icon_plus.png") no-repeat;
+  background: url("../../assets/images/icon_plus.png") no-repeat;
   position: absolute;
   left: 15px;
   top: 50%;

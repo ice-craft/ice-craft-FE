@@ -2,7 +2,7 @@ import React from "react";
 import S from "@/style/Intropage/intro.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/images/logo.svg";
+import Logo from "@/assets/images/logo.svg";
 import TextTyping from "@/utils/TextTyping";
 
 const IntroPage = () => {
@@ -10,13 +10,13 @@ const IntroPage = () => {
     <div className={S.introWrapper}>
       <header>
         <Link href="/">
-          <Image src={Logo} alt="아이스 크래프트 홈페이지입니다." />
+          <Image src={Logo} alt="아이스 크래프트 홈페이지입니다." priority />
         </Link>
       </header>
       <section className={S.section}>
         <video
           className={S.video}
-          src="https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/vedio/intro.mp4?t=2024-04-04T09%3A05%3A53.658Z"
+          src="https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/vedio/intro.mp4"
           muted
           autoPlay
           loop
