@@ -109,7 +109,6 @@ const RoomPage = () => {
           </button>
         </div>
       </div>
-
       <MyVideoConference />
       {isModal && activeName === "morning" && <MafiaModal />}
       {isModal && activeName === "check" && <CheckModal />}
