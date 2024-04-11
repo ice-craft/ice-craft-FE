@@ -1,14 +1,29 @@
 "use client";
-import PeopleIcon from "@/assets/images/icon_person.png";
-import MafiaItem from "@/assets/images/mafia_item.png";
-import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
-import S from "@/style/mainPage/main.module.css";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import S from "@/style/mainPage/main.module.css";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
+import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
+import PeopleIcon from "@/assets/images/icon_person.png";
+import MafiaItem from "@/assets/images/mafia_item.png";
+import { getRooms } from "@/utils/supabase/roomAPI";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
+  const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
+  useEffect(() => {
+    const getRoomList = async () => {
+      try {
+        const data = await getRooms(0, 7);
+        setRooms(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRoomList();
+  }, []);
+  console.log(rooms);
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -49,62 +64,24 @@ const Mainpage = () => {
             </div>
           </div>
           <ul className={S.roomList}>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p className={S.mafiaHashtag}># 마피아</p>
-                  <p className={S.currentPeople}>
-                    <Image src={PeopleIcon} alt="people icon" />
-                    <span>1/10</span>
-                  </p>
+            {rooms.map((item: any) => (
+              <li key={item.room_id}>
+                <Image src={MafiaItem} alt="room image" />
+                <div className={S.roomTitle}>
+                  <h3>{item.title}</h3>
+                  <div className={S.gameName}>
+                    <p className={S.mafiaHashtag}>{item.game_category}</p>
+                    <p className={S.currentPeople}>
+                      <Image src={PeopleIcon} alt="people icon" />
+                      <span>
+                        {item.current_user_count}/{item.total_user_count}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p className={S.mafiaHashtag}># 마피아</p>
-                  <p className={S.currentPeople}>
-                    <Image src={PeopleIcon} alt="people icon" />
-                    <span>1/10</span>
-                  </p>
-                </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p className={S.mafiaHashtag}># 마피아</p>
-                  <p className={S.currentPeople}>
-                    <Image src={PeopleIcon} alt="people icon" />
-                    <span>1/10</span>
-                  </p>
-                </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
-            <li>
-              <Image src={MafiaItem} alt="room image" />
-              <div className={S.roomTitle}>
-                <h3>방 제목</h3>
-                <div className={S.gameName}>
-                  <p className={S.mafiaHashtag}># 마피아</p>
-                  <p className={S.currentPeople}>
-                    <Image src={PeopleIcon} alt="people icon" />
-                    <span>1/10</span>
-                  </p>
-                </div>
-              </div>
-              <button className={S.gotoButton}>입장하기</button>
-            </li>
+                <button className={S.gotoButton}>입장하기</button>
+              </li>
+            ))}
           </ul>
         </section>
       </div>
