@@ -170,6 +170,10 @@ const MafiaPlay = () => {
       console.log(title, message, timer, nickname, yesOrNo);
     });
 
+    socket.on("setCamera", (userId, isOn) => {
+      console.log(userId, isOn);
+    });
+
     socket.on("connect_error", (error) => {
       if (socket.active) {
         write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
