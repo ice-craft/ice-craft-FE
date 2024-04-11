@@ -2,7 +2,7 @@ import React from "react";
 import S from "@/style/Intropage/intro.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/app/assets/images/logo.svg";
+import Logo from "@/assets/images/logo.svg";
 import TextTyping from "@/utils/TextTyping";
 
 const IntroPage = () => {
