@@ -44,6 +44,10 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, "yes");
           socket.emit(eventName, userId.current, "yes");
           break;
+        case "choosePlayer":
+          console.log(eventName, userId.current);
+          socket.emit(eventName, userId.current);
+          break;
 
         //NOTE - 테스트 코드
         // case "getUserIdInRoom":
@@ -154,8 +158,36 @@ const MafiaPlay = () => {
       console.log(message);
     });
 
+    socket.on("choosePlayer", (message) => {
+      console.log(message);
+    });
+
+    socket.on("choosePlayerError", (message) => {
+      console.log(message);
+    });
+
     socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
       console.log(title, message, timer, nickname, yesOrNo);
+    });
+
+    socket.on("setCamera", (userId, isOn) => {
+      console.log(userId, isOn);
+    });
+
+    socket.on("setMike", (userId, isOn) => {
+      console.log(userId, isOn);
+    });
+
+    socket.on("openPlayerRole", (userId, role) => {
+      console.log(userId, role);
+    });
+
+    socket.on("showVoteYesOrNoResult", (voteResult) => {
+      console.log(voteResult);
+    });
+
+    socket.on("showVoteToResult", (voteResult) => {
+      console.log(voteResult);
     });
 
     socket.on("connect_error", (error) => {
