@@ -7,7 +7,8 @@ import { useModalStore } from "../../../store/toggle-store";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import PeopleIcon from "@/assets/images/icon_person.png";
 import MafiaItem from "@/assets/images/mafia_item.png";
-import { getRooms } from "@/utils/supabase/roomAPI";
+import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
+import { getUserUid } from "@/utils/supabase/authAPI";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -24,6 +25,19 @@ const Mainpage = () => {
     getRoomList();
   }, []);
   console.log(rooms);
+  const fastJoinRoomHandler = async () => {
+    try {
+      const roomId = await getUserUid();
+      // if (!roomId) {
+      // return;
+      // }
+      console.log(roomId);
+      // const roomData = await fastJoinRoom(roomId);
+      // console.log("Joined Room Data:", roomData);
+    } catch (error) {
+      console.error("Error joining room:", error);
+    }
+  };
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -53,7 +67,7 @@ const Mainpage = () => {
                 <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
               </div>
               <div className={S.gameGoButton}>
-                <button>빠른입장</button>
+                <button onClick={fastJoinRoomHandler}>빠른입장</button>
                 <div>
                   <button onClick={() => setIsModal(true)} className={S.makeRoom}>
                     방 만들기
