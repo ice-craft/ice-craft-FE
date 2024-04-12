@@ -52,3 +52,12 @@ export interface ActiveNameState {
   activeName: string | null;
   setActiveName: (newName: string | null) => void;
 }
+export interface ConnectState {
+  isConnected: boolean;
+  nickname: string;
+  userId: string;
+  roomId: string;
+  setConnectionStatus: (status: boolean) => void;
+  setRoomId: (id: string) => void;
+  setUserId: (id: string) => void;
+}
