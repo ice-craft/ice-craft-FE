@@ -72,6 +72,7 @@ const MyVideoConference = () => {
       <div className={S.goToMainPage}>
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
+      <MafiaToolTip role="mafia" />
     </section>
   );
 };
