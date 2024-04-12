@@ -32,7 +32,7 @@ const MainCreateRoom = () => {
     const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
     console.log("으하하하", room_id);
     console.log("zkzkzkz", userId);
-    await joinRoom(room_id, userId, "nickname");
+    await joinRoom(room_id, userId, "default nickName");
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
   };
