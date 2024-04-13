@@ -75,3 +75,8 @@ export interface MessageState {
   addMessage: (newMessage: string) => void;
   clearMessages: () => void;
 }
+
+export interface VoteData {
+  userId: string;
+  nickname: string;
+}
