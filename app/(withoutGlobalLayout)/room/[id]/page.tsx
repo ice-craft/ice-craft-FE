@@ -9,12 +9,13 @@ import { useModalStore } from "@/store/toggle-store";
 import {
   allAudioSetting,
   allMediaSetting,
-  remainUserMediaSetting,
   specificUserAudioSetting,
   specificUserVideoSetting
 } from "@/utils/participantCamSettings/camSetting";
+import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
+import { useEffect } from "react";
 
 const RoomPage = () => {
   const tracks = useTracks();
@@ -24,22 +25,48 @@ const RoomPage = () => {
   const { setIsOverlay, clearActiveParticipant } = useOverlayStore();
   const { activeName, setActiveName } = useActiveStore();
 
-  const mafiaTrack = useParticipantTracks(sources, "12323123");
-  const mafiaTrackSecond = useParticipantTracks(sources, "321");
-
+  // 로컬 user의 닉네임을 가져온다.
   const localParticipant = useLocalParticipant();
   const localIdentity = localParticipant.localParticipant.identity;
 
-  const MafiaLogic = () => {
-    if (localIdentity == "12323123" || "321") {
-      specificUserVideoSetting(mafiaTrack, true);
-      specificUserVideoSetting(mafiaTrackSecond, true);
-    } else {
-      const remainAudio = localParticipant.microphoneTrack;
-      const remainCam = localParticipant.cameraTrack;
-      remainUserMediaSetting(remainAudio, remainCam);
-    }
-  };
+  useEffect(() => {
+    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
+      //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
+      if (message.indexOf("밤이 되었습니다")) {
+        allMediaSetting(tracks, false);
+      }
+      //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
+      if (message.indexOf("아침이 되었습니다")) {
+        allMediaSetting(tracks, true);
+      }
+      //NOTE - 투표시간일 경우 모든 user의 마이크 off
+      if (message.indexOf("투표해주세요")) {
+        allAudioSetting(tracks, false);
+      }
+    });
+
+    // 특정 user의 캠을 활성화 및 비활성화
+    socket.on("setCamera", (userId, isOn) => {
+      //NOTE -  1) 특정 유저의 track을 받아온다.
+      const specificUser = useParticipantTracks(sources, userId);
+      //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
+      if (localIdentity === userId) {
+        //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
+        specificUserVideoSetting(specificUser, isOn);
+      }
+    });
+
+    // 특정 user의 마이크를 활성화 및 비활성화
+    socket.on("setMike", (userId, isOn) => {
+      //NOTE 1) 특정 유저의 track을 받아온다.
+      const specificUser = useParticipantTracks(sources, userId);
+      //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
+      if (localIdentity === userId) {
+        //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
+        specificUserAudioSetting(specificUser, isOn);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -53,7 +80,7 @@ const RoomPage = () => {
         </button>
       </div>
       <div>
-        <button onClick={MafiaLogic}>마피아 카메라 켜짐</button>
+        <button>마피아 카메라 켜짐</button>
       </div>
       <div>
         <button onClick={() => allMediaSetting(tracks, true)}> 아침이 밝았습니다. </button>
@@ -73,7 +100,7 @@ const RoomPage = () => {
           onClick={() => {
             setIsOverlay(false);
             allAudioSetting(tracks, false);
-            specificUserAudioSetting(mafiaTrack, true);
+            // specificUserAudioSetting(mafiaTrack, true);
             clearActiveParticipant();
           }}
         >
