@@ -48,6 +48,17 @@ const RoomPage = () => {
         allAudioSetting(tracks, false);
       }
     });
+
+    // 특정 user의 캠을 활성화 및 비활성화
+    socket.on("setCamera", (userId, isOn) => {
+      //NOTE -  1) 특정 유저의 track을 받아온다.
+      const specificUser = useParticipantTracks(sources, userId);
+      //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
+      if (localIdentity === userId) {
+        //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
+        specificUserVideoSetting(specificUser, isOn);
+      }
+    });
   });
 
   const MafiaLogic = () => {
