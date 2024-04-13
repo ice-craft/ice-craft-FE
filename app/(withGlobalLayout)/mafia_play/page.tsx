@@ -2,8 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "@/utils/socket/socket";
+import useConnectStore from "@/store/connect-store";
 
 const MafiaPlay = () => {
+  const { isConnected, setConnectionStatus } = useConnectStore();
   const [eventName, setEventName] = useState("");
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState("");
