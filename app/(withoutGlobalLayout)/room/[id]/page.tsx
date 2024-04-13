@@ -59,7 +59,18 @@ const RoomPage = () => {
         specificUserVideoSetting(specificUser, isOn);
       }
     });
-  });
+
+    // 특정 user의 마이크를 활성화 및 비활성화
+    socket.on("setMike", (userId, isOn) => {
+      //NOTE 1) 특정 유저의 track을 받아온다.
+      const specificUser = useParticipantTracks(sources, userId);
+      //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
+      if (localIdentity === userId) {
+        //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
+        specificUserAudioSetting(specificUser, isOn);
+      }
+    });
+  }, []);
 
   const MafiaLogic = () => {
     if (localIdentity == "12323123" || "321") {
