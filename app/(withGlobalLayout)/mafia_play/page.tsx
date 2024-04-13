@@ -8,11 +8,14 @@ const MafiaPlay = () => {
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState("");
 
-  const nickname = useRef("user3");
-  const userId = useRef("79043912-e9c4-4658-987c-6715bebb1223"); //NOTE - 테스트용
-  const roomId = useRef("30ed837a-fc34-4fcd-9d5d-9c31bbde2726"); //NOTE - 테스트용
+  const nickname = useRef("user3"); //NOTE - 테스트용
+  const userId = useRef("79043912-e9c4-4658-987c-6715bebb1224"); //NOTE - 테스트용
+  const roomId = useRef("2064335d-17ac-43c8-86f3-dbc5636e5167"); //NOTE - 테스트용
   const rowStart = useRef(0); //NOTE - 테스트용
   const rowEnd = useRef(10); //NOTE - 테스트용
+  const title = useRef("방제목"); //NOTE - 테스트용
+  const gameCategory = useRef("마피아"); //NOTE - 테스트용
+  const totalUserCount = useRef("5"); //NOTE - 테스트용
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -21,6 +24,10 @@ const MafiaPlay = () => {
         case "enterMafia":
           console.log(eventName, rowStart.current, rowEnd.current); //NOTE - 테스트 코드
           socket.emit(eventName, rowStart.current, rowEnd.current);
+          break;
+        case "createRoom":
+          console.log(eventName, title.current, gameCategory.current, totalUserCount.current); //NOTE - 테스트 코드
+          socket.emit(eventName, title.current, gameCategory.current, totalUserCount.current);
           break;
         case "joinRoom":
           console.log(eventName, userId.current, roomId.current, nickname.current); //NOTE - 테스트 코드
@@ -99,6 +106,14 @@ const MafiaPlay = () => {
     });
 
     socket.on("enterMafiaError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("createRoom", (room_id) => {
+      console.log(room_id);
+    });
+
+    socket.on("createRoomError", (message) => {
       console.log(message);
     });
 
