@@ -1,7 +1,6 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
-import useConnectStore from "@/store/connect-store";
 import { useEffect, useState } from "react";
 
 const MafiaModal = () => {
