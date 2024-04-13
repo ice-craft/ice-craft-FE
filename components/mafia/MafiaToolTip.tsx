@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import S from "@/style/livekit/livekit.module.css";
 import Image from "next/image";
 import CitizensToolTipIcon from "@/assets/images/citizens_ToolTip_Icon.png";
@@ -9,9 +9,14 @@ import DoctorToolTipIcon from "@/assets/images/doctor_ToolTip_Icon.png";
 import DoctorToolTipText from "@/assets/images/doctor_ToolTip_text.png";
 import PoliceToolTipIcon from "@/assets/images/police_ToolTip_Icon.png";
 import PoliceToolTipText from "@/assets/images/police_ToolTip_Text.png";
-import { MafiaGameToolTip } from "@/types/index";
+import { Role } from "@/types/index";
+import { socket } from "@/utils/socket/socket";
+import useConnectStore from "@/store/connect-store";
 
-const MafiaToolTip: React.FC<MafiaGameToolTip> = ({ role }) => {
+const MafiaToolTip = () => {
+  const [role, setRole] = useState<Role | null>(null);
+  const { userId } = useConnectStore();
+
   const toolTipInfo = {
     citizens: {
       icon: CitizensToolTipIcon,
@@ -30,6 +35,22 @@ const MafiaToolTip: React.FC<MafiaGameToolTip> = ({ role }) => {
       text: PoliceToolTipText
     }
   };
+
+  useEffect(() => {
+    socket.on("openPlayerRole", (incomingUserId, assignedRole: Role) => {
+      if (incomingUserId === userId) {
+        setRole(assignedRole); //할당된 Role을 받아옴
+      }
+    });
+
+    return () => {
+      socket.off("openPlayerRole");
+    };
+  }, [userId]);
+
+  if (!role || !toolTipInfo[role]) {
+    return null;
+  }
 
   const currentRoleInfo = toolTipInfo[role];
 

@@ -14,6 +14,7 @@ const MafiaPlay = () => {
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    //NOTE - 클라이언트에서 보내는 이벤트명
     if (eventName) {
       switch (eventName) {
         case "enterMafia":
@@ -36,7 +37,7 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, true);
           socket.emit(eventName, userId.current, true);
           break;
-        case "voteTo":
+        case "voteTo": //마피아 지목
           console.log(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
           socket.emit(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
           break;
@@ -44,7 +45,7 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, "yes");
           socket.emit(eventName, userId.current, "yes");
           break;
-        case "choosePlayer":
+        case "choosePlayer": //의사나 마피아가 지목할때 대상
           console.log(eventName, userId.current);
           socket.emit(eventName, userId.current);
           break;
@@ -85,7 +86,7 @@ const MafiaPlay = () => {
   useEffect(() => {
     console.log("나의 닉네임", nickname.current);
     socket.on("connect", () => {
-      write("서버와 연결되었습니다.");
+      write(message);
     });
 
     socket.on("disconnect", () => {
