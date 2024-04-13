@@ -98,7 +98,7 @@ const MafiaPlay = () => {
       console.log(rooms);
     });
 
-    socket.on("enterMafia", (message) => {
+    socket.on("enterMafiaError", (message) => {
       console.log(message);
     });
 
