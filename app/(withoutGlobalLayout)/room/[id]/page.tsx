@@ -36,8 +36,12 @@ const RoomPage = () => {
   useEffect(() => {
     socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
       //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
-      if (message.indexOf("밤이 되었습니다.")) {
+      if (message.indexOf("밤이 되었습니다")) {
         allMediaSetting(tracks, false);
+      }
+      //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
+      if (message.indexOf("아침이 되었습니다")) {
+        allMediaSetting(tracks, true);
       }
     });
   });
