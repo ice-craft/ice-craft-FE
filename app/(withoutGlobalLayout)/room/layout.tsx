@@ -14,7 +14,7 @@ const PreJoinNoSSR = dynamic(
   { ssr: false }
 );
 
-const layout = ({ children }: PropsWithChildren) => {
+const RoomLayout = ({ children }: PropsWithChildren) => {
   const { id } = useParams();
 
   const [preJoinChoices, setPreJoinChoices] = useState<LocalUserChoices>();
@@ -82,4 +82,4 @@ const layout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default layout;
+export default RoomLayout;
