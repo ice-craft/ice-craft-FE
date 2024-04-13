@@ -9,8 +9,8 @@ const MafiaPlay = () => {
   const [display, setDisplay] = useState("");
 
   const nickname = useRef("user3"); //NOTE - 테스트용
-  const userId = useRef("79043912-e9c4-4658-987c-6715bebb1224"); //NOTE - 테스트용
-  const roomId = useRef("2064335d-17ac-43c8-86f3-dbc5636e5167"); //NOTE - 테스트용
+  const userId = useRef("33343912-e9c4-4658-987c-6715bebb1224"); //NOTE - 테스트용
+  const roomId = useRef("12dc28ad-4764-460f-9a54-58c31fdacd1f"); //NOTE - 테스트용
   const rowStart = useRef(0); //NOTE - 테스트용
   const rowEnd = useRef(10); //NOTE - 테스트용
   const title = useRef("방제목"); //NOTE - 테스트용
@@ -46,27 +46,17 @@ const MafiaPlay = () => {
           socket.emit(eventName, userId.current, true);
           break;
         case "voteTo":
-          console.log(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
-          socket.emit(eventName, userId.current, "ee93a48d-a0a1-4e10-854b-dee2580e5f2e");
+          console.log(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
+          socket.emit(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
           break;
         case "voteYesOrNo":
           console.log(eventName, userId.current, "yes");
           socket.emit(eventName, userId.current, "yes");
           break;
         case "choosePlayer":
-          console.log(eventName, userId.current);
-          socket.emit(eventName, userId.current);
+          console.log(eventName, userId.current, "마피아");
+          socket.emit(eventName, userId.current, "마피아");
           break;
-
-        //NOTE - 테스트 코드
-        // case "getUserIdInRoom":
-        //   console.log(eventName, message);
-        //   socket.emit(eventName, message);
-        //   break;
-        // case "getUserInfoInRoom":
-        //   console.log(eventName, message);
-        //   socket.emit(eventName, message);
-        //   break;
       }
     } else {
       alert("이벤트 명을 적으세요.");
