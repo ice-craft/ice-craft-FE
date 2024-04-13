@@ -1,23 +1,53 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import S from "@/style/modal/modal.module.css";
+import { socket } from "@/utils/socket/socket";
+import useConnectStore from "@/store/connect-store";
+import { useEffect, useState } from "react";
 
 const MafiaModal = () => {
   const initialTime = 5;
   const count = useCountDown(initialTime);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [isDay, setIsDay] = useState(true);
+
+  useEffect(() => {
+    socket.on("showModal", (title, message) => {
+      setModalTitle(title);
+      setModalMessage(message);
+      setIsDay(message.includes("아침"));
+    });
+    return () => {
+      socket.off("showModal");
+    };
+  }, []);
 
   return (
     <>
       <div className={S.modalWrap}>
         <div className={S.modal}>
-          <div>
-            <h1>첫번째 턴</h1>
-            <h2>아침이 밝았습니다.</h2>
-            <progress
-              className={S.progress}
-              value={(initialTime * 10 - count) * (100 / (initialTime * 10))}
-              max={100}
-            ></progress>
-          </div>
+          {/* NOTE - 아침, 밤에 따라 모달창 css 변경할 예정이라 조건부 랜더링 미리 설정 */}
+          {isDay ? (
+            <div>
+              <h1>{modalTitle}</h1>
+              <h2>{modalMessage}</h2>
+              <progress
+                className={S.progress}
+                value={(initialTime * 10 - count) * (100 / (initialTime * 10))}
+                max={100}
+              ></progress>
+            </div>
+          ) : (
+            <div>
+              <h1>{modalTitle}</h1>
+              <h2>{modalMessage}</h2>
+              <progress
+                className={S.progress}
+                value={(initialTime * 10 - count) * (100 / (initialTime * 10))}
+                max={100}
+              ></progress>
+            </div>
+          )}
         </div>
       </div>
     </>

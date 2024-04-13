@@ -29,7 +29,7 @@ const CheckModal = () => {
   const chooseVoteHandler = (vote: boolean) => {
     if (chooseUser) {
       ///NOTE - 서버에게 투표 결과를 보냄, null이 아닐때 실행함
-      socket.emit("showVoteYesOrNoResult", { userId: chooseUser.id, vote });
+      socket.emit("voteYesOrNo", { userId: chooseUser.id, vote });
     } else {
       console.log("투표할 사용자가 선택되지 않았습니다.");
     }
