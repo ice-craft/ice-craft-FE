@@ -43,6 +43,10 @@ const RoomPage = () => {
       if (message.indexOf("아침이 되었습니다")) {
         allMediaSetting(tracks, true);
       }
+      //NOTE - 투표시간일 경우 모든 user의 마이크 off
+      if (message.indexOf("투표해주세요")) {
+        allAudioSetting(tracks, false);
+      }
     });
   });
 
