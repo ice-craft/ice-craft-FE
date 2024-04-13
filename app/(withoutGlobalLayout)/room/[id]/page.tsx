@@ -13,8 +13,10 @@ import {
   specificUserAudioSetting,
   specificUserVideoSetting
 } from "@/utils/participantCamSettings/camSetting";
+import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
+import { useEffect } from "react";
 
 const RoomPage = () => {
   const tracks = useTracks();
@@ -27,8 +29,18 @@ const RoomPage = () => {
   const mafiaTrack = useParticipantTracks(sources, "12323123");
   const mafiaTrackSecond = useParticipantTracks(sources, "321");
 
+  // 로컬 user의 닉네임을 가져온다.
   const localParticipant = useLocalParticipant();
   const localIdentity = localParticipant.localParticipant.identity;
+
+  useEffect(() => {
+    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
+      //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
+      if (message.indexOf("밤이 되었습니다.")) {
+        allMediaSetting(tracks, false);
+      }
+    });
+  });
 
   const MafiaLogic = () => {
     if (localIdentity == "12323123" || "321") {
