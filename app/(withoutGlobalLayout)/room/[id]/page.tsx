@@ -9,7 +9,6 @@ import { useModalStore } from "@/store/toggle-store";
 import {
   allAudioSetting,
   allMediaSetting,
-  remainUserMediaSetting,
   specificUserAudioSetting,
   specificUserVideoSetting
 } from "@/utils/participantCamSettings/camSetting";
@@ -25,9 +24,6 @@ const RoomPage = () => {
   const { isModal, setIsModal } = useModalStore();
   const { setIsOverlay, clearActiveParticipant } = useOverlayStore();
   const { activeName, setActiveName } = useActiveStore();
-
-  const mafiaTrack = useParticipantTracks(sources, "12323123");
-  const mafiaTrackSecond = useParticipantTracks(sources, "321");
 
   // 로컬 user의 닉네임을 가져온다.
   const localParticipant = useLocalParticipant();
@@ -72,17 +68,6 @@ const RoomPage = () => {
     });
   }, []);
 
-  const MafiaLogic = () => {
-    if (localIdentity == "12323123" || "321") {
-      specificUserVideoSetting(mafiaTrack, true);
-      specificUserVideoSetting(mafiaTrackSecond, true);
-    } else {
-      const remainAudio = localParticipant.microphoneTrack;
-      const remainCam = localParticipant.cameraTrack;
-      remainUserMediaSetting(remainAudio, remainCam);
-    }
-  };
-
   return (
     <>
       <div>
@@ -95,7 +80,7 @@ const RoomPage = () => {
         </button>
       </div>
       <div>
-        <button onClick={MafiaLogic}>마피아 카메라 켜짐</button>
+        <button>마피아 카메라 켜짐</button>
       </div>
       <div>
         <button onClick={() => allMediaSetting(tracks, true)}> 아침이 밝았습니다. </button>
@@ -115,7 +100,7 @@ const RoomPage = () => {
           onClick={() => {
             setIsOverlay(false);
             allAudioSetting(tracks, false);
-            specificUserAudioSetting(mafiaTrack, true);
+            // specificUserAudioSetting(mafiaTrack, true);
             clearActiveParticipant();
           }}
         >
