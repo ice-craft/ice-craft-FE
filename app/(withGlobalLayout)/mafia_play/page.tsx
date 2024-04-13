@@ -2,13 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "@/utils/socket/socket";
-import useConnectStore from "@/store/connect-store";
-import useMessageStore from "@/store/messages-store";
 
 const MafiaPlay = () => {
-  const { isConnected, setConnectionStatus } = useConnectStore();
-  const { messages, addMessage } = useMessageStore();
-
   const [eventName, setEventName] = useState("");
   const [message, setMessage] = useState("");
   const [display, setDisplay] = useState("");
@@ -55,14 +50,14 @@ const MafiaPlay = () => {
           break;
 
         //NOTE - 테스트 코드
-        case "getUserIdInRoom":
-          console.log(eventName, message);
-          socket.emit(eventName, message);
-          break;
-        case "getUserInfoInRoom":
-          console.log(eventName, message);
-          socket.emit(eventName, message);
-          break;
+        // case "getUserIdInRoom":
+        //   console.log(eventName, message);
+        //   socket.emit(eventName, message);
+        //   break;
+        // case "getUserInfoInRoom":
+        //   console.log(eventName, message);
+        //   socket.emit(eventName, message);
+        //   break;
       }
     } else {
       alert("이벤트 명을 적으세요.");
@@ -88,8 +83,7 @@ const MafiaPlay = () => {
   };
 
   useEffect(() => {
-    // console.log("나의 닉네임", nickname.current);
-    //NOTE - 서버로부터 메세지 받으면 Zustand 상태 업데이트
+    console.log("나의 닉네임", nickname.current);
     socket.on("connect", () => {
       write(message);
     });
@@ -186,9 +180,6 @@ const MafiaPlay = () => {
 
     socket.on("openPlayerRole", (userId, role) => {
       console.log(userId, role);
-      // if(userId === userId.current) {
-      // setRole(role);
-      // setIsModalOpen(true);
     });
 
     socket.on("showVoteYesOrNoResult", (voteResult) => {
