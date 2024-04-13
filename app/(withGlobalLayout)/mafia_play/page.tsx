@@ -11,14 +11,16 @@ const MafiaPlay = () => {
   const nickname = useRef("user3");
   const userId = useRef("79043912-e9c4-4658-987c-6715bebb1223"); //NOTE - 테스트용
   const roomId = useRef("30ed837a-fc34-4fcd-9d5d-9c31bbde2726"); //NOTE - 테스트용
+  const rowStart = useRef(0); //NOTE - 테스트용
+  const rowEnd = useRef(10); //NOTE - 테스트용
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (eventName) {
       switch (eventName) {
         case "enterMafia":
-          console.log(eventName); //NOTE - 테스트 코드
-          socket.emit(eventName);
+          console.log(eventName, rowStart.current, rowEnd.current); //NOTE - 테스트 코드
+          socket.emit(eventName, rowStart.current, rowEnd.current);
           break;
         case "joinRoom":
           console.log(eventName, userId.current, roomId.current, nickname.current); //NOTE - 테스트 코드
@@ -92,23 +94,13 @@ const MafiaPlay = () => {
       write("서버와 연결이 끊어졌습니다.");
     });
 
-    socket.on("server", (message: string) => {
-      write(message);
-    });
-
-    //NOTE - 테스트 코드
-    // socket.on("rooms", (rooms) => {
-    //   console.log(rooms);
-    // });
-
-    socket.on("rooms", (rooms) => {
+    socket.on("enterMafia", (rooms) => {
       console.log(rooms);
     });
 
-    //NOTE - 테스트 코드
-    // socket.on("userIdInRoom", (userId) => {
-    //   console.log(userId);
-    // });
+    socket.on("enterMafia", (message) => {
+      console.log(message);
+    });
 
     socket.on("joinRoom", (userInfo) => {
       console.log(userInfo);
