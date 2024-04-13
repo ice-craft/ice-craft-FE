@@ -30,17 +30,17 @@ const RoomPage = () => {
   const localIdentity = localParticipant.localParticipant.identity;
 
   useEffect(() => {
-    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
+    socket.on("showModal", (message) => {
       //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
-      if (message.indexOf("밤이 되었습니다")) {
+      if (message.includes("밤")) {
         allMediaSetting(tracks, false);
       }
       //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
-      if (message.indexOf("아침이 되었습니다")) {
+      if (message.includes("아침")) {
         allMediaSetting(tracks, true);
       }
       //NOTE - 투표시간일 경우 모든 user의 마이크 off
-      if (message.indexOf("투표해주세요")) {
+      if (message.includes("투표")) {
         allAudioSetting(tracks, false);
       }
     });
@@ -66,11 +66,17 @@ const RoomPage = () => {
         specificUserAudioSetting(specificUser, isOn);
       }
     });
+
+    return () => {
+      socket.off("showModal");
+      socket.off("setCamera");
+      socket.off("setMike");
+    };
   }, []);
 
   return (
     <>
-      <div>
+      {/* <div>
         <button
           onClick={() => {
             allMediaSetting(tracks, false);
@@ -135,10 +141,10 @@ const RoomPage = () => {
             투표 찬성 반대 모달
           </button>
         </div>
-      </div>
+      </div> */}
       <MyVideoConference />
-      {isModal && activeName === "morning" && <MafiaModal />}
-      {isModal && activeName === "check" && <CheckModal />}
+      {/* {isModal && activeName === "morning" && <MafiaModal />}
+      {isModal && activeName === "check" && <CheckModal />} */}
     </>
   );
 };
