@@ -11,12 +11,12 @@ import GoogleLoginIcon from "@/assets/images/join_google.svg";
 import GithubLoginIcon from "@/assets/images/join_github.svg";
 import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
 import Logo from "@/assets/images/logo.svg";
+import ErrorMessage from "@/components/logIn/ErrorMessage";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstErrorMessage, setFirstErrorMessage] = useState("");
-  const [secondErrorMessage, setSecondErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const router = useRouter();
 
   const logInHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -26,8 +26,7 @@ const LogIn = () => {
       await emailLogIn(email, password);
     } catch (error) {
       console.log(error); //NOTE - 테스트 코드
-      setFirstErrorMessage("이메일 또는 비밀번호를 잘못 입력했습니다.");
-      setSecondErrorMessage("입력하신 내용을 다시 확인해주세요.");
+      setErrorMessage(["이메일 또는 비밀번호를 잘못 입력했습니다.", "입력하신 내용을 다시 확인해주세요."]);
       return;
     }
     console.log("로그인 성공"); //NOTE - 테스트 코드
@@ -36,21 +35,18 @@ const LogIn = () => {
   };
 
   const emailFocusHandler = () => {
-    setFirstErrorMessage("");
-    setSecondErrorMessage("");
+    setErrorMessage([]);
   };
 
   const passwordFocusHandler = () => {
-    setFirstErrorMessage("");
-    setSecondErrorMessage("");
+    setErrorMessage([]);
   };
 
   const kakaoLogIn = async () => {
     try {
       await oAuthLogIn("kakao");
     } catch (error) {
-      setFirstErrorMessage("카카오 계정을 통한 로그인에 실패했습니다.");
-      setSecondErrorMessage("");
+      setErrorMessage(["카카오 계정을 통한 로그인에 실패했습니다."]);
       return;
     }
   };
@@ -59,8 +55,7 @@ const LogIn = () => {
     try {
       await oAuthLogIn("google");
     } catch (error) {
-      setFirstErrorMessage("구글 계정을 통한 로그인에 실패했습니다.");
-      setSecondErrorMessage("");
+      setErrorMessage(["구글 계정을 통한 로그인에 실패했습니다."]);
       return;
     }
   };
@@ -69,8 +64,7 @@ const LogIn = () => {
     try {
       await oAuthLogIn("github");
     } catch (error) {
-      setFirstErrorMessage("깃허브 계정을 통한 로그인에 실패했습니다.");
-      setSecondErrorMessage("");
+      setErrorMessage(["깃허브 계정을 통한 로그인에 실패했습니다."]);
       return;
     }
   };
@@ -79,8 +73,7 @@ const LogIn = () => {
     try {
       await oAuthLogIn("facebook");
     } catch (error) {
-      setFirstErrorMessage("페이스북 계정을 통한 로그인에 실패했습니다.");
-      setSecondErrorMessage("");
+      setErrorMessage(["페이스북 계정을 통한 로그인에 실패했습니다."]);
       return;
     }
   };
@@ -140,10 +133,11 @@ const LogIn = () => {
               </p>
               <Link href="/register">회원가입</Link>
             </div>
-            <p className={S.error}>
-              {firstErrorMessage}
+            {/* <p className={S.error}>
+              {errorMessage}
               <span>{secondErrorMessage}</span>
-            </p>
+            </p> */}
+            <ErrorMessage errorMessage={errorMessage} />
           </div>
           <div className={S.simpleLogin}>
             <h3>간편 로그인하기</h3>
