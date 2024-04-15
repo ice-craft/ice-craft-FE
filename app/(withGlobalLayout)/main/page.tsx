@@ -24,7 +24,7 @@ const Mainpage = () => {
     };
     getRoomList();
   }, []);
-  console.log(rooms);
+
   const fastJoinRoomHandler = async () => {
     try {
       const roomId = await getUserUid();
