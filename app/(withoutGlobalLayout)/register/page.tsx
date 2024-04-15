@@ -226,7 +226,7 @@ const Register = () => {
               <div>
                 <input
                   type="text"
-                  name="email"
+                  id="email"
                   placeholder="이메일을 입력해주세요."
                   value={email}
                   onChange={(e) => emailChangeHandler(e.target.value)}
@@ -241,7 +241,7 @@ const Register = () => {
               <div>
                 <input
                   type="text"
-                  name="nickname"
+                  id="nickname"
                   maxLength={6}
                   placeholder="닉네임을 입력해주세요."
                   value={nickname}
@@ -258,7 +258,7 @@ const Register = () => {
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
-                name="password"
+                id="password"
                 maxLength={12}
                 placeholder="비밀번호를 입력해주세요."
                 value={password}
@@ -271,7 +271,7 @@ const Register = () => {
               <label htmlFor="check-password">비밀번호 확인</label>
               <input
                 type="password"
-                name="password"
+                id="check-password"
                 placeholder="비밀번호를 한번 더입력해주세요."
                 value={checkPassword}
                 onChange={(e) => checkPasswordChangeHandler(e.target.value)}

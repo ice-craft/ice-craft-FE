@@ -109,7 +109,7 @@ const LogIn = () => {
             <p>
               <label htmlFor="email">이메일</label>
               <input
-                name="email"
+                id="email"
                 placeholder="이메일을 입력해주세요."
                 value={email}
                 onChange={(e) => {
@@ -123,7 +123,7 @@ const LogIn = () => {
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
-                name="password"
+                id="password"
                 placeholder="비밀번호를 입력해주세요."
                 value={password}
                 onChange={(e) => {
