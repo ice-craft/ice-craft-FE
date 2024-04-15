@@ -6,11 +6,14 @@ import MafiaCard from "@/assets/images/Mafia_Card.png";
 import CitizensCard from "@/assets/images/Citizens_Card.png";
 import Image from "next/image";
 import { Role } from "@/types/index";
+import { socket } from "@/utils/socket/socket";
+import useConnectStore from "@/store/connect-store";
 
 const UserWorkModal = () => {
-  const [role, setRole] = useState<Role>("mafia");
+  const { userId } = useConnectStore();
+  const [role, setRole] = useState<Role | null>(null);
   const [showAllCards, setShowAllCards] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const cards = {
     doctor: { src: DoctorCard, alt: "의사" },
@@ -20,18 +23,20 @@ const UserWorkModal = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const roles = ["doctor", "police", "mafia", "citizens"];
-      //NOTE - 임시 데이터 불러오면 변경할 예정
-      const randomRole = roles[Math.floor(Math.random() * roles.length)];
-      setRole(randomRole as Role);
-      setShowAllCards(false);
-      setTimeout(() => {
-        setIsModalOpen(false);
-      }, 3000);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    socket.on("openPlayerRole", (incomingUserId, Role) => {
+      if (incomingUserId === userId) {
+        setRole(Role);
+        setIsModalOpen(true);
+        setTimeout(() => {
+          setShowAllCards(false);
+        }, 3000);
+      }
+    });
+
+    return () => {
+      socket.off("openPlayerRole");
+    };
+  }, [userId]);
 
   if (!isModalOpen) return null;
 

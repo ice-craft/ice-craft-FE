@@ -11,7 +11,7 @@ const Footer = () => {
       <footer className={S.footer}>
         <Image src={FooterLogo} alt="Logo" />
         <p>copyright &copy; 2024 by IceCraft. all rights reserved.</p>
-        <Link href="https://github.com/TeamSparta-Project/ice-craft" target="_blank">
+        <Link href="https://github.com/TeamSparta-Project/ice-craft" target="_blank" rel="noopener noreferrer">
           <Image src={GithubIcon} alt="github logo" />
         </Link>
       </footer>

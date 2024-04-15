@@ -19,6 +19,7 @@ const MafiaPlay = () => {
 
   const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    //NOTE - 클라이언트에서 보내는 이벤트명
     if (eventName) {
       switch (eventName) {
         case "enterMafia":
@@ -84,7 +85,7 @@ const MafiaPlay = () => {
   useEffect(() => {
     console.log("나의 닉네임", nickname.current);
     socket.on("connect", () => {
-      write("서버와 연결되었습니다.");
+      write(message);
     });
 
     socket.on("disconnect", () => {
