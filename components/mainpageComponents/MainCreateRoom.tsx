@@ -8,6 +8,7 @@ import MafiaGameSong from "@/assets/images/game_choice_song.png";
 import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.png";
 import Image from "next/image";
 import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
+import { socket } from "@/utils/socket/socket";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
@@ -28,9 +29,9 @@ const MainCreateRoom = () => {
     // 유효성검사필요
     // if (!selectedGame || !roomTitle || !numberOfPlayers) {
     // }
-    // const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
-    // const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
-    // await joinRoom(room_id, userId, "default nickName");
+    const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
+    const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
+    await joinRoom(room_id, userId, "default nickName");
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
   };

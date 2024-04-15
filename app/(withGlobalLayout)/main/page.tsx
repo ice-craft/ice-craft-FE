@@ -8,12 +8,21 @@ import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import PeopleIcon from "@/assets/images/icon_person.png";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
-import { getUserUid } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserUid } from "@/utils/supabase/authAPI";
+import { socket } from "@/utils/socket/socket";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
+  const router = useRouter();
+
   useEffect(() => {
+    //NOTE -  서버와 연결
+    socket.connect();
+
+    //NOTE - 방 목록
     const getRoomList = async () => {
       try {
         const data = await getRooms(0, 7);
@@ -23,7 +32,22 @@ const Mainpage = () => {
       }
     };
     getRoomList();
+
+    socket.on("joinRoom", (userInfo) => {
+      console.log(userInfo);
+    });
   }, []);
+
+  const joinRoomHandler = async (item: any) => {
+    const isLogin = await checkUserLogIn();
+
+    if (!isLogin) {
+      alert("로그인 후 입장가능합니다.");
+      router.push("/login");
+    }
+
+    // socket.emit("joinRoom", userId.current, item.room_id, nickname.current);
+  };
 
   const fastJoinRoomHandler = async () => {
     try {
@@ -93,7 +117,9 @@ const Mainpage = () => {
                     </p>
                   </div>
                 </div>
-                <button className={S.gotoButton}>입장하기</button>
+                <button onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+                  입장하기
+                </button>
               </li>
             ))}
           </ul>
