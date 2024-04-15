@@ -3,7 +3,7 @@ import { StaticImageData } from "next/image";
 
 export interface MafiaRoom {
   room: string;
-  name: string;
+  userId: string;
 }
 
 export interface ModalState {

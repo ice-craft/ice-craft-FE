@@ -20,7 +20,7 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
   const [preJoinChoices, setPreJoinChoices] = useState<LocalUserChoices>();
 
   const room = id as string;
-  const name = preJoinChoices?.username as string;
+  const userId = preJoinChoices?.username as string;
 
   const handlePreJoinSubmit = (values: LocalUserChoices) => {
     setPreJoinChoices(values);
@@ -31,7 +31,7 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
     return;
   }
 
-  const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, name });
+  const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, userId });
 
   if (isLoading || !isSuccess) {
     console.log("token 발급 중입니다.");

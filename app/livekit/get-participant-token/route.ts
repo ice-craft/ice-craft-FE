@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const room = req.nextUrl.searchParams.get("room");
-  const username = req.nextUrl.searchParams.get("username");
+  const userId = req.nextUrl.searchParams.get("userId");
   if (!room) {
     return NextResponse.json({ error: 'Missing "room" query parameter' }, { status: 400 });
-  } else if (!username) {
+  } else if (!userId) {
     return NextResponse.json({ error: 'Missing "username" query parameter' }, { status: 400 });
   }
 
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
   }
 
-  const at = new AccessToken(apiKey, apiSecret, { identity: username });
+  const at = new AccessToken(apiKey, apiSecret, { identity: userId });
 
   at.addGrant({ room, roomJoin: true, canPublish: true, canSubscribe: true });
 
