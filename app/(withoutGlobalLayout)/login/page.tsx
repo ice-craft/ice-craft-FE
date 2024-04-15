@@ -96,7 +96,7 @@ const LogIn = () => {
         </Link>
       </header>
       <main className={S.mainWrapper}>
-        <form onSubmit={(e) => logInHandler(e)}>
+        <form onSubmit={logInHandler}>
           <h2>로그인</h2>
           <div className={S.userform}>
             <p>

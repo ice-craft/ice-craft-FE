@@ -218,7 +218,7 @@ const Register = () => {
         </Link>
       </header>
       <main className={S.mainWrapper}>
-        <form onSubmit={(e) => register(e)}>
+        <form onSubmit={register}>
           <h2>회원가입</h2>
           <div className={S.userForm}>
             <div className={S.userEmail}>
@@ -232,7 +232,7 @@ const Register = () => {
                   onChange={(e) => emailChangeHandler(e.target.value)}
                   required
                 />
-                <button onClick={(e) => checkEmailExistedHandler(e)}>중복확인</button>
+                <button onClick={checkEmailExistedHandler}>중복확인</button>
               </div>
               {<InputMessage text={emailMessage} />}
             </div>
@@ -248,7 +248,7 @@ const Register = () => {
                   onChange={(e) => nicknameChangeHandler(e.target.value)}
                   required
                 />
-                <button type="button" onClick={(e) => checkNicknameExistedHandler(e)}>
+                <button type="button" onClick={checkNicknameExistedHandler}>
                   중복확인
                 </button>
               </div>
