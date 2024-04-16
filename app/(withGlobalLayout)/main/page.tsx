@@ -111,7 +111,7 @@ const Mainpage = () => {
               </div>
               <div className={S.gameGoButton}>
                 <button onClick={fastJoinRoomHandler}>빠른입장</button>
-                <div>
+                <div className={S.makeRoomButton}>
                   <button onClick={() => setIsModal(true)} className={S.makeRoom}>
                     방 만들기
                   </button>

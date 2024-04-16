@@ -283,7 +283,7 @@
     width: 50%;
   }
 
-  .gameGoButton > div {
+  .gameGoButton > .makeRoomButton {
     width: 50%;
   }
 
