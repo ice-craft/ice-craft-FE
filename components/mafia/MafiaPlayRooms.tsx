@@ -1,6 +1,6 @@
 import useOverlayStore from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { DisconnectButton, useTracks } from "@livekit/components-react";
+import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
@@ -11,13 +11,21 @@ import CamCheck from "@/assets/images/cam_check.png";
 import Doctor from "@/assets/images/cam_doctor.png";
 import Citizen from "@/assets/images/cam_citizen.png";
 import Mafia from "@/assets/images/cam_mafia.png";
+import { useEffect } from "react";
+import { socket } from "@/utils/socket/socket";
+import {
+  allAudioSetting,
+  allMediaSetting,
+  specificUserAudioSetting,
+  specificUserVideoSetting
+} from "@/utils/participantCamSettings/camSetting";
 
 const MyVideoConference = () => {
   const { toggleOverlay } = useOverlayStore();
   const router = useRouter();
   const { setImageState } = useCamClickImageState();
 
-  // 전체 데이터
+  //NOTE -  전체 데이터
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -26,11 +34,61 @@ const MyVideoConference = () => {
     { onlySubscribed: false }
   );
 
+  const sources = tracks.map((item) => item.source);
+
+  //NOTE -  로컬 user의 정보
+  const localParticipant = useLocalParticipant();
+  const localIdentity = localParticipant.localParticipant.identity;
   /*
     //훅 정리
     const { localParticipant } = useLocalParticipant(); //로컬 사용자
     const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
   */
+
+  useEffect(() => {
+    socket.on("showModal", (message) => {
+      //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
+      if (message.includes("밤")) {
+        allMediaSetting(tracks, false);
+      }
+      //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
+      if (message.includes("아침")) {
+        allMediaSetting(tracks, true);
+      }
+      //NOTE - 투표시간일 경우 모든 user의 마이크 off
+      if (message.includes("투표")) {
+        allAudioSetting(tracks, false);
+      }
+    });
+
+    // 특정 user의 캠을 활성화 및 비활성화
+    socket.on("setCamera", (userId, isOn) => {
+      //NOTE -  1) 특정 유저의 track을 받아온다.
+      const specificUser = useParticipantTracks(sources, userId);
+      //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
+      if (localIdentity === userId) {
+        //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
+        specificUserVideoSetting(specificUser, isOn);
+      }
+    });
+
+    // 특정 user의 마이크를 활성화 및 비활성화
+    socket.on("setMike", (userId, isOn) => {
+      //NOTE 1) 특정 유저의 track을 받아온다.
+      const specificUser = useParticipantTracks(sources, userId);
+      //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
+      if (localIdentity === userId) {
+        //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
+        specificUserAudioSetting(specificUser, isOn);
+      }
+    });
+
+    return () => {
+      socket.off("showModal");
+      socket.off("setCamera");
+      socket.off("setMike");
+    };
+  }, []);
 
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => {
     event.stopPropagation();

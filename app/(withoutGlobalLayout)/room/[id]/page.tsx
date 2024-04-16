@@ -1,150 +1,42 @@
 "use client";
 
-import CheckModal from "@/components/mafia/CheckModal";
-import MafiaModal from "@/components/mafia/MafiaModal";
-import MyVideoConference from "@/components/mafia/MyVideoConference";
-import { useActiveStore } from "@/store/active-store";
-import useOverlayStore from "@/store/overlay-store";
-import { useModalStore } from "@/store/toggle-store";
-import {
-  allAudioSetting,
-  allMediaSetting,
-  specificUserAudioSetting,
-  specificUserVideoSetting
-} from "@/utils/participantCamSettings/camSetting";
-import { socket } from "@/utils/socket/socket";
-import { useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
+import MyVideoConference from "@/components/mafia/MafiaPlayRooms";
+import { useGetToken } from "@/hooks/useToken";
+import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { useEffect } from "react";
+import { useParams } from "next/navigation";
 
 const RoomPage = () => {
-  const tracks = useTracks();
-  const sources = tracks.map((item) => item.source);
+  const { id } = useParams();
 
-  const { isModal, setIsModal } = useModalStore();
-  const { setIsOverlay, clearActiveParticipant } = useOverlayStore();
-  const { activeName, setActiveName } = useActiveStore();
+  const room = id as string;
 
-  // 로컬 user의 닉네임을 가져온다.
-  const localParticipant = useLocalParticipant();
-  const localIdentity = localParticipant.localParticipant.identity;
+  if (!room) {
+    console.log("useSearchParams의 인자 error 발생 ");
+  }
 
-  useEffect(() => {
-    socket.on("showModal", (message) => {
-      //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
-      if (message.includes("밤")) {
-        allMediaSetting(tracks, false);
-      }
-      //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
-      if (message.includes("아침")) {
-        allMediaSetting(tracks, true);
-      }
-      //NOTE - 투표시간일 경우 모든 user의 마이크 off
-      if (message.includes("투표")) {
-        allAudioSetting(tracks, false);
-      }
-    });
+  const { data: token, isLoading, isSuccess, isError } = useGetToken(room);
 
-    // 특정 user의 캠을 활성화 및 비활성화
-    socket.on("setCamera", (userId, isOn) => {
-      //NOTE -  1) 특정 유저의 track을 받아온다.
-      const specificUser = useParticipantTracks(sources, userId);
-      //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
-        //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
-        specificUserVideoSetting(specificUser, isOn);
-      }
-    });
+  if (isLoading || !isSuccess) {
+    console.log("로딩중입니다.");
+  }
 
-    // 특정 user의 마이크를 활성화 및 비활성화
-    socket.on("setMike", (userId, isOn) => {
-      //NOTE 1) 특정 유저의 track을 받아온다.
-      const specificUser = useParticipantTracks(sources, userId);
-      //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
-        //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
-        specificUserAudioSetting(specificUser, isOn);
-      }
-    });
-
-    return () => {
-      socket.off("showModal");
-      socket.off("setCamera");
-      socket.off("setMike");
-    };
-  }, []);
+  if (isError) {
+    console.log("토큰 발급중 에러 발생");
+  }
 
   return (
     <>
-      {/* <div>
-        <button
-          onClick={() => {
-            allMediaSetting(tracks, false);
-          }}
-        >
-          밤이 되었습니다.
-        </button>
-      </div>
-      <div>
-        <button>마피아 카메라 켜짐</button>
-      </div>
-      <div>
-        <button onClick={() => allMediaSetting(tracks, true)}> 아침이 밝았습니다. </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            setIsOverlay(true);
-            allAudioSetting(tracks, false);
-          }}
-        >
-          투표 시간
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            setIsOverlay(false);
-            allAudioSetting(tracks, false);
-            // specificUserAudioSetting(mafiaTrack, true);
-            clearActiveParticipant();
-          }}
-        >
-          최후의 반론 시간
-        </button>
-        <div>
-          <button
-            onClick={() => {
-              allAudioSetting(tracks, false);
-            }}
-          >
-            모든 유저의 오디오 off
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              setIsModal(true);
-              setActiveName("morning");
-            }}
-          >
-            정해진 타이머 이후 모달창 on/off
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              setIsModal(true);
-              setActiveName("check");
-            }}
-          >
-            투표 찬성 반대 모달
-          </button>
-        </div>
-      </div> */}
-      <MyVideoConference />
-      {/* {isModal && activeName === "morning" && <MafiaModal />}
-      {isModal && activeName === "check" && <CheckModal />} */}
+      <LiveKitRoom
+        token={token} // 필수 요소
+        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
+        video={true}
+        audio={true}
+      >
+        <MyVideoConference />
+
+        <RoomAudioRenderer />
+      </LiveKitRoom>
     </>
   );
 };

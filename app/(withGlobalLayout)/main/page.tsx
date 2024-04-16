@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
-import { useUserInfo } from "@/hooks/useInfo";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -52,18 +51,19 @@ const Mainpage = () => {
 
   //NOTE - 입장하기
   const joinRoomHandler = async (item: any) => {
-    const isLogin = await checkUserLogIn();
-    const userInfo = await getUserInfo();
+    // const isLogin = await checkUserLogIn();
+    // const userInfo = await getUserInfo();
 
-    if (!isLogin || !userInfo) {
-      alert("로그인 후 입장 가능합니다.");
-      router.push("/login");
-      return;
-    }
+    // if (!isLogin || !userInfo) {
+    //   alert("로그인 후 입장 가능합니다.");
+    //   router.push("/login");
+    //   return;
+    // }
 
-    setRoomId(item.room_id);
-    socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
-    router.push(`/room/${item.room_id}`);
+    // setRoomId(item.room_id);
+    // socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+
+    router.push(`/room/${roomId}`);
   };
 
   //NOTE - 빠른 입장
