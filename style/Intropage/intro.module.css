@@ -56,7 +56,7 @@
 }
 
 .mainButton {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   color: var(--white);
 }
 

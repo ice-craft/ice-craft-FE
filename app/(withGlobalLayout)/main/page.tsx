@@ -1,5 +1,5 @@
 "use client";
-import PeopleIcon from "@/assets/images/icon_person.png";
+import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";

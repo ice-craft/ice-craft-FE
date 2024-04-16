@@ -113,7 +113,7 @@
 }
 
 .gameNameText input[type="text"]:focus {
-  outline: 1px solid var(--main-color);
+  outline: 1px solid var(--primary-color);
   opacity: 0.5;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .checkButton > button:nth-of-type(1) {
-  background-color: var(--sub-color);
+  background-color: var(--secondary-color);
   color: var(--white);
 }
 
@@ -183,7 +183,7 @@
 }
 
 .checkButton > button:nth-of-type(1):hover {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
 }
 
 .checkButton > button:nth-of-type(2):hover {
@@ -204,9 +204,9 @@
 }
 .progress::-webkit-progress-value {
   border-radius: 10px;
-  background: var(--main-color);
-  background: -webkit-linear-gradient(to right, var(--sub-color), var(--main-color));
-  background: linear-gradient(to right, var(--sub-color), var(--main-color));
+  background: var(--primary-color);
+  background: -webkit-linear-gradient(to right, var(--secondary-color), var(--primary-color));
+  background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
   transition: 0.3s ease-out;
 }
 
