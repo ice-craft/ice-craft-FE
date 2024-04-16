@@ -47,7 +47,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/test" //NOTE - 테스트 코드, 메인 페이지로 리다이렉트할 것
+      redirectTo: process.env.REDIRECT_URL! //NOTE - 테스트 코드, 메인 페이지로 리다이렉트할 것
     }
   });
 
