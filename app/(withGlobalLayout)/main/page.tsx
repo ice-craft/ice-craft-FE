@@ -2,22 +2,21 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
+import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo, getUserUid, logOut } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
-import useConnectStore from "@/store/connect-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const { setRoomId, setUserId, setUserNickname } = useConnectStore();
-
+  const { setRoomId, setConnectionStatus } = useConnectStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -38,21 +37,17 @@ const Mainpage = () => {
   }, []);
 
   //NOTE - 입장하기
-  // 1. 로그인 여부 확인
-  // 2. 입장 하기 버튼 클릭 시 해당 방으로 이동
+  // 1. 로그인 여부 확인 후 해당 방으로 이동
   const joinRoomHandler = async (item: any) => {
     const isLogin = await checkUserLogIn();
-    const userInfo = await getUserInfo();
 
-    if (!isLogin || !userInfo) {
+    if (!isLogin) {
       alert("로그인 후 입장 가능합니다.");
       router.push("/login");
       return;
     }
-
+    setConnectionStatus(true);
     setRoomId(item.room_id);
-    setUserId(userInfo.id);
-    setUserNickname(userInfo.user_metadata.nickname);
     router.push(`/room/${item.room_id}`);
   };
 

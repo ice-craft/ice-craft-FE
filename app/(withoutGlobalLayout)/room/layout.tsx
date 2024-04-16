@@ -1,5 +1,6 @@
 "use client";
 
+import { useUserInfo } from "@/hooks/useUserInfo";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
 import { socket } from "@/utils/socket/socket";
@@ -17,7 +18,7 @@ const PreJoinNoSSR = dynamic(
 
 const RoomLayout = ({ children }: PropsWithChildren) => {
   const [isJoin, setIsJoin] = useState(false);
-  const { roomId, userId, nickname } = useConnectStore();
+  const { roomId, isConnected } = useConnectStore();
 
   useEffect(() => {
     //NOTE - 방 입장
@@ -36,8 +37,25 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
     };
   }, [roomId]);
 
+  const { data: userInfo, isLoading, isSuccess } = useUserInfo();
+
+  if (isLoading || !isSuccess) {
+    console.log("layout페이지 로딩중");
+  }
+
+  // if (!userInfo) {
+  //   return redirect("/login");
+  // }
+
   const joinRoomHandler = () => {
-    socket.emit("joinRoom", userId, roomId, nickname);
+    if (isConnected) {
+      socket.emit("joinRoom", userInfo!.id, roomId, userInfo!.user_metadata.nickname);
+      setIsJoin(true);
+    }
+
+    // if ("빠른입장") {
+    //   socket.emit("joinRoom", userInfo.id, roomId, userInfo.user_metadata.nickname);
+    // }
   };
 
   return (

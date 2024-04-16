@@ -1,4 +1,5 @@
 import { getUserInfo } from "@/utils/supabase/authAPI";
+import { User } from "@supabase/supabase-js";
 
 export async function getToken(room: string) {
   const userInfo = await getUserInfo();
@@ -14,5 +15,5 @@ export async function getToken(room: string) {
 
   const { token }: { token: string } = await response.json();
 
-  return token;
+  return { token, userInfo };
 }
