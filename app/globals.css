@@ -4,8 +4,8 @@
 
 :root {
   --max-width: 1920px;
-  --main-color: #5c5bad;
-  --sub-color: #bebdde;
+  --primary-color: #5c5bad;
+  --secondary-color: #bebdde;
   --header-background-color: #050b15;
   --footer-background-color: #eeeeee;
   --modal-title-color: #838383;

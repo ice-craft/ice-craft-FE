@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useModalStore } from "../store/toggle-store";
 
-export const useCountDown = (initialTime: number) => {
+export const useCountDown = (initialSecond: number) => {
   const { isModal, setIsModal } = useModalStore();
-  const [count, setCount] = useState(initialTime * 10);
+  const [count, setCount] = useState(initialSecond * 10);
 
   useEffect(() => {
-    let timer = initialTime * 10;
+    let timer = initialSecond * 10;
     const intervalId = setInterval(() => {
       timer--;
       setCount((prev) => prev - 1);
@@ -19,7 +19,7 @@ export const useCountDown = (initialTime: number) => {
     }, 100);
 
     return () => clearInterval(intervalId);
-  }, [isModal, initialTime]);
+  }, [isModal, initialSecond]);
 
   return count;
 };

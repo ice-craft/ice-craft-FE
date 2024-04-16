@@ -1,5 +1,5 @@
 "use client";
-import PeopleIcon from "@/assets/images/icon_person.png";
+import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
@@ -85,10 +85,6 @@ const Mainpage = () => {
     }
   };
 
-  const logoutHandler = async () => {
-    await logOut();
-  };
-
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -111,7 +107,6 @@ const Mainpage = () => {
       <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>
           <div className={S.MainGnb}>
-            <button onClick={logoutHandler}>로그 아우우우웃</button>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
               <div className={S.roomSearch}>
@@ -120,7 +115,7 @@ const Mainpage = () => {
               </div>
               <div className={S.gameGoButton}>
                 <button onClick={fastJoinRoomHandler}>빠른입장</button>
-                <div>
+                <div className={S.makeRoomButton}>
                   <button onClick={() => setIsModal(true)} className={S.makeRoom}>
                     방 만들기
                   </button>
@@ -136,7 +131,7 @@ const Mainpage = () => {
                 <div className={S.roomTitle}>
                   <h3>{item.title}</h3>
                   <div className={S.gameName}>
-                    <p className={S.mafiaHashtag}>{item.game_category}</p>
+                    <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
                     <p className={S.currentPeople}>
                       <Image src={PeopleIcon} alt="people icon" />
                       <span>

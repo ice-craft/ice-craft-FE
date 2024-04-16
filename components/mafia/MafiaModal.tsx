@@ -4,8 +4,8 @@ import { socket } from "@/utils/socket/socket";
 import { useEffect, useState } from "react";
 
 const MafiaModal = () => {
-  const initialTime = 5;
-  const count = useCountDown(initialTime);
+  const initialSecond = 5;
+  const count = useCountDown(initialSecond);
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [isDay, setIsDay] = useState(true);
@@ -32,7 +32,7 @@ const MafiaModal = () => {
               <h2>{modalMessage}</h2>
               <progress
                 className={S.progress}
-                value={(initialTime * 10 - count) * (100 / (initialTime * 10))}
+                value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
                 max={100}
               ></progress>
             </div>
@@ -42,7 +42,7 @@ const MafiaModal = () => {
               <h2>{modalMessage}</h2>
               <progress
                 className={S.progress}
-                value={(initialTime * 10 - count) * (100 / (initialTime * 10))}
+                value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
                 max={100}
               ></progress>
             </div>

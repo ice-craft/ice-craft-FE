@@ -52,7 +52,7 @@
   transform: translateY(-55%);
   width: 20px;
   height: 20px;
-  background: url("../../assets/images/icon_search.png") no-repeat;
+  background: url("../../assets/images/icon_search.svg") no-repeat;
   cursor: pointer;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .roomSearch input[type="text"]:focus {
-  outline: 1px solid var(--main-color);
+  outline: 1px solid var(--primary-color);
   opacity: 0.5;
 }
 
@@ -112,7 +112,7 @@
 }
 
 .gameButton button.mafiaInfo {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   color: var(--white);
   position: relative;
   padding-left: 45px;
@@ -124,7 +124,7 @@
   left: 20px;
   top: 50%;
   transform: translateY(-51%);
-  background: url("../../assets/images/icon_point.png") no-repeat;
+  background: url("../../assets/images/icon_point.svg") no-repeat;
   width: 20px;
   height: 21px;
 }
@@ -138,16 +138,16 @@
 
 .gameGoButton button {
   padding: 10px 15px 9px;
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   border-radius: var(--border-radius);
   color: var(--white);
-  border: 1px solid var(--main-color);
+  border: 1px solid var(--primary-color);
 }
 
 .gameGoButton > button {
-  color: var(--main-color);
+  color: var(--primary-color);
   background-color: var(--white);
-  border: 1px solid var(--main-color);
+  border: 1px solid var(--primary-color);
 }
 
 .gameGoButton button.makeRoom {
@@ -157,19 +157,18 @@
 
 .gameGoButton button.makeRoom:before {
   content: "";
-  width: 15px;
-  height: 15px;
-  background: url("../../assets/images/icon_plus.png") no-repeat;
+  width: 20px;
+  height: 20px;
+  background: url("../../assets/images/icon_plus.svg") no-repeat;
   position: absolute;
-  left: 15px;
-  top: 50%;
+  left: 10px;
+  top: 45%;
   transform: translateY(-48%);
 }
 
 .roomList {
   display: flex;
-  gap: 80px;
-  justify-content: space-between;
+  gap: 125px;
   flex-wrap: wrap;
 }
 
@@ -243,21 +242,19 @@
 }
 
 .currentPeople {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   display: flex;
   align-items: center;
   gap: 5px;
   justify-content: center;
 }
 
-/*---------------- respansive --------------*/
-@media (max-width: 1780px) {
+/*---------------- Responsive --------------*/
+@media (max-width: 860px) {
   .roomList {
     justify-content: center;
   }
-}
 
-@media (max-width: 860px) {
   .MainGnb {
     flex-wrap: wrap;
   }
@@ -286,7 +283,7 @@
     width: 50%;
   }
 
-  .gameGoButton > div {
+  .gameGoButton > .makeRoomButton {
     width: 50%;
   }
 

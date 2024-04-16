@@ -50,7 +50,7 @@
 }
 
 .mainWrapper form .userform > p > input:focus {
-  outline: 1px solid var(--main-color);
+  outline: 1px solid var(--primary-color);
   opacity: 0.5;
 }
 
@@ -87,7 +87,7 @@
   font-weight: var(--font-bold);
   padding: 16px 0;
   border-radius: var(--border-radius);
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   color: var(--white);
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import FooterLogo from "@/assets/images/footer_logo.svg";
-import GithubIcon from "@/assets/images/icon-github.png";
+import GithubIcon from "@/assets/images/icon-github.svg";
 import S from "@/style/commons/commons.module.css";
 import Image from "next/image";
 import Link from "next/link";
