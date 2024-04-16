@@ -127,7 +127,7 @@ const Mainpage = () => {
                 <div className={S.roomTitle}>
                   <h3>{item.title}</h3>
                   <div className={S.gameName}>
-                    <p className={S.mafiaHashtag}>{item.game_category}</p>
+                    <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
                     <p className={S.currentPeople}>
                       <Image src={PeopleIcon} alt="people icon" />
                       <span>
