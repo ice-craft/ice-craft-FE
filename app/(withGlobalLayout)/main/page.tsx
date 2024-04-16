@@ -4,13 +4,13 @@ import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
 import { socket } from "@/utils/socket/socket";
+import { checkUserLogIn, getUserInfo, getUserUid, logOut } from "@/utils/supabase/authAPI";
+import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
-import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
-import { getUserUid } from "@/utils/supabase/authAPI";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -69,13 +69,17 @@ const Mainpage = () => {
   //NOTE - 빠른 입장
   const fastJoinRoomHandler = async () => {
     try {
-      const roomId = await getUserUid();
-      // if (!roomId) {
-      // return;
-      // }
-      console.log(roomId);
-      // const roomData = await fastJoinRoom(roomId);
-      // console.log("Joined Room Data:", roomData);
+      const data = await getUserInfo();
+      let nickname;
+      let userId;
+      if (data) {
+        nickname = data.user_metadata.nickname;
+        userId = data.id;
+      } else {
+        console.log("유저 정보 불러오기 실패");
+      }
+      const roomData = await fastJoinRoom(userId!, nickname);
+      console.log("Joined Room Data:", roomData);
     } catch (error) {
       console.error("Error joining room:", error);
     }
