@@ -71,6 +71,7 @@ export interface ConnectState {
   setConnectionStatus: (status: boolean) => void;
   setRoomId: (id: string) => void;
   setUserId: (id: string) => void;
+  setUserNickname: (id: string) => void;
 }
 
 export interface MessageState {

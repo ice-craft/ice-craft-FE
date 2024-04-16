@@ -1,9 +1,12 @@
 "use client";
 
+import useConnectStore from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
+import { socket } from "@/utils/socket/socket";
 import "@livekit/components-styles";
 import dynamic from "next/dynamic";
-import { PropsWithChildren, useState } from "react";
+import { redirect } from "next/navigation";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 const PreJoinNoSSR = dynamic(
   async () => {
@@ -14,6 +17,28 @@ const PreJoinNoSSR = dynamic(
 
 const RoomLayout = ({ children }: PropsWithChildren) => {
   const [isJoin, setIsJoin] = useState(false);
+  const { roomId, userId, nickname } = useConnectStore();
+
+  useEffect(() => {
+    //NOTE - 방 입장
+    socket.on("joinRoom", () => {
+      setIsJoin(true);
+    });
+
+    socket.on("joinRoomError", (message) => {
+      alert(message);
+      return () => redirect("/main");
+    });
+
+    return () => {
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
+    };
+  }, [roomId]);
+
+  const joinRoomHandler = () => {
+    socket.emit("joinRoom", userId, roomId, nickname);
+  };
 
   return (
     <>
@@ -32,7 +57,7 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
                   audioEnabled: true
                 }}
                 joinLabel="입장하기"
-                onSubmit={() => setIsJoin(true)}
+                onSubmit={joinRoomHandler}
                 onValidate={() => true}
               ></PreJoinNoSSR>
               <div className={S.settingUserButton}>

@@ -11,11 +11,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
+import useConnectStore from "@/store/connect-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const [roomId, setRoomId] = useState("");
+  const { setRoomId, setUserId, setUserNickname } = useConnectStore();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -33,37 +35,25 @@ const Mainpage = () => {
     };
 
     getRoomList();
-
-    //NOTE - 방 입장
-    socket.on("joinRoom", () => {
-      router.push(`/room/${roomId}`);
-    });
-
-    socket.on("joinRoomError", (message) => {
-      alert(message);
-    });
-
-    return () => {
-      socket.off("joinRoom");
-      socket.off("joinRoomError");
-    };
-  }, [roomId]);
+  }, []);
 
   //NOTE - 입장하기
+  // 1. 로그인 여부 확인
+  // 2. 입장 하기 버튼 클릭 시 해당 방으로 이동
   const joinRoomHandler = async (item: any) => {
-    // const isLogin = await checkUserLogIn();
-    // const userInfo = await getUserInfo();
+    const isLogin = await checkUserLogIn();
+    const userInfo = await getUserInfo();
 
-    // if (!isLogin || !userInfo) {
-    //   alert("로그인 후 입장 가능합니다.");
-    //   router.push("/login");
-    //   return;
-    // }
+    if (!isLogin || !userInfo) {
+      alert("로그인 후 입장 가능합니다.");
+      router.push("/login");
+      return;
+    }
 
-    // setRoomId(item.room_id);
-    // socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
-
-    router.push(`/room/${roomId}`);
+    setRoomId(item.room_id);
+    setUserId(userInfo.id);
+    setUserNickname(userInfo.user_metadata.nickname);
+    router.push(`/room/${item.room_id}`);
   };
 
   //NOTE - 빠른 입장
