@@ -4,10 +4,10 @@ import DoctorCard from "@/assets/images/Doctor_Card.svg";
 import PoliceCard from "@/assets/images/Police_Card.svg";
 import MafiaCard from "@/assets/images/Mafia_Card.svg";
 import CitizensCard from "@/assets/images/Citizens_Card.svg";
-import Image from "next/image";
 import { Role } from "@/types/index";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
+import RenderCards from "./RenderCards";
 
 const cards = {
   doctor: { src: DoctorCard, alt: "의사" },
@@ -16,11 +16,11 @@ const cards = {
   citizens: { src: CitizensCard, alt: "시민" }
 };
 
-const UserWorkModal = () => {
+const UserRoleModal = () => {
   const { userId } = useConnectStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [role, setRole] = useState<Role | null>(null);
   const [showAllCards, setShowAllCards] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     socket.on("openPlayerRole", (incomingUserId, Role) => {
@@ -46,18 +46,7 @@ const UserWorkModal = () => {
         <div className={S.workModal}>
           <h2 className={S.workTitle}>직업을 정하겠습니다.</h2>
           <ul className={S.workList}>
-            {showAllCards ? (
-              //NOTE - 객체 순회 함수
-              Object.entries(cards).map(([key, { src, alt }]) => (
-                <li key={key}>
-                  <Image src={src} alt={alt} />
-                </li>
-              ))
-            ) : role ? (
-              <li>
-                <Image src={cards[role].src} alt={cards[role].alt} />
-              </li>
-            ) : null}
+            <RenderCards cards={cards} role={role} showAllCards={showAllCards} />
           </ul>
         </div>
       </div>
@@ -65,4 +54,4 @@ const UserWorkModal = () => {
   );
 };
 
-export default UserWorkModal;
+export default UserRoleModal;
