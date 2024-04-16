@@ -1,0 +1,78 @@
+/*-------------- INTRO HEADER --------------*/
+.introWrapper {
+  position: relative;
+}
+
+.introWrapper header {
+  position: absolute;
+  left: 30px;
+  top: 21px;
+  z-index: 2;
+}
+
+/*-------------- INTRO --------------*/
+.section {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+}
+
+.video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+}
+
+.introTitle {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.h1 {
+  color: var(--white);
+  font-size: 60px;
+  font-weight: var(--font-bold);
+  margin-bottom: 104px;
+  min-height: 90px;
+}
+
+.introTitle > a {
+  width: 454px;
+  height: 68px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  line-height: 68px;
+  text-transform: uppercase;
+  font-weight: var(--font-bold);
+  font-size: 20px;
+}
+
+.mainButton {
+  background-color: var(--main-color);
+  color: var(--white);
+}
+
+.loginButton {
+  background-color: var(--white);
+  color: var(--text-black);
+}
+
+.signUpButton {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--white);
+}
+
+.signUpButton a {
+  text-decoration: underline;
+  font-size: var(--font-size-small);
+}

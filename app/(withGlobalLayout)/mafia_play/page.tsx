@@ -1,0 +1,240 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import { socket } from "@/utils/socket/socket";
+
+const MafiaPlay = () => {
+  const [eventName, setEventName] = useState("");
+  const [message, setMessage] = useState("");
+  const [display, setDisplay] = useState("");
+
+  const nickname = useRef("user3"); //NOTE - 테스트용
+  const userId = useRef("33343912-e9c4-4658-987c-6715bebb1224"); //NOTE - 테스트용
+  const roomId = useRef("12dc28ad-4764-460f-9a54-58c31fdacd1f"); //NOTE - 테스트용
+  const rowStart = useRef(0); //NOTE - 테스트용
+  const rowEnd = useRef(10); //NOTE - 테스트용
+  const title = useRef("방제목"); //NOTE - 테스트용
+  const gameCategory = useRef("마피아"); //NOTE - 테스트용
+  const totalUserCount = useRef("5"); //NOTE - 테스트용
+
+  const sendHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    //NOTE - 클라이언트에서 보내는 이벤트명
+    if (eventName) {
+      switch (eventName) {
+        case "enterMafia":
+          console.log(eventName, rowStart.current, rowEnd.current); //NOTE - 테스트 코드
+          socket.emit(eventName, rowStart.current, rowEnd.current);
+          break;
+        case "createRoom":
+          console.log(eventName, title.current, gameCategory.current, totalUserCount.current); //NOTE - 테스트 코드
+          socket.emit(eventName, title.current, gameCategory.current, totalUserCount.current);
+          break;
+        case "joinRoom":
+          console.log(eventName, userId.current, roomId.current, nickname.current); //NOTE - 테스트 코드
+          socket.emit(eventName, userId.current, roomId.current, nickname.current);
+          break;
+        case "fastJoinRoom":
+          console.log(eventName, userId.current, nickname.current); //NOTE - 테스트 코드
+          socket.emit(eventName, userId.current, nickname.current);
+          break;
+        case "exitRoom":
+          console.log(eventName, roomId.current, userId.current); //NOTE - 테스트 코드
+          socket.emit(eventName, roomId.current, userId.current);
+          break;
+        case "setReady":
+          console.log(eventName, userId.current, true);
+          socket.emit(eventName, userId.current, true);
+          break;
+        case "voteTo":
+          console.log(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
+          socket.emit(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
+          break;
+        case "voteYesOrNo":
+          console.log(eventName, userId.current, "yes");
+          socket.emit(eventName, userId.current, "yes");
+          break;
+        case "choosePlayer":
+          console.log(eventName, userId.current, "마피아");
+          socket.emit(eventName, userId.current, "마피아");
+          break;
+      }
+    } else {
+      alert("이벤트 명을 적으세요.");
+    }
+  };
+
+  const connect = () => {
+    if (!socket.connected) {
+      socket.connect();
+      console.log("서버와 연결이 되었습니다.");
+    }
+  };
+
+  const disconnect = () => {
+    if (socket.connected) {
+      socket.emit("exit", nickname.current);
+      socket.disconnect();
+    }
+  };
+
+  const write = (line: string) => {
+    setDisplay((prev) => `${prev}\n${line}`);
+  };
+
+  useEffect(() => {
+    console.log("나의 닉네임", nickname.current);
+    socket.on("connect", () => {
+      write(message);
+    });
+
+    socket.on("disconnect", () => {
+      write("서버와 연결이 끊어졌습니다.");
+    });
+
+    socket.on("enterMafia", (rooms) => {
+      console.log(rooms);
+    });
+
+    socket.on("enterMafiaError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("createRoom", (room_id) => {
+      console.log(room_id);
+    });
+
+    socket.on("createRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("joinRoom", (userInfo) => {
+      console.log(userInfo);
+    });
+
+    socket.on("joinRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("fastJoinRoom", (room_id, userInfo) => {
+      console.log(room_id, userInfo);
+    });
+
+    socket.on("fastJoinRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("exitRoom", (userInfo) => {
+      console.log(userInfo);
+    });
+
+    socket.on("exitRoomError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("setReady", (message) => {
+      console.log(message);
+    });
+
+    socket.on("setReadyError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteTo", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteToError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteYesOrNo", (message) => {
+      console.log(message);
+    });
+
+    socket.on("voteYesOrNoError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("choosePlayer", (message) => {
+      console.log(message);
+    });
+
+    socket.on("choosePlayerError", (message) => {
+      console.log(message);
+    });
+
+    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
+      console.log(title, message, timer, nickname, yesOrNo);
+    });
+
+    socket.on("setCamera", (userId, isOn) => {
+      console.log(userId, isOn);
+    });
+
+    socket.on("setMike", (userId, isOn) => {
+      console.log(userId, isOn);
+    });
+
+    socket.on("openPlayerRole", (userId, role) => {
+      console.log(userId, role);
+    });
+
+    socket.on("showVoteYesOrNoResult", (voteResult) => {
+      console.log(voteResult);
+    });
+
+    socket.on("showVoteToResult", (voteResult) => {
+      console.log(voteResult);
+    });
+
+    socket.on("connect_error", (error) => {
+      if (socket.active) {
+        write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
+      } else {
+        write("서버와의 연결이 끊어졌습니다.\n다시 접속하십시오.");
+        console.log(error.message);
+      }
+    });
+  }, []);
+
+  return (
+    <>
+      <textarea
+        value={display}
+        id="message"
+        className="w-2/3 border-2 border-black border-solid h-3/3"
+        rows={25}
+        readOnly
+      ></textarea>
+      <form id="form" action="">
+        <input
+          value={eventName}
+          onChange={(e) => setEventName(e.target.value)}
+          id="input"
+          autoComplete="off"
+          className="border-2 border-black border-solid"
+        />
+        <input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          id="input"
+          autoComplete="off"
+          maxLength={100}
+          className="border-2 border-black border-solid"
+        />
+        <button type="submit" className="border-2 border-black border-solid" onClick={(e) => sendHandler(e)}>
+          보내기
+        </button>
+        <button type="button" className="border-2 border-black border-solid" onClick={connect}>
+          연결
+        </button>
+        <button type="button" className="border-2 border-black border-solid" onClick={disconnect}>
+          끊기
+        </button>
+      </form>
+    </>
+  );
+};
+
+export default MafiaPlay;

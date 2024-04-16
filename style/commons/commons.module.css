@@ -1,0 +1,45 @@
+/*-------------- HEADER ----------------*/
+.headerWrap {
+  background-color: var(--header-background-color);
+}
+
+.header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 30px;
+}
+
+.ul {
+  color: var(--white);
+  display: flex;
+  gap: 20px;
+}
+
+/*-------------- FOOTER ----------------*/
+.footerWrap {
+  background-color: var(--footer-background-color);
+}
+
+.footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 21px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
+}
+
+/*-------------- NotFoundPage ----------------*/
+.mainSection {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-modal-content);
+  text-align: center;
+  font-weight: var(--font-bold);
+}
