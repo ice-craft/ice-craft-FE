@@ -218,7 +218,7 @@ const Register = () => {
         </Link>
       </header>
       <main className={S.mainWrapper}>
-        <form onSubmit={(e) => register(e)}>
+        <form onSubmit={register}>
           <h2>회원가입</h2>
           <div className={S.userForm}>
             <div className={S.userEmail}>
@@ -226,13 +226,13 @@ const Register = () => {
               <div>
                 <input
                   type="text"
-                  name="email"
+                  id="email"
                   placeholder="이메일을 입력해주세요."
                   value={email}
                   onChange={(e) => emailChangeHandler(e.target.value)}
                   required
                 />
-                <button onClick={(e) => checkEmailExistedHandler(e)}>중복확인</button>
+                <button onClick={checkEmailExistedHandler}>중복확인</button>
               </div>
               {<InputMessage text={emailMessage} />}
             </div>
@@ -241,14 +241,14 @@ const Register = () => {
               <div>
                 <input
                   type="text"
-                  name="nickname"
+                  id="nickname"
                   maxLength={6}
                   placeholder="닉네임을 입력해주세요."
                   value={nickname}
                   onChange={(e) => nicknameChangeHandler(e.target.value)}
                   required
                 />
-                <button type="button" onClick={(e) => checkNicknameExistedHandler(e)}>
+                <button type="button" onClick={checkNicknameExistedHandler}>
                   중복확인
                 </button>
               </div>
@@ -258,7 +258,7 @@ const Register = () => {
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
-                name="password"
+                id="password"
                 maxLength={12}
                 placeholder="비밀번호를 입력해주세요."
                 value={password}
@@ -271,7 +271,7 @@ const Register = () => {
               <label htmlFor="check-password">비밀번호 확인</label>
               <input
                 type="password"
-                name="password"
+                id="check-password"
                 placeholder="비밀번호를 한번 더입력해주세요."
                 value={checkPassword}
                 onChange={(e) => checkPasswordChangeHandler(e.target.value)}
