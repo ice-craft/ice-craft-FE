@@ -2,10 +2,10 @@ import React, { useState, FormEvent } from "react";
 import S from "@/style/modal/modal.module.css";
 import { useModalStore } from "@/store/toggle-store";
 import { useRouter } from "next/navigation";
-import MafiaGameChoice from "@/assets/images/game_choice_mafia.png";
-import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.png";
-import MafiaGameSong from "@/assets/images/game_choice_song.png";
-import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.png";
+import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
+import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
+import MafiaGameSong from "@/assets/images/game_choice_song.svg";
+import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.svg";
 import Image from "next/image";
 import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
 

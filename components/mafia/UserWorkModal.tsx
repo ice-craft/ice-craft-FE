@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
 import S from "@/style/modal/modal.module.css";
-import DoctorCard from "@/assets/images/Doctor_Card.png";
-import PoliceCard from "@/assets/images/Police_Card.png";
-import MafiaCard from "@/assets/images/Mafia_Card.png";
-import CitizensCard from "@/assets/images/Citizens_Card.png";
+import DoctorCard from "@/assets/images/Doctor_Card.svg";
+import PoliceCard from "@/assets/images/Police_Card.svg";
+import MafiaCard from "@/assets/images/Mafia_Card.svg";
+import CitizensCard from "@/assets/images/Citizens_Card.svg";
 import Image from "next/image";
 import { Role } from "@/types/index";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
+
+const cards = {
+  doctor: { src: DoctorCard, alt: "의사" },
+  police: { src: PoliceCard, alt: "경찰" },
+  mafia: { src: MafiaCard, alt: "마피아" },
+  citizens: { src: CitizensCard, alt: "시민" }
+};
 
 const UserWorkModal = () => {
   const { userId } = useConnectStore();
   const [role, setRole] = useState<Role | null>(null);
   const [showAllCards, setShowAllCards] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const cards = {
-    doctor: { src: DoctorCard, alt: "의사" },
-    police: { src: PoliceCard, alt: "경찰" },
-    mafia: { src: MafiaCard, alt: "마피아" },
-    citizens: { src: CitizensCard, alt: "시민" }
-  };
 
   useEffect(() => {
     socket.on("openPlayerRole", (incomingUserId, Role) => {
@@ -44,7 +44,7 @@ const UserWorkModal = () => {
     <>
       <div className={S.modalWrap}>
         <div className={S.workModal}>
-          <h2 className={S.workTitle}>직업을 선택합니다.</h2>
+          <h2 className={S.workTitle}>직업을 정하겠습니다.</h2>
           <ul className={S.workList}>
             {showAllCards ? (
               //NOTE - 객체 순회 함수

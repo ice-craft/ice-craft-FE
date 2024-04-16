@@ -5,7 +5,7 @@ import S from "@/style/mainPage/main.module.css";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
-import PeopleIcon from "@/assets/images/icon_person.png";
+import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import { getUserUid } from "@/utils/supabase/authAPI";
