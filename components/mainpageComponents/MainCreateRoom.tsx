@@ -30,8 +30,6 @@ const MainCreateRoom = () => {
     // }
     const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
     const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
-    console.log("으하하하", room_id);
-    console.log("zkzkzkz", userId);
     await joinRoom(room_id, userId, "default nickName");
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
@@ -39,7 +37,6 @@ const MainCreateRoom = () => {
 
   const test = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(roomTitle);
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
   };
