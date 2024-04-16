@@ -1,14 +1,11 @@
-import React, { useState, FormEvent } from "react";
-import S from "@/style/modal/modal.module.css";
-import { useModalStore } from "@/store/toggle-store";
-import { useRouter } from "next/navigation";
-import MafiaGameChoice from "@/assets/images/game_choice_mafia.png";
 import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.png";
 import MafiaGameSong from "@/assets/images/game_choice_song.png";
-import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.png";
-import Image from "next/image";
+import { useModalStore } from "@/store/toggle-store";
+import S from "@/style/modal/modal.module.css";
 import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
-import { socket } from "@/utils/socket/socket";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { FormEvent, useState } from "react";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();

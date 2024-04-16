@@ -1,36 +1,32 @@
 "use client";
-import { LiveKitRoom, LocalUserChoices, RoomAudioRenderer } from "@livekit/components-react";
+import S from "@/style/livekit/livekit.module.css";
+import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
+import { User } from "@supabase/supabase-js";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import React, { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { useGetToken } from "../../../hooks/useToken";
-import S from "@/style/livekit/livekit.module.css";
 
-const PreJoinNoSSR = dynamic(
-  async () => {
-    return (await import("@livekit/components-react")).PreJoin;
-  },
-  { ssr: false }
-);
+const PreJoinNoSSR = dynamic(async () => {
+  return (await import("@livekit/components-react")).PreJoin;
+});
 
 const RoomLayout = ({ children }: PropsWithChildren) => {
   const { id } = useParams();
-
-  const [preJoinChoices, setPreJoinChoices] = useState<LocalUserChoices>();
+  const [userInfo, setUserInfo] = useState<User | null>();
 
   const room = id as string;
-  const userId = preJoinChoices?.username as string;
-
-  const handlePreJoinSubmit = (values: LocalUserChoices) => {
-    setPreJoinChoices(values);
-  };
 
   if (!room) {
     console.log("useSearchParams의 인자 error 발생 ");
     return;
   }
 
+  const userId = userInfo?.id;
+  if (!userId) {
+    return;
+  }
   const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, userId });
 
   if (isLoading || !isSuccess) {
@@ -42,7 +38,7 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
 
   return (
     <main data-lk-theme="default">
-      {room && preJoinChoices ? (
+      {room ? (
         <LiveKitRoom
           token={token} // 필수 요소
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
@@ -66,15 +62,15 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
                 audioEnabled: true
               }}
               joinLabel="입장하기"
-              onSubmit={handlePreJoinSubmit}
+              onValidate={() => true}
             ></PreJoinNoSSR>
             <div className={S.settingUserButton}>
-              {/* <ul>
+              <ul>
                 <li>오디오 설정 확인</li>
                 <li>캠 설정 확인</li>
-              </ul> */}
+              </ul>
             </div>
-            {/* <div className={S.cover}></div> */}
+            <div className={S.cover}></div>
           </div>
         </section>
       )}

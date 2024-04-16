@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
+import { User } from "@supabase/supabase-js";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -35,29 +36,31 @@ const Mainpage = () => {
     getRoomList();
 
     //NOTE - 방 입장
-    socket.on("joinRoom", (userInfo: any) => {
+    socket.on("joinRoom", () => {
       router.push(`/room/${roomId}`);
     });
+
     socket.on("joinRoomError", (message) => {
       alert(message);
     });
+
+    return () => {
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
+    };
   }, [roomId]);
 
   //NOTE - 입장하기
   const joinRoomHandler = async (item: any) => {
     const isLogin = await checkUserLogIn();
-
-    if (!isLogin) {
-      alert("로그인 후 입장가능합니다.");
-      router.push("/login");
-    }
     const userInfo = await getUserInfo();
 
-    if (userInfo == null) {
-      alert("로그인 후 입장가능합니다.");
+    if (!isLogin || !userInfo) {
+      alert("로그인 후 입장 가능합니다.");
       router.push("/login");
       return;
     }
+
     setRoomId(item.room_id);
     socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
   };
