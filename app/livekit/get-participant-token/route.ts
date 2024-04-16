@@ -4,10 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const room = req.nextUrl.searchParams.get("room");
   const userId = req.nextUrl.searchParams.get("userId");
+  const nickname = req.nextUrl.searchParams.get("userNickname");
   if (!room) {
     return NextResponse.json({ error: 'Missing "room" query parameter' }, { status: 400 });
   } else if (!userId) {
-    return NextResponse.json({ error: 'Missing "username" query parameter' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing "usrId" query parameter' }, { status: 400 });
+  } else if (!nickname) {
+    return NextResponse.json({ error: 'Missing "userNickname" query parameter' }, { status: 400 });
   }
 
   const apiKey = process.env.LIVEKIT_API_KEY;

@@ -1,9 +1,11 @@
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
+import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
 
 export interface MafiaRoom {
   room: string;
-  userId: string;
+  // userInfo: User;
+  userInfo: User | undefined | null;
 }
 
 export interface ModalState {

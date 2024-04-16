@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
-import { User } from "@supabase/supabase-js";
+import { useUserInfo } from "@/hooks/useInfo";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -63,6 +63,7 @@ const Mainpage = () => {
 
     setRoomId(item.room_id);
     socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+    router.push(`/room/${item.room_id}`);
   };
 
   //NOTE - 빠른 입장

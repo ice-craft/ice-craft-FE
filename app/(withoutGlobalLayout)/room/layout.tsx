@@ -1,40 +1,52 @@
 "use client";
+import { useUserInfo } from "@/hooks/useInfo";
 import S from "@/style/livekit/livekit.module.css";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { User } from "@supabase/supabase-js";
 import dynamic from "next/dynamic";
-import { useParams } from "next/navigation";
-import { PropsWithChildren, useState } from "react";
+import { redirect, useParams } from "next/navigation";
+import { PropsWithChildren, useEffect } from "react";
 import { useGetToken } from "../../../hooks/useToken";
 
-const PreJoinNoSSR = dynamic(async () => {
-  return (await import("@livekit/components-react")).PreJoin;
-});
+const PreJoinNoSSR = dynamic(
+  async () => {
+    return (await import("@livekit/components-react")).PreJoin;
+  },
+  { ssr: false }
+);
 
 const RoomLayout = ({ children }: PropsWithChildren) => {
   const { id } = useParams();
-  const [userInfo, setUserInfo] = useState<User | null>();
 
   const room = id as string;
 
   if (!room) {
     console.log("useSearchParams의 인자 error 발생 ");
-    return;
   }
 
-  const userId = userInfo?.id;
-  if (!userId) {
-    return;
-  }
-  const { data: token, isLoading, isSuccess, isError } = useGetToken({ room, userId });
+  const { data: userInfo, isLoading: isUserLoading, isSuccess: isUserSuccess, isError: isUserError } = useUserInfo();
+  const { data: token } = useGetToken(room);
 
-  if (isLoading || !isSuccess) {
-    console.log("token 발급 중입니다.");
-  }
-  if (isError) {
-    console.log("token 발급 중 에러가 발생했습니다.");
-  }
+  // if (isTokenLoading || !isTokenSuccess) {
+  //   console.log("user 정보를 받는 중입니다.");
+  // }
+
+  // if (!userInfo) {
+  //   return () => {
+  //     alert("로그인 후 입장 가능합니다.");
+  //     redirect("/login");
+  //   };
+  // }
+
+  console.log(token);
+
+  // if (isTokenLoading || !isTokenSuccess) {
+  //   console.log("token 발급 중입니다.");
+  // }
+
+  // if (isTokenError) {
+  //   console.log("token 발급 중 에러가 발생했습니다.");
+  // }
 
   return (
     <main data-lk-theme="default">
