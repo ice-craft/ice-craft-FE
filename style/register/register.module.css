@@ -21,12 +21,11 @@
 
 .mainWrapper form {
   background-color: var(--white);
-  padding: 0 80px;
+  padding: 80px;
   display: flex;
   gap: 25px;
   flex-direction: column;
   border-radius: 24px;
-  height: 95vh;
   justify-content: center;
 }
 
