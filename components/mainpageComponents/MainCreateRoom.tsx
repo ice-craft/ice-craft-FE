@@ -1,13 +1,11 @@
-import React, { useState, FormEvent } from "react";
-import S from "@/style/modal/modal.module.css";
-import { useModalStore } from "@/store/toggle-store";
-import { useRouter } from "next/navigation";
-import MafiaGameChoice from "@/assets/images/game_choice_mafia.png";
 import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.png";
 import MafiaGameSong from "@/assets/images/game_choice_song.png";
-import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.png";
-import Image from "next/image";
+import { useModalStore } from "@/store/toggle-store";
+import S from "@/style/modal/modal.module.css";
 import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { FormEvent, useState } from "react";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
@@ -30,8 +28,6 @@ const MainCreateRoom = () => {
     // }
     const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
     const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
-    console.log("으하하하", room_id);
-    console.log("zkzkzkz", userId);
     await joinRoom(room_id, userId, "default nickName");
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
@@ -39,7 +35,6 @@ const MainCreateRoom = () => {
 
   const test = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(roomTitle);
     router.push(`/room/${roomTitle}`);
     setIsModal(false);
   };
