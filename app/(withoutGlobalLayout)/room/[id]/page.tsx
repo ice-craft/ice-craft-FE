@@ -1,6 +1,6 @@
 "use client";
 
-import MyVideoConference from "@/components/mafia/MafiaPlayRooms";
+import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import { useGetToken } from "@/hooks/useToken";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
@@ -33,7 +33,7 @@ const RoomPage = () => {
         video={true}
         audio={true}
       >
-        <MyVideoConference />
+        <MafiaPlayRooms />
 
         <RoomAudioRenderer />
       </LiveKitRoom>
