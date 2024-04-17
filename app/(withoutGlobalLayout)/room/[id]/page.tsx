@@ -6,6 +6,7 @@ import useConnectStore from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
+import { useRouter } from "next/navigation";
 
 const RoomPage = () => {
   const { roomId, userId } = useConnectStore();
@@ -21,7 +22,25 @@ const RoomPage = () => {
 
   const disConnected = () => {
     socket.emit("exitRoom", roomId, userId);
+    console.log("방 나가기 정상 작동");
   };
+
+  // addEventListener("beforeunload", (event) => {
+  //   event.preventDefault();
+  //   router.replace("/main");
+  //   return true;
+  // });
+  // window.addEventListener("beforeunload", (event) => {
+  //   event.preventDefault();
+  //   return "";
+  // });
+  // window.addEventListener("unload", function (event) {
+  //   // 이동할 URL 지정
+  //   var destinationUrl = "http://localhost:3000/main";
+
+  //   // 새로운 URL로 이동
+  //   window.location.href = destinationUrl;
+  // });
 
   return (
     <>
@@ -33,7 +52,6 @@ const RoomPage = () => {
         onDisconnected={disConnected}
       >
         <MafiaPlayRooms />
-
         <RoomAudioRenderer />
       </LiveKitRoom>
     </>

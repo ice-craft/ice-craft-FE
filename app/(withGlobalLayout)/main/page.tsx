@@ -6,17 +6,18 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
-import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
+import { fastJoinRoom, getRooms, getUserCountInRoom } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const { setRoomId, setJoinStatus } = useConnectStore();
+  const { setRoomId, setUserId, setUserNickname, setJoinStatus } = useConnectStore();
+  const room = useRef();
   const router = useRouter();
 
   useEffect(() => {
@@ -32,23 +33,44 @@ const Mainpage = () => {
         console.log(error);
       }
     };
-
     getRoomList();
+
+    socket.on("joinRoom", () => {
+      router.push(`/room/${room.current}`);
+    });
+
+    socket.on("joinRoomError", (message) => {
+      alert(message);
+    });
+
+    return () => {
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
+    };
   }, []);
 
   //NOTE - 입장하기
-  // 1. 로그인 여부 확인 후 해당 방으로 이동
   const joinRoomHandler = async (item: any) => {
-    const isLogin = await checkUserLogIn();
+    try {
+      const isLogin = await checkUserLogIn();
+      const userInfo = await getUserInfo();
 
-    if (!isLogin) {
-      alert("로그인 후 입장 가능합니다.");
-      router.push("/login");
-      return;
+      if (!isLogin || !userInfo) {
+        alert("로그인 후 입장 가능합니다.");
+        router.push("/login");
+        return;
+      }
+
+      // setJoinStatus("입장하기");
+      room.current = item.room_id;
+      setRoomId(item.room_id);
+      setUserId(userInfo.id);
+      setUserNickname(userInfo.user_metadata.nickname);
+      router.push(`/room/${room.current}`);
+      // socket.emit("joinRoom", userInfo.id, roomId, userInfo.user_metadata.nickname);
+    } catch (error) {
+      console.log("error", error);
     }
-    setJoinStatus("입장하기");
-    setRoomId(item.room_id);
-    router.push(`/room/${item.room_id}`);
   };
 
   //NOTE - 빠른 입장
@@ -125,6 +147,7 @@ const Mainpage = () => {
                     </p>
                   </div>
                 </div>
+
                 <button onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
                   입장하기
                 </button>

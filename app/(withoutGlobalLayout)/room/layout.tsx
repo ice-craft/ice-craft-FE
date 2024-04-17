@@ -6,7 +6,7 @@ import S from "@/style/livekit/livekit.module.css";
 import { socket } from "@/utils/socket/socket";
 import "@livekit/components-styles";
 import dynamic from "next/dynamic";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect, useState } from "react";
 
 const PreJoinNoSSR = dynamic(
@@ -19,44 +19,41 @@ const PreJoinNoSSR = dynamic(
 const RoomLayout = ({ children }: PropsWithChildren) => {
   const [isJoin, setIsJoin] = useState(false);
   const { roomId, join, setUserId, setUserNickname } = useConnectStore();
+  const router = useRouter();
 
   useEffect(() => {
-    //NOTE - 방 입장
-    socket.on("joinRoom", () => {
-      setIsJoin(true);
-    });
-
-    socket.on("joinRoomError", (message) => {
-      alert(message);
-      return () => redirect("/main");
-    });
-
-    return () => {
-      socket.off("joinRoom");
-      socket.off("joinRoomError");
-    };
+    // //NOTE - 방 입장
+    // socket.on("joinRoom", () => {
+    //   setIsJoin(true);
+    // });
+    // socket.on("joinRoomError", (message) => {
+    //   alert(message);
+    //   router.replace("/main");
+    // });
+    // return () => {
+    //   socket.off("joinRoom");
+    //   socket.off("joinRoomError");
+    // };
   }, []);
 
-  const { data: userInfo, isLoading, isSuccess, isError } = useUserInfo();
+  // const { data: userInfo, isLoading, isSuccess, isError } = useUserInfo();
 
-  if (isLoading || !isSuccess) {
-    console.log("layout페이지 로딩중");
-  }
+  // if (isLoading || !isSuccess) {
+  //   console.log("layout페이지 로딩중");
+  //   return;
+  // }
 
   // if (!userInfo) {
   //   console.log(userInfo);
   //   return redirect("/login");
   // }
 
-  console.log(userInfo);
-
   const joinRoomHandler = () => {
-    if (join == "입장하기") {
-      socket.emit("joinRoom", userInfo!.id, roomId, userInfo!.user_metadata.nickname);
-      setUserId(userInfo!.id);
-      setUserNickname(userInfo!.user_metadata.nickname);
-      setIsJoin(true);
-    }
+    // if (join == "입장하기") {
+    //   socket.emit("joinRoom", userInfo.id, roomId, userInfo.user_metadata.nickname);
+
+    // }
+    setIsJoin(true);
 
     // if ("빠른입장") {
     //   socket.emit("joinRoom", userInfo.id, roomId, userInfo.user_metadata.nickname);
