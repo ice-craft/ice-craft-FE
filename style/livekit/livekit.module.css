@@ -24,11 +24,14 @@
   white-space: nowrap;
 }
 
-.localParticipant button {
-  font-size: var(--font-size-modal-title);
-  background-color: var(--silver-gray);
-  padding: 15px 100px;
-  border-radius: 100px;
+.localParticipant > button {
+  font-size: var(---font-size-title) !important;
+  padding: 15px 52px;
+  border-radius: var(--border-radius);
+}
+
+.localParticipant > button:hover {
+  background-color: var(--primary-color) !important;
 }
 
 .participantOverlay {

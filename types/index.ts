@@ -48,11 +48,6 @@ export interface CountState {
   setIsStart: (newToggle: boolean) => void;
 }
 
-export interface ReadyState {
-  isReady: boolean;
-  setIsReady: (newModal: boolean) => void;
-}
-
 export interface ImageState {
   imageState: StaticImageData;
   setImageState: (newImage: StaticImageData) => void;

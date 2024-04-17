@@ -15,9 +15,8 @@
   display: flex;
   align-items: center;
   height: inherit;
-  background: url("../../assets/images/mafia_visual.png") center center/cover no-repeat;
+  background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
   justify-content: center;
-  min-width: var(--max-width);
 }
 
 .roomSectionWrap {
@@ -105,23 +104,25 @@
 }
 
 .gameButton button {
-  padding: 10px 25px 9px;
+  padding: 12px 24px;
   border-radius: var(--border-radius);
   background-color: var(--white);
   color: var(--text-black);
+  font-weight: var(--font-bold);
 }
 
 .gameButton button.mafiaInfo {
   background-color: var(--primary-color);
   color: var(--white);
   position: relative;
-  padding-left: 45px;
+  padding-left: 50px;
+  font-weight: 400;
 }
 
 .gameButton button.mafiaInfo:before {
   content: "";
   position: absolute;
-  left: 20px;
+  left: 25px;
   top: 50%;
   transform: translateY(-51%);
   background: url("../../assets/images/icon_point.svg") no-repeat;
@@ -250,6 +251,12 @@
 }
 
 /*---------------- Responsive --------------*/
+@media (max-width: 1920px) {
+  .gameTitle {
+    min-width: 100%;
+  }
+}
+
 @media (max-width: 860px) {
   .roomList {
     justify-content: center;
