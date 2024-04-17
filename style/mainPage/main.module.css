@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   height: inherit;
-  background: url("../../assets/images/mafia_visual.png") center center/cover no-repeat;
+  background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
   justify-content: center;
   min-width: var(--max-width);
 }

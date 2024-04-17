@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/images/logo.svg";
 import TextTyping from "@/utils/TextTyping";
-import IntroBg from "@/assets/images/intro_bg.png";
+import IntroBg from "@/assets/images/intro_bg.avif";
 
 const IntroPage = () => {
   return (
@@ -15,7 +15,7 @@ const IntroPage = () => {
         </Link>
       </header>
       <section className={S.section}>
-        <Image src={IntroBg} alt="ice craft" className={S.IntroImage} />
+        <Image src={IntroBg} alt="ice craft" className={S.IntroImage} priority />
         {/* <video
           className={S.video}
           src="https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/vedio/intro.mp4"
