@@ -171,7 +171,6 @@
   display: flex;
   gap: 125px;
   flex-wrap: wrap;
-  height: 500px;
 }
 
 .roomList li {
