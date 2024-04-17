@@ -16,7 +16,7 @@ import { useModalStore } from "../../../store/toggle-store";
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const { setRoomId, setConnectionStatus } = useConnectStore();
+  const { setRoomId, setJoinStatus } = useConnectStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Mainpage = () => {
       router.push("/login");
       return;
     }
-    setConnectionStatus(true);
+    setJoinStatus("입장하기");
     setRoomId(item.room_id);
     router.push(`/room/${item.room_id}`);
   };

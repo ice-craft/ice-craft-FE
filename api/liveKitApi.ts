@@ -15,5 +15,5 @@ export async function getToken(room: string) {
 
   const { token }: { token: string } = await response.json();
 
-  return { token, userInfo };
+  return token;
 }

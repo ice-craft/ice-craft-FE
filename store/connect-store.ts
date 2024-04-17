@@ -5,11 +5,11 @@ import { createJSONStorage, persist } from "zustand/middleware";
 const useConnectStore = create(
   persist<ConnectState>(
     (set) => ({
-      isConnected: false,
+      join: "",
       nickname: "",
       userId: "",
       roomId: "",
-      setConnectionStatus: (status) => set({ isConnected: status }),
+      setJoinStatus: (status) => set({ join: status }),
       setRoomId: (id) => set({ roomId: id }),
       setUserId: (id) => set({ userId: id }),
       setUserNickname: (id) => set({ nickname: id })

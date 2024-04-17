@@ -18,7 +18,7 @@ const PreJoinNoSSR = dynamic(
 
 const RoomLayout = ({ children }: PropsWithChildren) => {
   const [isJoin, setIsJoin] = useState(false);
-  const { roomId, isConnected } = useConnectStore();
+  const { roomId, join, setUserId, setUserNickname } = useConnectStore();
 
   useEffect(() => {
     //NOTE - 방 입장
@@ -35,21 +35,26 @@ const RoomLayout = ({ children }: PropsWithChildren) => {
       socket.off("joinRoom");
       socket.off("joinRoomError");
     };
-  }, [roomId]);
+  }, []);
 
-  const { data: userInfo, isLoading, isSuccess } = useUserInfo();
+  const { data: userInfo, isLoading, isSuccess, isError } = useUserInfo();
 
   if (isLoading || !isSuccess) {
     console.log("layout페이지 로딩중");
   }
 
   // if (!userInfo) {
+  //   console.log(userInfo);
   //   return redirect("/login");
   // }
 
+  console.log(userInfo);
+
   const joinRoomHandler = () => {
-    if (isConnected) {
+    if (join == "입장하기") {
       socket.emit("joinRoom", userInfo!.id, roomId, userInfo!.user_metadata.nickname);
+      setUserId(userInfo!.id);
+      setUserNickname(userInfo!.user_metadata.nickname);
       setIsJoin(true);
     }
 
