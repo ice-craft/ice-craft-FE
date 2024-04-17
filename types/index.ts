@@ -64,13 +64,14 @@ export interface ActiveNameState {
 }
 
 export interface ConnectState {
-  isConnected: boolean;
+  join: boolean;
   nickname: string;
   userId: string;
   roomId: string;
-  setConnectionStatus: (status: boolean) => void;
+  setJoinStatus: (status: boolean) => void;
   setRoomId: (id: string) => void;
   setUserId: (id: string) => void;
+  setUserNickname: (id: string) => void;
 }
 
 export interface MessageState {
