@@ -1,36 +1,42 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import useConnectStore from "@/store/connect-store";
 import useOverlayStore from "@/store/overlay-store";
-import { useReadyStore } from "@/store/toggle-store";
+import { useModalStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { allMediaSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import MafiaModal from "./MafiaModal";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
-  const { isReady, setIsReady } = useReadyStore();
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid, isOverlay } = useOverlayStore();
-  const { roomId } = useConnectStore();
+  const { roomId, userId } = useConnectStore();
+  const { isModal, setIsModal } = useModalStore();
+  const [isReady, setIsReady] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
-  const startGameHandler = async () => {
+  const startGameHandler = () => {
+    const newIsReady = !isReady;
+    setIsReady(newIsReady);
     allMediaSetting(tracks, false);
-    setIsReady(!isReady);
     socket.emit("setReady", {
-      userId: localParticipant.sid,
+      userId,
       roomId,
-      isReady: !isReady
+      isReady: newIsReady
     });
   };
 
   useEffect(() => {
     socket.on("setReady", (message) => {
-      console.log(message);
+      console.log("게임 시작:", message);
+      setModalMessage(message);
+      setIsModal(true);
     });
 
     return () => {
@@ -55,8 +61,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         </div>
       ))}
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
-        {isReady ? "취소" : "Ready"}
+        {isReady ? "준비완료" : "게임시작"}
       </button>
+      {isModal && <MafiaModal />}
     </div>
   );
 };
