@@ -64,11 +64,11 @@ export interface ActiveNameState {
 }
 
 export interface ConnectState {
-  join: string;
+  join: boolean;
   nickname: string;
   userId: string;
   roomId: string;
-  setJoinStatus: (status: string) => void;
+  setJoinStatus: (status: boolean) => void;
   setRoomId: (id: string) => void;
   setUserId: (id: string) => void;
   setUserNickname: (id: string) => void;

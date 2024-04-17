@@ -6,7 +6,7 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
-import { fastJoinRoom, getRooms, getUserCountInRoom } from "@/utils/supabase/roomAPI";
+import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -19,7 +19,7 @@ const Mainpage = () => {
   const { setRoomId, setUserId, setUserNickname, setJoinStatus } = useConnectStore();
   const room = useRef();
   const router = useRouter();
-
+  //
   useEffect(() => {
     //NOTE -  서버와 연결
     socket.connect();
@@ -61,13 +61,11 @@ const Mainpage = () => {
         return;
       }
 
-      // setJoinStatus("입장하기");
       room.current = item.room_id;
       setRoomId(item.room_id);
       setUserId(userInfo.id);
       setUserNickname(userInfo.user_metadata.nickname);
-      router.push(`/room/${room.current}`);
-      // socket.emit("joinRoom", userInfo.id, roomId, userInfo.user_metadata.nickname);
+      socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
     } catch (error) {
       console.log("error", error);
     }
