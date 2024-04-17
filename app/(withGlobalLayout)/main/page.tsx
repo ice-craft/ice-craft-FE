@@ -2,22 +2,24 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
+import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo, getUserUid, logOut } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const [roomId, setRoomId] = useState("");
+  const { setRoomId, setUserId, setUserNickname, setJoinStatus } = useConnectStore();
+  const room = useRef();
   const router = useRouter();
-
+  //
   useEffect(() => {
     //NOTE -  서버와 연결
     socket.connect();
@@ -31,12 +33,10 @@ const Mainpage = () => {
         console.log(error);
       }
     };
-
     getRoomList();
 
-    //NOTE - 방 입장
     socket.on("joinRoom", () => {
-      router.push(`/room/${roomId}`);
+      router.push(`/room/${room.current}`);
     });
 
     socket.on("joinRoomError", (message) => {
@@ -47,23 +47,28 @@ const Mainpage = () => {
       socket.off("joinRoom");
       socket.off("joinRoomError");
     };
-  }, [roomId]);
+  }, []);
 
   //NOTE - 입장하기
   const joinRoomHandler = async (item: any) => {
-    // const isLogin = await checkUserLogIn();
-    // const userInfo = await getUserInfo();
+    try {
+      const isLogin = await checkUserLogIn();
+      const userInfo = await getUserInfo();
 
-    // if (!isLogin || !userInfo) {
-    //   alert("로그인 후 입장 가능합니다.");
-    //   router.push("/login");
-    //   return;
-    // }
+      if (!isLogin || !userInfo) {
+        alert("로그인 후 입장 가능합니다.");
+        router.push("/login");
+        return;
+      }
 
-    // setRoomId(item.room_id);
-    // socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
-
-    router.push(`/room/${roomId}`);
+      room.current = item.room_id;
+      setRoomId(item.room_id);
+      setUserId(userInfo.id);
+      setUserNickname(userInfo.user_metadata.nickname);
+      socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   //NOTE - 빠른 입장
@@ -140,6 +145,7 @@ const Mainpage = () => {
                     </p>
                   </div>
                 </div>
+
                 <button onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
                   입장하기
                 </button>
