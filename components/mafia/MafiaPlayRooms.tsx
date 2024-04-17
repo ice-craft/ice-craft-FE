@@ -7,10 +7,10 @@ import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import { useRouter } from "next/navigation";
 import { useCamClickImageState } from "@/store/image-store";
-import CamCheck from "@/assets/images/cam_check.png";
-import Doctor from "@/assets/images/cam_doctor.png";
-import Citizen from "@/assets/images/cam_citizen.png";
-import Mafia from "@/assets/images/cam_mafia.png";
+import CamCheck from "@/assets/images/cam_check.svg";
+import Doctor from "@/assets/images/cam_doctor.svg";
+import Citizen from "@/assets/images/cam_citizen.svg";
+import Mafia from "@/assets/images/cam_mafia.svg";
 import { useEffect } from "react";
 import { socket } from "@/utils/socket/socket";
 import {

@@ -1,11 +1,11 @@
 "use client";
-import PeopleIcon from "@/assets/images/icon_person.png";
+import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainPage/main.module.css";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo, getUserUid, logOut } from "@/utils/supabase/authAPI";
-import { getRooms } from "@/utils/supabase/roomAPI";
+import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -69,20 +69,20 @@ const Mainpage = () => {
   //NOTE - 빠른 입장
   const fastJoinRoomHandler = async () => {
     try {
-      const roomId = await getUserUid();
-      // if (!roomId) {
-      // return;
-      // }
-      console.log(roomId);
-      // const roomData = await fastJoinRoom(roomId);
-      // console.log("Joined Room Data:", roomData);
+      const data = await getUserInfo();
+      let nickname;
+      let userId;
+      if (data) {
+        nickname = data.user_metadata.nickname;
+        userId = data.id;
+      } else {
+        console.log("유저 정보 불러오기 실패");
+      }
+      const roomData = await fastJoinRoom(userId!, nickname);
+      console.log("Joined Room Data:", roomData);
     } catch (error) {
       console.error("Error joining room:", error);
     }
-  };
-
-  const logoutHandler = async () => {
-    await logOut();
   };
 
   return (
@@ -107,7 +107,6 @@ const Mainpage = () => {
       <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>
           <div className={S.MainGnb}>
-            <button onClick={logoutHandler}>로그 아우우우웃</button>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
               <div className={S.roomSearch}>
@@ -116,7 +115,7 @@ const Mainpage = () => {
               </div>
               <div className={S.gameGoButton}>
                 <button onClick={fastJoinRoomHandler}>빠른입장</button>
-                <div>
+                <div className={S.makeRoomButton}>
                   <button onClick={() => setIsModal(true)} className={S.makeRoom}>
                     방 만들기
                   </button>
@@ -132,7 +131,7 @@ const Mainpage = () => {
                 <div className={S.roomTitle}>
                   <h3>{item.title}</h3>
                   <div className={S.gameName}>
-                    <p className={S.mafiaHashtag}>{item.game_category}</p>
+                    <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
                     <p className={S.currentPeople}>
                       <Image src={PeopleIcon} alt="people icon" />
                       <span>

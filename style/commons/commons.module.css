@@ -37,9 +37,18 @@
 .mainSection {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-modal-content);
   text-align: center;
   font-weight: var(--font-bold);
+}
+
+.mainSection > h3 {
+  margin-bottom: 50px;
+}
+
+.mainSection a:hover {
+  color: var(--primary-color);
 }

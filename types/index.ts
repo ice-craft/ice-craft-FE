@@ -29,7 +29,7 @@ export interface OverlayState {
   setIsOverlay: (newIsOverlay: boolean) => void;
 }
 
-export type Role = "citizens" | "mafia" | "doctor" | "police";
+export type Role = "citizens" | "mafia" | "doctor" | "police" | null;
 
 export interface MafiaGameToolTip {
   role: Role;
@@ -47,6 +47,7 @@ export interface CountState {
   setTimer: (newCount: number) => void;
   setIsStart: (newToggle: boolean) => void;
 }
+
 export interface ReadyState {
   isReady: boolean;
   setIsReady: (newModal: boolean) => void;
@@ -81,4 +82,21 @@ export interface MessageState {
 export interface VoteData {
   userId: string;
   nickname: string;
+}
+
+export interface CardInfo {
+  src: string;
+  alt: string;
+}
+
+export interface RenderCardsProps {
+  cards: {
+    doctor: CardInfo;
+    police: CardInfo;
+    mafia: CardInfo;
+    citizens: CardInfo;
+  };
+
+  role: Role;
+  showAllCards: boolean;
 }
