@@ -105,23 +105,26 @@
 }
 
 .gameButton button {
-  padding: 10px 25px 9px;
+  padding: 14px 32px;
   border-radius: var(--border-radius);
   background-color: var(--white);
   color: var(--text-black);
+  font-weight: var(--font-bold);
+  font-size: var(--font-size-title);
 }
 
 .gameButton button.mafiaInfo {
   background-color: var(--primary-color);
   color: var(--white);
   position: relative;
-  padding-left: 45px;
+  padding-left: 60px;
+  font-weight: 400;
 }
 
 .gameButton button.mafiaInfo:before {
   content: "";
   position: absolute;
-  left: 20px;
+  left: 30px;
   top: 50%;
   transform: translateY(-51%);
   background: url("../../assets/images/icon_point.svg") no-repeat;
