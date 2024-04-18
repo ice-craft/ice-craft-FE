@@ -5,7 +5,6 @@ import { useModalStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
-import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
@@ -22,6 +21,7 @@ const MainCreateRoom = () => {
 
   useEffect(() => {
     socket.on("createRoom", ({ room_id }) => {
+      setRoomId(room_id);
       roomId.current = room_id;
       socket.emit("joinRoom", userId, room_id, nickname);
     });
