@@ -10,33 +10,33 @@ import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 
 const MainCreateRoom = () => {
-  const { setIsModal } = useModalStore();
-  const { setRoomId, setUserId, setUserNickname } = useConnectStore();
-  const [selectedGame, setSelectedGame] = useState("마피아");
   const [roomTitle, setRoomTitle] = useState("");
+  const [selectedGame, setSelectedGame] = useState("마피아");
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const roomId = useRef("");
-  const userId = useRef("");
-  const userNickname = useRef("");
+  const { setIsModal } = useModalStore();
+  const { userId, nickname, setRoomId } = useConnectStore();
   const router = useRouter();
 
   useEffect(() => {
     socket.on("createRoom", ({ room_id }) => {
-      setRoomId(room_id);
       roomId.current = room_id;
-      socket.emit("joinRoom", userId.current, room_id, userNickname.current);
+      socket.emit("joinRoom", userId, room_id, nickname);
     });
     socket.on("createRoomError", (message) => {
       console.log(message);
+      isGoInClick.current = false;
     });
     socket.on("joinRoom", () => {
-      router.push(`/room/${roomId.current}`);
+      setRoomId(roomId.current);
       setIsModal(false);
+      router.push(`/room/${roomId.current}`);
     });
 
     socket.on("joinRoomError", (message) => {
       alert(message);
+      isGoInClick.current = false;
     });
 
     return () => {
@@ -72,11 +72,9 @@ const MainCreateRoom = () => {
 
       if (!isGoInClick.current) {
         isGoInClick.current = true;
-        userId.current = userInfo.id;
-        userNickname.current = userInfo.user_metadata.nickname;
-        setUserId(userInfo.id);
-        setUserNickname(userInfo.user_metadata.nickname);
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
+
+        //NOTE - 게임 카테고리 설정, 방 제목, 인원수 초기화
         setSelectedGame("");
         setRoomTitle("");
         setNumberOfPlayers(5);

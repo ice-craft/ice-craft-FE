@@ -42,6 +42,7 @@ const Mainpage = () => {
     });
 
     socket.on("fastJoinRoomError", (message) => {
+      isGoInClick.current = false;
       console.log(message);
     });
 
