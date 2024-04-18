@@ -7,7 +7,7 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo, logOut } from "@/utils/supabase/authAPI";
 import { fastJoinRoom } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -17,24 +17,24 @@ import { useModalStore } from "../../../store/toggle-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
-  const { setRoomId, setUserId, setUserNickname } = useConnectStore();
+  const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const isGoInClick = useRef(false);
   const room = useRef("");
   const router = useRouter();
-  //
+
   useEffect(() => {
     //NOTE -  서버와 연결
     socket.connect();
 
-    // socket.on("joinRoom", () => {
-    //   router.push(`/room/${room.current}`);
-    // });
+    socket.on("joinRoom", () => {
+      router.push(`/room/${room.current}`);
+    });
 
-    // socket.on("joinRoomError", (message) => {
-    //   alert(message);
-    //   isGoInClick.current = false;
-    //   router.refresh();
-    // });
+    socket.on("joinRoomError", (message) => {
+      alert(message);
+      isGoInClick.current = false;
+      router.refresh();
+    });
 
     socket.on("fastJoinRoom", (room_id, userInfo) => {
       router.push(`/room/${room_id}`);
@@ -44,6 +44,17 @@ const Mainpage = () => {
     socket.on("fastJoinRoomError", (message) => {
       console.log(message);
     });
+
+    const checkUserInfo = async () => {
+      const userInfo = await getUserInfo();
+
+      if (userInfo) {
+        setUserId(userInfo.id);
+        setUserNickname(userInfo.user_metadata.nickname);
+      }
+    };
+
+    checkUserInfo();
 
     return () => {
       socket.off("joinRoom");
@@ -65,9 +76,8 @@ const Mainpage = () => {
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     try {
       const isLogin = await checkUserLogIn();
-      const userInfo = await getUserInfo();
 
-      if (!isLogin || !userInfo) {
+      if (!isLogin) {
         alert("로그인 후 입장 가능합니다.");
         router.push("/login");
         return;
@@ -78,9 +88,7 @@ const Mainpage = () => {
         room.current = item.room_id;
         isGoInClick.current = true;
         setRoomId(item.room_id);
-        setUserId(userInfo.id);
-        setUserNickname(userInfo.user_metadata.nickname);
-        socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+        socket.emit("joinRoom", userId, item.room_id, nickname);
       }
     } catch (error) {
       console.log("error", error);
@@ -91,9 +99,8 @@ const Mainpage = () => {
   const fastJoinRoomHandler = async () => {
     try {
       const isLogin = await checkUserLogIn();
-      const userInfo = await getUserInfo();
 
-      if (!isLogin || !userInfo) {
+      if (!isLogin) {
         alert("로그인 후 입장 가능합니다.");
         router.push("/login");
         return;
@@ -101,9 +108,7 @@ const Mainpage = () => {
       if (!isGoInClick.current) {
         console.log("빠른 입장 정상작동");
         isGoInClick.current = true;
-        setUserId(userInfo.id);
-        setUserNickname(userInfo.user_metadata.nickname);
-        socket.emit("fastJoinRoom", userInfo.id, userInfo.user_metadata.nickname);
+        socket.emit("fastJoinRoom", userId, nickname);
       }
     } catch (error) {
       console.log("error", error);

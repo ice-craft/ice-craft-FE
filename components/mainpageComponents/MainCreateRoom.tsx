@@ -12,9 +12,9 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
   const { setRoomId, setUserId, setUserNickname } = useConnectStore();
-  const [selectedGame, setSelectedGame] = useState<string>("마피아");
-  const [roomTitle, setRoomTitle] = useState<string>("");
-  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(5);
+  const [selectedGame, setSelectedGame] = useState("마피아");
+  const [roomTitle, setRoomTitle] = useState("");
+  const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const userId = useRef("");
@@ -77,6 +77,9 @@ const MainCreateRoom = () => {
         setUserId(userInfo.id);
         setUserNickname(userInfo.user_metadata.nickname);
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
+        setSelectedGame("");
+        setRoomTitle("");
+        setNumberOfPlayers(5);
       }
     } catch (error) {
       console.log("error", error);
