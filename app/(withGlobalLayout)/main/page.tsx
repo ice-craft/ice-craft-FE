@@ -18,7 +18,7 @@ import { useModalStore } from "../../../store/toggle-store";
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const { setRoomId, setUserId, setUserNickname } = useConnectStore();
-  const isButtonClick = useRef(false);
+  const isGoInClick = useRef(false);
   const room = useRef("");
   const router = useRouter();
   //
@@ -32,8 +32,17 @@ const Mainpage = () => {
 
     socket.on("joinRoomError", (message) => {
       alert(message);
-      isButtonClick.current = false;
+      isGoInClick.current = false;
       router.refresh();
+    });
+
+    socket.on("fastJoinRoom", (room_id, userInfo) => {
+      router.push(`/room/${room_id}`);
+      setRoomId(room_id);
+    });
+
+    socket.on("fastJoinRoomError", (message) => {
+      console.log(message);
     });
 
     return () => {
@@ -64,12 +73,12 @@ const Mainpage = () => {
         return;
       }
 
-      console.log("isButtonClick.current", isButtonClick.current);
+      console.log("isButtonClick.current", isGoInClick.current);
 
-      if (!isButtonClick.current) {
-        console.log("정상 작동");
+      if (!isGoInClick.current) {
+        console.log("일반 입장하기 정상 작동");
         room.current = item.room_id;
-        isButtonClick.current = true;
+        isGoInClick.current = true;
         setRoomId(item.room_id);
         setUserId(userInfo.id);
         setUserNickname(userInfo.user_metadata.nickname);
@@ -83,19 +92,23 @@ const Mainpage = () => {
   //NOTE - 빠른 입장
   const fastJoinRoomHandler = async () => {
     try {
-      const data = await getUserInfo();
-      let nickname;
-      let userId;
-      if (data) {
-        nickname = data.user_metadata.nickname;
-        userId = data.id;
-      } else {
-        console.log("유저 정보 불러오기 실패");
+      const isLogin = await checkUserLogIn();
+      const userInfo = await getUserInfo();
+
+      if (!isLogin || !userInfo) {
+        alert("로그인 후 입장 가능합니다.");
+        router.push("/login");
+        return;
       }
-      const roomData = await fastJoinRoom(userId!, nickname);
-      console.log("Joined Room Data:", roomData);
+      if (!isGoInClick.current) {
+        console.log("빠른 입장 정상작동");
+        isGoInClick.current = true;
+        setUserId(userInfo.id);
+        setUserNickname(userInfo.user_metadata.nickname);
+        socket.emit("fastJoinRoom", userInfo.id, userInfo.user_metadata.nickname);
+      }
     } catch (error) {
-      console.error("Error joining room:", error);
+      console.log("error", error);
     }
   };
 
@@ -128,7 +141,9 @@ const Mainpage = () => {
                 <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
               </div>
               <div className={S.gameGoButton}>
-                <button onClick={fastJoinRoomHandler}>빠른입장</button>
+                <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
+                  빠른입장
+                </button>
                 <div className={S.makeRoomButton}>
                   <button onClick={() => setIsModal(true)} className={S.makeRoom}>
                     방 만들기
@@ -155,7 +170,7 @@ const Mainpage = () => {
                   </div>
                 </div>
 
-                <button disabled={isButtonClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+                <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
                   입장하기
                 </button>
               </li>

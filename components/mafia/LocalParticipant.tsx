@@ -10,6 +10,7 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import MafiaModal from "./MafiaModal";
+import { useParams } from "next/navigation";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
