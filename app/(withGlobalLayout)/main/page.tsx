@@ -16,9 +16,9 @@ import { useModalStore } from "../../../store/toggle-store";
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const { setRoomId, setUserId, setUserNickname, setJoinStatus, roomId } = useConnectStore();
-  const [isButtonClick, setIsButtonClick] = useState(false);
-  const room = useRef();
+  const { setRoomId, setUserId, setUserNickname } = useConnectStore();
+  const isButtonClick = useRef(false);
+  const room = useRef("");
   const router = useRouter();
   //
   useEffect(() => {
@@ -28,8 +28,9 @@ const Mainpage = () => {
     //NOTE - 방 목록
     const getRoomList = async () => {
       try {
-        const data = await getRooms(0, 7);
+        const data = await getRooms(0, 20);
         setRooms(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -41,13 +42,15 @@ const Mainpage = () => {
     });
 
     socket.on("joinRoomError", (message) => {
+      //입장하기 및 빠른입장 버튼 초기화
+      console.log(isButtonClick.current);
       alert(message);
+      isButtonClick.current = false;
     });
 
     return () => {
       socket.off("joinRoom");
       socket.off("joinRoomError");
-      setIsButtonClick(false);
     };
   }, []);
 
@@ -63,12 +66,16 @@ const Mainpage = () => {
         return;
       }
 
-      room.current = item.room_id;
-      setIsButtonClick(true);
-      setRoomId(item.room_id);
-      setUserId(userInfo.id);
-      setUserNickname(userInfo.user_metadata.nickname);
-      socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+      console.log("isButtonClick.current", isButtonClick.current);
+      if (!isButtonClick.current) {
+        console.log("정상 작동");
+        room.current = item.room_id;
+        isButtonClick.current = true;
+        setRoomId(item.room_id);
+        setUserId(userInfo.id);
+        setUserNickname(userInfo.user_metadata.nickname);
+        socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -149,7 +156,7 @@ const Mainpage = () => {
                   </div>
                 </div>
 
-                <button disabled={isButtonClick} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+                <button disabled={isButtonClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
                   입장하기
                 </button>
               </li>
