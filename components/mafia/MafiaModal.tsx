@@ -9,12 +9,16 @@ const MafiaModal = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [isDay, setIsDay] = useState(true);
+  const [secondTimer, setSecondTimer] = useState("");
+  const [userNickName, setUserNickName] = useState("");
 
   useEffect(() => {
-    socket.on("showModal", (title, message) => {
+    socket.on("showModal", (title, message, timer, nickname) => {
       setModalTitle(title);
       setModalMessage(message);
       setIsDay(message.includes("아침"));
+      setSecondTimer(timer);
+      setUserNickName(nickname);
     });
     return () => {
       socket.off("showModal");
