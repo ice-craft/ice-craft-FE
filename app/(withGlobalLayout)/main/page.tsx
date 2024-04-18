@@ -2,11 +2,13 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
+import { useGetRooms } from "@/hooks/useGetRooms";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
+import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
-import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
+import { fastJoinRoom } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -15,7 +17,6 @@ import { useModalStore } from "../../../store/toggle-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
-  const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
   const { setRoomId, setUserId, setUserNickname } = useConnectStore();
   const isButtonClick = useRef(false);
   const room = useRef("");
@@ -25,27 +26,14 @@ const Mainpage = () => {
     //NOTE -  서버와 연결
     socket.connect();
 
-    //NOTE - 방 목록
-    const getRoomList = async () => {
-      try {
-        const data = await getRooms(0, 20);
-        setRooms(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRoomList();
-
     socket.on("joinRoom", () => {
       router.push(`/room/${room.current}`);
     });
 
     socket.on("joinRoomError", (message) => {
-      //입장하기 및 빠른입장 버튼 초기화
-      console.log(isButtonClick.current);
       alert(message);
       isButtonClick.current = false;
+      router.refresh();
     });
 
     return () => {
@@ -54,8 +42,18 @@ const Mainpage = () => {
     };
   }, []);
 
+  const { data: rooms, isPending, isError } = useGetRooms();
+
+  if (isPending) {
+    console.log("방 리스트 가져오는 중");
+  }
+
+  if (isError) {
+    console.log("방 리스트 가져오는 과정에서 error 발생");
+  }
+
   //NOTE - 입장하기
-  const joinRoomHandler = async (item: any) => {
+  const joinRoomHandler = async (item: Tables<"room_table">) => {
     try {
       const isLogin = await checkUserLogIn();
       const userInfo = await getUserInfo();
@@ -67,6 +65,7 @@ const Mainpage = () => {
       }
 
       console.log("isButtonClick.current", isButtonClick.current);
+
       if (!isButtonClick.current) {
         console.log("정상 작동");
         room.current = item.room_id;
@@ -140,7 +139,7 @@ const Mainpage = () => {
             </div>
           </div>
           <ul className={S.roomList}>
-            {rooms.map((item: any) => (
+            {rooms?.map((item) => (
               <li key={item.room_id}>
                 <Image src={MafiaItem} alt="room image" />
                 <div className={S.roomTitle}>
