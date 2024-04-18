@@ -29,9 +29,12 @@ const MainCreateRoom = () => {
       isGoInClick.current = false;
     });
     socket.on("joinRoom", () => {
-      setRoomId(roomId.current);
-      setIsModal(false);
-      router.push(`/room/${roomId.current}`);
+      if (roomId.current) {
+        console.log("방만들기 joinRoom 실행");
+        setRoomId(roomId.current);
+        setIsModal(false);
+        router.push(`/room/${roomId.current}`);
+      }
     });
 
     socket.on("joinRoomError", (message) => {
@@ -71,9 +74,9 @@ const MainCreateRoom = () => {
       // }
 
       if (!isGoInClick.current) {
+        console.log("방만들기 클릭");
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
-
         //NOTE - 게임 카테고리 설정, 방 제목, 인원수 초기화
         setSelectedGame("");
         setRoomTitle("");

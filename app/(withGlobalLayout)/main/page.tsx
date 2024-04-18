@@ -7,11 +7,10 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo, logOut } from "@/utils/supabase/authAPI";
-import { fastJoinRoom } from "@/utils/supabase/roomAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 
@@ -27,7 +26,10 @@ const Mainpage = () => {
     socket.connect();
 
     socket.on("joinRoom", () => {
-      router.push(`/room/${room.current}`);
+      if (room.current) {
+        console.log("메인페이지 joinRoom 실행");
+        router.push(`/room/${room.current}`);
+      }
     });
 
     socket.on("joinRoomError", (message) => {
@@ -85,7 +87,7 @@ const Mainpage = () => {
       }
 
       if (!isGoInClick.current) {
-        console.log("일반 입장하기 정상 작동");
+        console.log("일반 입장 클릭");
         room.current = item.room_id;
         isGoInClick.current = true;
         setRoomId(item.room_id);
@@ -107,7 +109,7 @@ const Mainpage = () => {
         return;
       }
       if (!isGoInClick.current) {
-        console.log("빠른 입장 정상작동");
+        console.log("빠른 입장 클릭");
         isGoInClick.current = true;
         socket.emit("fastJoinRoom", userId, nickname);
       }
