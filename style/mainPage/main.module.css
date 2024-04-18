@@ -258,6 +258,11 @@
 }
 
 @media (max-width: 860px) {
+  .gameTitle {
+    align-items: center;
+    padding-left: 0;
+  }
+
   .roomList {
     justify-content: center;
   }
