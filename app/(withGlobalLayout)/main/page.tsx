@@ -26,15 +26,15 @@ const Mainpage = () => {
     //NOTE -  서버와 연결
     socket.connect();
 
-    socket.on("joinRoom", () => {
-      router.push(`/room/${room.current}`);
-    });
+    // socket.on("joinRoom", () => {
+    //   router.push(`/room/${room.current}`);
+    // });
 
-    socket.on("joinRoomError", (message) => {
-      alert(message);
-      isGoInClick.current = false;
-      router.refresh();
-    });
+    // socket.on("joinRoomError", (message) => {
+    //   alert(message);
+    //   isGoInClick.current = false;
+    //   router.refresh();
+    // });
 
     socket.on("fastJoinRoom", (room_id, userInfo) => {
       router.push(`/room/${room_id}`);
@@ -72,8 +72,6 @@ const Mainpage = () => {
         router.push("/login");
         return;
       }
-
-      console.log("isButtonClick.current", isGoInClick.current);
 
       if (!isGoInClick.current) {
         console.log("일반 입장하기 정상 작동");
