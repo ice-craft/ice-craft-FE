@@ -27,7 +27,6 @@ const Mainpage = () => {
 
     socket.on("joinRoom", () => {
       if (room.current) {
-        console.log("메인페이지 joinRoom 실행");
         router.push(`/room/${room.current}`);
       }
     });
@@ -87,7 +86,6 @@ const Mainpage = () => {
       }
 
       if (!isGoInClick.current) {
-        console.log("일반 입장 클릭");
         room.current = item.room_id;
         isGoInClick.current = true;
         setRoomId(item.room_id);
@@ -109,7 +107,6 @@ const Mainpage = () => {
         return;
       }
       if (!isGoInClick.current) {
-        console.log("빠른 입장 클릭");
         isGoInClick.current = true;
         socket.emit("fastJoinRoom", userId, nickname);
       }
