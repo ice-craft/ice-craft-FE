@@ -11,19 +11,21 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 
 const MainCreateRoom = () => {
   const { setIsModal } = useModalStore();
-  const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
+  const { setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [selectedGame, setSelectedGame] = useState<string>("마피아");
   const [roomTitle, setRoomTitle] = useState<string>("");
   const [numberOfPlayers, setNumberOfPlayers] = useState<number>(5);
   const isGoInClick = useRef(false);
-  const roomId = useRef();
+  const roomId = useRef("");
+  const userId = useRef("");
+  const userNickname = useRef("");
   const router = useRouter();
 
   useEffect(() => {
     socket.on("createRoom", ({ room_id }) => {
       setRoomId(room_id);
       roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
+      socket.emit("joinRoom", userId.current, room_id, userNickname.current);
     });
     socket.on("createRoomError", (message) => {
       console.log(message);
@@ -67,9 +69,11 @@ const MainCreateRoom = () => {
       // 유효성검사필요
       // if (!selectedGame || !roomTitle || !numberOfPlayers) {
       // }
+
       if (!isGoInClick.current) {
-        console.log("방 만들기 정상 작동");
         isGoInClick.current = true;
+        userId.current = userInfo.id;
+        userNickname.current = userInfo.user_metadata.nickname;
         setUserId(userInfo.id);
         setUserNickname(userInfo.user_metadata.nickname);
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
