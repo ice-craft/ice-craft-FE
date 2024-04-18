@@ -16,7 +16,8 @@ import { useModalStore } from "../../../store/toggle-store";
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const { setRoomId, setUserId, setUserNickname, setJoinStatus } = useConnectStore();
+  const { setRoomId, setUserId, setUserNickname, setJoinStatus, roomId } = useConnectStore();
+  const [isButtonClick, setIsButtonClick] = useState(false);
   const room = useRef();
   const router = useRouter();
   //
@@ -46,6 +47,7 @@ const Mainpage = () => {
     return () => {
       socket.off("joinRoom");
       socket.off("joinRoomError");
+      setIsButtonClick(false);
     };
   }, []);
 
@@ -62,6 +64,7 @@ const Mainpage = () => {
       }
 
       room.current = item.room_id;
+      setIsButtonClick(true);
       setRoomId(item.room_id);
       setUserId(userInfo.id);
       setUserNickname(userInfo.user_metadata.nickname);
@@ -146,7 +149,7 @@ const Mainpage = () => {
                   </div>
                 </div>
 
-                <button onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+                <button disabled={isButtonClick} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
                   입장하기
                 </button>
               </li>
