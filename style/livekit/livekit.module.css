@@ -104,6 +104,8 @@
   user-select: none;
 }
 
+.imageOverlay.active,
+.remoteOverlay.active,
 .remoteParticipantOverlay.active .remoteOverlay,
 .participantOverlay.active .imageOverlay {
   display: block;
