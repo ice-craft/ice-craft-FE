@@ -20,10 +20,12 @@ import { useEffect } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
+import { useExitStore } from "@/store/exit-store";
 
 const MyVideoConference = () => {
   const { userId, roomId } = useConnectStore();
   const { toggleOverlay } = useOverlayStore();
+  const { setIsExit } = useExitStore();
   const router = useRouter();
   const { setImageState } = useCamClickImageState();
 

@@ -2,7 +2,7 @@ import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
 import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import S from "@/style/livekit/livekit.module.css";
 import "@livekit/components-styles";
@@ -10,9 +10,13 @@ import { useExitStore } from "@/store/exit-store";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
-  const { setIsExit } = useExitStore();
   const { roomId } = useConnectStore();
+  const { isExit, setIsExit } = useExitStore();
   const router = useRouter();
+
+  useEffect(() => {
+    return setIsExit(false);
+  }, [isExit]);
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId);
 
@@ -26,6 +30,7 @@ const JoinMafiaRoom = () => {
 
   const disConnected = () => {
     setIsExit(true);
+
     setTimeout(() => {
       router.replace("/main");
     }, 3000); // 5초 후에 로딩을 완료합니다.
