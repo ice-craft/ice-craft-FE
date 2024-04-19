@@ -4,7 +4,7 @@ import { ModalData } from "@/types/index";
 import { useCountStore } from "@/store/count-store";
 
 const useModal = () => {
-  const { setTimer, setIsStart } = useCountStore();
+  const { setTimer } = useCountStore();
   const [modalState, setModalState] = useState<ModalData>({
     isOpen: false,
     title: "",
@@ -16,12 +16,10 @@ const useModal = () => {
   useEffect(() => {
     const showModalHandler = (data: ModalData) => {
       setModalState({ ...data, isOpen: true });
-      setIsStart(true);
       setTimer(data.timer);
 
       const timer = setTimeout(() => {
         setModalState((prev) => ({ ...prev, isOpen: false }));
-        setIsStart(false);
       }, data.timer * 1000);
 
       return () => clearTimeout(timer);
@@ -32,7 +30,7 @@ const useModal = () => {
     return () => {
       socket.off("showModal");
     };
-  }, [setTimer, setIsStart]);
+  }, [setTimer]);
 
   return { modalState };
 };
