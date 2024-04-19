@@ -14,9 +14,9 @@ const MafiaModal = () => {
       <div className={S.modalWrap}>
         <div className={S.modal}>
           <div>
-            <h1>{modalState.title}</h1>
-            <h2>{modalState.message}</h2>
-            <h2>{modalState.nickname}</h2>
+            {modalState.title && <h1>{modalState.title}</h1>}
+            {modalState.message && <h2>{modalState.message}</h2>}
+            {modalState.nickname && <h2>{modalState.nickname}</h2>}
             <progress
               className={S.progress}
               value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
