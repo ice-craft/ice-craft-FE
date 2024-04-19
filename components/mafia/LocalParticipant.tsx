@@ -8,7 +8,7 @@ import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import MafiaModal from "./GroupMafiaModal";
+import GroupMafiaModal from "./GroupMafiaModal";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
@@ -62,7 +62,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
         {isReady ? "취소" : "게임 준비"}
       </button>
-      {isModal && <MafiaModal />}
+      {isModal && <GroupMafiaModal />}
     </div>
   );
 };

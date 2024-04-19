@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import S from "@/style/modal/modal.module.css";
-import DoctorCard from "@/assets/images/Doctor_Card.svg";
-import PoliceCard from "@/assets/images/Police_Card.svg";
-import MafiaCard from "@/assets/images/Mafia_Card.svg";
-import CitizensCard from "@/assets/images/Citizens_Card.svg";
+import DoctorCard from "@/assets/images/Doctor_Card.avif";
+import PoliceCard from "@/assets/images/Police_Card.avif";
+import MafiaCard from "@/assets/images/Mafia_Card.avif";
+import CitizensCard from "@/assets/images/Citizens_Card.avif";
 import { Role } from "@/types/index";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
 import RenderCards from "./RenderCards";
 
 const cards = {
-  doctor: { src: DoctorCard, alt: "의사" },
-  police: { src: PoliceCard, alt: "경찰" },
-  mafia: { src: MafiaCard, alt: "마피아" },
-  citizens: { src: CitizensCard, alt: "시민" }
+  doctor: { src: DoctorCard.src, alt: "의사" },
+  police: { src: PoliceCard.src, alt: "경찰" },
+  mafia: { src: MafiaCard.src, alt: "마피아" },
+  citizens: { src: CitizensCard.src, alt: "시민" }
 };
 
 const UserRoleModal = () => {
