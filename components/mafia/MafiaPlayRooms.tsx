@@ -19,8 +19,10 @@ import {
   specificUserAudioSetting,
   specificUserVideoSetting
 } from "@/utils/participantCamSettings/camSetting";
+import useConnectStore from "@/store/connect-store";
 
 const MyVideoConference = () => {
+  const { userId, roomId } = useConnectStore();
   const { toggleOverlay } = useOverlayStore();
   const router = useRouter();
   const { setImageState } = useCamClickImageState();
@@ -120,6 +122,7 @@ const MyVideoConference = () => {
   };
 
   const leaveRoom = () => {
+    socket.emit("exitRoom", roomId, userId);
     router.replace(`/main`);
   };
 

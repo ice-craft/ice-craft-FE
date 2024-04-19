@@ -2,11 +2,12 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
+import { useGetRooms } from "@/hooks/useGetRooms";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
+import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
-import { fastJoinRoom, getRooms } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -15,57 +16,86 @@ import { useModalStore } from "../../../store/toggle-store";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
-  const [rooms, setRooms] = useState<any>([]); //데이터베이스 타입을 몰라요
-  const { setRoomId, setUserId, setUserNickname, setJoinStatus } = useConnectStore();
-  const room = useRef();
+  const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
+  const isGoInClick = useRef(false);
+  const room = useRef("");
   const router = useRouter();
-  //
+
   useEffect(() => {
     //NOTE -  서버와 연결
     socket.connect();
 
-    //NOTE - 방 목록
-    const getRoomList = async () => {
-      try {
-        const data = await getRooms(0, 7);
-        setRooms(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRoomList();
-
     socket.on("joinRoom", () => {
-      router.push(`/room/${room.current}`);
+      if (room.current) {
+        router.push(`/room/${room.current}`);
+      }
     });
 
     socket.on("joinRoomError", (message) => {
+      isGoInClick.current = false;
+      alert(message);
+      router.refresh();
+    });
+
+    socket.on("fastJoinRoom", (room_id, userInfo) => {
+      router.push(`/room/${room_id}`);
+      setRoomId(room_id);
+    });
+
+    socket.on("fastJoinRoomError", (message) => {
+      isGoInClick.current = false;
       alert(message);
     });
+
+    const checkUserInfo = async () => {
+      const userInfo = await getUserInfo();
+
+      // 세션 스토리지에 저장
+      if (userInfo) {
+        setUserId(userInfo.id);
+        setUserNickname(userInfo.user_metadata.nickname);
+      }
+    };
+
+    checkUserInfo();
 
     return () => {
       socket.off("joinRoom");
       socket.off("joinRoomError");
+      socket.off("fastJoinRoom");
+      socket.off("fastJoinRoomError");
+      socket.off("enterMafia");
+      socket.off("enterMafiaError");
     };
   }, []);
 
+  const { data: rooms, isPending, isError } = useGetRooms();
+
+  if (isPending) {
+    console.log("방 리스트 가져오는 중");
+  }
+
+  if (isError) {
+    console.log("방 리스트 가져오는 과정에서 error 발생");
+  }
+
   //NOTE - 입장하기
-  const joinRoomHandler = async (item: any) => {
+  const joinRoomHandler = async (item: Tables<"room_table">) => {
     try {
       const isLogin = await checkUserLogIn();
-      const userInfo = await getUserInfo();
 
-      if (!isLogin || !userInfo) {
+      if (!isLogin) {
         alert("로그인 후 입장 가능합니다.");
         router.push("/login");
         return;
       }
 
-      room.current = item.room_id;
-      setRoomId(item.room_id);
-      setUserId(userInfo.id);
-      setUserNickname(userInfo.user_metadata.nickname);
-      socket.emit("joinRoom", userInfo.id, item.room_id, userInfo.user_metadata.nickname);
+      if (!isGoInClick.current) {
+        room.current = item.room_id;
+        isGoInClick.current = true;
+        setRoomId(item.room_id);
+        socket.emit("joinRoom", userId, item.room_id, nickname);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -74,19 +104,19 @@ const Mainpage = () => {
   //NOTE - 빠른 입장
   const fastJoinRoomHandler = async () => {
     try {
-      const data = await getUserInfo();
-      let nickname;
-      let userId;
-      if (data) {
-        nickname = data.user_metadata.nickname;
-        userId = data.id;
-      } else {
-        console.log("유저 정보 불러오기 실패");
+      const isLogin = await checkUserLogIn();
+
+      if (!isLogin) {
+        alert("로그인 후 입장 가능합니다.");
+        router.push("/login");
+        return;
       }
-      const roomData = await fastJoinRoom(userId!, nickname);
-      console.log("Joined Room Data:", roomData);
+      if (!isGoInClick.current) {
+        isGoInClick.current = true;
+        socket.emit("fastJoinRoom", userId, nickname);
+      }
     } catch (error) {
-      console.error("Error joining room:", error);
+      console.log("error", error);
     }
   };
 
@@ -119,7 +149,9 @@ const Mainpage = () => {
                 <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
               </div>
               <div className={S.gameGoButton}>
-                <button onClick={fastJoinRoomHandler}>빠른입장</button>
+                <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
+                  빠른입장
+                </button>
                 <div className={S.makeRoomButton}>
                   <button onClick={() => setIsModal(true)} className={S.makeRoom}>
                     방 만들기
@@ -130,7 +162,7 @@ const Mainpage = () => {
             </div>
           </div>
           <ul className={S.roomList}>
-            {rooms.map((item: any) => (
+            {rooms?.map((item) => (
               <li key={item.room_id}>
                 <Image src={MafiaItem} alt="room image" />
                 <div className={S.roomTitle}>
@@ -146,7 +178,7 @@ const Mainpage = () => {
                   </div>
                 </div>
 
-                <button onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+                <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
                   입장하기
                 </button>
               </li>

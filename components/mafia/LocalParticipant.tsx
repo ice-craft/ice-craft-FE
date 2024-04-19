@@ -10,6 +10,7 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import MafiaModal from "./MafiaModal";
+import { useParams } from "next/navigation";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
@@ -24,7 +25,8 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const startGameHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
-    allMediaSetting(tracks, false);
+    // 미디어를 on, off할 이유를 모르겠다.
+    // allMediaSetting(tracks, newIsReady);
     socket.emit("setReady", {
       userId,
       roomId,
@@ -61,7 +63,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         </div>
       ))}
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
-        {isReady ? "준비완료" : "게임시작"}
+        {isReady ? "취소" : "게임 준비"}
       </button>
       {isModal && <MafiaModal />}
     </div>
