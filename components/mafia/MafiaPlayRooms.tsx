@@ -21,7 +21,7 @@ import {
 } from "@/utils/participantCamSettings/camSetting";
 import useConnectStore from "@/store/connect-store";
 
-const MyVideoConference = () => {
+const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
   const { toggleOverlay } = useOverlayStore();
   const router = useRouter();
@@ -138,4 +138,4 @@ const MyVideoConference = () => {
   );
 };
 
-export default MyVideoConference;
+export default MafiaPlayRooms;
