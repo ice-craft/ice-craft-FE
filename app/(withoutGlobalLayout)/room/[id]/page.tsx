@@ -13,9 +13,9 @@ const RoomPage = () => {
   const [isJoin, setIsJoin] = useState(false);
   const { roomId, userId } = useConnectStore();
 
-  const { data: token, isLoading, isSuccess, isError } = useGetToken(roomId);
+  const { data: token, isPending, isSuccess, isError } = useGetToken(roomId);
 
-  if (isLoading || !isSuccess) {
+  if (isPending || !isSuccess) {
     console.log("로딩중입니다.");
   }
 

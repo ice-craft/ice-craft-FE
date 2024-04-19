@@ -1,21 +1,53 @@
-import React, { useState, FormEvent } from "react";
-import S from "@/style/modal/modal.module.css";
-import { useModalStore } from "@/store/toggle-store";
-import { useRouter } from "next/navigation";
-import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
 import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
-import MafiaGameSongActive from "@/assets/images/game_choice_mafia_song_active.svg";
+import useConnectStore from "@/store/connect-store";
+import { useModalStore } from "@/store/toggle-store";
+import S from "@/style/modal/modal.module.css";
+import { socket } from "@/utils/socket/socket";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import Image from "next/image";
-import { createRoom, joinRoom } from "@/utils/supabase/roomAPI";
+import { useRouter } from "next/navigation";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 
 const MainCreateRoom = () => {
+  const [roomTitle, setRoomTitle] = useState("");
+  const [selectedGame, setSelectedGame] = useState("마피아");
+  const [numberOfPlayers, setNumberOfPlayers] = useState(5);
+  const isGoInClick = useRef(false);
+  const roomId = useRef("");
   const { setIsModal } = useModalStore();
-  const [selectedGame, setSelectedGame] = useState<string>("마피아");
-  const [roomTitle, setRoomTitle] = useState<string>("");
-  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(5);
-
+  const { userId, nickname, setRoomId } = useConnectStore();
   const router = useRouter();
+
+  useEffect(() => {
+    socket.on("createRoom", ({ room_id }) => {
+      roomId.current = room_id;
+      socket.emit("joinRoom", userId, room_id, nickname);
+    });
+    socket.on("createRoomError", (message) => {
+      console.log(message);
+      isGoInClick.current = false;
+    });
+    socket.on("joinRoom", () => {
+      if (roomId.current) {
+        setRoomId(roomId.current);
+        setIsModal(false);
+        router.push(`/room/${roomId.current}`);
+      }
+    });
+
+    socket.on("joinRoomError", (message) => {
+      alert(message);
+      isGoInClick.current = false;
+    });
+
+    return () => {
+      socket.off("createRoom");
+      socket.off("createRoomError");
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
+    };
+  }, []);
 
   const closeModalHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
@@ -24,21 +56,33 @@ const MainCreateRoom = () => {
   };
 
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // 유효성검사필요
-    // if (!selectedGame || !roomTitle || !numberOfPlayers) {
-    // }
-    const userId = crypto.randomUUID(); //NOTE - 테스트용 코드
-    const { room_id } = await createRoom(roomTitle, selectedGame, numberOfPlayers);
-    await joinRoom(room_id, userId, "default nickName");
-    router.push(`/room/${roomTitle}`);
-    setIsModal(false);
-  };
+    try {
+      e.preventDefault();
 
-  const test = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push(`/room/${roomTitle}`);
-    setIsModal(false);
+      const isLogin = await checkUserLogIn();
+      const userInfo = await getUserInfo();
+
+      if (!isLogin || !userInfo) {
+        alert("로그인 후 입장 가능합니다.");
+        router.push("/login");
+        return;
+      }
+
+      // 유효성검사필요
+      // if (!selectedGame || !roomTitle || !numberOfPlayers) {
+      // }
+
+      if (!isGoInClick.current) {
+        isGoInClick.current = true;
+        socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
+        //NOTE - 게임 카테고리 설정, 방 제목, 인원수 초기화
+        setSelectedGame("");
+        setRoomTitle("");
+        setNumberOfPlayers(5);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
@@ -82,7 +126,9 @@ const MainCreateRoom = () => {
             <button className={S.closedButton} onClick={() => setIsModal(false)}>
               닫기
             </button>
-            <button type="submit">확인</button>
+            <button disabled={isGoInClick.current} type="submit">
+              확인
+            </button>
           </div>
         </form>
       </div>
