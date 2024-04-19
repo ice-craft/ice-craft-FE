@@ -1,6 +1,7 @@
 import "./globals.css";
 import QueryProvider from "./provider";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { pretendard } from "@/public/fonts/fonts";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";

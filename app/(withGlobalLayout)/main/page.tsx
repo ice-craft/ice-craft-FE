@@ -2,7 +2,6 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
-import { useGetRooms } from "@/hooks/useGetRooms";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
@@ -11,6 +10,7 @@ import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 
@@ -19,7 +19,7 @@ const Mainpage = () => {
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [rooms, setRooms] = useState([]);
   const isGoInClick = useRef(false);
-  const room = useRef("");
+  const roomId = useRef("");
   const router = useRouter();
 
   useEffect(() => {
@@ -30,31 +30,29 @@ const Mainpage = () => {
       setRooms(rooms);
     });
     socket.on("enterMafiaError", (message) => {
-      console.log(message);
+      toast.error(message);
     });
 
-    socket.emit("enterMafia", 0, 20);
-
     socket.on("joinRoom", () => {
-      if (room.current) {
-        router.push(`/room/${room.current}`);
+      if (roomId.current) {
+        router.push(`/room/${roomId.current}`);
       }
     });
 
     socket.on("joinRoomError", (message) => {
       isGoInClick.current = false;
-      alert(message);
-      router.refresh();
+      toast.error(message);
+      // router.refresh();
     });
 
-    socket.on("fastJoinRoom", (room_id, userInfo) => {
+    socket.on("fastJoinRoom", (room_id) => {
       router.push(`/room/${room_id}`);
       setRoomId(room_id);
     });
 
     socket.on("fastJoinRoomError", (message) => {
       isGoInClick.current = false;
-      alert(message);
+      toast.error(message);
     });
 
     const checkUserInfo = async () => {
@@ -79,15 +77,9 @@ const Mainpage = () => {
     };
   }, []);
 
-  // const { data: rooms, isPending, isError } = useGetRooms();
-
-  // if (isPending) {
-  //   console.log("방 리스트 가져오는 중");
-  // }
-
-  // if (isError) {
-  //   console.log("방 리스트 가져오는 과정에서 error 발생");
-  // }
+  useEffect(() => {
+    socket.emit("enterMafia", 0, 100);
+  }, [rooms]);
 
   //NOTE - 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
@@ -95,13 +87,12 @@ const Mainpage = () => {
       const isLogin = await checkUserLogIn();
 
       if (!isLogin) {
-        alert("로그인 후 입장 가능합니다.");
-        router.push("/login");
+        toast.info("로그인 후 입장가능합니다.");
         return;
       }
 
       if (!isGoInClick.current) {
-        room.current = item.room_id;
+        roomId.current = item.room_id;
         isGoInClick.current = true;
         setRoomId(item.room_id);
         socket.emit("joinRoom", userId, item.room_id, nickname);
@@ -117,8 +108,25 @@ const Mainpage = () => {
       const isLogin = await checkUserLogIn();
 
       if (!isLogin) {
-        alert("로그인 후 입장 가능합니다.");
-        router.push("/login");
+        toast.info("로그인 후 입장가능합니다.");
+        return;
+      }
+      if (!isGoInClick.current) {
+        isGoInClick.current = true;
+        socket.emit("fastJoinRoom", userId, nickname);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  //NOTE - Game Start
+  const gameStartHandler = async () => {
+    try {
+      const isLogin = await checkUserLogIn();
+
+      if (!isLogin) {
+        toast.info("로그인 후 입장가능합니다.");
         return;
       }
       if (!isGoInClick.current) {
@@ -141,7 +149,7 @@ const Mainpage = () => {
                   <Image src={MafiaGameTitle} alt="mafia game title" />
                 </h2>
                 <div className={S.gameButton}>
-                  <button>Game Start</button>
+                  <button onClick={gameStartHandler}>Game Start</button>
                   <button className={S.mafiaInfo}>More Info</button>
                 </div>
               </div>
