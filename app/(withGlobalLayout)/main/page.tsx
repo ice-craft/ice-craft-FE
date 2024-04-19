@@ -17,6 +17,7 @@ import { useModalStore } from "../../../store/toggle-store";
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
+  const [rooms, setRooms] = useState([]);
   const isGoInClick = useRef(false);
   const room = useRef("");
   const router = useRouter();
@@ -24,6 +25,15 @@ const Mainpage = () => {
   useEffect(() => {
     //NOTE -  서버와 연결
     socket.connect();
+
+    socket.on("enterMafia", (rooms) => {
+      setRooms(rooms);
+    });
+    socket.on("enterMafiaError", (message) => {
+      console.log(message);
+    });
+
+    socket.emit("enterMafia", 0, 20);
 
     socket.on("joinRoom", () => {
       if (room.current) {
@@ -69,15 +79,15 @@ const Mainpage = () => {
     };
   }, []);
 
-  const { data: rooms, isPending, isError } = useGetRooms();
+  // const { data: rooms, isPending, isError } = useGetRooms();
 
-  if (isPending) {
-    console.log("방 리스트 가져오는 중");
-  }
+  // if (isPending) {
+  //   console.log("방 리스트 가져오는 중");
+  // }
 
-  if (isError) {
-    console.log("방 리스트 가져오는 과정에서 error 발생");
-  }
+  // if (isError) {
+  //   console.log("방 리스트 가져오는 과정에서 error 발생");
+  // }
 
   //NOTE - 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
@@ -162,7 +172,7 @@ const Mainpage = () => {
             </div>
           </div>
           <ul className={S.roomList}>
-            {rooms?.map((item) => (
+            {rooms.map((item: Tables<"room_table">) => (
               <li key={item.room_id}>
                 <Image src={MafiaItem} alt="room image" />
                 <div className={S.roomTitle}>
