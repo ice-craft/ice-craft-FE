@@ -13,42 +13,28 @@ const useModal = () => {
     timer: 0
   });
 
-  // 타이머를 저장하기 위한 상태 state
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
-  function openModal(data: ModalData) {
-    setModalState({ ...data, isOpen: true });
-    setIsStart(true);
-    setTimer(data.timer);
-
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    // 새 타이머 설정, 자동으로 닫힘
-    const id = setTimeout(() => {
-      setModalState((prev) => ({ ...prev, isOpen: false }));
-      setIsStart(false);
-    }, data.timer * 1000);
-    setTimeoutId(id);
-  }
-
   useEffect(() => {
     const showModalHandler = (data: ModalData) => {
-      openModal({ ...data, isOpen: true });
+      setModalState({ ...data, isOpen: true });
+      setIsStart(true);
+      setTimer(data.timer);
+
+      const timer = setTimeout(() => {
+        setModalState((prev) => ({ ...prev, isOpen: false }));
+        setIsStart(false);
+      }, data.timer * 1000);
+
+      return () => clearTimeout(timer);
     };
 
     socket.on("showModal", showModalHandler);
 
     return () => {
       socket.off("showModal");
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
     };
-  }, [openModal, timeoutId]);
+  }, [setTimer, setIsStart]);
 
-  return { modalState, openModal };
+  return { modalState };
 };
 
 export default useModal;
