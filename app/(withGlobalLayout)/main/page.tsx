@@ -77,10 +77,6 @@ const Mainpage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    socket.emit("enterMafia", 0, 100);
-  }, [rooms]);
-
   //NOTE - 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     try {

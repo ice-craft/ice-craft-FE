@@ -7,11 +7,13 @@ import S from "@/style/livekit/livekit.module.css";
 import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const RoomPage = () => {
   const [isJoin, setIsJoin] = useState(false);
   const { roomId, userId } = useConnectStore();
+  const router = useRouter();
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId);
 
@@ -24,7 +26,7 @@ const RoomPage = () => {
   }
 
   const disConnected = () => {
-    socket.emit("exitRoom", roomId, userId);
+    router.replace("/main");
   };
 
   return (
