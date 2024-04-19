@@ -4,7 +4,7 @@ import { StaticImageData } from "next/image";
 import CamCheck from "@/assets/images/cam_check.svg";
 
 export const useCamClickImageState = create<ImageState>((set) => ({
-  imageState: CamCheck,
+  imageState: CamCheck as StaticImageData | null,
 
-  setImageState: (newImage: StaticImageData) => set({ imageState: newImage })
+  setImageState: (newImage: StaticImageData | null) => set({ imageState: newImage })
 }));

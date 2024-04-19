@@ -49,8 +49,8 @@ export interface CountState {
 }
 
 export interface ImageState {
-  imageState: StaticImageData;
-  setImageState: (newImage: StaticImageData) => void;
+  imageState: StaticImageData | null;
+  setImageState: (newImage: StaticImageData | null) => void;
 }
 
 export interface ActiveNameState {
@@ -104,6 +104,16 @@ export interface ModalData {
   timer: number;
   isOpen: boolean;
 }
+
+export interface ParticipantReadyData {
+  userId: string;
+  isReady: boolean;
+}
+
+export interface RemoteReadyStates {
+  [key: string]: boolean;
+}
+
 export interface ExitState {
   isExit: boolean;
   setIsExit: (newToggle: boolean) => void;
