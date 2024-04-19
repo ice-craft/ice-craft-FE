@@ -52,3 +52,10 @@
 .mainSection a:hover {
   color: var(--primary-color);
 }
+
+/*-------------- GoTopButton ----------------*/
+.goTopButton {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+}

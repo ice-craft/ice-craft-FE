@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
+import GoTopButton from "@/utils/GoTopButton";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -202,6 +203,7 @@ const Mainpage = () => {
           </ul>
         </section>
       </div>
+      <GoTopButton />
     </main>
   );
 };
