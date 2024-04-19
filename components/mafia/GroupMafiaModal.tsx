@@ -1,4 +1,5 @@
 import { useCountDown } from "@/hooks/useCountDown";
+import useModal from "@/hooks/useModal";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import { useEffect, useState } from "react";
@@ -6,32 +7,18 @@ import { useEffect, useState } from "react";
 const MafiaModal = () => {
   const initialSecond = 5;
   const count = useCountDown(initialSecond);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
-  const [secondTimer, setSecondTimer] = useState("");
-  const [userNickName, setUserNickName] = useState("");
+  const { modalState } = useModal();
 
-  useEffect(() => {
-    socket.on("showModal", (title, message, timer, nickname) => {
-      setModalTitle(title);
-      setModalMessage(message);
-      setSecondTimer(timer);
-      setUserNickName(nickname);
-    });
-    return () => {
-      socket.off("showModal");
-    };
-  }, []);
+  if (!modalState.isOpen) return null;
 
   return (
     <>
       <div className={S.modalWrap}>
         <div className={S.modal}>
           <div>
-            <h1>{modalTitle}</h1>
-            <h2>{modalMessage}</h2>
-            <h3>{secondTimer}</h3>
-            <h4>{userNickName}</h4>
+            <h1>{modalState.title}</h1>
+            <h2>{modalState.message}</h2>
+            <h2>{modalState.nickname}</h2>
             <progress
               className={S.progress}
               value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
