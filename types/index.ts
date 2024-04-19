@@ -87,12 +87,11 @@ export interface CardInfo {
 
 export interface RenderCardsProps {
   cards: {
-    doctor: CardInfo;
-    police: CardInfo;
-    mafia: CardInfo;
-    citizens: CardInfo;
+    doctor: { src: string; alt: string };
+    police: { src: string; alt: string };
+    mafia: { src: string; alt: string };
+    citizens: { src: string; alt: string };
   };
-
   role: Role;
   showAllCards: boolean;
 }
