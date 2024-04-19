@@ -39,6 +39,7 @@ const JoinMafiaRoom = () => {
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
           video={true}
           audio={true}
+          connect={true}
           onDisconnected={disConnected}
         >
           <MafiaPlayRooms />

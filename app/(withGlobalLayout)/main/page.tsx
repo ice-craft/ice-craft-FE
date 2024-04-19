@@ -144,7 +144,7 @@ const Mainpage = () => {
             <li className={S.mafiaImage}>
               <div className={S.gameTitle}>
                 <h2>
-                  <Image src={MafiaGameTitle} alt="mafia game title" />
+                  <Image src={MafiaGameTitle} alt="mafia game title" priority />
                 </h2>
                 <div className={S.gameButton}>
                   <button onClick={gameStartHandler}>Game Start</button>
