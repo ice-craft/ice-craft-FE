@@ -16,11 +16,14 @@ import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import { useExitStore } from "@/store/exit-store";
+import CheckModal from "./CheckModal";
+import UserRoleModal from "./UserRoleModal";
+import GroupMafiaModal from "./GroupMafiaModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
@@ -28,6 +31,7 @@ const MafiaPlayRooms = () => {
   const { setIsExit } = useExitStore();
   const router = useRouter();
   const { setImageState } = useCamClickImageState();
+  const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -127,6 +131,31 @@ const MafiaPlayRooms = () => {
     socket.emit("exitRoom", roomId, userId);
   };
 
+  //NOTE - 조건에 따른 모달창 띄우기 (case: "chack" 라고 들어와야 랜더링 가능, 모달 이름들은 서버랑 이야기 해봐야함. ^^...)
+  useEffect(() => {
+    const showModal = (modalType: string) => {
+      switch (modalType) {
+        case "check":
+          setCurrentModal(<CheckModal />);
+          break;
+        case "globalModal":
+          setCurrentModal(<GroupMafiaModal />);
+          break;
+        case "userRole":
+          setCurrentModal(<UserRoleModal />);
+          break;
+        default:
+          setCurrentModal(null);
+      }
+    };
+
+    socket.on("showModal", showModal);
+
+    return () => {
+      socket.off("showModal", showModal);
+    };
+  }, []);
+
   return (
     <section className={S.section}>
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
@@ -135,6 +164,7 @@ const MafiaPlayRooms = () => {
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
+      {currentModal}
     </section>
   );
 };

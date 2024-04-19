@@ -2,7 +2,7 @@ import { useCountDown } from "@/hooks/useCountDown";
 import useModal from "@/hooks/useModal";
 import S from "@/style/modal/modal.module.css";
 
-const MafiaModal = () => {
+const GroupMafiaModal = () => {
   const initialSecond = 5;
   const count = useCountDown(initialSecond);
   const { modalState } = useModal();
@@ -30,4 +30,4 @@ const MafiaModal = () => {
   );
 };
 
-export default MafiaModal;
+export default GroupMafiaModal;
