@@ -9,7 +9,7 @@ import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import MafiaModal from "./MafiaModal";
+import MafiaModal from "./GroupModal";
 import { useParams } from "next/navigation";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
