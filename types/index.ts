@@ -96,3 +96,11 @@ export interface RenderCardsProps {
   role: Role;
   showAllCards: boolean;
 }
+
+export interface ModalData {
+  title: string;
+  message: string;
+  nickname: string;
+  timer: number;
+  isOpen: boolean;
+}
