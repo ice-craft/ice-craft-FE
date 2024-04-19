@@ -27,10 +27,11 @@ const MafiaModal = () => {
     <>
       <div className={S.modalWrap}>
         <div className={S.modal}>
-          {/* NOTE - 아침, 밤에 따라 모달창 css 변경할 예정이라 조건부 랜더링 미리 설정 */}
           <div>
             <h1>{modalTitle}</h1>
             <h2>{modalMessage}</h2>
+            <h3>{secondTimer}</h3>
+            <h4>{userNickName}</h4>
             <progress
               className={S.progress}
               value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
