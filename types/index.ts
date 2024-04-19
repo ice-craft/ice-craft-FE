@@ -113,3 +113,8 @@ export interface ParticipantReadyData {
 export interface RemoteReadyStates {
   [key: string]: boolean;
 }
+
+export interface ExitState {
+  isExit: boolean;
+  setIsExit: (newToggle: boolean) => void;
+}

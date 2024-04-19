@@ -1,29 +1,31 @@
+import CamCheck from "@/assets/images/cam_check.svg";
+import Citizen from "@/assets/images/cam_citizen.svg";
+import Doctor from "@/assets/images/cam_doctor.svg";
+import Mafia from "@/assets/images/cam_mafia.svg";
+import useConnectStore from "@/store/connect-store";
+import { useCamClickImageState } from "@/store/image-store";
 import useOverlayStore from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import LocalParticipant from "./LocalParticipant";
-import MafiaToolTip from "./MafiaToolTip";
-import RemoteParticipant from "./RemoteParticipant";
-import { useRouter } from "next/navigation";
-import { useCamClickImageState } from "@/store/image-store";
-import CamCheck from "@/assets/images/cam_check.svg";
-import Doctor from "@/assets/images/cam_doctor.svg";
-import Citizen from "@/assets/images/cam_citizen.svg";
-import Mafia from "@/assets/images/cam_mafia.svg";
-import { useEffect } from "react";
-import { socket } from "@/utils/socket/socket";
 import {
   allAudioSetting,
   allMediaSetting,
   specificUserAudioSetting,
   specificUserVideoSetting
 } from "@/utils/participantCamSettings/camSetting";
-import useConnectStore from "@/store/connect-store";
+import { socket } from "@/utils/socket/socket";
+import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
+import { Track } from "livekit-client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import LocalParticipant from "./LocalParticipant";
+import MafiaToolTip from "./MafiaToolTip";
+import RemoteParticipant from "./RemoteParticipant";
+import { useExitStore } from "@/store/exit-store";
 
 const MyVideoConference = () => {
   const { userId, roomId } = useConnectStore();
   const { toggleOverlay } = useOverlayStore();
+  const { setIsExit } = useExitStore();
   const router = useRouter();
   const { setImageState } = useCamClickImageState();
 
@@ -123,7 +125,6 @@ const MyVideoConference = () => {
 
   const leaveRoom = () => {
     socket.emit("exitRoom", roomId, userId);
-    router.replace(`/main`);
   };
 
   return (

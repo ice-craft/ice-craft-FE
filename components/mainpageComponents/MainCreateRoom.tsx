@@ -4,10 +4,11 @@ import useConnectStore from "@/store/connect-store";
 import { useModalStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
+import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -24,10 +25,12 @@ const MainCreateRoom = () => {
       roomId.current = room_id;
       socket.emit("joinRoom", userId, room_id, nickname);
     });
+
     socket.on("createRoomError", (message) => {
-      console.log(message);
+      toast.error(message);
       isGoInClick.current = false;
     });
+
     socket.on("joinRoom", () => {
       if (roomId.current) {
         setRoomId(roomId.current);
@@ -37,7 +40,7 @@ const MainCreateRoom = () => {
     });
 
     socket.on("joinRoomError", (message) => {
-      alert(message);
+      toast.error(message);
       isGoInClick.current = false;
     });
 
@@ -60,11 +63,9 @@ const MainCreateRoom = () => {
       e.preventDefault();
 
       const isLogin = await checkUserLogIn();
-      const userInfo = await getUserInfo();
 
-      if (!isLogin || !userInfo) {
-        alert("로그인 후 입장 가능합니다.");
-        router.push("/login");
+      if (!isLogin) {
+        toast.info("로그인 후 입장가능합니다.");
         return;
       }
 
@@ -75,7 +76,7 @@ const MainCreateRoom = () => {
       if (!isGoInClick.current) {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
-        //NOTE - 게임 카테고리 설정, 방 제목, 인원수 초기화
+        //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
         setSelectedGame("");
         setRoomTitle("");
         setNumberOfPlayers(5);
