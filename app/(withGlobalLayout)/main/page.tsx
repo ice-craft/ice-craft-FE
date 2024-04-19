@@ -10,7 +10,7 @@ import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 
@@ -32,8 +32,8 @@ const Mainpage = () => {
     });
 
     socket.on("joinRoomError", (message) => {
-      alert(message);
       isGoInClick.current = false;
+      alert(message);
       router.refresh();
     });
 
@@ -44,12 +44,13 @@ const Mainpage = () => {
 
     socket.on("fastJoinRoomError", (message) => {
       isGoInClick.current = false;
-      console.log(message);
+      alert(message);
     });
 
     const checkUserInfo = async () => {
       const userInfo = await getUserInfo();
 
+      // 세션 스토리지에 저장
       if (userInfo) {
         setUserId(userInfo.id);
         setUserNickname(userInfo.user_metadata.nickname);
@@ -61,6 +62,10 @@ const Mainpage = () => {
     return () => {
       socket.off("joinRoom");
       socket.off("joinRoomError");
+      socket.off("fastJoinRoom");
+      socket.off("fastJoinRoomError");
+      socket.off("enterMafia");
+      socket.off("enterMafiaError");
     };
   }, []);
 
