@@ -1,6 +1,6 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import GoTopButtonIcon from "@/assets/images/arrow_top.svg";
 
 export default function GoTopButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,5 +27,13 @@ export default function GoTopButton() {
     });
   };
 
-  return <div></div>;
+  return (
+    <div>
+      {isVisible && (
+        <button className="go-top-button" onClick={scrollToTop}>
+          <Image src={GoTopButtonIcon} alt="Scroll to Top" />
+        </button>
+      )}
+    </div>
+  );
 }
