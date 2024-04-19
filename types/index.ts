@@ -49,8 +49,8 @@ export interface CountState {
 }
 
 export interface ImageState {
-  imageState: StaticImageData;
-  setImageState: (newImage: StaticImageData) => void;
+  imageState: StaticImageData | null;
+  setImageState: (newImage: StaticImageData | null) => void;
 }
 
 export interface ActiveNameState {
