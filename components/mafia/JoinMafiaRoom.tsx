@@ -11,12 +11,8 @@ import { useExitStore } from "@/store/exit-store";
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
   const { roomId } = useConnectStore();
-  const { isExit, setIsExit } = useExitStore();
+  const { setIsExit } = useExitStore();
   const router = useRouter();
-
-  useEffect(() => {
-    return setIsExit(false);
-  }, [isExit]);
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId);
 
@@ -28,12 +24,17 @@ const JoinMafiaRoom = () => {
     console.log("토큰 발급중 에러 발생");
   }
 
+  //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러 ==> useEffect와 비슷하다.
   const disConnected = () => {
     setIsExit(true);
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       router.replace("/main");
-    }, 3000); // 5초 후에 로딩을 완료합니다.
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
   };
 
   return (

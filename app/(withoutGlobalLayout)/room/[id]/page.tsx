@@ -3,9 +3,14 @@
 import JoinMafiaRoom from "@/components/mafia/JoinMafiaRoom";
 import Loading from "@/components/mafia/Loading";
 import { useExitStore } from "@/store/exit-store";
+import { useEffect } from "react";
 
 const RoomPage = () => {
-  const { isExit } = useExitStore();
+  const { isExit, setIsExit } = useExitStore();
+
+  useEffect(() => {
+    setIsExit(false);
+  }, []);
 
   return <>{isExit ? <Loading /> : <JoinMafiaRoom />}</>;
 };
