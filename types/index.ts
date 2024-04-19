@@ -96,3 +96,8 @@ export interface RenderCardsProps {
   role: Role;
   showAllCards: boolean;
 }
+
+export interface ExitState {
+  isExit: boolean;
+  setIsExit: (newToggle: boolean) => void;
+}

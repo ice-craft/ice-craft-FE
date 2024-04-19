@@ -26,6 +26,8 @@ const Mainpage = () => {
     //NOTE -  서버와 연결
     socket.connect();
 
+    socket.emit("enterMafia", 0, 20);
+
     socket.on("enterMafia", (rooms) => {
       setRooms(rooms);
     });
