@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "@/utils/socket/socket";
+import { setStatus } from "@/utils/supabase/statusAPI";
 
 const MafiaPlay = () => {
   const [eventName, setEventName] = useState("");
@@ -103,8 +104,8 @@ const MafiaPlay = () => {
       console.log(message);
     });
 
-    socket.on("createRoom", (room_id) => {
-      console.log(room_id);
+    socket.on("createRoom", (room_info) => {
+      console.log(room_info);
     });
 
     socket.on("createRoomError", (message) => {
@@ -204,6 +205,13 @@ const MafiaPlay = () => {
       setTimeout(() => {
         console.log(message);
       }, time);
+    });
+
+    socket.on("r0NightStart", (title, message, timer, nickname, yesOrNo) => {
+      setTimeout(() => {
+        console.log(`${timer}뒤에 ${message} 모달 창 띄움`);
+      }, timer);
+      setStatus(roomId.current, { r0NightStart: true });
     });
   }, []);
 
