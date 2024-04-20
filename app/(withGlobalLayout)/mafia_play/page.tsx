@@ -194,9 +194,9 @@ const MafiaPlay = () => {
       console.log(voteResult);
     });
 
-    socket.on("showVoteToResult", (voteResult) => {
-      console.log(voteResult);
-    });
+    // socket.on("showVoteToResult", (voteResult) => {
+    //   console.log(voteResult);
+    // });
 
     socket.on("connect_error", (error) => {
       if (socket.active) {
@@ -341,6 +341,26 @@ const MafiaPlay = () => {
       await setStatus(userId.current, { r1VoteToMafia: true });
       socket.emit("r1VoteToMafia", roomId.current, votedPlayer);
       console.log("r1VoteToMafia 송신");
+    });
+    socket.on("r1ShowVoteToResult", async (voteBoard) => {
+      console.log("r1ShowVoteToResult 수신");
+
+      console.log("투표 결과", voteBoard);
+
+      await setStatus(userId.current, { r1VoteToMafia: true });
+      socket.emit("r1ShowVoteToResult", roomId.current);
+      console.log("r1ShowVoteToResult 송신");
+    });
+
+    socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r1ShowMostVotedPlayer 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r1ShowMostVotedPlayer: true });
+      socket.emit("r1ShowMostVotedPlayer", roomId.current);
+      console.log("r1ShowMostVotedPlayer 송신");
     });
   }, []);
 
