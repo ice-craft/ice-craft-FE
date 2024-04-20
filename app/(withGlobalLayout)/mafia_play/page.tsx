@@ -44,8 +44,8 @@ const MafiaPlay = () => {
           socket.emit(eventName, roomId.current, userId.current);
           break;
         case "setReady":
-          console.log(eventName, userId.current, true, roomId.current, totalUserCount.current);
-          socket.emit(eventName, userId.current, true, roomId.current, totalUserCount.current);
+          console.log(eventName, userId.current, true, roomId.current);
+          socket.emit(eventName, userId.current, true, roomId.current);
           break;
         case "voteTo":
           console.log(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
@@ -209,9 +209,10 @@ const MafiaPlay = () => {
 
     socket.on("r0NightStart", (title, message, timer, nickname, yesOrNo) => {
       setTimeout(() => {
-        console.log(`${timer}뒤에 ${message} 모달 창 띄움`);
+        console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
       }, timer);
       setStatus(roomId.current, { r0NightStart: true });
+      socket.emit("r0NightStart", roomId.current);
     });
   }, []);
 
