@@ -94,110 +94,117 @@ const MafiaPlayRooms = () => {
     };
   }, []);
 
-  const gameStart = () => {
+  //NOTE - 게임 시작
+  const socketGameStart = () => {
     setIsOverlay(false); //클릭 이벤트 비활성화
     clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
   };
 
-  const morning = () => {
+  //NOTE - 아침
+  const socketMorning = () => {
     setIsOverlay(false); //클릭 이벤트 비활성화
     clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
   };
 
-  const voteTime = () => {
+  //NOTE - 투표 시간
+  const socketVoteTime = () => {
     setIsOverlay(true);
   };
 
-  const night = () => {
+  //NOTE - 밤
+  const socketNight = () => {
     setIsOverlay(false);
     clearActiveParticipant();
   };
 
+  //NOTE - 마피아 시간
   const mafiaTime = () => {
-    //NOTE - 마피아 유저에게만 클릭 이벤트 활성화
+    // 마피아 유저에게만 클릭 이벤트 활성화
     if (localUserId == "getUserId") {
       setIsRemoteOverlay(true);
       setImageState(CamCheck);
     }
   };
 
-  const mafiaEndTime = () => {
-    setIsOverlay(false);
-    clearActiveParticipant();
-  };
-
+  //NOTE - 의사 시간
   const doctorTime = () => {
     //NOTE - 의사 유저에게만 클릭 이벤트 활성화
-    if (localUserId == "1111") {
+    if (localUserId == "getUserId") {
       setIsRemoteOverlay(true);
       setImageState(CamCheck);
     }
   };
 
-  const doctorEndTime = () => {
-    setIsOverlay(false);
-    clearActiveParticipant();
-  };
-
+  //NOTE - 경찰 시간
   const policeTime = () => {
     //NOTE - 경찰 유저에게만 클릭 이벤트 활성화
-    if (localUserId == "1111") {
+    if (localUserId == "getUserId") {
       setIsRemoteOverlay(true);
     }
   };
 
-  const policeEndTime = () => {
-    setIsOverlay(false);
-    clearActiveParticipant();
-  };
-
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
     event.stopPropagation();
-    toggleOverlay(participant.sid, index);
-    console.log("checkClickHandle", participant);
+    toggleOverlay(participant.sid, index); // 캠 클릭시 이미지 띄우기
 
     const exampleSocket = "마피아시간";
-    const exampleServerJob: string = "시민";
+    const exampleServerUserinfo: string = "시민";
 
+    //NOTE - 투표 시간 종료
+    if (exampleSocket.includes("voteEndTime")) {
+      // 마지막으로 클릭 된 user의 정보를 server에 전달
+      if (participant.metadata) {
+        console.log("userId", participant.metadata);
+        setIsOverlay(false);
+        clearActiveParticipant();
+      }
+    }
+
+    //NOTE - 마피아 시간 종료
     if (exampleSocket.includes("mafiaEndTime")) {
       // 마지막으로 클릭 된 user의 정보를 server에 전달
-      if (participant.identity == "1111") {
-        console.log(userId);
+      if (participant.metadata) {
+        console.log("userId", participant.metadata);
         setIsOverlay(false);
         clearActiveParticipant();
       }
     }
 
+    //NOTE - 의사 시간 종료
     if (exampleSocket.includes("doctorEndTime")) {
       //NOTE - 의사가 선택한 유저의 정보
-      if (participant.identity == "1111") {
-        console.log(userId);
+      if (participant.metadata) {
+        console.log("userId", participant.metadata);
         setIsOverlay(false);
         clearActiveParticipant();
       }
     }
 
-    if (exampleSocket.includes("policeTime")) {
+    //NOTE - 경찰 시간
+    const policeTime = () => {
       // 클릭한 유저의 정보를 서버에 전달
-      // 현재 클라이언트 측에서 전달할 수 있는 내용은 nickName
-      // 방에 접속한 user의 정보를 가져와 닉네임과 비교하여 userId값을 서버에 전달
-      // participant.identity == users[0].nickname ==> users[0].userId
-      if (participant.identity == nickname) {
-        console.log(participant.metadata);
-      }
+      const postData = participant.metadata;
 
       // 서버에서 전송 받은 유저의 정보(직업)
-      if (exampleServerJob == "마피아") {
+      if (exampleServerUserinfo == postData) {
         setImageState(Mafia);
       }
 
-      if (exampleServerJob == "의사") {
+      if (exampleServerUserinfo == postData) {
         setImageState(Doctor);
       }
 
-      if (exampleServerJob == "시민") {
+      if (exampleServerUserinfo == postData) {
         setImageState(Citizen);
       }
+      //경찰인 경우 클릭 이벤트는 1번으로 제한
+      setIsOverlay(false);
+    };
+
+    //NOTE - 경찰 시간 종료
+    if (exampleSocket.includes("policeTime")) {
+      //시간 종료 후 이미지 초기화
+      clearActiveParticipant();
     }
   };
 
