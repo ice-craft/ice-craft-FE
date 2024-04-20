@@ -1,5 +1,6 @@
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
+import { Participant } from "livekit-client";
 import { StaticImageData } from "next/image";
 
 export interface MafiaRoom {
@@ -15,18 +16,20 @@ export interface ModalState {
 
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
-  checkClickHandle: (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => void;
+  checkClickHandle: (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => void;
 }
 
 export interface OverlayState {
   showOverlay: string | null;
   activeParticipantSid: string | null;
   activeParticipantIndex: number | null;
-  isOverlay: boolean;
+  isLocalOverlay: boolean;
+  isRemoteOverlay: boolean;
   clearActiveParticipant: () => void;
   setActiveParticipant: (sid: string | null, index: number | null) => void;
   toggleOverlay: (participantSid: string, index: number) => void;
   setIsOverlay: (newIsOverlay: boolean) => void;
+  setIsRemoteOverlay: (newIsOverlay: boolean) => void;
 }
 
 export type Role = "citizens" | "mafia" | "doctor" | "police" | null;

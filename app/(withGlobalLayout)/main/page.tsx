@@ -6,7 +6,7 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo, logOut } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -15,11 +15,14 @@ import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoo
 import { useModalStore } from "../../../store/toggle-store";
 import GoTopButton from "@/utils/GoTopButton";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
+import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
+import Link from "next/link";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState([] as Tables<"room_table">[]);
+  const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const router = useRouter();
@@ -138,6 +141,18 @@ const Mainpage = () => {
     }
   };
 
+  const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!search.trim()) return;
+
+    try {
+      const rooms: Tables<"room_table">[] = await getRoomsWithKeyword(search);
+      setRooms(rooms);
+    } catch (error) {
+      toast.error("검색 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -150,7 +165,9 @@ const Mainpage = () => {
                 </h2>
                 <div className={S.gameButton}>
                   <button onClick={gameStartHandler}>Game Start</button>
-                  <button className={S.mafiaInfo}>More Info</button>
+                  <Link href="/mafiainfo" className={S.mafiaInfo}>
+                    More Info
+                  </Link>
                 </div>
               </div>
             </li>
@@ -162,10 +179,18 @@ const Mainpage = () => {
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
-              <div className={S.roomSearch}>
-                <label htmlFor="RoomSearch">방 검색하기</label>
-                <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
-              </div>
+              <form onSubmit={searchHandler}>
+                <div className={S.roomSearch}>
+                  <label htmlFor="RoomSearch">방 검색하기</label>
+                  <input
+                    type="text"
+                    id="RoomSearch"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="방 이름을 입력해 주세요."
+                  />
+                </div>
+              </form>
               <div className={S.gameGoButton}>
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장

@@ -14,22 +14,18 @@ import {
 } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import { useRouter } from "next/navigation";
+import { Participant, Track } from "livekit-client";
 import { useEffect, useState } from "react";
+import CheckModal from "./CheckModal";
+import GroupMafiaModal from "./GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useExitStore } from "@/store/exit-store";
-import CheckModal from "./CheckModal";
 import UserRoleModal from "./UserRoleModal";
-import GroupMafiaModal from "./GroupMafiaModal";
 
 const MafiaPlayRooms = () => {
-  const { userId, roomId } = useConnectStore();
-  const { toggleOverlay } = useOverlayStore();
-  const { setIsExit } = useExitStore();
-  const router = useRouter();
+  const { userId, roomId, nickname } = useConnectStore();
+  const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
 
@@ -46,7 +42,7 @@ const MafiaPlayRooms = () => {
 
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
-  const localIdentity = localParticipant.localParticipant.identity;
+  const localUserId = localParticipant.localParticipant.metadata;
   /*
     //훅 정리
     const { localParticipant } = useLocalParticipant(); //로컬 사용자
@@ -74,7 +70,7 @@ const MafiaPlayRooms = () => {
       //NOTE -  1) 특정 유저의 track을 받아온다.
       const specificUser = useParticipantTracks(sources, userId);
       //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
+      if (localUserId === userId) {
         //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
         specificUserVideoSetting(specificUser, isOn);
       }
@@ -85,7 +81,7 @@ const MafiaPlayRooms = () => {
       //NOTE 1) 특정 유저의 track을 받아온다.
       const specificUser = useParticipantTracks(sources, userId);
       //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
+      if (localUserId === userId) {
         //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
         specificUserAudioSetting(specificUser, isOn);
       }
@@ -98,40 +94,125 @@ const MafiaPlayRooms = () => {
     };
   }, []);
 
-  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => {
-    event.stopPropagation();
+  //NOTE - 게임 시작
+  const socketGameStart = () => {
+    setIsOverlay(false); //클릭 이벤트 비활성화
+    clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
+  };
 
-    const exampleServerData: string = "마피아시간";
-    const exampleJob: string = "시민";
+  //NOTE - 아침
+  const socketMorning = () => {
+    setIsOverlay(false); //클릭 이벤트 비활성화
+    clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
+  };
 
-    // 해당 시간(투표 시간 및 저녁시간의 특정 직업의 능력)에 캠 클릭 시 user의 정보(id 및 nickname)을 서버에 전달 ==> 서버에서 직업 및 특정 값을 알려준다.
-    // 클라이언트에서는 정답에 대한 이미지를 띄어준다.
+  //NOTE - 투표 시간
+  const socketVoteTime = () => {
+    setIsOverlay(true);
+  };
 
-    // 이미지 조건부
-    //마피아 시간 or 의사시간 or 투표시간
-    if (exampleServerData === "마피아시간" || "의사시간" || "투표시간") {
+  //NOTE - 밤
+  const socketNight = () => {
+    setIsOverlay(false);
+    clearActiveParticipant();
+  };
+
+  //NOTE - 마피아 시간
+  const mafiaTime = () => {
+    // 마피아 유저에게만 클릭 이벤트 활성화
+    if (localUserId == "getUserId") {
+      setIsRemoteOverlay(true);
       setImageState(CamCheck);
     }
+  };
 
-    // 경찰 시간
-    if (exampleServerData === "경찰") {
-      if (exampleJob == "의사") {
-        setImageState(Doctor);
-      } else if (exampleJob == "마피아") {
-        setImageState(Mafia);
-      } else if (exampleJob == "시민") {
-        setImageState(Citizen);
+  //NOTE - 의사 시간
+  const doctorTime = () => {
+    //NOTE - 의사 유저에게만 클릭 이벤트 활성화
+    if (localUserId == "getUserId") {
+      setIsRemoteOverlay(true);
+      setImageState(CamCheck);
+    }
+  };
+
+  //NOTE - 경찰 시간
+  const policeTime = () => {
+    //NOTE - 경찰 유저에게만 클릭 이벤트 활성화
+    if (localUserId == "getUserId") {
+      setIsRemoteOverlay(true);
+    }
+  };
+
+  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
+    event.stopPropagation();
+    toggleOverlay(participant.sid, index); // 캠 클릭시 이미지 띄우기
+
+    const exampleSocket = "마피아시간";
+    const exampleServerUserinfo: string = "시민";
+
+    //NOTE - 투표 시간 종료
+    if (exampleSocket.includes("voteEndTime")) {
+      // 마지막으로 클릭 된 user의 정보를 server에 전달
+      if (participant.metadata) {
+        console.log("userId", participant.metadata);
+        setIsOverlay(false);
+        clearActiveParticipant();
       }
     }
 
-    toggleOverlay(participantSid, index);
+    //NOTE - 마피아 시간 종료
+    if (exampleSocket.includes("mafiaEndTime")) {
+      // 마지막으로 클릭 된 user의 정보를 server에 전달
+      if (participant.metadata) {
+        console.log("userId", participant.metadata);
+        setIsOverlay(false);
+        clearActiveParticipant();
+      }
+    }
+
+    //NOTE - 의사 시간 종료
+    if (exampleSocket.includes("doctorEndTime")) {
+      //NOTE - 의사가 선택한 유저의 정보
+      if (participant.metadata) {
+        console.log("userId", participant.metadata);
+        setIsOverlay(false);
+        clearActiveParticipant();
+      }
+    }
+
+    //NOTE - 경찰 시간
+    const policeTime = () => {
+      // 클릭한 유저의 정보를 서버에 전달
+      const postData = participant.metadata;
+
+      // 서버에서 전송 받은 유저의 정보(직업)
+      if (exampleServerUserinfo == postData) {
+        setImageState(Mafia);
+      }
+
+      if (exampleServerUserinfo == postData) {
+        setImageState(Doctor);
+      }
+
+      if (exampleServerUserinfo == postData) {
+        setImageState(Citizen);
+      }
+      //경찰인 경우 클릭 이벤트는 1번으로 제한
+      setIsOverlay(false);
+    };
+
+    //NOTE - 경찰 시간 종료
+    if (exampleSocket.includes("policeTime")) {
+      //시간 종료 후 이미지 초기화
+      clearActiveParticipant();
+    }
   };
 
   const leaveRoom = () => {
     socket.emit("exitRoom", roomId, userId);
   };
 
-  //NOTE - 조건에 따른 모달창 띄우기 (case: "chack" 라고 들어와야 랜더링 가능, 모달 이름들은 서버랑 이야기 해봐야함. ^^...)
+  //NOTE - 조건에 따른 모달창 띄우기 (case: "check" 라고 들어와야 랜더링 가능, 모달 이름들은 서버랑 이야기 해봐야함. ^^...)
   useEffect(() => {
     const showModal = (modalType: string) => {
       switch (modalType) {

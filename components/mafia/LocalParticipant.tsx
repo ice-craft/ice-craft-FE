@@ -12,7 +12,7 @@ import GroupMafiaModal from "./GroupMafiaModal";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid, isOverlay } = useOverlayStore();
+  const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
   const { roomId, userId } = useConnectStore();
   const { isModal, setIsModal } = useModalStore();
   const [isReady, setIsReady] = useState(false);
@@ -50,9 +50,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         <div
           key={`${track.participant.sid}-${index}`}
           className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={isOverlay ? (e) => checkClickHandle(e, track.participant.sid, index) : undefined}
+          onClick={isLocalOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
         >
-          <ParticipantTile trackRef={track} className={isOverlay ? S.localCam : undefined} />
+          <ParticipantTile trackRef={track} className={isLocalOverlay ? S.localCam : undefined} />
 
           <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}>
             <Image src={CamCheck} alt={track.participant.sid} />
