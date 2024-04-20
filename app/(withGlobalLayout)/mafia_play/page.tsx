@@ -224,8 +224,10 @@ const MafiaPlay = () => {
       console.log("r0NightStart 송신");
     });
 
-    socket.on("r0TurnAllUserCameraMikeOff", async () => {
+    socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
       console.log("r0TurnAllUserCameraMikeOff 수신");
+
+      console.log(`카메라 마이크 끌 플레이어 목록 : ${players}`);
 
       await setStatus(userId.current, { r0TurnAllUserCameraMikeOff: true });
       socket.emit("r0TurnAllUserCameraMikeOff", roomId.current);
@@ -260,10 +262,12 @@ const MafiaPlay = () => {
       console.log("r0ShowMafiaUserEachOther 송신");
     });
 
-    socket.on("r0TurnMafiaUserCameraOn", async () => {
+    socket.on("r0TurnMafiaUserCameraOn", async (players) => {
       console.log("r0TurnMafiaUserCameraOn 수신");
 
       await setStatus(userId.current, { r0TurnMafiaUserCameraOn: true });
+
+      console.log(`카메라 켤 마피아 목록 : ${players}`);
 
       waitForMs(500);
 
@@ -271,12 +275,37 @@ const MafiaPlay = () => {
       console.log("r0TurnMafiaUserCameraOn 송신");
     });
 
-    socket.on("r0TurnMafiaUserCameraOff", async () => {
+    socket.on("r0TurnMafiaUserCameraOff", async (players) => {
       console.log("r0TurnMafiaUserCameraOff 수신");
 
       await setStatus(userId.current, { r0TurnMafiaUserCameraOff: true });
+
+      console.log(`카메라 끌 마피아 목록 : ${players}`);
+
       socket.emit("r0TurnMafiaUserCameraOff", roomId.current);
       console.log("r0TurnMafiaUserCameraOff 송신");
+    });
+
+    socket.on("r1MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r1MorningStart 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r1MorningStart: true });
+      socket.emit("r1MorningStart", roomId.current);
+      console.log("r1MorningStart 송신");
+    });
+
+    socket.on("r1TurnAllUserCameraMikeOn", async (players) => {
+      console.log("r1TurnAllUserCameraMikeOn 수신");
+
+      await setStatus(userId.current, { r1TurnAllUserCameraMikeOn: true });
+
+      console.log(`카메라와 마이크를 켤 플레이어 목록 : ${players}`);
+
+      socket.emit("r1TurnAllUserCameraMikeOn", roomId.current);
+      console.log("r1TurnAllUserCameraMikeOn 송신");
     });
   }, []);
 
