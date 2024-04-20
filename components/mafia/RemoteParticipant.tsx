@@ -36,7 +36,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
         <div
           key={`${track.participant.sid}-${index}`}
           className={`${S.remoteParticipantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={isRemoteOverlay ? (e) => checkClickHandle(e, track.participant.sid, index) : undefined}
+          onClick={isRemoteOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
         >
           <ParticipantTile trackRef={track} className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : ""}`} />
           <div className={`${S.remoteOverlay} ${remoteReadyStates[track.participant.sid] ? S.active : ""}`}>
