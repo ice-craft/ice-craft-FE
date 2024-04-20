@@ -219,7 +219,7 @@ const MafiaPlay = () => {
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
-      await setStatus(roomId.current, { r0NightStart: true });
+      await setStatus(userId.current, { r0NightStart: true });
       socket.emit("r0NightStart", roomId.current);
       console.log("r0NightStart 송신");
     });
@@ -227,9 +227,19 @@ const MafiaPlay = () => {
     socket.on("r0TurnAllUserCameraMikeOff", async () => {
       console.log("r0TurnAllUserCameraMikeOff 수신");
 
-      await setStatus(roomId.current, { r0TurnAllUserCameraMikeOff: true });
+      await setStatus(userId.current, { r0TurnAllUserCameraMikeOff: true });
       socket.emit("r0TurnAllUserCameraMikeOff", roomId.current);
       console.log("r0TurnAllUserCameraMikeOff 송신");
+    });
+
+    socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r0SetAllUserRole 수신");
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r0SetAllUserRole: true });
+      socket.emit("r0SetAllUserRole", roomId.current);
+      console.log("r0SetAllUserRole 송신");
     });
   }, []);
 
