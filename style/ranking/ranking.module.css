@@ -56,6 +56,7 @@
   border: 1px solid #e9e9e9;
   color: #7a7986;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .userRankingTitle li {
@@ -161,4 +162,25 @@
   font-weight: var(--font-bold);
   color: var(--white);
   border-radius: 50%;
+}
+
+/*---------------- Responsive --------------*/
+@media (max-width: 720px) {
+  .userRanking {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+  }
+
+  .userRanking form {
+    width: 100%;
+  }
+
+  .userRanking input[type="text"] {
+    width: 100%;
+  }
+
+  .pager {
+    margin: 0 24px;
+  }
 }
