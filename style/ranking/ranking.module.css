@@ -16,15 +16,18 @@
   font-weight: var(--font-bold);
 }
 
+.userRanking form {
+  position: relative;
+}
+
 .userRanking input[type="text"] {
-  width: 800px;
   padding: 10px 40px 10px 25px;
   border: 1px solid #d3d3d3;
   border-radius: var(--border-radius);
   width: 357px;
 }
 
-.userRanking input[type="text"]:after {
+.userRanking form:after {
   content: "";
   position: absolute;
   right: 15px;
