@@ -153,10 +153,6 @@ const Mainpage = () => {
     }
   };
 
-  const exampleLogOut = async () => {
-    await logOut();
-  };
-
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -182,7 +178,6 @@ const Mainpage = () => {
         <section className={S.roomSection}>
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
-            <button onClick={exampleLogOut}>임시 로그아웃</button>
             <div className={S.roomSearchAndButton}>
               <form onSubmit={searchHandler}>
                 <div className={S.roomSearch}>
