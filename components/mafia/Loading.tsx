@@ -6,7 +6,7 @@ import S from "@/style/commons/commons.module.css";
 const Loading = () => {
   return (
     <section className={S.loading}>
-      <Image src={LoadingIcon} alt="Loading" />
+      <Image src={LoadingIcon} alt="Loading" className={S.loadingAnimation} />
     </section>
   );
 };
