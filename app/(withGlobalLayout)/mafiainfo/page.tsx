@@ -1,29 +1,43 @@
 import React from "react";
 import S from "@/style/mafiaInfo/mafiaInfo.module.css";
+import Image from "next/image";
+import MafiaInfoTitle from "@/assets/images/mafia_info_title.svg";
+import DoctorCard from "@/assets/images/Doctor_Card.avif";
+import PoliceCard from "@/assets/images/Police_Card.avif";
+import MafiaCard from "@/assets/images/Mafia_Card.avif";
+import CitizensCard from "@/assets/images/Citizens_Card.avif";
 
 const MafiaInfoPage = () => {
   return (
     <section className={S.infoWrapper}>
       <h2>마피아 룰</h2>
+      <Image src={MafiaInfoTitle} alt="마피아 정보" />
       <div>
         <h3>1. 기본 규칙</h3>
         <p>
           5~10명의 플레이어가 게임에 참여합니다. 플레이어는 시민 팀과 마피아 팀으로 나뉘어 특정 직업을 부여받습니다.
+          <br />
           게임은 낮과 밤으로 나뉘며, 게임 시작 시 마피아, 의사, 경찰 순서로 특정 플레이어에게 직업이 부여된 이후 낮이
           시작됩니다.
         </p>
+        <div className={S.rolesCardImage}>
+          <Image src={CitizensCard} alt="시민 이미지" />
+          <Image src={MafiaCard} alt="마피아 이미지" />
+          <Image src={PoliceCard} alt="경찰 이미지" />
+          <Image src={DoctorCard} alt="의사 이미지" />
+        </div>
       </div>
       <div>
-        <h3>낮(play time)</h3>
+        <h3>2. 낮(play time)</h3>
         <p>
-          토론시간(1분): 낮에는 1분 동안 모든 플레이어가 토론할 수 있습니다.
+          토론시간(1분) : 낮에는 1분 동안 모든 플레이어가 토론할 수 있습니다.
           <br />
-          능력 사용 결과 공개: 낮이 되면 마피아의 처형을 비롯한 몇몇 직업의 능력 사용 결과가 공개됩니다. (첫날 제외)
+          능력 사용 결과 공개 : 낮이 되면 마피아의 처형을 비롯한 몇몇 직업의 능력 사용 결과가 공개됩니다. (첫날 제외)
           <br />
-          처형 대상 결정: 마피아가 처형 대상을 고르지 못해 아무도 죽지 않은 경우 "조용하게 밤이 지나갔습니다." 라는
-          문구가 나옵니다.
+          처형 대상 결정 : 마피아가 처형 대상을 고르지 못해 아무도 죽지 않은 경우
+          <span>&nbsp;"조용하게 밤이 지나갔습니다."</span> 라는 문구가 나옵니다.
           <br />
-          자유 대화: 능력 사용 결과가 공개된 후 모든 플레이어가 대화할 수 있습니다.
+          자유 대화 : 능력 사용 결과가 공개된 후 모든 플레이어가 대화할 수 있습니다.
         </p>
       </div>
       <div>
