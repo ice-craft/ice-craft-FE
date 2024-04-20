@@ -259,6 +259,25 @@ const MafiaPlay = () => {
       socket.emit("r0ShowMafiaUserEachOther", roomId.current);
       console.log("r0ShowMafiaUserEachOther 송신");
     });
+
+    socket.on("r0TurnMafiaUserCameraOn", async () => {
+      console.log("r0TurnMafiaUserCameraOn 수신");
+
+      await setStatus(userId.current, { r0TurnMafiaUserCameraOn: true });
+
+      waitForMs(500);
+
+      socket.emit("r0TurnMafiaUserCameraOn", roomId.current);
+      console.log("r0TurnMafiaUserCameraOn 송신");
+    });
+
+    socket.on("r0TurnMafiaUserCameraOff", async () => {
+      console.log("r0TurnMafiaUserCameraOff 수신");
+
+      await setStatus(userId.current, { r0TurnMafiaUserCameraOff: true });
+      socket.emit("r0TurnMafiaUserCameraOff", roomId.current);
+      console.log("r0TurnMafiaUserCameraOff 송신");
+    });
   }, []);
 
   return (
