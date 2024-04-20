@@ -1,11 +1,16 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
 import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
+import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 
 const Rankingpage = () => {
+  const [ranking, setRanking] = useState([]);
+
   return (
     <section className={S.sectionWrapper}>
       <div className={S.userRanking}>
@@ -21,111 +26,63 @@ const Rankingpage = () => {
         <li>노래 맞추기</li>
         <li>총점</li>
       </ul>
-      <div>
-        <ul className={S.myRankingList}>
-          <li>
-            <div>
-              <h2>999</h2>
-              <h3>내 닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-        </ul>
-        <ul className={S.userRankingList}>
-          <li>
-            <div>
-              <h2>1</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>2</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>3</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h2>4</h2>
-              <h3>닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>-</p>
-              <p className={S.totalRanking}>2000</p>
-            </div>
-          </li>
-        </ul>
-      </div>
+      {ranking.length > 0 ? (
+        <div>
+          <ul className={S.myRankingList}>
+            <li>
+              <div>
+                <h2>999</h2>
+                <h3>내 닉네임</h3>
+                <p className={S.mafiaUserRanking}>1000</p>
+                <p className={S.songUserRanking}>-</p>
+                <p className={S.totalRanking}>2000</p>
+              </div>
+            </li>
+          </ul>
+          <ul className={S.userRankingList}>
+            <li>
+              <div>
+                <h2>1</h2>
+                <h3>닉네임</h3>
+                <p className={S.mafiaUserRanking}>1000</p>
+                <p className={S.songUserRanking}>-</p>
+                <p className={S.totalRanking}>2000</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h2>2</h2>
+                <h3>닉네임</h3>
+                <p className={S.mafiaUserRanking}>1000</p>
+                <p className={S.songUserRanking}>-</p>
+                <p className={S.totalRanking}>2000</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h2>3</h2>
+                <h3>닉네임</h3>
+                <p className={S.mafiaUserRanking}>1000</p>
+                <p className={S.songUserRanking}>-</p>
+                <p className={S.totalRanking}>2000</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h2>4</h2>
+                <h3>닉네임</h3>
+                <p className={S.mafiaUserRanking}>1000</p>
+                <p className={S.songUserRanking}>-</p>
+                <p className={S.totalRanking}>2000</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <div className={S.rankingEmpty}>
+          <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
+        </div>
+      )}
       <div className={S.pagerWrapper}>
         <button>
           <Image src={ArrowLeft} alt="left button" />
