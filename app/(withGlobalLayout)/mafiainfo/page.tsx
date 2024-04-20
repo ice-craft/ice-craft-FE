@@ -1,8 +1,9 @@
 import React from "react";
+import S from "@/style/mafiaInfo/mafiaInfo.module.css";
 
 const MafiaInfoPage = () => {
   return (
-    <section>
+    <section className={S.infoWrapper}>
       <h2>마피아 룰</h2>
       <div>
         <h3>1. 기본 규칙</h3>
