@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React from "react";
+import Loading from "@/assets/images/loading.svg";
 
 const Loading = () => {
   return (
-    <section>
+    <section className={}>
       <Image src={} alt="Loading" />
     </section>
   );
