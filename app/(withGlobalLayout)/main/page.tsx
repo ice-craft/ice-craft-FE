@@ -20,7 +20,7 @@ import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState([] as Tables<"room_table">[]);
   const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
   const roomId = useRef("");
@@ -140,17 +140,17 @@ const Mainpage = () => {
     }
   };
 
-  // const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   if (!search.trim()) return;
+  const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!search.trim()) return;
 
-  //   try {
-  //     const rooms: Tables<"room_table">[] = await getRoomsWithKeyword(search);
-  //     setRooms(rooms);
-  //   } catch (error) {
-  //     toast.error("검색 중 오류가 발생했습니다.");
-  //   }
-  // };
+    try {
+      const rooms: Tables<"room_table">[] = await getRoomsWithKeyword(search);
+      setRooms(rooms);
+    } catch (error) {
+      toast.error("검색 중 오류가 발생했습니다.");
+    }
+  };
 
   return (
     <main className={S.main}>
@@ -176,18 +176,18 @@ const Mainpage = () => {
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
-              {/* <form onSubmit={searchHandler}> */}
-              <div className={S.roomSearch}>
-                <label htmlFor="RoomSearch">방 검색하기</label>
-                <input
-                  type="text"
-                  id="RoomSearch"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="방 이름을 입력해 주세요."
-                />
-              </div>
-              {/* </form> */}
+              <form onSubmit={searchHandler}>
+                <div className={S.roomSearch}>
+                  <label htmlFor="RoomSearch">방 검색하기</label>
+                  <input
+                    type="text"
+                    id="RoomSearch"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="방 이름을 입력해 주세요."
+                  />
+                </div>
+              </form>
               <div className={S.gameGoButton}>
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장
