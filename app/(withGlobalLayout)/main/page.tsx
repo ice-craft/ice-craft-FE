@@ -162,10 +162,12 @@ const Mainpage = () => {
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
-              <div className={S.roomSearch}>
-                <label htmlFor="RoomSearch">방 검색하기</label>
-                <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
-              </div>
+              <form>
+                <div className={S.roomSearch}>
+                  <label htmlFor="RoomSearch">방 검색하기</label>
+                  <input type="text" id="RoomSearch" placeholder="방 이름을 입력해 주세요." />
+                </div>
+              </form>
               <div className={S.gameGoButton}>
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장
