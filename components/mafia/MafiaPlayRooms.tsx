@@ -46,7 +46,7 @@ const MafiaPlayRooms = () => {
 
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
-  const localIdentity = localParticipant.localParticipant.identity;
+  const localUserId = localParticipant.localParticipant.metadata;
   /*
     //훅 정리
     const { localParticipant } = useLocalParticipant(); //로컬 사용자
@@ -74,7 +74,7 @@ const MafiaPlayRooms = () => {
       //NOTE -  1) 특정 유저의 track을 받아온다.
       const specificUser = useParticipantTracks(sources, userId);
       //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
+      if (localUserId === userId) {
         //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
         specificUserVideoSetting(specificUser, isOn);
       }
@@ -85,7 +85,7 @@ const MafiaPlayRooms = () => {
       //NOTE 1) 특정 유저의 track을 받아온다.
       const specificUser = useParticipantTracks(sources, userId);
       //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
+      if (localUserId === userId) {
         //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
         specificUserAudioSetting(specificUser, isOn);
       }
