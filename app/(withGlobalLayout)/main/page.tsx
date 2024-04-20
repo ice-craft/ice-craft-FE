@@ -6,7 +6,7 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo, logOut } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -153,6 +153,10 @@ const Mainpage = () => {
     }
   };
 
+  const exampleLogOut = async () => {
+    await logOut();
+  };
+
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -178,6 +182,7 @@ const Mainpage = () => {
         <section className={S.roomSection}>
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
+            <button onClick={exampleLogOut}>임시 로그아웃</button>
             <div className={S.roomSearchAndButton}>
               <form onSubmit={searchHandler}>
                 <div className={S.roomSearch}>
