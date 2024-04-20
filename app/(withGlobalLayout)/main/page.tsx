@@ -16,6 +16,7 @@ import { useModalStore } from "../../../store/toggle-store";
 import GoTopButton from "@/utils/GoTopButton";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
+import Link from "next/link";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -164,7 +165,9 @@ const Mainpage = () => {
                 </h2>
                 <div className={S.gameButton}>
                   <button onClick={gameStartHandler}>Game Start</button>
-                  <button className={S.mafiaInfo}>More Info</button>
+                  <Link href="/mafiainfo" className={S.mafiaInfo}>
+                    More Info
+                  </Link>
                 </div>
               </div>
             </li>
