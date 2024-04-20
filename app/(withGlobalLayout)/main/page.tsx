@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
 import { useModalStore } from "../../../store/toggle-store";
 import GoTopButton from "@/utils/GoTopButton";
+import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -178,29 +179,34 @@ const Mainpage = () => {
               </div>
             </div>
           </div>
-          <ul className={S.roomList}>
-            {rooms.map((item: Tables<"room_table">) => (
-              <li key={item.room_id}>
-                <Image src={MafiaItem} alt="room image" />
-                <div className={S.roomTitle}>
-                  <h3>{item.title}</h3>
-                  <div className={S.gameName}>
-                    <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
-                    <p className={S.currentPeople}>
-                      <Image src={PeopleIcon} alt="people icon" />
-                      <span>
-                        {item.current_user_count}/{item.total_user_count}
-                      </span>
-                    </p>
+          {rooms.length > 0 ? (
+            <ul className={S.roomList}>
+              {rooms.map((item: Tables<"room_table">) => (
+                <li key={item.room_id}>
+                  <Image src={MafiaItem} alt="room image" />
+                  <div className={S.roomTitle}>
+                    <h3>{item.title}</h3>
+                    <div className={S.gameName}>
+                      <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
+                      <p className={S.currentPeople}>
+                        <Image src={PeopleIcon} alt="people icon" />
+                        <span>
+                          {item.current_user_count}/{item.total_user_count}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
-
-                <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
-                  입장하기
-                </button>
-              </li>
-            ))}
-          </ul>
+                  <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+                    입장하기
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className={S.roomVisitEmpty}>
+              <Image src={VisitEmptyImage} alt="visit empty" />
+            </div>
+          )}
         </section>
       </div>
       <GoTopButton />

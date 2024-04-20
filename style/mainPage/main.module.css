@@ -250,6 +250,14 @@
   justify-content: center;
 }
 
+/*---------------- RoomEmpty --------------*/
+.roomVisitEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+}
+
 /*---------------- Responsive --------------*/
 @media (max-width: 1920px) {
   .gameTitle {
