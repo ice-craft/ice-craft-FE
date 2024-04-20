@@ -373,6 +373,18 @@ const MafiaPlay = () => {
       socket.emit("r1LastTalk", roomId.current);
       console.log("r1LastTalk 송신");
     });
+
+    socket.on("r1VoteYesOrNo", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r1VoteYesOrNo 수신");
+      const voteYesOrNo = true;
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r1VoteYesOrNo: true });
+      socket.emit("r1VoteYesOrNo", roomId.current, userId.current, voteYesOrNo);
+      console.log("r1VoteYesOrNo 송신");
+    });
   }, []);
 
   return (
