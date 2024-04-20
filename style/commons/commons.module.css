@@ -61,3 +61,15 @@
 }
 
 /*-------------- Loading ----------------*/
+@keyframes colorSlide {
+  0% {
+    fill: url(#gradientInitial);
+  }
+  100% {
+    fill: url(#gradientFinal);
+  }
+}
+
+.loading {
+  animation: colorSlide 2s infinite linear;
+}
