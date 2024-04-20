@@ -1,0 +1,68 @@
+.infoWrapper {
+  padding: 50px 30px 108px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.infoWrapper h2 {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-bold);
+  margin-bottom: 20px;
+}
+
+.infoWrapper h3 {
+  font-weight: var(--font-bold);
+  margin: 50px 0 5px;
+}
+
+.infoWrapper span {
+  color: var(--primary-color);
+  font-weight: var(--font-bold);
+}
+
+.victory,
+.rolesCardImage,
+.mafiaTimeImage {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+.mafiaTimeImage > img,
+.rolesCardImage > img {
+  width: 200px;
+}
+
+.mafiaGameImage > img,
+.victory > img,
+.morningModal > img,
+.finalImage > img,
+.voteImage > img {
+  border: 1px solid var(--silver-gray);
+  border-radius: var(--border-radius);
+  margin-top: 20px;
+  width: 450px;
+}
+
+.choosingImage > img {
+  margin-top: 20px;
+  width: 500px;
+}
+
+.victory > img {
+  width: 300px;
+  margin-top: 0;
+}
+
+.mafiaGameImage > img {
+  width: 300px;
+}
+
+/*---------------- Responsive --------------*/
+@media (max-width: 900px) {
+  .victory,
+  .rolesCardImage,
+  .mafiaTimeImage {
+    flex-wrap: wrap;
+  }
+}
