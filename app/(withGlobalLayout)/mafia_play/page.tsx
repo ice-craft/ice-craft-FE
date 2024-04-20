@@ -10,8 +10,8 @@ const MafiaPlay = () => {
   const [display, setDisplay] = useState("");
 
   const nickname = useRef("user3"); //NOTE - 테스트용
-  const userId = useRef("33343912-e9c4-4658-987c-6715bebb1224"); //NOTE - 테스트용
-  const roomId = useRef("12dc28ad-4764-460f-9a54-58c31fdacd1f"); //NOTE - 테스트용
+  const userId = useRef("11111111-f1b4-46eb-a187-2da752eed29c"); //NOTE - 테스트용
+  const roomId = useRef("0ed9a099-f1b4-46eb-a187-2da752eed29c"); //NOTE - 테스트용
   const rowStart = useRef(0); //NOTE - 테스트용
   const rowEnd = useRef(10); //NOTE - 테스트용
   const title = useRef("방제목"); //NOTE - 테스트용
