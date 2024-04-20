@@ -329,6 +329,19 @@ const MafiaPlay = () => {
       socket.emit("r1MetingOver", roomId.current);
       console.log("r1MetingOver 송신");
     });
+
+    socket.on("r1VoteToMafia", async (title, message, timer, nickname, yesOrNo) => {
+      const votedPlayer = "55555555-f1b4-46eb-a187-2da752eed29c";
+      console.log("r1VoteToMafia 수신");
+      console.log("투표 진행");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r1VoteToMafia: true });
+      socket.emit("r1VoteToMafia", roomId.current, votedPlayer);
+      console.log("r1VoteToMafia 송신");
+    });
   }, []);
 
   return (
