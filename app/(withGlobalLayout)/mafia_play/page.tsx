@@ -86,6 +86,12 @@ const MafiaPlay = () => {
     setDisplay((prev) => `${prev}\n${line}`);
   };
 
+  const waitForMs = (ms: number) => {
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < ms) {}
+  };
+
   useEffect(() => {
     console.log("나의 닉네임", nickname.current);
     socket.on("connect", () => {
@@ -207,12 +213,23 @@ const MafiaPlay = () => {
       }, time);
     });
 
-    socket.on("r0NightStart", (title, message, timer, nickname, yesOrNo) => {
-      setTimeout(() => {
-        console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      }, timer);
-      setStatus(roomId.current, { r0NightStart: true });
+    socket.on("r0NightStart", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r0NightStart 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(roomId.current, { r0NightStart: true });
       socket.emit("r0NightStart", roomId.current);
+      console.log("r0NightStart 송신");
+    });
+
+    socket.on("r0TurnAllUserCameraMikeOff", async () => {
+      console.log("r0TurnAllUserCameraMikeOff 수신");
+
+      await setStatus(roomId.current, { r0TurnAllUserCameraMikeOff: true });
+      socket.emit("r0TurnAllUserCameraMikeOff", roomId.current);
+      console.log("r0TurnAllUserCameraMikeOff 송신");
     });
   }, []);
 
