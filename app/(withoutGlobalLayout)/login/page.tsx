@@ -1,17 +1,17 @@
 "use client";
 
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/authAPI";
-import S from "@/style/login/login.module.css";
-import Link from "next/link";
-import Image from "next/image";
-import KakaoLoginIcon from "@/assets/images/join_kakaotalk.svg";
-import GoogleLoginIcon from "@/assets/images/join_google.svg";
-import GithubLoginIcon from "@/assets/images/join_github.svg";
 import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
+import GithubLoginIcon from "@/assets/images/join_github.svg";
+import GoogleLoginIcon from "@/assets/images/join_google.svg";
+import KakaoLoginIcon from "@/assets/images/join_kakaotalk.svg";
 import Logo from "@/assets/images/logo.svg";
 import ErrorMessage from "@/components/logIn/ErrorMessage";
+import S from "@/style/login/login.module.css";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/authAPI";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");

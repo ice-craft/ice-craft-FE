@@ -5,8 +5,18 @@ import Image from "next/image";
 import Logo from "@/assets/images/logo.svg";
 import TextTyping from "@/utils/TextTyping";
 import IntroBg from "@/assets/images/intro_bg.avif";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
-const IntroPage = () => {
+const IntroPage = async () => {
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+  console.log("data", data);
+  if (data?.user) {
+    redirect("/main");
+  }
+
   return (
     <div className={S.introWrapper}>
       <header>
