@@ -5,13 +5,19 @@ import React from "react";
 import S from "@/style/commons/commons.module.css";
 import { logOut } from "@/utils/supabase/authAPI";
 import useConnectStore from "@/store/connect-store";
+import { toast } from "react-toastify";
 
 const Nav = () => {
   const { userId, nickname } = useConnectStore();
-  console.log(userId, nickname);
 
-  const logoutHandler = () => {
-    logOut();
+  const logoutHandler = async () => {
+    try {
+      await logOut();
+      useConnectStore.setState({ userId: "", nickname: "" });
+      sessionStorage.clear();
+    } catch (error) {
+      toast("로그아웃이 실패했습니다.");
+    }
   };
 
   return (
@@ -22,7 +28,7 @@ const Nav = () => {
         </li>
         {userId ? (
           <>
-            <li>{nickname} 님 환영합니다.</li>
+            <li>{nickname}님 환영합니다.</li>
             <li>
               <button onClick={logoutHandler}>로그아웃</button>
             </li>
