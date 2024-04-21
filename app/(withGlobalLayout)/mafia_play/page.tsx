@@ -425,9 +425,18 @@ const MafiaPlay = () => {
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
-      await setStatus(userId.current, { r1TurnAllUserCameraMikeOff: true });
+      await setStatus(userId.current, { r1DecideMafiaToKillPlayer: true });
       socket.emit("r1DecideMafiaToKillPlayer", roomId.current);
       console.log("r1DecideMafiaToKillPlayer 송신");
+    });
+
+    socket.on("r1TurnMafiaUserCameraOn", async (mafiaPlayers) => {
+      console.log("r1TurnMafiaUserCameraOn 수신");
+      console.log(`카메라를 켤 마피아 목록 : ${mafiaPlayers}`);
+
+      await setStatus(userId.current, { r1TurnMafiaUserCameraOn: true });
+      socket.emit("r1TurnMafiaUserCameraOn", roomId.current);
+      console.log("r1TurnMafiaUserCameraOn 송신");
     });
   }, []);
 
