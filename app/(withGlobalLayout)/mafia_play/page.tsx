@@ -385,6 +385,16 @@ const MafiaPlay = () => {
       socket.emit("r1VoteYesOrNo", roomId.current, userId.current, voteYesOrNo);
       console.log("r1VoteYesOrNo 송신");
     });
+
+    socket.on("r1ShowVoteYesOrNoResult", async (voteResult) => {
+      console.log("r1ShowVoteYesOrNoResult 수신");
+
+      console.log(voteResult);
+
+      await setStatus(userId.current, { r1ShowVoteYesOrNoResult: true });
+      socket.emit("r1ShowVoteYesOrNoResult", roomId.current);
+      console.log("r1ShowVoteYesOrNoResult 송신");
+    });
   }, []);
 
   return (
