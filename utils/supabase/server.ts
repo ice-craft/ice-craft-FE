@@ -8,7 +8,7 @@ export const createClient = () => {
   const cookieStore = cookies();
 
   //사용자의 인증 정보를 검증하고 세션을 관리(클라이언트 쿠키를 처리)하는 작업을 수행
-  //서버 구성 요소는 쿠키를 작성할 수 없으므로 만료된 인증 토큰을 새로 고치고 저장하려면 미들웨어가 필요하다.
+  //서버 구성 요소는 만료된 인증 토큰을 새로 고치고 저장하려면 미들웨어가 필요하다.
   return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     cookies: {
       get(name: string) {

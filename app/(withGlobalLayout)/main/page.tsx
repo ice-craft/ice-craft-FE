@@ -6,7 +6,7 @@ import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo, logOut } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";

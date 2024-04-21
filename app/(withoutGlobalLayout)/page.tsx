@@ -12,7 +12,7 @@ const IntroPage = async () => {
   const supabase = createClient();
 
   const { data } = await supabase.auth.getUser();
-  console.log("data", data);
+
   if (data?.user) {
     redirect("/main");
   }
