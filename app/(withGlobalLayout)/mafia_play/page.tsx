@@ -244,8 +244,10 @@ const MafiaPlay = () => {
       console.log("r0SetAllUserRole 송신");
     });
 
-    socket.on("r0ShowAllUserRole", async () => {
+    socket.on("r0ShowAllUserRole", async (role) => {
       console.log("r0ShowAllUserRole 수신");
+
+      console.log(`역할들 : ${role}`);
 
       await setStatus(userId.current, { r0ShowAllUserRole: true });
       socket.emit("r0ShowAllUserRole", roomId.current);
@@ -406,6 +408,16 @@ const MafiaPlay = () => {
       await setStatus(userId.current, { r1KillMostVotedPlayer: true });
       socket.emit("r1KillMostVotedPlayer", roomId.current);
       console.log("r1KillMostVotedPlayer 송신");
+    });
+
+    socket.on("r1TurnAllUserCameraMikeOff", async (allPlayers) => {
+      console.log("r1TurnAllUserCameraMikeOff 수신");
+
+      console.log(`${allPlayers}의 카메라 마이크 전부 끔`);
+
+      await setStatus(userId.current, { r1TurnAllUserCameraMikeOff: true });
+      socket.emit("r1TurnAllUserCameraMikeOff", roomId.current);
+      console.log("r1TurnAllUserCameraMikeOff 송신");
     });
   }, []);
 
