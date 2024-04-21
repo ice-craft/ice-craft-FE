@@ -2,11 +2,12 @@ import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
 import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import S from "@/style/livekit/livekit.module.css";
 import "@livekit/components-styles";
 import { useExitStore } from "@/store/exit-store";
+import useHandleBack from "@/utils/goBack/goBackHandler";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
