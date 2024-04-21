@@ -395,6 +395,18 @@ const MafiaPlay = () => {
       socket.emit("r1ShowVoteYesOrNoResult", roomId.current);
       console.log("r1ShowVoteYesOrNoResult 송신");
     });
+
+    socket.on("r1KillMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, killedPlayer, role) => {
+      console.log("r1KillMostVotedPlayer 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log(`${killedPlayer}가 ${role}인거 밝힘`);
+
+      await setStatus(userId.current, { r1KillMostVotedPlayer: true });
+      socket.emit("r1KillMostVotedPlayer", roomId.current);
+      console.log("r1KillMostVotedPlayer 송신");
+    });
   }, []);
 
   return (
