@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import S from "@/style/commons/commons.module.css";
+import { getUserNickname, logOut } from "@/utils/supabase/authAPI";
 
 const Nav = () => {
   return (
