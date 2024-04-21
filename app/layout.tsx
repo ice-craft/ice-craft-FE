@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={pretendard.className}>
       <body>
-        <ToastContainer />
+        <ToastContainer position="top-left" />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

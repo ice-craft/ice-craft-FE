@@ -15,8 +15,9 @@ const Nav = () => {
       await logOut();
       useConnectStore.setState({ userId: "", nickname: "" });
       sessionStorage.clear();
+      toast("로그아웃이 완료되었습니다.");
     } catch (error) {
-      toast("로그아웃이 실패했습니다.");
+      toast.error("로그아웃이 실패했습니다.");
     }
   };
 
