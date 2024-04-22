@@ -53,7 +53,7 @@ const Mainpage = () => {
     });
 
     socket.on("fastJoinRoom", (room_id) => {
-      router.push(`/room/${room_id}`);
+      router.push(`/room/${room_id}/`);
       setRoomId(room_id);
     });
 
