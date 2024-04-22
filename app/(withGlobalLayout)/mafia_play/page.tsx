@@ -484,6 +484,18 @@ const MafiaPlay = () => {
       socket.emit("r1DecidePoliceToDoubtPlayer", roomId.current, player);
       console.log("r1DecidePoliceToDoubtPlayer 송신");
     });
+
+    socket.on("r1ShowDoubtedPlayer", async (title, message, timer, nickname, yesOrNo, policePlayer) => {
+      console.log("r1ShowDoubtedPlayer 수신");
+      console.log("userId가 policePlayer면 의심하고 있는 유저가 마피아인지 알려줌");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r1ShowDoubtedPlayer: true });
+      socket.emit("r1ShowDoubtedPlayer", roomId.current);
+      console.log("r1ShowDoubtedPlayer 송신");
+    });
   }, []);
 
   return (
