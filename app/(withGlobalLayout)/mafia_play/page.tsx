@@ -546,6 +546,16 @@ const MafiaPlay = () => {
       socket.emit("r2AskPlayerToExit", roomId.current);
       console.log("r2AskPlayerToExit 송신");
     });
+
+    socket.on("r2WhoWIns", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r2WhoWIns 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      socket.emit("r2WhoWIns", roomId.current);
+      console.log("r2WhoWIns 송신");
+    });
   }, []);
 
   return (
