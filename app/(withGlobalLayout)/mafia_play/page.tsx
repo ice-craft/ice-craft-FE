@@ -504,6 +504,17 @@ const MafiaPlay = () => {
       socket.emit("r1KillPlayerByRole", roomId.current);
       console.log("r1KillPlayerByRole 송신");
     });
+
+    socket.on("r2MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r2MorningStart 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r1DecidePoliceToDoubtPlayer: true });
+      socket.emit("r2MorningStart", roomId.current);
+      console.log("r2MorningStart 송신");
+    });
   }, []);
 
   return (
