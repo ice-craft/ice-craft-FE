@@ -524,6 +524,17 @@ const MafiaPlay = () => {
       socket.emit("r2TurnAllUserCameraMikeOn", roomId.current);
       console.log("r2TurnAllUserCameraMikeOn 송신");
     });
+
+    socket.on("r2ShowIsPlayerLived", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r2ShowIsPlayerLived 수신");
+
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId.current, { r2ShowIsPlayerLived: true });
+      socket.emit("r2ShowIsPlayerLived", roomId.current);
+      console.log("r2ShowIsPlayerLived 송신");
+    });
   }, []);
 
   return (
