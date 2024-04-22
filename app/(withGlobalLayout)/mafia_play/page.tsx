@@ -515,6 +515,15 @@ const MafiaPlay = () => {
       socket.emit("r2MorningStart", roomId.current);
       console.log("r2MorningStart 송신");
     });
+
+    socket.on("r2TurnAllUserCameraMikeOn", async (allPlayers) => {
+      console.log("r2TurnAllUserCameraMikeOn 수신");
+      console.log(`카메라와 마이크를 켤 플레이어 목록 : ${allPlayers}`);
+
+      await setStatus(userId.current, { r2TurnAllUserCameraMikeOn: true });
+      socket.emit("r2TurnAllUserCameraMikeOn", roomId.current);
+      console.log("r2TurnAllUserCameraMikeOn 송신");
+    });
   }, []);
 
   return (
