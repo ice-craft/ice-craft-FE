@@ -2,7 +2,7 @@ import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
 import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import S from "@/style/livekit/livekit.module.css";
 import "@livekit/components-styles";
@@ -11,7 +11,7 @@ import useHandleBack from "@/utils/goBack/goBackHandler";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
-  const { roomId } = useConnectStore();
+  const { roomId, userId } = useConnectStore();
   const { setIsExit } = useExitStore();
   const router = useRouter();
 
@@ -37,6 +37,25 @@ const JoinMafiaRoom = () => {
       clearTimeout(timer);
     };
   };
+
+  // useHandleBack(roomId, userId);
+
+  //NOTE - 페이지를 나갈 시에 경고창을 띄우는 이벤트 헨들러
+  useEffect(() => {
+    const beforeUnloadHandler = (event: BeforeUnloadEvent) => {
+      const message = "정말 이 페이지를 나가겠습니까?";
+      event.returnValue = message; // 표준에 따라 returnValue 설정
+      return message;
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener("beforeunload", beforeUnloadHandler);
+
+    // 클린업 함수
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
+    };
+  }, []);
 
   return (
     <main data-lk-theme="default">
