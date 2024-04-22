@@ -59,9 +59,6 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, "마피아");
           socket.emit(eventName, userId.current, "마피아");
           break;
-        case "start":
-          console.log(eventName);
-          socket.emit(eventName);
       }
     } else {
       alert("이벤트 명을 적으세요.");
@@ -205,12 +202,6 @@ const MafiaPlay = () => {
         write("서버와의 연결이 끊어졌습니다.\n다시 접속하십시오.");
         console.log(error.message);
       }
-    });
-
-    socket.on("go", (message, time) => {
-      setTimeout(() => {
-        console.log(message);
-      }, time);
     });
 
     socket.on("r0NightStart", async (title, message, timer, nickname, yesOrNo) => {
