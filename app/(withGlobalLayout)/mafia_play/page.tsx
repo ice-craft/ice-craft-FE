@@ -496,6 +496,14 @@ const MafiaPlay = () => {
       socket.emit("r1ShowDoubtedPlayer", roomId.current);
       console.log("r1ShowDoubtedPlayer 송신");
     });
+
+    socket.on("r1KillPlayerByRole", async () => {
+      console.log("r1KillPlayerByRole 수신");
+
+      await setStatus(userId.current, { r1KillPlayerByRole: true });
+      socket.emit("r1KillPlayerByRole", roomId.current);
+      console.log("r1KillPlayerByRole 송신");
+    });
   }, []);
 
   return (
