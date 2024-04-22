@@ -460,6 +460,18 @@ const MafiaPlay = () => {
       socket.emit("r1TurnMafiaUserCameraOff", roomId.current);
       console.log("r1TurnMafiaUserCameraOff 송신");
     });
+
+    socket.on("r1DecideDoctorToSavePlayer", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r1DecideDoctorToSavePlayer 수신");
+      const player = null;
+      waitForMs(timer);
+      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("message가 의사가 있다는 메세지이면 userId 넣어서 송신, 없으면 null 넣어서 송신");
+
+      await setStatus(userId.current, { r1DecideDoctorToSavePlayer: true });
+      socket.emit("r1DecideDoctorToSavePlayer", roomId.current, player);
+      console.log("r1DecideDoctorToSavePlayer 송신");
+    });
   }, []);
 
   return (
