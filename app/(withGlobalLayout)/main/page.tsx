@@ -42,7 +42,7 @@ const Mainpage = () => {
 
     socket.on("joinRoom", () => {
       if (roomId.current) {
-        router.push(`/room/${roomId.current}`);
+        router.push(`/room/${roomId.current}/`);
       }
     });
 
