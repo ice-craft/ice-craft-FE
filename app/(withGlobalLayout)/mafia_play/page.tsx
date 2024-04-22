@@ -451,6 +451,15 @@ const MafiaPlay = () => {
       socket.emit("r1GestureToMafiaEachOther", roomId.current, player);
       console.log("r1GestureToMafiaEachOther 송신");
     });
+
+    socket.on("r1TurnMafiaUserCameraOff", async (mafiaPlayers) => {
+      console.log("r1TurnMafiaUserCameraOff 수신");
+      console.log(`카메라를 끌 마피아 목록 : ${mafiaPlayers}`);
+
+      await setStatus(userId.current, { r1TurnMafiaUserCameraOff: true });
+      socket.emit("r1TurnMafiaUserCameraOff", roomId.current);
+      console.log("r1TurnMafiaUserCameraOff 송신");
+    });
   }, []);
 
   return (
