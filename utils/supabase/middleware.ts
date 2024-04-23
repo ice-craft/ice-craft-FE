@@ -1,17 +1,16 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+// 클라이언트 쿠키를 서버 쿠키로 전환하여 Supabase 서버 클라이언트에 제공합니다.
 export const updateSession = async (request: NextRequest) => {
-  // This `try/catch` block is only here for the interactive tutorial.
-  // Feel free to remove once you have Supabase connected.
   try {
-    // Create an unmodified response
     let response = NextResponse.next({
       request: {
-        headers: request.headers,
-      },
+        headers: request.headers
+      }
     });
 
+    // Supabase 서버 클라이언트를 사용하여 사용자 세션을 새로 고칩니다.
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -21,58 +20,55 @@ export const updateSession = async (request: NextRequest) => {
             return request.cookies.get(name)?.value;
           },
           set(name: string, value: string, options: CookieOptions) {
-            // If the cookie is updated, update the cookies for the request and response
+            // 쿠키가 업데이트되면, 요청과 응답의 쿠키를 업데이트합니다.
             request.cookies.set({
               name,
               value,
-              ...options,
+              ...options
             });
             response = NextResponse.next({
               request: {
-                headers: request.headers,
-              },
+                headers: request.headers
+              }
             });
             response.cookies.set({
               name,
               value,
-              ...options,
+              ...options
             });
           },
           remove(name: string, options: CookieOptions) {
-            // If the cookie is removed, update the cookies for the request and response
+            // 쿠키가 삭제되면, 요청과 응답의 쿠키를 업데이트합니다.
             request.cookies.set({
               name,
               value: "",
-              ...options,
+              ...options
             });
             response = NextResponse.next({
               request: {
-                headers: request.headers,
-              },
+                headers: request.headers
+              }
             });
             response.cookies.set({
               name,
               value: "",
-              ...options,
+              ...options
             });
-          },
-        },
-      },
+          }
+        }
+      }
     );
 
-    // This will refresh session if expired - required for Server Components
-    // https://supabase.com/docs/guides/auth/server-side/nextjs
+    // 세션 만료 시간이 다가올 때마다 서버는 사용자의 인증 상태를 확인하고 세션을 새로 고칩니다.
+    // 이를 통해 사용자는 로그인 상태를 지속하면서 애플리케이션을 계속 사용할 수 있습니다.
     await supabase.auth.getUser();
 
     return response;
   } catch (e) {
-    // If you are here, a Supabase client could not be created!
-    // This is likely because you have not set up environment variables.
-    // Check out http://localhost:3000 for Next Steps.
     return NextResponse.next({
       request: {
-        headers: request.headers,
-      },
+        headers: request.headers
+      }
     });
   }
 };

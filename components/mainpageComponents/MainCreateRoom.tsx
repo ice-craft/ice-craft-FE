@@ -35,7 +35,7 @@ const MainCreateRoom = () => {
       if (roomId.current) {
         setRoomId(roomId.current);
         setIsModal(false);
-        router.push(`/room/${roomId.current}`);
+        router.push(`/room/${roomId.current}/`);
       }
     });
 
