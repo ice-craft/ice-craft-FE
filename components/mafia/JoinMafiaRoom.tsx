@@ -12,12 +12,12 @@ import { socket } from "@/utils/socket/socket";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
-  const { roomId, userId } = useConnectStore();
+  const { roomId, userId, nickname } = useConnectStore();
   const { setIsExit } = useExitStore();
   const router = useRouter();
   BeforeUnloadHandler();
 
-  const { data: token, isPending, isSuccess, isError } = useGetToken(roomId);
+  const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
 
   if (isPending || !isSuccess) {
     console.log("로딩중입니다.");

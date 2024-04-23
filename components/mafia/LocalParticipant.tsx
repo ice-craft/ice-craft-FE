@@ -24,16 +24,12 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
     const newIsReady = !isReady;
     setIsReady(newIsReady);
 
-    socket.emit("setReady", {
-      userId,
-      roomId,
-      isReady: newIsReady
-    });
+    socket.emit("setReady", userId, newIsReady, roomId);
   };
 
   useEffect(() => {
     socket.on("setReady", (message) => {
-      console.log("게임 시작:", message);
+      console.log("게임 준비", message);
       setModalMessage(message);
       setIsModal(true);
     });
