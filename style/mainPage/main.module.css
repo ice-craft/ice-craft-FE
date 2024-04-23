@@ -43,16 +43,13 @@
   width: 357px;
 }
 
-.roomSearch:after {
-  content: "";
+.roomSearch > button {
   position: absolute;
   right: 15px;
   top: 50%;
   transform: translateY(-55%);
-  width: 20px;
-  height: 20px;
-  background: url("../../assets/images/icon_search.svg") no-repeat;
-  cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 
 .roomSearch label {
