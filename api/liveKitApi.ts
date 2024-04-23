@@ -1,7 +1,7 @@
 import { getUserInfo } from "@/utils/supabase/authAPI";
 import { User } from "@supabase/supabase-js";
 
-export async function getToken(room: string) {
+export async function getToken(room: string, userId: string, nickname: string) {
   const userInfo = await getUserInfo();
 
   // const response = await fetch(
@@ -14,7 +14,7 @@ export async function getToken(room: string) {
   // );
 
   const response = await fetch(
-    `/livekit/get-participant-token?room=${room}&userId=${crypto.randomUUID()}&userNickname=${crypto.randomUUID()}`,
+    `/livekit/get-participant-token?room=${room}&userId=${userId}&userNickname=${nickname}`,
     {
       cache: "no-store"
     }

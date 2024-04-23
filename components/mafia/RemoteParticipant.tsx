@@ -9,7 +9,7 @@ import { socket } from "@/utils/socket/socket";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid, isRemoteOverlay } = useOverlayStore();
+  const { activeParticipantSid, isRemoteOverlay, isLocalOverlay } = useOverlayStore();
   const { imageState } = useCamClickImageState();
 
   const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
@@ -38,7 +38,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
           className={`${S.remoteParticipantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
           onClick={isRemoteOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
         >
-          <ParticipantTile trackRef={track} className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : ""}`} />
+          <ParticipantTile trackRef={track} className={`${S.remoteCam} ${isLocalOverlay ? "cursor-pointer" : ""}`} />
           <div className={`${S.remoteOverlay} ${remoteReadyStates[track.participant.sid] ? S.active : ""}`}>
             <Image src={imageState!} alt={track.participant.sid} />
           </div>
