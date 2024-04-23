@@ -29,7 +29,6 @@ const MafiaPlayRooms = () => {
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
-  BeforeUnloadHandler();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -238,6 +237,8 @@ const MafiaPlayRooms = () => {
       socket.off("showModal", showModal);
     };
   }, []);
+
+  BeforeUnloadHandler();
 
   return (
     <section className={S.section}>

@@ -3,15 +3,15 @@ import { useEffect } from "react";
 const BeforeUnloadHandler = () => {
   useEffect(() => {
     const beforeUnload = (e: BeforeUnloadEvent) => {
-      const message = "정말 이 페이지를 나가겠습니까?";
-      e.returnValue = message;
-      return message;
+      e.preventDefault();
+      e.returnValue = ""; //크로스 브라우징 체크 추가
     };
     window.addEventListener("beforeunload", beforeUnload);
     return () => {
       window.removeEventListener("beforeunload", beforeUnload);
     };
   }, []);
+  return null;
 };
 
 export default BeforeUnloadHandler;
