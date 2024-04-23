@@ -68,8 +68,10 @@ const Mainpage = () => {
 
       // 세션 스토리지에 저장
       if (userInfo) {
-        setUserId(userInfo.id);
-        setUserNickname(userInfo.user_metadata.nickname);
+        setUserId(crypto.randomUUID());
+        setUserNickname(crypto.randomUUID());
+        // setUserId(userInfo.id);
+        // setUserNickname(userInfo.user_metadata.nickname);
       }
     };
 

@@ -245,6 +245,9 @@ const MafiaPlayRooms = () => {
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <div className={S.goToMainPage}>
+        <button onClick={() => allAudioSetting(tracks, false)} style={{ background: "red" }}>
+          전체 소리 끄기
+        </button>
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
