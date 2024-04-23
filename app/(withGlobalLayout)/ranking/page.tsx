@@ -1,15 +1,15 @@
-"use client";
-
-import Image from "next/image";
-import React, { useState } from "react";
 import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
 import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
+import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
-import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
+import { createClient } from "@/utils/supabase/server";
+import Image from "next/image";
 
-const Rankingpage = () => {
-  const [ranking, setRanking] = useState([]);
+const Rankingpage = async () => {
+  const supabase = createClient();
+
+  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
 
   return (
     <section className={S.sectionWrapper}>
@@ -26,7 +26,7 @@ const Rankingpage = () => {
         <li>노래 맞추기</li>
         <li>총점</li>
       </ul>
-      {ranking.length > 0 ? (
+      {data ? (
         <div>
           <ul className={S.myRankingList}>
             <li>
