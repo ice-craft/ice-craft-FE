@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, MouseEvent, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/authAPI";
 import S from "@/style/login/login.module.css";
 import Link from "next/link";
@@ -78,15 +78,17 @@ const LogIn = () => {
     }
   };
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const isUserLogIn = await checkUserLogIn();
-      if (isUserLogIn) {
-        router.push("/"); //TODO - 이 방식은 로그인 페이지가 살짝 보임, URL 접근을 막는 방식 생각하기(ui상 로그인 버튼은 안 보여서 접근 불가능)
-      }
-    };
-    checkUser();
-  });
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const isUserLogIn = await checkUserLogIn();
+
+  //     if (isUserLogIn) {
+  //       // redirect("/");
+  //       // router.push("/"); //TODO - 이 방식은 로그인 페이지가 살짝 보임, URL 접근을 막는 방식 생각하기(ui상 로그인 버튼은 안 보여서 접근 불가능)
+  //     }
+  //   };
+  //   checkUser();
+  // }, []);
 
   return (
     <div className={S.wrapper}>
