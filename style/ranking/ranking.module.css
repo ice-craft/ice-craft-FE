@@ -9,15 +9,12 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 40px;
+  position: relative;
 }
 
 .userRanking h2 {
   font-size: var(--font-size-modal-title);
   font-weight: var(--font-bold);
-}
-
-.userRanking form {
-  position: relative;
 }
 
 .userRanking input[type="text"] {
@@ -27,16 +24,14 @@
   width: 357px;
 }
 
-.userRanking form:after {
-  content: "";
+.userRanking > button {
   position: absolute;
   right: 15px;
   top: 50%;
   transform: translateY(-55%);
-  width: 20px;
-  height: 20px;
-  background: url("../../assets/images/icon_search.svg") no-repeat;
-  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  z-index: 1;
 }
 
 .userRanking input[type="text"]:placeholder {
@@ -186,6 +181,10 @@
 
   .userRanking input[type="text"] {
     width: 100%;
+  }
+
+  .userRanking > button {
+    top: 80%;
   }
 
   .pager {

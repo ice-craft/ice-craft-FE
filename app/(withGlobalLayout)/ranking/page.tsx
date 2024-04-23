@@ -5,6 +5,7 @@ import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
+import SearchIcon from "@/assets/images/icon_search.svg";
 
 const Rankingpage = async () => {
   const supabase = createClient();
@@ -18,6 +19,9 @@ const Rankingpage = async () => {
         <form>
           <input type="text" placeholder="검색어를 입력해 주세요" />
         </form>
+        <button>
+          <Image src={SearchIcon} alt="search Icon" />
+        </button>
       </div>
       <ul className={S.userRankingTitle}>
         <li>랭킹</li>
