@@ -7,10 +7,10 @@ import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import SearchIcon from "@/assets/images/icon_search.svg";
 
-const Rankingpage = async () => {
-  const supabase = createClient();
-
-  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
+const Rankingpage = async ({ posts }: any) => {
+  console.log(posts);
+  // const supabase = createClient();
+  // const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
 
   return (
     <section className={S.sectionWrapper}>
@@ -30,7 +30,7 @@ const Rankingpage = async () => {
         <li>노래 맞추기</li>
         <li>총점</li>
       </ul>
-      {data ? (
+      {posts ? (
         <div>
           <ul className={S.myRankingList}>
             <li>
@@ -108,4 +108,16 @@ const Rankingpage = async () => {
   );
 };
 
-export default Rankingpage;
+export async function getStaticProps() {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
+
+  if (error) console.error("Error fetching ranking data:", error);
+
+  return {
+    props: {
+      posts: data
+    },
+    revalidate: 1800
+  };
+}
