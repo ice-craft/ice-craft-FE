@@ -17,6 +17,7 @@ import GoTopButton from "@/utils/GoTopButton";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import Link from "next/link";
+import SearchIcon from "@/assets/images/icon_search.svg";
 
 const Mainpage = () => {
   const { isModal, setIsModal } = useModalStore();
@@ -189,6 +190,9 @@ const Mainpage = () => {
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="방 이름을 입력해 주세요."
                   />
+                  <button>
+                    <Image src={SearchIcon} alt="search Icon" />
+                  </button>
                 </div>
               </form>
               <div className={S.gameGoButton}>
