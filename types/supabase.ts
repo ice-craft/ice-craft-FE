@@ -74,6 +74,30 @@ export interface Database {
           }
         ];
       };
+      ranking_table: {
+        Row: {
+          game_category: string | null;
+          id: number;
+          nickname: string;
+          total_point: number | null;
+          user_id: string | null;
+        };
+        Insert: {
+          game_category?: string | null;
+          id?: number;
+          nickname: string;
+          total_point?: number | null;
+          user_id?: string | null;
+        };
+        Update: {
+          game_category?: string | null;
+          id?: number;
+          nickname?: string;
+          total_point?: number | null;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
