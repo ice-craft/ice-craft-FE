@@ -22,6 +22,7 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import UserRoleModal from "./UserRoleModal";
+import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -236,6 +237,8 @@ const MafiaPlayRooms = () => {
       socket.off("showModal", showModal);
     };
   }, []);
+
+  BeforeUnloadHandler();
 
   return (
     <section className={S.section}>

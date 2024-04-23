@@ -7,12 +7,15 @@ import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import S from "@/style/livekit/livekit.module.css";
 import "@livekit/components-styles";
 import { useExitStore } from "@/store/exit-store";
+import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
+import { socket } from "@/utils/socket/socket";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
-  const { roomId } = useConnectStore();
+  const { roomId, userId } = useConnectStore();
   const { setIsExit } = useExitStore();
   const router = useRouter();
+  BeforeUnloadHandler();
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId);
 
@@ -26,6 +29,7 @@ const JoinMafiaRoom = () => {
 
   //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러 ==> useEffect와 비슷하다.
   const disConnected = () => {
+    socket.emit("exitRoom", roomId, userId);
     setIsExit(true);
 
     const timer = setTimeout(() => {
@@ -36,6 +40,8 @@ const JoinMafiaRoom = () => {
       clearTimeout(timer);
     };
   };
+
+  // useHandleBack(roomId, userId);
 
   return (
     <main data-lk-theme="default">
