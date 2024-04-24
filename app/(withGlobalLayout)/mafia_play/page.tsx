@@ -204,6 +204,10 @@ const MafiaPlay = () => {
       }
     });
 
+    socket.on("updateUserReady", (userId, ready) => {
+      console.log(`${userId}가 ready를 ${ready} 함`);
+    });
+
     socket.on("r0NightStart", async (title, message, timer, nickname, yesOrNo) => {
       console.log("r0NightStart 수신");
 
