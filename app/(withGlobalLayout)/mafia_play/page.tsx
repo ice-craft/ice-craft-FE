@@ -551,6 +551,10 @@ const MafiaPlay = () => {
       socket.emit("r2WhoWIns", roomId.current);
       console.log("r2WhoWIns 송신");
     });
+    socket.on("updateUserInRoom", (playerInfo) => {
+      console.log("updateUserInRoom 수신");
+      console.log(`GUI에 표시할 정보들 : ${playerInfo}`);
+    });
   }, []);
 
   return (
