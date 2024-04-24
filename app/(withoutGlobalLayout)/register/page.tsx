@@ -16,6 +16,7 @@ import Image from "next/image";
 import S from "@/style/register/register.module.css";
 import Link from "next/link";
 import { RegisterButton } from "@/components/register/RegisterButton";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +28,7 @@ const Register = () => {
   const [checkPassword, setCheckPassword] = useState("");
   const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
   const [registerMessage, setRegisterMessage] = useState("");
+  const router = useRouter();
 
   const isPassed = useRef({
     inputEmail: false,
@@ -159,6 +161,7 @@ const Register = () => {
       const uid = await oAuthRegister(email, password, nickname);
       if (uid) {
         await registerAccount(uid, email, nickname);
+        router.push("/main");
       } else {
         throw new Error("회원 가입 실패");
       }
