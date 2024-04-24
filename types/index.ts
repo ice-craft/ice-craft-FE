@@ -125,3 +125,8 @@ export interface ReadyState {
   isReady: boolean;
   setIsReady: (newReady: boolean) => void;
 }
+
+export interface CreateState {
+  isCreate: boolean;
+  setIsCreate: (newReady: boolean) => void;
+}

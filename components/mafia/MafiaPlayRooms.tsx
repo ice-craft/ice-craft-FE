@@ -160,7 +160,7 @@ const MafiaPlayRooms = () => {
       socket.off("r0TurnMafiaUserCameraOff");
       socket.off("r1MorningStart");
     };
-  }, []);
+  }, [tracks]);
 
   //NOTE - 게임 시작
   const socketGameStart = () => {

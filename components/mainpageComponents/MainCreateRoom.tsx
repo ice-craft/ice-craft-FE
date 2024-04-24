@@ -1,7 +1,7 @@
 import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
 import useConnectStore from "@/store/connect-store";
-import { useModalStore } from "@/store/toggle-store";
+import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
@@ -16,7 +16,7 @@ const MainCreateRoom = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const roomId = useRef("");
-  const { setIsModal } = useModalStore();
+  const { setIsCreate } = useCreateStore();
   const { userId, nickname, setRoomId } = useConnectStore();
   const router = useRouter();
 
@@ -34,7 +34,7 @@ const MainCreateRoom = () => {
     socket.on("joinRoom", () => {
       if (roomId.current) {
         setRoomId(roomId.current);
-        setIsModal(false);
+        setIsCreate(false);
         router.push(`/room/${roomId.current}/`);
       }
     });
@@ -54,7 +54,7 @@ const MainCreateRoom = () => {
 
   const closeModalHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
-      setIsModal(false);
+      setIsCreate(false);
     }
   };
 
@@ -124,7 +124,7 @@ const MainCreateRoom = () => {
             </select>
           </div>
           <div className={S.gameChoiceButton}>
-            <button className={S.closedButton} onClick={() => setIsModal(false)}>
+            <button className={S.closedButton} type="button" onClick={() => setIsCreate(false)}>
               닫기
             </button>
             <button disabled={isGoInClick.current} type="submit">

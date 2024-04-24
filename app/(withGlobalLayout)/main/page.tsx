@@ -1,26 +1,26 @@
 "use client";
 import PeopleIcon from "@/assets/images/icon_person.svg";
+import SearchIcon from "@/assets/images/icon_search.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
+import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainPage/main.module.css";
 import { Tables } from "@/types/supabase";
+import GoTopButton from "@/utils/GoTopButton";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
+import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MainCreateRoom from "../../../components/mainpageComponents/MainCreateRoom";
-import { useModalStore } from "../../../store/toggle-store";
-import GoTopButton from "@/utils/GoTopButton";
-import VisitEmptyImage from "@/assets/images/visit_empty.svg";
-import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
-import Link from "next/link";
-import SearchIcon from "@/assets/images/icon_search.svg";
+import { useCreateStore } from "../../../store/toggle-store";
 
 const Mainpage = () => {
-  const { isModal, setIsModal } = useModalStore();
+  const { isCreate, setIsCreate } = useCreateStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [rooms, setRooms] = useState([] as Tables<"room_table">[]);
   const [search, setSearch] = useState("");
@@ -202,11 +202,11 @@ const Mainpage = () => {
                   빠른입장
                 </button>
                 <div className={S.makeRoomButton}>
-                  <button onClick={() => setIsModal(true)} className={S.makeRoom}>
+                  <button onClick={() => setIsCreate(true)} className={S.makeRoom}>
                     방 만들기
                   </button>
                 </div>
-                {isModal ? <MainCreateRoom /> : null}
+                {isCreate ? <MainCreateRoom /> : null}
               </div>
             </div>
           </div>
