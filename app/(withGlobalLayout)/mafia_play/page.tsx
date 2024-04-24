@@ -242,7 +242,10 @@ const MafiaPlay = () => {
     socket.on("r0ShowAllUserRole", async (role) => {
       console.log("r0ShowAllUserRole 수신");
 
-      console.log(`역할들 : ${role}`);
+      console.log(`마피아 : ${role["마피아"]}`);
+      console.log(`의사 : ${role["의사"]}`);
+      console.log(`경찰 : ${role["경찰"]}`);
+      console.log(`시민 : ${role["시민"]}`);
 
       await setStatus(userId.current, { r0ShowAllUserRole: true });
       socket.emit("r0ShowAllUserRole", roomId.current);
@@ -349,14 +352,13 @@ const MafiaPlay = () => {
       console.log("r1ShowVoteToResult 송신");
     });
 
-    socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, isValid) => {
       console.log("r1ShowMostVotedPlayer 수신");
-
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
       await setStatus(userId.current, { r1ShowMostVotedPlayer: true });
-      socket.emit("r1ShowMostVotedPlayer", roomId.current);
+
+      socket.emit("r1ShowMostVotedPlayer", roomId.current, isValid);
       console.log("r1ShowMostVotedPlayer 송신");
     });
 
