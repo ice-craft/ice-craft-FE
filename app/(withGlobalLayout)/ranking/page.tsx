@@ -1,3 +1,5 @@
+export const revalidate = 1800;
+
 import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
 import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
@@ -9,7 +11,6 @@ import SearchIcon from "@/assets/images/icon_search.svg";
 
 const Rankingpage = async () => {
   const supabase = createClient();
-
   const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
 
   return (
@@ -44,42 +45,17 @@ const Rankingpage = async () => {
             </li>
           </ul>
           <ul className={S.userRankingList}>
-            <li>
-              <div>
-                <h2>1</h2>
-                <h3>닉네임</h3>
-                <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>2000</p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <h2>2</h2>
-                <h3>닉네임</h3>
-                <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>2000</p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <h2>3</h2>
-                <h3>닉네임</h3>
-                <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>2000</p>
-              </div>
-            </li>
-            <li>
-              <div>
-                <h2>4</h2>
-                <h3>닉네임</h3>
-                <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>2000</p>
-              </div>
-            </li>
+            {data.map((item: any, index: number) => (
+              <li key={index}>
+                <div>
+                  <h2>{index + 1}</h2>
+                  <h3>{item.nickname}</h3>
+                  <p className={S.mafiaUserRanking}>{item.game_category}</p>
+                  <p className={S.songUserRanking}>-</p>
+                  <p className={S.totalRanking}>{item.total_score}</p>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       ) : (
