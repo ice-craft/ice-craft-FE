@@ -395,17 +395,24 @@ const MafiaPlay = () => {
       console.log("r1ShowVoteYesOrNoResult 송신");
     });
 
-    socket.on("r1KillMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, killedPlayer, role) => {
-      console.log("r1KillMostVotedPlayer 수신");
+    socket.on(
+      "r1KillMostVotedPlayer",
+      async (title, message, timer, nickname, yesOrNo, isValid, killedPlayer, role) => {
+        console.log("r1KillMostVotedPlayer 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      console.log(`${killedPlayer}가 ${role}인거 밝힘`);
+        waitForMs(timer);
+        console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+        if (isValid) {
+          console.log(`${killedPlayer}가 ${role}인거 밝힘`);
+        } else {
+          console.log("무효 투표라서 아무도 죽지 않음");
+        }
 
-      await setStatus(userId.current, { r1KillMostVotedPlayer: true });
-      socket.emit("r1KillMostVotedPlayer", roomId.current);
-      console.log("r1KillMostVotedPlayer 송신");
-    });
+        await setStatus(userId.current, { r1KillMostVotedPlayer: true });
+        socket.emit("r1KillMostVotedPlayer", roomId.current);
+        console.log("r1KillMostVotedPlayer 송신");
+      }
+    );
 
     socket.on("r1TurnAllUserCameraMikeOff", async (allPlayers) => {
       console.log("r1TurnAllUserCameraMikeOff 수신");
