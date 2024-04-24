@@ -120,3 +120,8 @@ export interface ExitState {
   isExit: boolean;
   setIsExit: (newToggle: boolean) => void;
 }
+
+export interface ReadyState {
+  isReady: boolean;
+  setIsReady: (newReady: boolean) => void;
+}

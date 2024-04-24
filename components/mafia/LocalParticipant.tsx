@@ -1,7 +1,7 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import useConnectStore from "@/store/connect-store";
 import useOverlayStore from "@/store/overlay-store";
-import { useModalStore } from "@/store/toggle-store";
+import { useModalStore, useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { socket } from "@/utils/socket/socket";
@@ -15,7 +15,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
   const { roomId, userId } = useConnectStore();
   const { isModal, setIsModal } = useModalStore();
-  const [isReady, setIsReady] = useState(false);
+  const { isReady, setIsReady } = useReadyStore();
   const [modalMessage, setModalMessage] = useState("");
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
@@ -30,6 +30,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   useEffect(() => {
     socket.on("setReady", (message) => {
       console.log("게임 준비", message);
+
       setModalMessage(message);
       setIsModal(true);
     });
