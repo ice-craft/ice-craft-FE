@@ -161,6 +161,7 @@ const Register = () => {
       const uid = await oAuthRegister(email, password, nickname);
       if (uid) {
         await registerAccount(uid, email, nickname);
+        //NOTE - 메인페이지 또는 로그인페이지로
         router.push("/main");
       } else {
         throw new Error("회원 가입 실패");
