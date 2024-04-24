@@ -204,11 +204,9 @@ const MafiaPlay = () => {
       }
     });
 
-    //NOTE - "setReady"에서 모든 user가 Ready를 하면 "r0NightStart" 이 실행되며 게임이 시작된다.
     socket.on("r0NightStart", async (title, message, timer, nickname, yesOrNo) => {
       console.log("r0NightStart 수신");
 
-      // 타이머를 작동
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
