@@ -40,6 +40,7 @@ const Register = () => {
   });
 
   const [canRegister, setCanRegister] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const emailChangeHandler = (inputEmail: string) => {
     setEmail(inputEmail);
@@ -149,6 +150,8 @@ const Register = () => {
     const isPasswordPassed = isPassed.current.password;
     const isCheckPasswordPassed = isPassed.current.checkPassword;
 
+    setSubmitting(true);
+
     setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
 
     if (!canRegister) {
@@ -169,9 +172,9 @@ const Register = () => {
     } catch (e) {
       console.log(e); //NOTE - 테스트 코드
       setRegisterMessage("회원가입에 실패했습니다.");
+      setSubmitting(false);
     }
   };
-
   const kakaoLogIn = async () => {
     try {
       await oAuthLogIn("kakao");
@@ -285,10 +288,7 @@ const Register = () => {
             </div>
           </div>
           <div>
-            {/* <button className={S.registerButton} type="submit">
-              회원가입
-            </button> */}
-            <RegisterButton active={canRegister} />
+            <RegisterButton active={canRegister && !isSubmitting} />
             {<InputMessage text={registerMessage} />}
           </div>
           <div className={S.simpleLogin}>
