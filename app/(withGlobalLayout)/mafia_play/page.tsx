@@ -210,6 +210,7 @@ const MafiaPlay = () => {
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
+      // 타이머를 붙잡기 위한 용도
       await setStatus(userId.current, { r0NightStart: true });
       socket.emit("r0NightStart", roomId.current);
       console.log("r0NightStart 송신");

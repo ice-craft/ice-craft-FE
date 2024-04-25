@@ -15,7 +15,7 @@ import {
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckModal from "./CheckModal";
 import GroupMafiaModal from "./GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
@@ -23,12 +23,16 @@ import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import UserRoleModal from "./UserRoleModal";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
+import { setStatus } from "@/utils/supabase/statusAPI";
+import useShowModalStore from "@/store/showModal.store";
+import { useCountDown } from "@/hooks/useCountDown";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
+  const { isClose, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -44,56 +48,138 @@ const MafiaPlayRooms = () => {
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.metadata;
-  /*
-    //훅 정리
-    const { localParticipant } = useLocalParticipant(); //로컬 사용자
-    const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
-  */
+  // 여러 setTimeout의 타이머 상태를 저장할 useState
+  const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]);
+
+  //훅 정리
+  // const { localParticipant } = useLocalParticipant(); //로컬 사용자
+  // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
 
   useEffect(() => {
-    socket.on("showModal", (message) => {
-      //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
-      if (message.includes("밤")) {
-        allMediaSetting(tracks, false);
-      }
-      //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
-      if (message.includes("아침")) {
-        allMediaSetting(tracks, true);
-      }
-      //NOTE - 투표시간일 경우 모든 user의 마이크 off
-      if (message.includes("투표")) {
-        allAudioSetting(tracks, false);
-      }
+    //NOTE - 게임 시작
+    socket.on("r0NightStart", async (title, message, timer) => {
+      //NOTE - 모달창 띄우기
+      console.log("r0NightStart 수신");
+      setIsOpen(true);
+      setTitle("게임이 시작됩니다.");
+      setMessage("다들 즐길 준비 되셨나요? 그러면 출발~~");
+      setTimer(5);
+      setIsOverlay(false); //클릭 이벤트 비활성화
+
+      // 5초 후에 setStatus와 socket.emit 실행
+      const r0NightStartTimer = setTimeout(async () => {
+        await setStatus(userId, { r0NightStart: true });
+        socket.emit("r0NightStart", roomId);
+        console.log("r0NightStart 송신");
+      }, 5000);
+
+      // 생성된 타이머 ID를 저장
+      setTimerIds((prevTimerIds) => [...prevTimerIds, r0NightStartTimer]);
     });
 
-    // 특정 user의 캠을 활성화 및 비활성화
-    socket.on("setCamera", (userId, isOn) => {
-      //NOTE -  1) 특정 유저의 track을 받아온다.
-      const specificUser = useParticipantTracks(sources, userId);
-      //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localUserId === userId) {
-        //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
-        specificUserVideoSetting(specificUser, isOn);
-      }
+    //NOTE - 카메라 및 마이크 off
+    socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
+      console.log("r0TurnAllUserCameraMikeOff 수신");
+
+      allMediaSetting(tracks, false);
+
+      await setStatus(userId, { r0TurnAllUserCameraMikeOff: true });
+      socket.emit("r0TurnAllUserCameraMikeOff", roomId);
+
+      console.log("r0TurnAllUserCameraMikeOff 송신");
     });
 
-    // 특정 user의 마이크를 활성화 및 비활성화
-    socket.on("setMike", (userId, isOn) => {
-      //NOTE 1) 특정 유저의 track을 받아온다.
-      const specificUser = useParticipantTracks(sources, userId);
-      //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localUserId === userId) {
-        //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
-        specificUserAudioSetting(specificUser, isOn);
-      }
+    //NOTE - "역할 배정을 시작하겠습니다."" modal창 띄우기
+    socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r0SetAllUserRole 수신");
+
+      // 10초 후에 setStatus와 socket.emit 실행
+      const r0SetAllUserRoleTimer = setTimeout(async () => {
+        await setStatus(userId, { r0SetAllUserRole: true });
+        socket.emit("r0SetAllUserRole", roomId);
+        console.log("r0SetAllUserRole 송신");
+      }, 10000);
+
+      setTimerIds((prevTimerIds) => [...prevTimerIds, r0SetAllUserRoleTimer]);
+    });
+
+    //NOTE - 서버에서 배정한 직업에 대한 user의 정보 ==> 객체형태의 배열로 받는다.{[]}
+    socket.on("r0ShowAllUserRole", async (role) => {
+      console.log("r0ShowAllUserRole 수신");
+
+      console.log(`역할들 : ${role}`);
+
+      await setStatus(userId, { r0ShowAllUserRole: true });
+      socket.emit("r0ShowAllUserRole", roomId);
+      console.log("r0ShowAllUserRole 송신");
+    });
+
+    //NOTE - "마피아들은 고개를 들어 서로를 확인해 주세요." 모달창 띄우기
+    socket.on("r0ShowMafiaUserEachOther", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r0ShowMafiaUserEachOther 수신");
+
+      // 타이머를 작동
+      // console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId, { r0ShowMafiaUserEachOther: true });
+      socket.emit("r0ShowMafiaUserEachOther", roomId);
+      console.log("r0ShowMafiaUserEachOther 송신");
+    });
+
+    //NOTE -  마피아 유저 화상 카메라와 마이크만 켬
+    socket.on("r0TurnMafiaUserCameraOn", async (players) => {
+      console.log("r0TurnMafiaUserCameraOn 수신");
+
+      await setStatus(userId, { r0TurnMafiaUserCameraOn: true });
+
+      console.log(`카메라 켤 마피아 목록 : ${players}`);
+
+      // waitForMs(500); 마피아 시간
+
+      socket.emit("r0TurnMafiaUserCameraOn", roomId);
+      console.log("r0TurnMafiaUserCameraOn 송신");
+    });
+
+    //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 끔
+    socket.on("r0TurnMafiaUserCameraOff", async (players) => {
+      console.log("r0TurnMafiaUserCameraOff 수신");
+
+      await setStatus(userId, { r0TurnMafiaUserCameraOff: true });
+
+      console.log(`카메라 끌 마피아 목록 : ${players}`);
+
+      socket.emit("r0TurnMafiaUserCameraOff", roomId);
+      console.log("r0TurnMafiaUserCameraOff 송신");
+    });
+
+    //NOTE - 아침이 시작되었습니다 모달창 띄우기
+    socket.on("r1MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("r1MorningStart 수신");
+
+      // waitForMs(timer); 토론시간
+      // console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      await setStatus(userId, { r1MorningStart: true });
+      socket.emit("r1MorningStart", roomId);
+      console.log("r1MorningStart 송신");
     });
 
     return () => {
-      socket.off("showModal");
-      socket.off("setCamera");
-      socket.off("setMike");
+      // 저장된 모든 타이머 클리어
+      timerIds.forEach((timerId) => {
+        console.log("timerId", timerId);
+        clearTimeout(timerId);
+      });
+      socket.off("r0NightStart");
+      socket.off("r0TurnAllUserCameraMikeOff");
+      socket.off("r0SetAllUserRole");
+      socket.off("r0ShowAllUserRole");
+      socket.off("r0ShowMafiaUserEachOther");
+      socket.off("r0TurnMafiaUserCameraOn");
+      socket.off("r0TurnMafiaUserCameraOff");
+      socket.off("r1MorningStart");
     };
-  }, []);
+  }, [tracks]);
 
   //NOTE - 게임 시작
   const socketGameStart = () => {
