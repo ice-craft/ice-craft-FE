@@ -1,6 +1,8 @@
 import { showModalComponents } from "@/types";
 import { socket } from "../socket/socket";
 import { setStatus } from "../supabase/statusAPI";
+import { allMediaSetting } from "../participantCamSettings/camSetting";
+import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 
 export const r0NightStartHandler = async ({
   roomId,
@@ -13,8 +15,9 @@ export const r0NightStartHandler = async ({
   setIsOverlay,
   setTimerIds
 }: showModalComponents) => {
-  //NOTE - 모달창 띄우기
   console.log("r0NightStart 수신");
+
+  //NOTE - 모달창 요소
   setIsOpen(true);
   setTitle("게임이 시작됩니다.");
   setMessage("다들 즐길 준비 되셨나요? 그러면 출발~~");
@@ -30,4 +33,19 @@ export const r0NightStartHandler = async ({
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds) => [...prevTimerIds, r0NightStartTimer]);
+};
+
+export const r0TurnAllUserCameraMikeOffHandler = async (
+  tracks: TrackReferenceOrPlaceholder[],
+  userId: string,
+  roomId: string
+) => {
+  console.log("r0TurnAllUserCameraMikeOff 수신");
+
+  allMediaSetting(tracks, false);
+
+  await setStatus(userId, { r0TurnAllUserCameraMikeOff: true });
+  socket.emit("r0TurnAllUserCameraMikeOff", roomId);
+
+  console.log("r0TurnAllUserCameraMikeOff 송신");
 };

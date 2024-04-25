@@ -26,7 +26,7 @@ import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { setStatus } from "@/utils/supabase/statusAPI";
 import useShowModalStore from "@/store/showModal.store";
 import { useCountDown } from "@/hooks/useCountDown";
-import { r0NightStartHandler } from "@/utils/mafiaSocket/mafiaSocket";
+import { r0NightStartHandler, r0TurnAllUserCameraMikeOffHandler } from "@/utils/mafiaSocket/mafiaSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -73,16 +73,7 @@ const MafiaPlayRooms = () => {
     );
 
     //NOTE - 카메라 및 마이크 off
-    socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
-      console.log("r0TurnAllUserCameraMikeOff 수신");
-
-      allMediaSetting(tracks, false);
-
-      await setStatus(userId, { r0TurnAllUserCameraMikeOff: true });
-      socket.emit("r0TurnAllUserCameraMikeOff", roomId);
-
-      console.log("r0TurnAllUserCameraMikeOff 송신");
-    });
+    socket.on("r0TurnAllUserCameraMikeOff", () => r0TurnAllUserCameraMikeOffHandler(tracks, userId, roomId));
 
     //NOTE - "역할 배정을 시작하겠습니다."" modal창 띄우기
     socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
