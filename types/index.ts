@@ -1,7 +1,8 @@
-import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
+import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
-import { Participant } from "livekit-client";
+import { LocalParticipant, Participant, Track } from "livekit-client";
 import { StaticImageData } from "next/image";
+import { Dispatch, SetStateAction } from "react";
 
 export interface MafiaRoom {
   room: string;
@@ -143,4 +144,31 @@ export interface ShowModalState {
   setMessage: (newMessage: string) => void;
   setTimer: (newTimer: number) => void;
   setIsClose: (newIsClose: boolean) => void;
+}
+
+export interface TimerState {
+  timerIds: NodeJS.Timeout[];
+  setTimerIds: (newTimerId: NodeJS.Timeout) => void;
+}
+
+export interface ShowModalComponents {
+  userId: string;
+  roomId: string;
+  setIsOpen: (newIsOpen: boolean) => void;
+  setTitle: (newTitle: string) => void;
+  setMessage: (newMessage: string) => void;
+  setTimer: (newTimer: number) => void;
+  setIsClose: (newIsClose: boolean) => void;
+  setIsOverlay: (newIsOverlay: boolean) => void;
+  setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
+}
+
+export interface MediaState {
+  tracks: TrackReferenceOrPlaceholder[];
+  localUserId: string | undefined;
+  specificUser: TrackReference[];
+  userId: string;
+  roomId: string;
+  sources: Track.Source[];
+  setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
 }

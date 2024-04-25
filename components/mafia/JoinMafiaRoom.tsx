@@ -42,8 +42,6 @@ const JoinMafiaRoom = () => {
     };
   };
 
-  // useHandleBack(roomId, userId);
-
   return (
     <main data-lk-theme="default">
       {isJoin ? (
