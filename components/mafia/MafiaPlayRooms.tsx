@@ -26,7 +26,13 @@ import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { setStatus } from "@/utils/supabase/statusAPI";
 import useShowModalStore from "@/store/showModal.store";
 import { useCountDown } from "@/hooks/useCountDown";
-import { r0NightStartHandler, r0TurnAllUserCameraMikeOffHandler } from "@/utils/mafiaSocket/mafiaSocket";
+import {
+  r0NightStartHandler,
+  r0ShowMafiaUserEachOther,
+  r0TurnAllUserCameraMikeOffHandler,
+  r0TurnMafiaUserCameraOffHandler,
+  r0TurnMafiaUserCameraOnHandler
+} from "@/utils/mafiaSocket/mafiaSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -34,6 +40,8 @@ const MafiaPlayRooms = () => {
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
   const { isClose, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
+  // 여러 setTimeout의 타이머 상태를 저장할 useState
+  const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]);
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -43,15 +51,14 @@ const MafiaPlayRooms = () => {
     ],
     { onlySubscribed: false }
   );
-
   const sources = tracks.map((item) => item.source);
 
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.metadata;
-  // 여러 setTimeout의 타이머 상태를 저장할 useState
-  const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]);
 
+  //NOTE -  원격 user의 정보
+  const specificUser = useParticipantTracks(sources, "");
   //훅 정리
   // const { localParticipant } = useLocalParticipant(); //로컬 사용자
   // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
@@ -86,7 +93,7 @@ const MafiaPlayRooms = () => {
         console.log("r0SetAllUserRole 송신");
       }, 10000);
 
-      // setTimerIds((prevTimerIds) => [...prevTimerIds, r0SetAllUserRoleTimer]);
+      setTimerIds((prevTimerIds) => [...prevTimerIds, r0SetAllUserRoleTimer]);
     });
 
     //NOTE - 서버에서 배정한 직업에 대한 user의 정보 ==> 객체형태의 배열로 받는다.{[]}
@@ -101,41 +108,49 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - "마피아들은 고개를 들어 서로를 확인해 주세요." 모달창 띄우기
-    socket.on("r0ShowMafiaUserEachOther", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r0ShowMafiaUserEachOther 수신");
+    socket.on("r0ShowMafiaUserEachOther", () =>
+      r0ShowMafiaUserEachOther({
+        roomId,
+        userId,
+        setIsOpen,
+        setTitle,
+        setMessage,
+        setTimer,
+        setIsClose,
+        setIsOverlay,
+        setTimerIds
+      })
+    );
 
-      // 타이머를 작동
-      // console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
-      await setStatus(userId, { r0ShowMafiaUserEachOther: true });
-      socket.emit("r0ShowMafiaUserEachOther", roomId);
-      console.log("r0ShowMafiaUserEachOther 송신");
-    });
-
-    //NOTE -  마피아 유저 화상 카메라와 마이크만 켬
+    //NOTE -  마피아 유저 캠 및 오디오 On
     socket.on("r0TurnMafiaUserCameraOn", async (players) => {
-      console.log("r0TurnMafiaUserCameraOn 수신");
+      // const specificUser = useParticipantTracks(sources, "13cd6ea6-6a51-46fb-a434-10c42971dc87");
 
-      await setStatus(userId, { r0TurnMafiaUserCameraOn: true });
-
+      r0TurnMafiaUserCameraOnHandler({
+        tracks,
+        localUserId,
+        specificUser,
+        userId,
+        roomId,
+        sources,
+        setTimerIds
+      });
       console.log(`카메라 켤 마피아 목록 : ${players}`);
-
-      // waitForMs(500); 마피아 시간
-
-      socket.emit("r0TurnMafiaUserCameraOn", roomId);
-      console.log("r0TurnMafiaUserCameraOn 송신");
     });
 
-    //NOTE - 마피아 유저들 화면의 마피아 유저 화상 카메라와 마이크만 끔
+    //NOTE -  마피아 유저 캠 및 오디오 Off
     socket.on("r0TurnMafiaUserCameraOff", async (players) => {
-      console.log("r0TurnMafiaUserCameraOff 수신");
-
-      await setStatus(userId, { r0TurnMafiaUserCameraOff: true });
-
+      // const specificUser = useParticipantTracks(sources, "afd43d19-0728-4ab8-9b56-fb3220b5b285");
+      r0TurnMafiaUserCameraOffHandler({
+        tracks,
+        localUserId,
+        specificUser,
+        userId,
+        roomId,
+        sources,
+        setTimerIds
+      });
       console.log(`카메라 끌 마피아 목록 : ${players}`);
-
-      socket.emit("r0TurnMafiaUserCameraOff", roomId);
-      console.log("r0TurnMafiaUserCameraOff 송신");
     });
 
     //NOTE - 아침이 시작되었습니다 모달창 띄우기
