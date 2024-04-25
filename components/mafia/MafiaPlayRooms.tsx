@@ -15,7 +15,7 @@ import {
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckModal from "./CheckModal";
 import GroupMafiaModal from "./GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
@@ -24,12 +24,15 @@ import RemoteParticipant from "./RemoteParticipant";
 import UserRoleModal from "./UserRoleModal";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { setStatus } from "@/utils/supabase/statusAPI";
+import useShowModalStore from "@/store/showModal.store";
+import { useCountDown } from "@/hooks/useCountDown";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
+  const { isClose, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -45,23 +48,33 @@ const MafiaPlayRooms = () => {
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.metadata;
-  /*
-    //훅 정리
-    const { localParticipant } = useLocalParticipant(); //로컬 사용자
-    const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
-  */
+  // 여러 setTimeout의 타이머 상태를 저장할 useState
+  const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]);
+
+  //훅 정리
+  // const { localParticipant } = useLocalParticipant(); //로컬 사용자
+  // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
 
   useEffect(() => {
-    //NOTE - 게임 시작 모달창 띄우기
+    //NOTE - 게임 시작
     socket.on("r0NightStart", async (title, message, timer) => {
+      //NOTE - 모달창 띄우기
       console.log("r0NightStart 수신");
+      setIsOpen(true);
+      setTitle("게임이 시작됩니다.");
+      setMessage("다들 즐길 준비 되셨나요? 그러면 출발~~");
+      setTimer(5);
+      setIsOverlay(false); //클릭 이벤트 비활성화
 
-      // 타이머를 작동
-      // console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      // 5초 후에 setStatus와 socket.emit 실행
+      const r0NightStartTimer = setTimeout(async () => {
+        await setStatus(userId, { r0NightStart: true });
+        socket.emit("r0NightStart", roomId);
+        console.log("r0NightStart 송신");
+      }, 5000);
 
-      await setStatus(userId, { r0NightStart: true });
-      socket.emit("r0NightStart", roomId);
-      console.log("r0NightStart 송신");
+      // 생성된 타이머 ID를 저장
+      setTimerIds((prevTimerIds) => [...prevTimerIds, r0NightStartTimer]);
     });
 
     //NOTE - 카메라 및 마이크 off
@@ -70,7 +83,6 @@ const MafiaPlayRooms = () => {
 
       allMediaSetting(tracks, false);
 
-      //다음 동작을 실행하기 위해 supabase의 colum인 "r0TurnAllUserCameraMikeOff"의 상태를 true로 변경
       await setStatus(userId, { r0TurnAllUserCameraMikeOff: true });
       socket.emit("r0TurnAllUserCameraMikeOff", roomId);
 
@@ -81,12 +93,14 @@ const MafiaPlayRooms = () => {
     socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
       console.log("r0SetAllUserRole 수신");
 
-      // 타이머를 작동
-      // console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      // 10초 후에 setStatus와 socket.emit 실행
+      const r0SetAllUserRoleTimer = setTimeout(async () => {
+        await setStatus(userId, { r0SetAllUserRole: true });
+        socket.emit("r0SetAllUserRole", roomId);
+        console.log("r0SetAllUserRole 송신");
+      }, 10000);
 
-      await setStatus(userId, { r0SetAllUserRole: true });
-      socket.emit("r0SetAllUserRole", roomId);
-      console.log("r0SetAllUserRole 송신");
+      setTimerIds((prevTimerIds) => [...prevTimerIds, r0SetAllUserRoleTimer]);
     });
 
     //NOTE - 서버에서 배정한 직업에 대한 user의 정보 ==> 객체형태의 배열로 받는다.{[]}
@@ -151,6 +165,11 @@ const MafiaPlayRooms = () => {
     });
 
     return () => {
+      // 저장된 모든 타이머 클리어
+      timerIds.forEach((timerId) => {
+        console.log("timerId", timerId);
+        clearTimeout(timerId);
+      });
       socket.off("r0NightStart");
       socket.off("r0TurnAllUserCameraMikeOff");
       socket.off("r0SetAllUserRole");

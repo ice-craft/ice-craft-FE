@@ -9,6 +9,7 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import GroupMafiaModal from "./GroupMafiaModal";
+import useShowModalStore from "@/store/showModal.store";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
@@ -17,6 +18,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const { isModal, setIsModal } = useModalStore();
   const { isReady, setIsReady } = useReadyStore();
   const [modalMessage, setModalMessage] = useState("");
+  const { isOpen } = useShowModalStore();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
@@ -59,7 +61,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
         {isReady ? "취소" : "게임 준비"}
       </button>
-      {isModal && <GroupMafiaModal />}
+      {isOpen && <GroupMafiaModal />}
     </div>
   );
 };

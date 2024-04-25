@@ -4,9 +4,13 @@ import { useCountDown } from "@/hooks/useCountDown";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
 import { VoteData } from "@/types";
+import useShowModalStore from "@/store/showModal.store";
 
 const CheckModal = () => {
+  // const { timer } = useShowModalStore();
+  // const initialSecond = timer;
   const initialSecond = 5;
+
   const count = useCountDown(initialSecond);
   const { userId } = useConnectStore();
   //NOTE - 찬반 투표 대상이 되는 다른 사용자의 ID와 닉네임을 저장하는 state
