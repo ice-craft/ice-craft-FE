@@ -26,6 +26,7 @@ import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { setStatus } from "@/utils/supabase/statusAPI";
 import useShowModalStore from "@/store/showModal.store";
 import { useCountDown } from "@/hooks/useCountDown";
+import { r0NightStartHandler } from "@/utils/mafiaSocket/mafiaSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -57,25 +58,19 @@ const MafiaPlayRooms = () => {
 
   useEffect(() => {
     //NOTE - 게임 시작
-    socket.on("r0NightStart", async (title, message, timer) => {
-      //NOTE - 모달창 띄우기
-      console.log("r0NightStart 수신");
-      setIsOpen(true);
-      setTitle("게임이 시작됩니다.");
-      setMessage("다들 즐길 준비 되셨나요? 그러면 출발~~");
-      setTimer(5);
-      setIsOverlay(false); //클릭 이벤트 비활성화
-
-      // 5초 후에 setStatus와 socket.emit 실행
-      const r0NightStartTimer = setTimeout(async () => {
-        await setStatus(userId, { r0NightStart: true });
-        socket.emit("r0NightStart", roomId);
-        console.log("r0NightStart 송신");
-      }, 5000);
-
-      // 생성된 타이머 ID를 저장
-      setTimerIds((prevTimerIds) => [...prevTimerIds, r0NightStartTimer]);
-    });
+    socket.on("r0NightStart", () =>
+      r0NightStartHandler({
+        roomId,
+        userId,
+        setIsOpen,
+        setTitle,
+        setMessage,
+        setTimer,
+        setIsClose,
+        setIsOverlay,
+        setTimerIds
+      })
+    );
 
     //NOTE - 카메라 및 마이크 off
     socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
@@ -100,7 +95,7 @@ const MafiaPlayRooms = () => {
         console.log("r0SetAllUserRole 송신");
       }, 10000);
 
-      setTimerIds((prevTimerIds) => [...prevTimerIds, r0SetAllUserRoleTimer]);
+      // setTimerIds((prevTimerIds) => [...prevTimerIds, r0SetAllUserRoleTimer]);
     });
 
     //NOTE - 서버에서 배정한 직업에 대한 user의 정보 ==> 객체형태의 배열로 받는다.{[]}
