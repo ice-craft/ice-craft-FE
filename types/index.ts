@@ -1,6 +1,6 @@
 import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
-import { LocalParticipant, Participant, Track } from "livekit-client";
+import { LocalParticipant, Participant, RemoteParticipant, Track } from "livekit-client";
 import { StaticImageData } from "next/image";
 import { Dispatch, SetStateAction } from "react";
 
@@ -166,7 +166,8 @@ export interface ShowModalComponents {
 export interface MediaState {
   tracks: TrackReferenceOrPlaceholder[];
   localUserId: string | undefined;
-  specificUser: TrackReference[];
+  remoteParticipants: RemoteParticipant[];
+  players: [];
   userId: string;
   roomId: string;
   sources: Track.Source[];
