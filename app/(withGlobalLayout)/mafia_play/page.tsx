@@ -131,8 +131,8 @@ const MafiaPlay = () => {
       console.log(message);
     });
 
-    socket.on("exitRoom", (userInfo) => {
-      console.log(userInfo);
+    socket.on("exitRoom", () => {
+      console.log("방에서 나갔습니다.");
     });
 
     socket.on("exitRoomError", (message) => {
@@ -407,6 +407,7 @@ const MafiaPlay = () => {
         } else {
           console.log("무효 투표라서 아무도 죽지 않음");
         }
+        console.log("만약 killedPlayer가 자신이라면 죽었다고 관전할거냐면서 물어보고 방에서 나갈지 사망할지 처리.");
 
         await setStatus(userId.current, { r1KillMostVotedPlayer: true });
         socket.emit("r1KillMostVotedPlayer", roomId.current);
@@ -465,12 +466,15 @@ const MafiaPlay = () => {
       console.log("r1TurnMafiaUserCameraOff 송신");
     });
 
-    socket.on("r1DecideDoctorToSavePlayer", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1DecideDoctorToSavePlayer", async (title, message, timer, nickname, yesOrNo, isValid, doctorPlayer) => {
       console.log("r1DecideDoctorToSavePlayer 수신");
       const player = null;
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      console.log("message가 의사가 있다는 메세지이면 userId 넣어서 송신, 없으면 null 넣어서 송신");
+      console.log();
+      console.log(
+        "valid : 방 구성인원에 의사가 있음, doctorPlayer :  의사가 살아있으면 유저 아이디 죽었으면 null, player :  살릴 플레이어 유저아이디 대입"
+      );
 
       await setStatus(userId.current, { r1DecideDoctorToSavePlayer: true });
       socket.emit("r1DecideDoctorToSavePlayer", roomId.current, player);
@@ -482,7 +486,9 @@ const MafiaPlay = () => {
       const player = null;
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      console.log("message가 경찰이 있다는 메세지이면 userId 넣어서 송신, 없으면 null 넣어서 송신");
+      console.log(
+        "valid : 방 구성인원에 경찰이 있음, policePlayer :  의사가 살아있으면 유저 아이디 죽었으면 null, player :  의심하는 플레이어 유저아이디 대입"
+      );
 
       await setStatus(userId.current, { r1DecidePoliceToDoubtPlayer: true });
       socket.emit("r1DecidePoliceToDoubtPlayer", roomId.current, player);
