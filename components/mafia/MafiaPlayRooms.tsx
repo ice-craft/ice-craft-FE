@@ -5,27 +5,8 @@ import Mafia from "@/assets/images/cam_mafia.svg";
 import useConnectStore from "@/store/connect-store";
 import { useCamClickImageState } from "@/store/image-store";
 import useOverlayStore from "@/store/overlay-store";
-import S from "@/style/livekit/livekit.module.css";
-import {
-  allAudioSetting,
-  allMediaSetting,
-  specificUserAudioSetting,
-  specificUserVideoSetting
-} from "@/utils/participantCamSettings/camSetting";
-import { socket } from "@/utils/socket/socket";
-import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
-import { Participant, Track } from "livekit-client";
-import { useEffect, useRef, useState } from "react";
-import CheckModal from "./CheckModal";
-import GroupMafiaModal from "./GroupMafiaModal";
-import LocalParticipant from "./LocalParticipant";
-import MafiaToolTip from "./MafiaToolTip";
-import RemoteParticipant from "./RemoteParticipant";
-import UserRoleModal from "./UserRoleModal";
-import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
-import { setStatus } from "@/utils/supabase/statusAPI";
 import useShowModalStore from "@/store/showModal.store";
-import { useCountDown } from "@/hooks/useCountDown";
+import S from "@/style/livekit/livekit.module.css";
 import {
   r0NightStartHandler,
   r0ShowMafiaUserEachOther,
@@ -33,15 +14,27 @@ import {
   r0TurnMafiaUserCameraOffHandler,
   r0TurnMafiaUserCameraOnHandler
 } from "@/utils/mafiaSocket/mafiaSocket";
+import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
+import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
+import { socket } from "@/utils/socket/socket";
+import { setStatus } from "@/utils/supabase/statusAPI";
+import { DisconnectButton, useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
+import { Participant, Track } from "livekit-client";
+import { useEffect, useState } from "react";
+import CheckModal from "./CheckModal";
+import GroupMafiaModal from "./GroupMafiaModal";
+import LocalParticipant from "./LocalParticipant";
+import MafiaToolTip from "./MafiaToolTip";
+import RemoteParticipant from "./RemoteParticipant";
+import UserRoleModal from "./UserRoleModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
-  const { isClose, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
-  // 여러 setTimeout의 타이머 상태를 저장할 useState
-  const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]);
+  const { setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
+  const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]); // 여러 setTimeout의 타이머 상태를 저장하여 return시 한번에 제거
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -51,14 +44,16 @@ const MafiaPlayRooms = () => {
     ],
     { onlySubscribed: false }
   );
+
   const sources = tracks.map((item) => item.source);
 
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.metadata;
 
-  //NOTE -  원격 user의 정보
-  const specificUser = useParticipantTracks(sources, "");
+  //NOTE -  원격 user들의 정보
+  const remoteParticipants = useRemoteParticipants();
+
   //훅 정리
   // const { localParticipant } = useLocalParticipant(); //로컬 사용자
   // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
@@ -124,33 +119,30 @@ const MafiaPlayRooms = () => {
 
     //NOTE -  마피아 유저 캠 및 오디오 On
     socket.on("r0TurnMafiaUserCameraOn", async (players) => {
-      // const specificUser = useParticipantTracks(sources, "13cd6ea6-6a51-46fb-a434-10c42971dc87");
-
       r0TurnMafiaUserCameraOnHandler({
         tracks,
         localUserId,
-        specificUser,
+        remoteParticipants,
+        players,
         userId,
         roomId,
         sources,
         setTimerIds
       });
-      console.log(`카메라 켤 마피아 목록 : ${players}`);
     });
 
     //NOTE -  마피아 유저 캠 및 오디오 Off
     socket.on("r0TurnMafiaUserCameraOff", async (players) => {
-      // const specificUser = useParticipantTracks(sources, "afd43d19-0728-4ab8-9b56-fb3220b5b285");
       r0TurnMafiaUserCameraOffHandler({
         tracks,
         localUserId,
-        specificUser,
+        remoteParticipants,
+        players,
         userId,
         roomId,
         sources,
         setTimerIds
       });
-      console.log(`카메라 끌 마피아 목록 : ${players}`);
     });
 
     //NOTE - 아침이 시작되었습니다 모달창 띄우기
