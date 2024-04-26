@@ -551,15 +551,13 @@ const MafiaPlay = () => {
       console.log("r2AskPlayerToExit 송신");
     });
 
-    socket.on("r2WhoWIns", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r2WhoWIns 수신");
+    socket.on("gameOver", async (title, message, timer, nickname, yesOrNo) => {
+      console.log("gameOver 수신");
 
       waitForMs(timer);
       console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
-      socket.emit("r2WhoWIns", roomId.current);
-      console.log("r2WhoWIns 송신");
     });
+
     socket.on("updateUserInRoom", (playerInfo) => {
       console.log("updateUserInRoom 수신");
       console.log(`GUI에 표시할 정보들 : ${playerInfo}`);
