@@ -167,7 +167,7 @@ export interface MediaState {
   tracks: TrackReferenceOrPlaceholder[];
   localUserId: string | undefined;
   remoteParticipants: RemoteParticipant[];
-  players: [];
+  players: string[];
   userId: string;
   roomId: string;
   sources: Track.Source[];
