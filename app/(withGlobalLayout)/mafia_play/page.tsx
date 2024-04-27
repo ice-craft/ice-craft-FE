@@ -232,7 +232,7 @@ const MafiaPlay = () => {
     socket.on("r0TurnMafiaUserCameraOn", (mafiaPlayers) => {
       console.log("r0TurnMafiaUserCameraOn 수신");
 
-      console.log(`카메라 켤 마피아 목록 : ${mafiaPlayers}`);
+      console.log(`자신이 마피아 플레이어라면 카메라 켤 마피아 목록 : ${mafiaPlayers}`);
 
       socket.emit("r0TurnMafiaUserCameraOn");
       console.log("r0TurnMafiaUserCameraOn 송신");
@@ -242,15 +242,17 @@ const MafiaPlay = () => {
       console.log("[r0TurnMafiaUserCameraOnError]");
     });
 
-    socket.on("r0TurnMafiaUserCameraOff", async (players) => {
+    socket.on("r0TurnMafiaUserCameraOff", (mafiaPlayers) => {
       console.log("r0TurnMafiaUserCameraOff 수신");
 
-      await setStatus(userId.current, { r0TurnMafiaUserCameraOff: true });
+      console.log(`자신이 마피아 플레이어라면 카메라 끌 마피아 목록 : ${mafiaPlayers}`);
 
-      console.log(`카메라 끌 마피아 목록 : ${players}`);
-
-      socket.emit("r0TurnMafiaUserCameraOff", roomId.current);
+      socket.emit("r0TurnMafiaUserCameraOff");
       console.log("r0TurnMafiaUserCameraOff 송신");
+    });
+
+    socket.on("r0TurnMafiaUserCameraOffError", () => {
+      console.log("[r0TurnMafiaUserCameraOffError]");
     });
 
     socket.on("r1MorningStart", async (title, message, timer, nickname, yesOrNo) => {
