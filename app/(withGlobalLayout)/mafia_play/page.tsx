@@ -255,15 +255,17 @@ const MafiaPlay = () => {
       console.log("[r0TurnMafiaUserCameraOffError]");
     });
 
-    socket.on("r1MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1MorningStart", () => {
       console.log("r1MorningStart 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1MorningStart 모달 창 띄움");
 
-      await setStatus(userId.current, { r1MorningStart: true });
       socket.emit("r1MorningStart", roomId.current);
       console.log("r1MorningStart 송신");
+    });
+
+    socket.on("r1MorningStartError", () => {
+      console.log("[r1MorningStartError]");
     });
 
     socket.on("r1TurnAllUserCameraMikeOn", async (players) => {
