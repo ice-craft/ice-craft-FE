@@ -18,9 +18,17 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 import { setStatus } from "@/utils/supabase/statusAPI";
-import { DisconnectButton, useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
+import {
+  DisconnectButton,
+  useFocusToggle,
+  useLocalParticipant,
+  useMaybeLayoutContext,
+  useParticipantTracks,
+  useParticipants,
+  useTracks
+} from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckModal from "./CheckModal";
 import GroupMafiaModal from "./GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
@@ -51,8 +59,9 @@ const MafiaPlayRooms = () => {
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.metadata;
 
-  //NOTE -  원격 user들의 정보
-  const remoteParticipants = useRemoteParticipants();
+  //NOTE -  모든 user들의 정보
+  const participants = useParticipants();
+  console.log("participants", participants);
 
   //훅 정리
   // const { localParticipant } = useLocalParticipant(); //로컬 사용자
@@ -78,7 +87,7 @@ const MafiaPlayRooms = () => {
     socket.on("r0TurnAllUserCameraMikeOff", () => r0TurnAllUserCameraMikeOffHandler(tracks, userId, roomId));
 
     //NOTE - "역할 배정을 시작하겠습니다."" modal창 띄우기
-    socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r0SetAllUserRole", async () => {
       console.log("r0SetAllUserRole 수신");
 
       // 10초 후에 setStatus와 socket.emit 실행
@@ -118,11 +127,13 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE -  마피아 유저 캠 및 오디오 On
-    socket.on("r0TurnMafiaUserCameraOn", async (players) => {
+    socket.on("r0TurnMafiaUserCameraOn", async (player) => {
+      //임시 데이터
+      const players = ["1925d7d8-cde8-495f-9372-013c2d33d565"];
       r0TurnMafiaUserCameraOnHandler({
         tracks,
         localUserId,
-        remoteParticipants,
+        participants,
         players,
         userId,
         roomId,
@@ -132,11 +143,13 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE -  마피아 유저 캠 및 오디오 Off
-    socket.on("r0TurnMafiaUserCameraOff", async (players) => {
+    socket.on("r0TurnMafiaUserCameraOff", async (player) => {
+      //임시 데이터
+      const players = ["7ce8f53f-0dda-4344-bef0-2f86f47fc95b"];
       r0TurnMafiaUserCameraOffHandler({
         tracks,
         localUserId,
-        remoteParticipants,
+        participants,
         players,
         userId,
         roomId,
@@ -221,10 +234,10 @@ const MafiaPlayRooms = () => {
 
     return () => {
       // 저장된 모든 타이머 클리어
-      timerIds.forEach((timerId) => {
-        console.log("timerId", timerId);
-        clearTimeout(timerId);
-      });
+      // timerIds.forEach((timerId) => {
+      //   console.log("timerId", timerId);
+      //   clearTimeout(timerId);
+      // });
       socket.off("r0NightStart");
       socket.off("r0TurnAllUserCameraMikeOff");
       socket.off("r0SetAllUserRole");

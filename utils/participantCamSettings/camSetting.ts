@@ -1,5 +1,11 @@
 import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
-import { TrackPublication } from "livekit-client";
+import {
+  LocalParticipant,
+  LocalTrackPublication,
+  RemoteParticipant,
+  RemoteTrackPublication,
+  TrackPublication
+} from "livekit-client";
 
 // //NOTE -  전체의 비디오 및 오디오 on/off
 export const allMediaSetting = (tracks: TrackReferenceOrPlaceholder[], isAllMedia: boolean) => {
@@ -37,15 +43,26 @@ export const specificUserAudioSetting = (ParticipantTrack: TrackReference[], isA
 };
 
 //NOTE - 특정 유저의 비디오 on/off
-// 특정 유저가 여러 명일 경우 객체로 받기
-export const specificUserVideoSetting = (ParticipantTrack: TrackReference[], isVideo: boolean) => {
-  const remoteVideoTrack = ParticipantTrack[1].publication.track;
+export const specificUserVideoSetting = (
+  MafiaUserTrack: (LocalParticipant | RemoteParticipant | undefined)[],
+  isVideo: boolean
+) => {
+  MafiaUserTrack.map((track) => {
+    const publicationTrack = track!.getTrackPublications();
 
-  if (remoteVideoTrack) {
-    const remoteCam = remoteVideoTrack.mediaStreamTrack;
+    const audioTrack = publicationTrack[0].track?.mediaStreamTrack;
+    const camTrack = publicationTrack[1].track?.mediaStreamTrack;
 
-    isVideo ? (remoteCam.enabled = true) : (remoteCam.enabled = false);
-  }
+    if (audioTrack && camTrack && isVideo) {
+      // audioTrack.enabled = true; focus문제로 현재 오디오설정은 비활성화
+      camTrack.enabled = true;
+    }
+
+    if (audioTrack && camTrack && !isVideo) {
+      // audioTrack.enabled = false; focus문제로 현재 오디오설정은 비활성화
+      camTrack.enabled = false;
+    }
+  });
 };
 
 //NOTE - 특정 유저를 제외한 비디오 및 오디오 off

@@ -1,6 +1,6 @@
 import { MediaState, ShowModalComponents } from "@/types";
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
-import { allMediaSetting, specificUserVideoSetting } from "../participantCamSettings/camSetting";
+import { allAudioSetting, allMediaSetting, specificUserVideoSetting } from "../participantCamSettings/camSetting";
 import { socket } from "../socket/socket";
 import { setStatus } from "../supabase/statusAPI";
 
@@ -86,35 +86,33 @@ export const r0ShowMafiaUserEachOther = async ({
 export const r0TurnMafiaUserCameraOnHandler = async ({
   tracks,
   localUserId,
-  remoteParticipants,
+  participants,
   players,
   userId,
+  sources,
   roomId,
   setTimerIds
 }: MediaState) => {
   console.log("r0TurnMafiaUserCameraOn 수신");
+  console.log("players", players);
 
-  allMediaSetting(tracks, false);
-  // console.log("localUserId", localUserId);
-  // console.log("userId", userId);
-  // console.log("RemoteParticipants", RemoteParticipants);
-  // console.log("players", players);
-
-  // 1) localUserId, specificUser, players의 값이 null이 아닐 경우에만 수행
-  if (!localUserId || !remoteParticipants || !players) {
+  if (!localUserId || !players) {
     return () => {};
   }
 
-  // 2) 특정 유저의 track 및 boolean값을 통해 캠 활성화
-  const MafiaUserId = players.map((userId) => {
-    return remoteParticipants.map((remote) => {
-      if (remote.metadata === userId && localUserId === userId) {
-        return remote;
-      }
-    });
+  //NOTE - 1. 특정 user의 track(데이터) 가져오기
+  const MafiaUserTrack = players.map((userId) => {
+    return participants.find((item) => item.metadata === userId);
   });
-  console.log("MafiaUserId", MafiaUserId);
-  // specificUserVideoSetting(MafiaUserId, true)
+
+  //NOTE - 2. 해당 user일 경우에만 캠 및 오디오 ON
+  MafiaUserTrack.forEach((track) => {
+    if (localUserId === track?.metadata) {
+      specificUserVideoSetting(MafiaUserTrack, true);
+    } else {
+      allAudioSetting(tracks, false);
+    }
+  });
 
   // 5초 후에 setStatus와 socket.emit 실행
   const r0TurnMafiaUserCameraOnTimer = setTimeout(async () => {
@@ -131,7 +129,7 @@ export const r0TurnMafiaUserCameraOnHandler = async ({
 export const r0TurnMafiaUserCameraOffHandler = async ({
   tracks,
   localUserId,
-  remoteParticipants,
+  participants,
   players,
   userId,
   roomId,
@@ -140,16 +138,19 @@ export const r0TurnMafiaUserCameraOffHandler = async ({
 }: MediaState) => {
   console.log("r0TurnMafiaUserCameraOff 수신");
 
-  if (!localUserId || !remoteParticipants || !players) {
+  if (!localUserId || !participants || !players) {
     return () => {};
   }
-  allMediaSetting(tracks, false);
 
+  console.log("participants", participants);
   // 2) 특정 유저의 track 및 boolean값을 통해 캠 활성화
   const MafiaUserId = players.map((userId) => {
-    return remoteParticipants.map((remote) => {
-      if (remote.metadata === userId && localUserId === userId) {
-        return remote;
+    if (localUserId === userId) {
+    }
+
+    return participants.map((participant) => {
+      if (participant.metadata === userId && localUserId === userId) {
+        return participant;
       }
     });
   });

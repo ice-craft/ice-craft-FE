@@ -166,7 +166,7 @@ export interface ShowModalComponents {
 export interface MediaState {
   tracks: TrackReferenceOrPlaceholder[];
   localUserId: string | undefined;
-  remoteParticipants: RemoteParticipant[];
+  participants: (RemoteParticipant | LocalParticipant)[];
   players: string[];
   userId: string;
   roomId: string;
