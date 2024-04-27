@@ -378,14 +378,17 @@ const MafiaPlay = () => {
       console.log("[r1VoteYesOrNoError]");
     });
 
-    socket.on("r1ShowVoteYesOrNoResult", async (voteResult) => {
+    socket.on("r1ShowVoteYesOrNoResult", (voteResult) => {
       console.log("r1ShowVoteYesOrNoResult 수신");
 
-      console.log(voteResult);
+      console.log(`찬성/반대 투표 결과 : ${voteResult}`);
 
-      await setStatus(userId.current, { r1ShowVoteYesOrNoResult: true });
-      socket.emit("r1ShowVoteYesOrNoResult", roomId.current);
+      socket.emit("r1ShowVoteYesOrNoResult");
       console.log("r1ShowVoteYesOrNoResult 송신");
+    });
+
+    socket.on("r1ShowVoteYesOrNoResultError", () => {
+      console.log("[r1ShowVoteYesOrNoResultError]");
     });
 
     socket.on(
