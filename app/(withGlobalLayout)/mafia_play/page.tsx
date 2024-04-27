@@ -491,18 +491,22 @@ const MafiaPlay = () => {
       console.log("[r1DecideDoctorToSavePlayerError]");
     });
 
-    socket.on("r1DecidePoliceToDoubtPlayer", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1DecidePoliceToDoubtPlayer", (message, isValid, policePlayer) => {
       console.log("r1DecidePoliceToDoubtPlayer 수신");
       const player = null;
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      console.log(`r1DecidePoliceToDoubtPlayer ${message} 모달 창 띄움`);
+
       console.log(
-        "valid : 방 구성인원에 경찰이 있음, policePlayer :  의사가 살아있으면 유저 아이디 죽었으면 null, player :  의심하는 플레이어 유저아이디 대입"
+        "isValid : 방 구성인원에 경찰이 있는지, policePlayer :  경찰이 살아있으면 유저 아이디 죽었으면 null, player :  의심하는 플레이어 유저아이디"
       );
 
-      await setStatus(userId.current, { r1DecidePoliceToDoubtPlayer: true });
-      socket.emit("r1DecidePoliceToDoubtPlayer", roomId.current, player);
+      socket.emit("r1DecidePoliceToDoubtPlayer", player);
       console.log("r1DecidePoliceToDoubtPlayer 송신");
+    });
+
+    socket.on("r1DecidePoliceToDoubtPlayerError", () => {
+      console.log("[r1DecidePoliceToDoubtPlayerError]");
     });
 
     socket.on("r1ShowDoubtedPlayer", async (title, message, timer, nickname, yesOrNo, policePlayer) => {
