@@ -294,15 +294,17 @@ const MafiaPlay = () => {
       console.log("[r1FindMafiaError]");
     });
 
-    socket.on("r1MetingOver", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1MeetingOver", () => {
       console.log("r1MetingOver 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1MeetingOver 모달 창 띄움");
 
-      await setStatus(userId.current, { r1MetingOver: true });
-      socket.emit("r1MetingOver", roomId.current);
+      socket.emit("r1MetingOver");
       console.log("r1MetingOver 송신");
+    });
+
+    socket.on("r1MeetingOverError", () => {
+      console.log("[r1MeetingOverError]");
     });
 
     socket.on("r1VoteToMafia", async (title, message, timer, nickname, yesOrNo) => {
