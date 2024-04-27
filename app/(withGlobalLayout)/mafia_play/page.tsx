@@ -188,14 +188,16 @@ const MafiaPlay = () => {
       console.log("[r0TurnAllUserCameraMikeOffError]");
     });
 
-    socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r0SetAllUserRole", async () => {
       console.log("r0SetAllUserRole 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("유저들 역할을 정하겠다는 모달창");
 
-      await setStatus(userId.current, { r0SetAllUserRole: true });
-      socket.emit("r0SetAllUserRole", roomId.current);
+      socket.emit("r0SetAllUserRole");
       console.log("r0SetAllUserRole 송신");
+    });
+
+    socket.on("r0SetAllUserRoleError", () => {
+      console.log("[r0SetAllUserRoleError]");
     });
 
     socket.on("r0ShowAllUserRole", async (role) => {
