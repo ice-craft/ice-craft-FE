@@ -213,17 +213,20 @@ const MafiaPlay = () => {
     });
 
     socket.on("r0SetAllUserRoleError", () => {
-      console.log("r0SetAllUserRoleError");
+      console.log("[r0SetAllUserRoleError]");
     });
 
-    socket.on("r0ShowMafiaUserEachOther", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r0ShowMafiaUserEachOther", () => {
       console.log("r0ShowMafiaUserEachOther 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
-      await setStatus(userId.current, { r0ShowMafiaUserEachOther: true });
-      socket.emit("r0ShowMafiaUserEachOther", roomId.current);
+      console.log("r0ShowMafiaUserEachOther 모달 창 띄움");
+
+      socket.emit("r0ShowMafiaUserEachOther");
       console.log("r0ShowMafiaUserEachOther 송신");
+    });
+
+    socket.on("r0ShowMafiaUserEachOtherError", () => {
+      console.log("r0ShowMafiaUserEachOtherError 수신");
     });
 
     socket.on("r0TurnMafiaUserCameraOn", async (players) => {
