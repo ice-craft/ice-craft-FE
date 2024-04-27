@@ -337,14 +337,17 @@ const MafiaPlay = () => {
       console.log("[r1ShowVoteToResultError]");
     });
 
-    socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, isValid) => {
+    socket.on("r1ShowMostVotedPlayer", (message, isValid) => {
       console.log("r1ShowMostVotedPlayer 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      await setStatus(userId.current, { r1ShowMostVotedPlayer: true });
 
-      socket.emit("r1ShowMostVotedPlayer", roomId.current, isValid);
+      console.log(`r1ShowMostVotedPlayer ${message} 모달 창 띄움`);
+
+      socket.emit("r1ShowMostVotedPlayer", isValid);
       console.log("r1ShowMostVotedPlayer 송신");
+    });
+
+    socket.on("r1ShowMostVotedPlayer", () => {
+      console.log("[r1ShowMostVotedPlayer]");
     });
 
     socket.on("r1LastTalk", async (title, message, timer, nickname, yesOrNo) => {
