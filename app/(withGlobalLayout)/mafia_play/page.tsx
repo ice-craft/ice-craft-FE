@@ -406,14 +406,17 @@ const MafiaPlay = () => {
       console.log("[r1KillMostVotedPlayerError]");
     });
 
-    socket.on("r1TurnAllUserCameraMikeOff", async (allPlayers) => {
+    socket.on("r1TurnAllUserCameraMikeOff", () => {
       console.log("r1TurnAllUserCameraMikeOff 수신");
 
-      console.log(`${allPlayers}의 카메라 마이크 전부 끔`);
+      console.log("모든 플레이어의 카메라 마이크 전부 끔");
 
-      await setStatus(userId.current, { r1TurnAllUserCameraMikeOff: true });
-      socket.emit("r1TurnAllUserCameraMikeOff", roomId.current);
+      socket.emit("r1TurnAllUserCameraMikeOff");
       console.log("r1TurnAllUserCameraMikeOff 송신");
+    });
+
+    socket.on("r1TurnAllUserCameraMikeOffError", () => {
+      console.log("[r1TurnAllUserCameraMikeOffError]");
     });
 
     socket.on("r1DecideMafiaToKillPlayer", async (title, message, timer, nickname, yesOrNo) => {
