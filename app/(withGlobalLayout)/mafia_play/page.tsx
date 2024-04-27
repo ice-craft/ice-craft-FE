@@ -281,15 +281,17 @@ const MafiaPlay = () => {
       console.log("[r1TurnAllUserCameraMikeOnError]");
     });
 
-    socket.on("r1FindMafia", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1FindMafia", () => {
       console.log("r1FindMafia 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1FindMafia 모달 창 띄움");
 
-      await setStatus(userId.current, { r1FindMafia: true });
-      socket.emit("r1FindMafia", roomId.current);
+      socket.emit("r1FindMafia");
       console.log("r1FindMafia 송신");
+    });
+
+    socket.on("r1FindMafiaError", () => {
+      console.log("[r1FindMafiaError]");
     });
 
     socket.on("r1MetingOver", async (title, message, timer, nickname, yesOrNo) => {
