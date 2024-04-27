@@ -460,13 +460,17 @@ const MafiaPlay = () => {
       console.log("[r1GestureToMafiaEachOtherError]");
     });
 
-    socket.on("r1TurnMafiaUserCameraOff", async (mafiaPlayers) => {
+    socket.on("r1TurnMafiaUserCameraOff", (mafiaPlayers) => {
       console.log("r1TurnMafiaUserCameraOff 수신");
+
       console.log(`카메라를 끌 마피아 목록 : ${mafiaPlayers}`);
 
-      await setStatus(userId.current, { r1TurnMafiaUserCameraOff: true });
-      socket.emit("r1TurnMafiaUserCameraOff", roomId.current);
+      socket.emit("r1TurnMafiaUserCameraOff");
       console.log("r1TurnMafiaUserCameraOff 송신");
+    });
+
+    socket.on("r1TurnMafiaUserCameraOffError", () => {
+      console.log("[r1TurnMafiaUserCameraOffError]");
     });
 
     socket.on("r1DecideDoctorToSavePlayer", async (title, message, timer, nickname, yesOrNo, isValid, doctorPlayer) => {
