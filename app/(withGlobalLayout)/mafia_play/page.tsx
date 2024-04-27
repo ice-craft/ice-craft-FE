@@ -445,17 +445,19 @@ const MafiaPlay = () => {
       console.log("[r1TurnMafiaUserCameraOnError]");
     });
 
-    socket.on("r1GestureToMafiaEachOther", async (title, message, timer, nickname, yesOrNo, mafiaPlayers) => {
+    socket.on("r1GestureToMafiaEachOther", (message) => {
       console.log("r1GestureToMafiaEachOther 수신");
       const player = "44444444-f1b4-46eb-a187-2da752eed29c";
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
-      console.log("자신이 마피아 플레이어 목록에 있으면 모달창 띄우고 어떤 플레이어를 죽일지 선택");
+      console.log(`r1GestureToMafiaEachOther ${message} 모달 창 띄움`);
+      console.log("자신이 마피아라면 어떤 플레이어를 죽일지 선택");
 
-      await setStatus(userId.current, { r1GestureToMafiaEachOther: true });
-      socket.emit("r1GestureToMafiaEachOther", roomId.current, player);
+      socket.emit("r1GestureToMafiaEachOther", player, new Date());
       console.log("r1GestureToMafiaEachOther 송신");
+    });
+
+    socket.on("r1GestureToMafiaEachOtherError", () => {
+      console.log("[r1GestureToMafiaEachOtherError]");
     });
 
     socket.on("r1TurnMafiaUserCameraOff", async (mafiaPlayers) => {
