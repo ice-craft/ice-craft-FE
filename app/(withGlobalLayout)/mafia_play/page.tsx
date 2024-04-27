@@ -346,19 +346,21 @@ const MafiaPlay = () => {
       console.log("r1ShowMostVotedPlayer 송신");
     });
 
-    socket.on("r1ShowMostVotedPlayer", () => {
-      console.log("[r1ShowMostVotedPlayer]");
+    socket.on("r1ShowMostVotedPlayerError", () => {
+      console.log("[r1ShowMostVotedPlayerError]");
     });
 
-    socket.on("r1LastTalk", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1LastTalk", async (message) => {
       console.log("r1LastTalk 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log(`r1LastTalk ${message} 모달 창 띄움`);
 
-      await setStatus(userId.current, { r1LastTalk: true });
-      socket.emit("r1LastTalk", roomId.current);
+      socket.emit("r1LastTalk");
       console.log("r1LastTalk 송신");
+    });
+
+    socket.on("r1LastTalkError", () => {
+      console.log("[r1LastTalkError]");
     });
 
     socket.on("r1VoteYesOrNo", async (title, message, timer, nickname, yesOrNo) => {
