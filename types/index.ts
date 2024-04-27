@@ -154,6 +154,8 @@ export interface TimerState {
 export interface ShowModalComponents {
   userId: string;
   roomId: string;
+  votedPlayer?: string;
+  voteBoard?: any;
   setIsOpen: (newIsOpen: boolean) => void;
   setTitle: (newTitle: string) => void;
   setMessage: (newMessage: string) => void;

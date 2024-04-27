@@ -138,7 +138,7 @@ export const r0TurnMafiaUserCameraOffHandler = async ({
 }: MediaState) => {
   console.log("r0TurnMafiaUserCameraOff 수신");
 
-  if (!localUserId || !participants || !players) {
+  if (!localUserId || !players) {
     return () => {};
   }
 
@@ -165,4 +165,175 @@ export const r0TurnMafiaUserCameraOffHandler = async ({
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r0TurnMafiaUserCameraOffTimer]);
+};
+
+//NOTE - (토론시간) 아침이 시작되었습니다 모달창 띄우기
+export const r1MorningStartHandler = async ({
+  roomId,
+  userId,
+  setIsOpen,
+  setTitle,
+  setMessage,
+  setTimer,
+  setIsOverlay,
+  setTimerIds
+}: ShowModalComponents) => {
+  console.log("r1MorningStart 수신");
+
+  // 모달창 요소
+  setIsOpen(true);
+  setTitle("아침 시간");
+  setMessage("난 살거야! 그리고 범인은 바로... 너");
+  setTimer(5);
+  setIsOverlay(false); //캠 클릭 이벤트 비활성화
+
+  // 5초 후에 setStatus와 socket.emit 실행
+  const r1MorningStartTimer = setTimeout(async () => {
+    await setStatus(userId, { r1MorningStart: true });
+    socket.emit("r1MorningStart", roomId);
+    console.log("r1MorningStart 송신");
+  }, 5000);
+
+  // 생성된 타이머 ID를 저장
+  setTimerIds((prevTimerIds) => [...prevTimerIds, r1MorningStartTimer]);
+};
+
+//NOTE - 전체 user의 캠 및 오디오 활성화
+export const r1TurnAllUserCameraMikeOnHandler = async (
+  tracks: TrackReferenceOrPlaceholder[],
+  userId: string,
+  roomId: string
+) => {
+  console.log("r1TurnAllUserCameraMikeOn 수신");
+
+  allMediaSetting(tracks, true);
+
+  await setStatus(userId, { r1TurnAllUserCameraMikeOn: true });
+  socket.emit("r1TurnAllUserCameraMikeOn", roomId);
+  console.log("r1TurnAllUserCameraMikeOn 송신");
+};
+
+//NOTE - 아침시간(토론시간) 1분 카운트
+export const r1FindMafiaHandler = async ({
+  roomId,
+  userId,
+  setIsOpen,
+  setTitle,
+  setMessage,
+  setTimer,
+  setIsClose,
+  setIsOverlay,
+  setTimerIds
+}: ShowModalComponents) => {
+  console.log("r1FindMafia 수신");
+
+  // 1분 후에 setStatus와 socket.emit 실행
+  const r1FindMafiaTimer = setTimeout(async () => {
+    await setStatus(userId, { r1FindMafia: true });
+    socket.emit("r1FindMafia", roomId);
+    console.log("r1FindMafia 송신");
+  }, 60000);
+
+  // 생성된 타이머 ID를 저장
+  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1FindMafiaTimer]);
+};
+
+//NOTE -  토론 종료 모달창 띄우기
+export const r1MetingOverHandler = async ({
+  roomId,
+  userId,
+  setIsOpen,
+  setTitle,
+  setMessage,
+  setTimer,
+  setIsClose,
+  setIsOverlay,
+  setTimerIds
+}: ShowModalComponents) => {
+  console.log("r1MetingOver 수신");
+
+  // 모달창 요소
+  setIsOpen(true);
+  setTitle("토론 시간 종료");
+  setTimer(5);
+  setIsOverlay(false); //캠 클릭 이벤트 비활성화
+
+  // 5초 후에 setStatus와 socket.emit 실행
+  const r1MetingOverTimer = setTimeout(async () => {
+    await setStatus(userId, { r1MetingOver: true });
+    socket.emit("r1MetingOver", roomId);
+    console.log("r1MetingOver 송신");
+  }, 5000);
+
+  // 생성된 타이머 ID를 저장
+  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1MetingOverTimer]);
+};
+
+//NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
+export const r1VoteToMafiaHandler = async ({
+  roomId,
+  userId,
+  votedPlayer,
+  setIsOpen,
+  setTitle,
+  setMessage,
+  setTimer,
+  setIsClose,
+  setIsOverlay,
+  setTimerIds
+}: ShowModalComponents) => {
+  console.log("r1VoteToMafia 수신");
+
+  // 모달창 요소
+  setIsOpen(true);
+  setTitle("투표 시간");
+  setTimer(5);
+  setIsOverlay(true); //캠 클릭 이벤트 활성화
+
+  // 15초 후에 setStatus와 socket.emit 실행
+  const r1VoteToMafiaTimer = setTimeout(async () => {
+    //votePlayer userId
+    console.log("votedPlayer", votedPlayer);
+    await setStatus(userId, { r1VoteToMafia: true });
+    socket.emit("r1VoteToMafia", roomId, votedPlayer);
+    console.log("r1VoteToMafia 송신");
+  }, 20000);
+
+  // 생성된 타이머 ID를 저장
+  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1VoteToMafiaTimer]);
+};
+
+//NOTE - UI 모달창 띄우기: 투표 개표(결과)
+export const r1ShowVoteToResultHandler = async ({
+  roomId,
+  userId,
+  votedPlayer,
+  voteBoard,
+  setIsOpen,
+  setTitle,
+  setMessage,
+  setTimer,
+  setIsClose,
+  setIsOverlay,
+  setTimerIds
+}: ShowModalComponents) => {
+  console.log("r1ShowVoteToResult 수신");
+  console.log("투표 결과", voteBoard); //user_id, user_nickname, voted_count(내림차순)
+
+  // 모달창 요소
+  setIsOpen(true);
+  setTitle("투표 결과");
+  setMessage(`${voteBoard.nickname}님이 마피아로 지목되었습니다.`);
+  setTimer(5);
+  setIsOverlay(false); //캠 클릭 이벤트 비활성화
+
+  // 15초 후에 setStatus와 socket.emit 실행
+  const r1ShowVoteToResultTimer = setTimeout(async () => {
+    await setStatus(userId, { r1VoteToMafia: true });
+    socket.emit("r1ShowVoteToResult", roomId);
+    console.log("r1ShowVoteToResult 송신");
+  }, 20000);
+
+  // 생성된 타이머 ID를 저장
+  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1ShowVoteToResultTimer]);
 };
