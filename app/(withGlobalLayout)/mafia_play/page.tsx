@@ -509,16 +509,21 @@ const MafiaPlay = () => {
       console.log("[r1DecidePoliceToDoubtPlayerError]");
     });
 
-    socket.on("r1ShowDoubtedPlayer", async (title, message, timer, nickname, yesOrNo, policePlayer) => {
+    socket.on("r1ShowDoubtedPlayer", (message, isValid, policePlayer) => {
       console.log("r1ShowDoubtedPlayer 수신");
       console.log("userId가 policePlayer면 의심하고 있는 유저가 마피아인지 알려줌");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log(`r1ShowDoubtedPlayer ${message} 모달 창 띄움`);
+      console.log(
+        "isValid : 방 구성인원 중 경찰 역할이 있는지(true,false) 경찰이 지목하지 않았다면 null, policePlayer : 경찰이 살아있으면 유저 아이디 죽었으면 null"
+      );
 
-      await setStatus(userId.current, { r1ShowDoubtedPlayer: true });
-      socket.emit("r1ShowDoubtedPlayer", roomId.current);
+      socket.emit("r1ShowDoubtedPlayer");
       console.log("r1ShowDoubtedPlayer 송신");
+    });
+
+    socket.on("r1ShowDoubtedPlayerError", () => {
+      console.log("[r1ShowDoubtedPlayerError]");
     });
 
     socket.on("r1KillPlayerByRole", async () => {
