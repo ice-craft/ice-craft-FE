@@ -319,18 +319,22 @@ const MafiaPlay = () => {
       socket.emit("r1VoteToMafia", votedPlayer);
       console.log("r1VoteToMafia 송신");
     });
-    socket.on("r1ShowVoteToResult", async (voteBoard) => {
+
+    socket.on("r1VoteToMafiaError", () => {
+      console.log("[r1VoteToMafiaError]");
+    });
+
+    socket.on("r1ShowVoteToResult", (voteBoard) => {
       console.log("r1ShowVoteToResult 수신");
 
       console.log("투표 결과", voteBoard);
 
-      await setStatus(userId.current, { r1VoteToMafia: true });
-      socket.emit("r1ShowVoteToResult", roomId.current);
+      socket.emit("r1ShowVoteToResult");
       console.log("r1ShowVoteToResult 송신");
     });
 
-    socket.on("r1VoteToMafiaError", () => {
-      console.log("[r1VoteToMafiaError]");
+    socket.on("r1ShowVoteToResultError", () => {
+      console.log("[r1ShowVoteToResultError]");
     });
 
     socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, isValid) => {
