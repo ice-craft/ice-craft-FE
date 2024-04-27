@@ -229,17 +229,17 @@ const MafiaPlay = () => {
       console.log("r0ShowMafiaUserEachOtherError 수신");
     });
 
-    socket.on("r0TurnMafiaUserCameraOn", async (players) => {
+    socket.on("r0TurnMafiaUserCameraOn", (mafiaPlayers) => {
       console.log("r0TurnMafiaUserCameraOn 수신");
 
-      await setStatus(userId.current, { r0TurnMafiaUserCameraOn: true });
+      console.log(`카메라 켤 마피아 목록 : ${mafiaPlayers}`);
 
-      console.log(`카메라 켤 마피아 목록 : ${players}`);
-
-      waitForMs(500);
-
-      socket.emit("r0TurnMafiaUserCameraOn", roomId.current);
+      socket.emit("r0TurnMafiaUserCameraOn");
       console.log("r0TurnMafiaUserCameraOn 송신");
+    });
+
+    socket.on("r0TurnMafiaUserCameraOnError", () => {
+      console.log("[r0TurnMafiaUserCameraOnError]");
     });
 
     socket.on("r0TurnMafiaUserCameraOff", async (players) => {
