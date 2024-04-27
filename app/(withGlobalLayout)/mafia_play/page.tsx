@@ -299,7 +299,7 @@ const MafiaPlay = () => {
 
       console.log("r1MeetingOver 모달 창 띄움");
 
-      socket.emit("r1MetingOver");
+      socket.emit("r1MeetingOver");
       console.log("r1MetingOver 송신");
     });
 
@@ -307,16 +307,16 @@ const MafiaPlay = () => {
       console.log("[r1MeetingOverError]");
     });
 
-    socket.on("r1VoteToMafia", async (title, message, timer, nickname, yesOrNo) => {
-      const votedPlayer = "55555555-f1b4-46eb-a187-2da752eed29c";
+    socket.on("r1VoteToMafia", () => {
       console.log("r1VoteToMafia 수신");
+      const votedPlayer = "55555555-f1b4-46eb-a187-2da752eed29c";
+
       console.log("투표 진행");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1VoteToMafia 모달 창 띄움");
+      console.log(`${votedPlayer}에게 투표`);
 
-      await setStatus(userId.current, { r1VoteToMafia: true });
-      socket.emit("r1VoteToMafia", roomId.current, votedPlayer);
+      socket.emit("r1VoteToMafia", votedPlayer);
       console.log("r1VoteToMafia 송신");
     });
     socket.on("r1ShowVoteToResult", async (voteBoard) => {
@@ -327,6 +327,10 @@ const MafiaPlay = () => {
       await setStatus(userId.current, { r1VoteToMafia: true });
       socket.emit("r1ShowVoteToResult", roomId.current);
       console.log("r1ShowVoteToResult 송신");
+    });
+
+    socket.on("r1VoteToMafiaError", () => {
+      console.log("[r1VoteToMafiaError]");
     });
 
     socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, isValid) => {
