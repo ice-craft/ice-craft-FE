@@ -370,7 +370,7 @@ const MafiaPlay = () => {
       console.log(`r1VoteYesOrNo 모달 창 띄움`);
       console.log(`${voteYesOrNo} 투표를 함`);
 
-      socket.emit("r1VoteYesOrNo", userId.current, voteYesOrNo);
+      socket.emit("r1VoteYesOrNo", voteYesOrNo);
       console.log("r1VoteYesOrNo 송신");
     });
 
@@ -391,25 +391,20 @@ const MafiaPlay = () => {
       console.log("[r1ShowVoteYesOrNoResultError]");
     });
 
-    socket.on(
-      "r1KillMostVotedPlayer",
-      async (title, message, timer, nickname, yesOrNo, isValid, killedPlayer, role) => {
-        console.log("r1KillMostVotedPlayer 수신");
+    socket.on("r1KillMostVotedPlayer", async (message, killedPlayer) => {
+      console.log("r1KillMostVotedPlayer 수신");
 
-        waitForMs(timer);
-        console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-        if (isValid) {
-          console.log(`${killedPlayer}가 ${role}인거 밝힘`);
-        } else {
-          console.log("무효 투표라서 아무도 죽지 않음");
-        }
-        console.log("만약 killedPlayer가 자신이라면 죽었다고 관전할거냐면서 물어보고 방에서 나갈지 사망할지 처리.");
+      console.log(`r1KillMostVotedPlayer ${message} 모달 창 띄움`);
+      console.log("killedPlayer : 죽은 플레이어 userId, 아무도 죽지 않았다면 killedPlayer는 null");
+      console.log("만약 killedPlayer가 자신이라면 관전 여부 물어보고 방에서 나갈지 사망 처리할지 결정");
 
-        await setStatus(userId.current, { r1KillMostVotedPlayer: true });
-        socket.emit("r1KillMostVotedPlayer", roomId.current);
-        console.log("r1KillMostVotedPlayer 송신");
-      }
-    );
+      socket.emit("r1KillMostVotedPlayer");
+      console.log("r1KillMostVotedPlayer 송신");
+    });
+
+    socket.on("r1KillMostVotedPlayerError", () => {
+      console.log("[r1KillMostVotedPlayerError]");
+    });
 
     socket.on("r1TurnAllUserCameraMikeOff", async (allPlayers) => {
       console.log("r1TurnAllUserCameraMikeOff 수신");
