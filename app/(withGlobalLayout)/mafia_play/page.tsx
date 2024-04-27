@@ -143,8 +143,8 @@ const MafiaPlay = () => {
       console.log(message);
     });
 
-    socket.on("setReadyError", (message) => {
-      console.log(message);
+    socket.on("setReadyError", () => {
+      console.log("레디를  설정하는데 실패했습니다.");
     });
 
     socket.on("voteTo", (message) => {
@@ -208,17 +208,14 @@ const MafiaPlay = () => {
       console.log(`${userId}가 ready를 ${ready} 함`);
     });
 
-    socket.on("r0NightStart", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r0NightStart", async () => {
       console.log("r0NightStart 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
-      // 타이머를 붙잡기 위한 용도
-      await setStatus(userId.current, { r0NightStart: true });
-      socket.emit("r0NightStart", roomId.current);
+      socket.emit("r0NightStart");
       console.log("r0NightStart 송신");
     });
+
+    socket.on("r0NightStart", () => {});
 
     socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
       console.log("r0TurnAllUserCameraMikeOff 수신");
@@ -226,7 +223,7 @@ const MafiaPlay = () => {
       console.log(`카메라 마이크 끌 플레이어 목록 : ${players}`);
 
       await setStatus(userId.current, { r0TurnAllUserCameraMikeOff: true });
-      socket.emit("r0TurnAllUserCameraMikeOff", roomId.current);
+      socket.emit("r0TurnAllUserCameraMikeOff", roomId.current, userId.current);
       console.log("r0TurnAllUserCameraMikeOff 송신");
     });
 
