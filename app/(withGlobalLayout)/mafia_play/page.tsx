@@ -147,53 +147,9 @@ const MafiaPlay = () => {
       console.log("레디를  설정하는데 실패했습니다.");
     });
 
-    socket.on("voteTo", (message) => {
-      console.log(message);
+    socket.on("canGameStartError", () => {
+      console.log("[canGameStartError]");
     });
-
-    socket.on("voteToError", (message) => {
-      console.log(message);
-    });
-
-    socket.on("voteYesOrNo", (message) => {
-      console.log(message);
-    });
-
-    socket.on("voteYesOrNoError", (message) => {
-      console.log(message);
-    });
-
-    socket.on("choosePlayer", (message) => {
-      console.log(message);
-    });
-
-    socket.on("choosePlayerError", (message) => {
-      console.log(message);
-    });
-
-    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
-      console.log(title, message, timer, nickname, yesOrNo);
-    });
-
-    socket.on("setCamera", (userId, isOn) => {
-      console.log(userId, isOn);
-    });
-
-    socket.on("setMike", (userId, isOn) => {
-      console.log(userId, isOn);
-    });
-
-    socket.on("openPlayerRole", (userId, role) => {
-      console.log(userId, role);
-    });
-
-    socket.on("showVoteYesOrNoResult", (voteResult) => {
-      console.log(voteResult);
-    });
-
-    // socket.on("showVoteToResult", (voteResult) => {
-    //   console.log(voteResult);
-    // });
 
     socket.on("connect_error", (error) => {
       if (socket.active) {
@@ -208,23 +164,28 @@ const MafiaPlay = () => {
       console.log(`${userId}가 ready를 ${ready} 함`);
     });
 
-    socket.on("r0NightStart", async () => {
+    socket.on("r0NightStart", () => {
       console.log("r0NightStart 수신");
 
       socket.emit("r0NightStart");
       console.log("r0NightStart 송신");
     });
 
-    socket.on("r0NightStart", () => {});
+    socket.on("r0NightStartError", () => {
+      console.log("[r0NightStartError]");
+    });
 
-    socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
+    socket.on("r0TurnAllUserCameraMikeOff", () => {
       console.log("r0TurnAllUserCameraMikeOff 수신");
 
-      console.log(`카메라 마이크 끌 플레이어 목록 : ${players}`);
+      console.log("모든 유저의 카메라와 마이크 끔");
 
-      await setStatus(userId.current, { r0TurnAllUserCameraMikeOff: true });
-      socket.emit("r0TurnAllUserCameraMikeOff", roomId.current, userId.current);
+      socket.emit("r0TurnAllUserCameraMikeOff");
       console.log("r0TurnAllUserCameraMikeOff 송신");
+    });
+
+    socket.on("r0TurnAllUserCameraMikeOffError", () => {
+      console.log("[r0TurnAllUserCameraMikeOffError]");
     });
 
     socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
