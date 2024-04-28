@@ -14,7 +14,7 @@ import {
   r0TurnMafiaUserCameraOffHandler,
   r0TurnMafiaUserCameraOnHandler,
   r1FindMafiaHandler,
-  r1MetingOverHandler,
+  r1MeetingOverHandler,
   r1MorningStartHandler,
   r1ShowVoteToResultHandler,
   r1TurnAllUserCameraMikeOnHandler,
@@ -202,8 +202,8 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - UI 모달창 띄우기: 토론이 끝났습니다.(토론 시간 종료)
-    socket.on("r1MetingOver", () => {
-      r1MetingOverHandler({
+    socket.on("r1MeetingOver", () => {
+      r1MeetingOverHandler({
         roomId,
         userId,
         votedPlayer,
@@ -270,7 +270,7 @@ const MafiaPlayRooms = () => {
       socket.off("r1VoteToMafia");
       socket.off("r1ShowVoteToResult");
     };
-  }, []);
+  }, [tracks]);
 
   //NOTE - 게임 시작
   const socketGameStart = () => {

@@ -30,7 +30,7 @@ export const r0NightStartHandler = ({
   const r0NightStartTimer = setTimeout(() => {
     socket.emit("r0NightStart");
     console.log("r0NightStart 송신");
-  }, 5000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds) => [...prevTimerIds, r0NightStartTimer]);
@@ -68,7 +68,7 @@ export const r0ShowMafiaUserEachOther = ({
   const r0ShowMafiaUserEachOtherTimer = setTimeout(() => {
     socket.emit("r0ShowMafiaUserEachOther");
     console.log("r0ShowMafiaUserEachOther 송신");
-  }, 5000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds) => [...prevTimerIds, r0ShowMafiaUserEachOtherTimer]);
@@ -108,7 +108,7 @@ export const r0TurnMafiaUserCameraOnHandler = ({
   const r0TurnMafiaUserCameraOnTimer = setTimeout(() => {
     socket.emit("r0TurnMafiaUserCameraOn");
     console.log("r0TurnMafiaUserCameraOn 송신");
-  }, 5000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r0TurnMafiaUserCameraOnTimer]);
@@ -148,7 +148,7 @@ export const r0TurnMafiaUserCameraOffHandler = ({
   const r0TurnMafiaUserCameraOffTimer = setTimeout(() => {
     socket.emit("r0TurnMafiaUserCameraOff");
     console.log("r0TurnMafiaUserCameraOff 송신");
-  }, 5000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r0TurnMafiaUserCameraOffTimer]);
@@ -177,7 +177,7 @@ export const r1MorningStartHandler = ({
   const r1MorningStartTimer = setTimeout(() => {
     socket.emit("r1MorningStart");
     console.log("r1MorningStart 송신");
-  }, 5000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds) => [...prevTimerIds, r1MorningStartTimer]);
@@ -210,14 +210,14 @@ export const r1FindMafiaHandler = ({
   const r1FindMafiaTimer = setTimeout(() => {
     socket.emit("r1FindMafia");
     console.log("r1FindMafia 송신");
-  }, 60000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1FindMafiaTimer]);
 };
 
 //NOTE -  토론 종료 모달창 띄우기
-export const r1MetingOverHandler = ({
+export const r1MeetingOverHandler = ({
   userId,
   setIsOpen,
   setTitle,
@@ -227,7 +227,7 @@ export const r1MetingOverHandler = ({
   setIsOverlay,
   setTimerIds
 }: ShowModalComponents) => {
-  console.log("r1MetingOver 수신");
+  console.log("r1MeetingOver 수신");
 
   // 모달창 요소
   setIsOpen(true);
@@ -236,13 +236,13 @@ export const r1MetingOverHandler = ({
   setIsOverlay(false); //캠 클릭 이벤트 비활성화
 
   // 5초 후에 setStatus와 socket.emit 실행
-  const r1MetingOverTimer = setTimeout(() => {
-    socket.emit("r1MetingOver");
-    console.log("r1MetingOver 송신");
-  }, 5000);
+  const r1MeetingOverTimer = setTimeout(() => {
+    socket.emit("r1MeetingOver");
+    console.log("r1MeetingOver 송신");
+  }, 500);
 
   // 생성된 타이머 ID를 저장
-  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1MetingOverTimer]);
+  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1MeetingOverTimer]);
 };
 
 //NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
@@ -305,7 +305,7 @@ export const r1ShowVoteToResultHandler = ({
   const r1ShowVoteToResultTimer = setTimeout(() => {
     socket.emit("r1ShowVoteToResult");
     console.log("r1ShowVoteToResult 송신");
-  }, 20000);
+  }, 500);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1ShowVoteToResultTimer]);
