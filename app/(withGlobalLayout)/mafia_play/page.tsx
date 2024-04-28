@@ -562,15 +562,18 @@ const MafiaPlay = () => {
       console.log("[r2TurnAllUserCameraMikeOnError]");
     });
 
-    socket.on("r2ShowIsPlayerLived", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r2ShowIsPlayerLived", (message, isKilled) => {
       console.log("r2ShowIsPlayerLived 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("isKilled : 해당 플레이어가 죽었는지");
+      console.log(`r2ShowIsPlayerLived ${message} 모달 창 띄움`);
 
-      await setStatus(userId.current, { r2ShowIsPlayerLived: true });
-      socket.emit("r2ShowIsPlayerLived", roomId.current);
+      socket.emit("r2ShowIsPlayerLived", isKilled);
       console.log("r2ShowIsPlayerLived 송신");
+    });
+
+    socket.on("r2ShowIsPlayerLivedError", () => {
+      console.log("[r2ShowIsPlayerLivedError]");
     });
 
     socket.on("r2AskPlayerToExit", async (title, message, timer, nickname, yesOrNo) => {
