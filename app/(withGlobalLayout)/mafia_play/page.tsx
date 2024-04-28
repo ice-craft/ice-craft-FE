@@ -537,15 +537,17 @@ const MafiaPlay = () => {
       console.log("[r1KillPlayerByRoleError]");
     });
 
-    socket.on("r2MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r2MorningStart", () => {
       console.log("r2MorningStart 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r2MorningStart 모달 창 띄움");
 
-      await setStatus(userId.current, { r1DecidePoliceToDoubtPlayer: true });
-      socket.emit("r2MorningStart", roomId.current);
+      socket.emit("r2MorningStart");
       console.log("r2MorningStart 송신");
+    });
+
+    socket.on("r2MorningStartError", () => {
+      console.log("[r2MorningStartError]");
     });
 
     socket.on("r2TurnAllUserCameraMikeOn", async (allPlayers) => {
