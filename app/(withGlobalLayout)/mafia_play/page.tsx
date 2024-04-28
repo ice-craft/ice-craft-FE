@@ -550,13 +550,16 @@ const MafiaPlay = () => {
       console.log("[r2MorningStartError]");
     });
 
-    socket.on("r2TurnAllUserCameraMikeOn", async (allPlayers) => {
+    socket.on("r2TurnAllUserCameraMikeOn", () => {
       console.log("r2TurnAllUserCameraMikeOn 수신");
-      console.log(`카메라와 마이크를 켤 플레이어 목록 : ${allPlayers}`);
+      console.log("모든 플레이어의 카메라와 마이크를 켬");
 
-      await setStatus(userId.current, { r2TurnAllUserCameraMikeOn: true });
-      socket.emit("r2TurnAllUserCameraMikeOn", roomId.current);
+      socket.emit("r2TurnAllUserCameraMikeOn");
       console.log("r2TurnAllUserCameraMikeOn 송신");
+    });
+
+    socket.on("r2TurnAllUserCameraMikeOnError", () => {
+      console.log("[r2TurnAllUserCameraMikeOnError]");
     });
 
     socket.on("r2ShowIsPlayerLived", async (title, message, timer, nickname, yesOrNo) => {
