@@ -18,7 +18,8 @@ import {
   r1MorningStartHandler,
   r1ShowVoteToResultHandler,
   r1TurnAllUserCameraMikeOnHandler,
-  r1VoteToMafiaHandler
+  r1VoteToMafiaHandler,
+  r1VoteToMafiaModalHandler
 } from "@/utils/mafiaSocket/mafiaSocket";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
@@ -26,7 +27,7 @@ import { socket } from "@/utils/socket/socket";
 
 import { DisconnectButton, useLocalParticipant, useParticipants, useTracks } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckModal from "./CheckModal";
 import GroupMafiaModal from "./GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
@@ -74,13 +75,15 @@ const MafiaPlayRooms = () => {
       r0NightStartHandler({
         roomId,
         userId,
+        votedPlayer,
         setIsOpen,
         setTitle,
         setMessage,
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        setTimerIds,
+        clearActiveParticipant
       });
     });
 
@@ -115,13 +118,15 @@ const MafiaPlayRooms = () => {
       r0ShowMafiaUserEachOther({
         roomId,
         userId,
+        votedPlayer,
         setIsOpen,
         setTitle,
         setMessage,
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        setTimerIds,
+        clearActiveParticipant
       });
     });
 
@@ -163,13 +168,15 @@ const MafiaPlayRooms = () => {
       r1MorningStartHandler({
         roomId,
         userId,
+        votedPlayer,
         setIsOpen,
         setTitle,
         setMessage,
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        setTimerIds,
+        clearActiveParticipant
       });
     });
 
@@ -183,13 +190,15 @@ const MafiaPlayRooms = () => {
       r1FindMafiaHandler({
         roomId,
         userId,
+        votedPlayer,
         setIsOpen,
         setTitle,
         setMessage,
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        setTimerIds,
+        clearActiveParticipant
       });
     });
 
@@ -205,28 +214,31 @@ const MafiaPlayRooms = () => {
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        setTimerIds,
+        clearActiveParticipant
       });
     });
-
+    // console.log("OutState", votedPlayer);
     //NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
     socket.on("r1VoteToMafia", () => {
-      r1VoteToMafiaHandler({
-        roomId,
-        userId,
-        votedPlayer,
+      r1VoteToMafiaModalHandler({
         setIsOpen,
         setTitle,
         setMessage,
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        clearActiveParticipant
       });
+
+      // 의존성 배열에 votedPlayer, test.current 넣어 사용해봤지만 socket 내부쪽에서는 상태 변화가 이루어지지 않는 걸 볼 수 있다.
+      // console.log("state", votedPlayer);
     });
 
     //NOTE - UI 모달창 띄우기: 투표 개표(투표결과)
     socket.on("r1ShowVoteToResult", (voteBoard) => {
+      // console.log("state", votedPlayer);
+
       r1ShowVoteToResultHandler({
         roomId,
         userId,
@@ -238,7 +250,8 @@ const MafiaPlayRooms = () => {
         setTimer,
         setIsClose,
         setIsOverlay,
-        setTimerIds
+        setTimerIds,
+        clearActiveParticipant
       });
     });
 
@@ -265,6 +278,13 @@ const MafiaPlayRooms = () => {
       socket.off("r1ShowVoteToResult");
     };
   }, [tracks]);
+
+  useEffect(() => {
+    if (title.includes("투표 시간")) {
+      console.log("OutState", votedPlayer);
+      r1VoteToMafiaHandler({ votedPlayer, setTimerIds, setIsOverlay, clearActiveParticipant });
+    }
+  }, [votedPlayer]);
 
   //NOTE - 게임 시작
   const socketGameStart = () => {
@@ -326,21 +346,8 @@ const MafiaPlayRooms = () => {
       return;
     }
 
-    // //NOTE - 투표 시간 종료
-    // if (exampleSocket.includes("voteEndTime")) {
-    //   // 마지막으로 클릭 된 user의 정보를 server에 전달
-    //   if (participant.metadata) {
-    //     console.log("userId", participant.metadata);
-    //     setIsOverlay(false);
-    //     clearActiveParticipant();
-    //   }
-    // }
-
     if (title.includes("투표 시간")) {
-      console.log("userId", participant.metadata);
-      setVotedPlayer(participant.metadata);
-      setIsOverlay(false);
-      clearActiveParticipant();
+      setVotedPlayer(participant.metadata); //userId값 상태 저장
     }
 
     //NOTE - 마피아 시간 종료

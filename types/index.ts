@@ -151,10 +151,10 @@ export interface TimerState {
   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
 }
 
-export interface ShowModalComponents {
+export interface TotalSocketState {
   userId: string;
   roomId: string;
-  votedPlayer?: string;
+  votedPlayer: string;
   voteBoard?: any;
   setIsOpen: (newIsOpen: boolean) => void;
   setTitle: (newTitle: string) => void;
@@ -163,7 +163,13 @@ export interface ShowModalComponents {
   setIsClose: (newIsClose: boolean) => void;
   setIsOverlay: (newIsOverlay: boolean) => void;
   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
+  clearActiveParticipant: () => void;
 }
+export type SetModalState = Omit<TotalSocketState, "userId" | "roomId" | "votedPlayer" | "voteBoard" | "setTimerIds">;
+export type VoteState = Pick<
+  TotalSocketState,
+  "votedPlayer" | "setTimerIds" | "setIsOverlay" | "clearActiveParticipant"
+>;
 
 export interface MediaState {
   tracks: TrackReferenceOrPlaceholder[];
