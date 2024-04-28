@@ -24,17 +24,9 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 
-import {
-  DisconnectButton,
-  useFocusToggle,
-  useLocalParticipant,
-  useMaybeLayoutContext,
-  useParticipantTracks,
-  useParticipants,
-  useTracks
-} from "@livekit/components-react";
+import { DisconnectButton, useLocalParticipant, useParticipants, useTracks } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CheckModal from "./CheckModal";
 import GroupMafiaModal from "./GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
@@ -252,10 +244,12 @@ const MafiaPlayRooms = () => {
 
     return () => {
       // 저장된 모든 타이머 클리어
+      // 의존성 배열에 track을 제거하고 사용하면 문제 없다.
       // timerIds.forEach((timerId) => {
       //   console.log("timerId", timerId);
       //   clearTimeout(timerId);
       // });
+
       socket.off("r0NightStart");
       socket.off("r0TurnAllUserCameraMikeOff");
       socket.off("r0SetAllUserRole");

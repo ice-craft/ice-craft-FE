@@ -26,7 +26,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
     const newIsReady = !isReady;
     setIsReady(newIsReady);
 
-    socket.emit("setReady", userId, newIsReady, roomId);
+    socket.emit("r1MorningStart", userId, newIsReady, roomId);
   };
 
   useEffect(() => {

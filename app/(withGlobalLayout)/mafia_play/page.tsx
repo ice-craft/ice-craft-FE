@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "@/utils/socket/socket";
-import { setStatus } from "@/utils/supabase/statusAPI";
 
 const MafiaPlay = () => {
   const [eventName, setEventName] = useState("");
@@ -575,17 +574,6 @@ const MafiaPlay = () => {
 
     socket.on("r2ShowIsPlayerLivedError", () => {
       console.log("[r2ShowIsPlayerLivedError]");
-    });
-
-    socket.on("r2AskPlayerToExit", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r2AskPlayerToExit 수신");
-
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
-      await setStatus(userId.current, { r2AskPlayerToExit: true });
-      socket.emit("r2AskPlayerToExit", roomId.current);
-      console.log("r2AskPlayerToExit 송신");
     });
 
     socket.on("gameOver", async (title, message, timer, nickname, yesOrNo) => {
