@@ -562,11 +562,12 @@ const MafiaPlay = () => {
       console.log("[r2TurnAllUserCameraMikeOnError]");
     });
 
-    socket.on("r2ShowIsPlayerLived", (message, isKilled) => {
+    socket.on("r2ShowIsPlayerLived", (message, isKilled, playerToKill) => {
       console.log("r2ShowIsPlayerLived 수신");
 
       console.log("isKilled : 해당 플레이어가 죽었는지");
       console.log(`r2ShowIsPlayerLived ${message} 모달 창 띄움`);
+      console.log("만약 죽은 사람이 자신(playerToKill이 자신의 유저아이디)이면 관전할지 나갈지 물어봄");
 
       socket.emit("r2ShowIsPlayerLived", isKilled);
       console.log("r2ShowIsPlayerLived 송신");
