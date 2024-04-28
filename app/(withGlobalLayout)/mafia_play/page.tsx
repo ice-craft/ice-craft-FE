@@ -526,12 +526,15 @@ const MafiaPlay = () => {
       console.log("[r1ShowDoubtedPlayerError]");
     });
 
-    socket.on("r1KillPlayerByRole", async () => {
+    socket.on("r1KillPlayerByRole", () => {
       console.log("r1KillPlayerByRole 수신");
 
-      await setStatus(userId.current, { r1KillPlayerByRole: true });
-      socket.emit("r1KillPlayerByRole", roomId.current);
+      socket.emit("r1KillPlayerByRole");
       console.log("r1KillPlayerByRole 송신");
+    });
+
+    socket.on("r1KillPlayerByRoleError", () => {
+      console.log("[r1KillPlayerByRoleError]");
     });
 
     socket.on("r2MorningStart", async (title, message, timer, nickname, yesOrNo) => {
