@@ -23,7 +23,7 @@ import {
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
-import { setStatus } from "@/utils/supabase/statusAPI";
+
 import {
   DisconnectButton,
   useFocusToggle,
@@ -68,13 +68,12 @@ const MafiaPlayRooms = () => {
 
   //NOTE -  모든 user들의 정보
   const participants = useParticipants();
-  console.log("participants", participants);
+  // console.log("participants", participants);
 
   //훅 정리
   // const { localParticipant } = useLocalParticipant(); //로컬 사용자
   // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
-  setIsOverlay(true);
-  setTitle("투표 시간");
+
   useEffect(() => {
     //NOTE - 게임 시작
     socket.on("r0NightStart", () => {
@@ -94,15 +93,14 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - 카메라 및 마이크 off
-    socket.on("r0TurnAllUserCameraMikeOff", () => r0TurnAllUserCameraMikeOffHandler(tracks, userId, roomId));
+    socket.on("r0TurnAllUserCameraMikeOff", () => r0TurnAllUserCameraMikeOffHandler(tracks, userId));
 
     //NOTE - "역할 배정을 시작하겠습니다."" modal창 띄우기
-    socket.on("r0SetAllUserRole", async () => {
+    socket.on("r0SetAllUserRole", () => {
       console.log("r0SetAllUserRole 수신");
 
       // 10초 후에 setStatus와 socket.emit 실행
-      const r0SetAllUserRoleTimer = setTimeout(async () => {
-        await setStatus(userId, { r0SetAllUserRole: true });
+      const r0SetAllUserRoleTimer = setTimeout(() => {
         socket.emit("r0SetAllUserRole", roomId);
         console.log("r0SetAllUserRole 송신");
       }, 10000);
@@ -111,12 +109,11 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - 서버에서 배정한 직업에 대한 user의 정보 ==> 객체형태의 배열로 받는다.{[]}
-    socket.on("r0ShowAllUserRole", async (role) => {
+    socket.on("r0ShowAllUserRole", (role) => {
       console.log("r0ShowAllUserRole 수신");
 
       console.log(`역할들 : ${role}`);
 
-      await setStatus(userId, { r0ShowAllUserRole: true });
       socket.emit("r0ShowAllUserRole", roomId);
       console.log("r0ShowAllUserRole 송신");
     });
@@ -137,9 +134,9 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE -  마피아 유저 캠 및 오디오 On
-    socket.on("r0TurnMafiaUserCameraOn", async (player) => {
+    socket.on("r0TurnMafiaUserCameraOn", (player) => {
       //임시 데이터
-      const players = ["1925d7d8-cde8-495f-9372-013c2d33d565"];
+      const players = ["664cdff0-8fbe-47db-bb66-5006866fe3b8"];
       r0TurnMafiaUserCameraOnHandler({
         tracks,
         localUserId,
@@ -153,9 +150,9 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE -  마피아 유저 캠 및 오디오 Off
-    socket.on("r0TurnMafiaUserCameraOff", async (player) => {
+    socket.on("r0TurnMafiaUserCameraOff", (player) => {
       //임시 데이터
-      const players = ["7ce8f53f-0dda-4344-bef0-2f86f47fc95b"];
+      const players = ["664cdff0-8fbe-47db-bb66-5006866fe3b84"];
       r0TurnMafiaUserCameraOffHandler({
         tracks,
         localUserId,
@@ -169,7 +166,7 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE -  (토론시간) 아침이 시작되었습니다 모달창 띄우기
-    socket.on("r1MorningStart", async () => {
+    socket.on("r1MorningStart", () => {
       clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
       r1MorningStartHandler({
         roomId,
@@ -185,12 +182,12 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - 전체 user의 캠 및 오디오 ON
-    socket.on("r1TurnAllUserCameraMikeOn", async () => {
-      r1TurnAllUserCameraMikeOnHandler(tracks, userId, roomId);
+    socket.on("r1TurnAllUserCameraMikeOn", () => {
+      r1TurnAllUserCameraMikeOnHandler(tracks, userId);
     });
 
     //NOTE - UI 모달창 띄우기:  "모든 유저는 토론을 통해 마피아를 찾아내세요." (?)
-    socket.on("r1FindMafia", async () => {
+    socket.on("r1FindMafia", () => {
       r1FindMafiaHandler({
         roomId,
         userId,
@@ -205,7 +202,7 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - UI 모달창 띄우기: 토론이 끝났습니다.(토론 시간 종료)
-    socket.on("r1MetingOver", async () => {
+    socket.on("r1MetingOver", () => {
       r1MetingOverHandler({
         roomId,
         userId,
@@ -221,7 +218,7 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
-    socket.on("r1VoteToMafia", async () => {
+    socket.on("r1VoteToMafia", () => {
       r1VoteToMafiaHandler({
         roomId,
         userId,
@@ -237,7 +234,7 @@ const MafiaPlayRooms = () => {
     });
 
     //NOTE - UI 모달창 띄우기: 투표 개표(투표결과)
-    socket.on("r1ShowVoteToResult", async (voteBoard) => {
+    socket.on("r1ShowVoteToResult", (voteBoard) => {
       r1ShowVoteToResultHandler({
         roomId,
         userId,
@@ -273,7 +270,7 @@ const MafiaPlayRooms = () => {
       socket.off("r1VoteToMafia");
       socket.off("r1ShowVoteToResult");
     };
-  }, [tracks]);
+  }, []);
 
   //NOTE - 게임 시작
   const socketGameStart = () => {
