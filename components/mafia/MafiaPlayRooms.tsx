@@ -286,55 +286,6 @@ const MafiaPlayRooms = () => {
     }
   }, [votedPlayer]);
 
-  //NOTE - 게임 시작
-  const socketGameStart = () => {
-    setIsOverlay(false); //클릭 이벤트 비활성화
-    clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
-  };
-
-  //NOTE - 아침
-  const socketMorning = () => {
-    setIsOverlay(false); //클릭 이벤트 비활성화
-    clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
-  };
-
-  //NOTE - 투표 시간
-  const socketVoteTime = () => {
-    setIsOverlay(true); //클릭 이벤트 활성화
-  };
-
-  //NOTE - 밤
-  const socketNight = () => {
-    setIsOverlay(false);
-    clearActiveParticipant();
-  };
-
-  //NOTE - 마피아 시간
-  const mafiaTime = () => {
-    // 마피아 유저에게만 클릭 이벤트 활성화
-    if (localUserId == "getUserId") {
-      setIsRemoteOverlay(true);
-      setImageState(CamCheck);
-    }
-  };
-
-  //NOTE - 의사 시간
-  const doctorTime = () => {
-    //NOTE - 의사 유저에게만 클릭 이벤트 활성화
-    if (localUserId == "getUserId") {
-      setIsRemoteOverlay(true);
-      setImageState(CamCheck);
-    }
-  };
-
-  //NOTE - 경찰 시간
-  const policeTime = () => {
-    //NOTE - 경찰 유저에게만 클릭 이벤트 활성화
-    if (localUserId == "getUserId") {
-      setIsRemoteOverlay(true);
-    }
-  };
-
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
     event.stopPropagation();
     toggleOverlay(participant.sid, index); // 캠 클릭시 이미지 띄우기
