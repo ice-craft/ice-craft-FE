@@ -43,6 +43,9 @@ const MafiaPlayRooms = () => {
   const { title, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
   const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]); // 여러 setTimeout의 타이머 상태를 저장하여 return시 한번에 제거
   const [votedPlayer, setVotedPlayer] = useState("");
+  const [isVoted, setVoted] = useState(false);
+  const timerRef = useRef(false);
+  const [voteTimerClose, setVoteTimerClose] = useState<NodeJS.Timeout>();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -164,7 +167,6 @@ const MafiaPlayRooms = () => {
 
     //NOTE -  (토론시간) 아침이 시작되었습니다 모달창 띄우기
     socket.on("r1MorningStart", () => {
-      clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
       r1MorningStartHandler({
         roomId,
         userId,
@@ -218,7 +220,8 @@ const MafiaPlayRooms = () => {
         clearActiveParticipant
       });
     });
-    // console.log("OutState", votedPlayer);
+
+    // 의존성 배열에 votedPlayer, test.current 넣어 사용해봤지만 socket 내부 쪽에서는 상태 변화가 이루어지지 않는 걸 볼 수 있다.
     //NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
     socket.on("r1VoteToMafia", () => {
       r1VoteToMafiaModalHandler({
@@ -230,15 +233,10 @@ const MafiaPlayRooms = () => {
         setIsOverlay,
         clearActiveParticipant
       });
-
-      // 의존성 배열에 votedPlayer, test.current 넣어 사용해봤지만 socket 내부쪽에서는 상태 변화가 이루어지지 않는 걸 볼 수 있다.
-      // console.log("state", votedPlayer);
     });
 
     //NOTE - UI 모달창 띄우기: 투표 개표(투표결과)
     socket.on("r1ShowVoteToResult", (voteBoard) => {
-      // console.log("state", votedPlayer);
-
       r1ShowVoteToResultHandler({
         roomId,
         userId,
@@ -281,10 +279,23 @@ const MafiaPlayRooms = () => {
 
   useEffect(() => {
     if (title.includes("투표 시간")) {
-      console.log("OutState", votedPlayer);
-      r1VoteToMafiaHandler({ votedPlayer, setTimerIds, setIsOverlay, clearActiveParticipant });
+      r1VoteToMafiaHandler({
+        votedPlayer,
+        isVoted,
+        timerRef,
+        setVoteTimerClose,
+        setIsOverlay,
+        setVoted,
+        clearActiveParticipant
+      });
+      console.log("votedPlayer", votedPlayer);
     }
-  }, [votedPlayer]);
+
+    // 컴포넌트가 unmount되면 타이머를 클리어
+    return () => clearTimeout(voteTimerClose);
+
+    // title: 처음 동작 시기를 설정, votedPlayer: 변화되는 값을 설정, isVoted: 타이머 종료 후 다음 동작 설정
+  }, [title, votedPlayer, isVoted]);
 
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
     event.stopPropagation();

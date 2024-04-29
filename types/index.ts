@@ -2,7 +2,7 @@ import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components
 import { User } from "@supabase/supabase-js";
 import { LocalParticipant, Participant, RemoteParticipant, Track } from "livekit-client";
 import { StaticImageData } from "next/image";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
 
 export interface MafiaRoom {
   room: string;
@@ -165,11 +165,17 @@ export interface TotalSocketState {
   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
   clearActiveParticipant: () => void;
 }
+
+export interface VoteState {
+  votedPlayer: string;
+  isVoted: boolean;
+  timerRef: MutableRefObject<boolean>;
+  setVoteTimerClose: Dispatch<SetStateAction<NodeJS.Timeout | undefined>>;
+  setIsOverlay: (newIsOverlay: boolean) => void;
+  clearActiveParticipant: () => void;
+  setVoted: (newIsVoted: boolean) => void;
+}
 export type SetModalState = Omit<TotalSocketState, "userId" | "roomId" | "votedPlayer" | "voteBoard" | "setTimerIds">;
-export type VoteState = Pick<
-  TotalSocketState,
-  "votedPlayer" | "setTimerIds" | "setIsOverlay" | "clearActiveParticipant"
->;
 
 export interface MediaState {
   tracks: TrackReferenceOrPlaceholder[];
