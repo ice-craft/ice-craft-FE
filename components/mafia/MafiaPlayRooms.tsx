@@ -222,7 +222,6 @@ const MafiaPlayRooms = () => {
     });
 
     // 의존성 배열에 votedPlayer, test.current 넣어 사용해봤지만 socket 내부 쪽에서는 상태 변화가 이루어지지 않는 걸 볼 수 있다.
-    // 그래서 useEffect를 분리 시켜 사용하였다.
     //NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
     socket.on("r1VoteToMafia", () => {
       r1VoteToMafiaModalHandler({
@@ -278,13 +277,8 @@ const MafiaPlayRooms = () => {
     };
   }, [tracks]);
 
-  //NOTE - 외존성 배열:
-  // title: 처음 동작 시기를 설정
-  // votedPlayer: 변화되는 값을 설정
-  // isVoted: 타이머 종료 후 다음 동작 설정
   useEffect(() => {
     if (title.includes("투표 시간")) {
-      //타이머 변수에 값 전달
       r1VoteToMafiaHandler({
         votedPlayer,
         isVoted,
@@ -299,6 +293,8 @@ const MafiaPlayRooms = () => {
 
     // 컴포넌트가 unmount되면 타이머를 클리어
     return () => clearTimeout(voteTimerClose);
+
+    // title: 처음 동작 시기를 설정, votedPlayer: 변화되는 값을 설정, isVoted: 타이머 종료 후 다음 동작 설정
   }, [title, votedPlayer, isVoted]);
 
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {

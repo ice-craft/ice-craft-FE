@@ -275,26 +275,25 @@ export const r1VoteToMafiaHandler = ({
   setVoted,
   clearActiveParticipant
 }: VoteState) => {
-  // 15초 후에 setStatus와 socket.emit 실행
-  // setTitle에 값을 넣을 시기에 ui쪽에서는 모달 창이 띄어지며 5초라는 시간이 흘러가므로 15초동안 투표하기 위해서는
-  // 위의 모달창 타이머를 포함한 시간인 20초를 넣어야한다.
+  // clearTimeout 변수 선언
   let r1VoteToMafiaTimer;
 
-  // setTimeout 함수를 한 번만 실행
-  // 캠 클릭시 마다 setTimeout이 새로 생성되어 유저별 동작이 달라진다.
+  // setTimeout 함수를 한 번만 실행(캠 클릭 시 마다 setTimeout이 새로 생성되어 유저별 동작이 달라진다.)
   if (!timerRef.current) {
     timerRef.current = true;
     console.log("작동 횟수 체크");
 
+    // 15초 후에 setStatus와 socket.emit 실행
+    // setTitle에 값을 넣을 시기에 ui쪽에서는 모달 창이 띄어지며 5초라는 시간이 흘러가므로 15초동안 투표하기 위해서는
+    // 위의 모달창 타이머를 포함한 시간인 20초를 넣어야한다.
     r1VoteToMafiaTimer = setTimeout(() => {
       setVoted(true);
       setIsOverlay(false); // 캠 클릭 이벤트 비활성화
       clearActiveParticipant(); // 캠 이미지 및 활성화된 user 정보 초기화
-    }, 10000);
+    }, 20000);
   }
 
   //타이머 종료 후 다음 동자을 실행
-  //votedPlayer의 최신 값을 인식하지 못한다.
   if (isVoted) {
     console.log("userId", votedPlayer);
     socket.emit("r1VoteToMafia", votedPlayer);
