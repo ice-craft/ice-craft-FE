@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "@/utils/socket/socket";
-import { setStatus } from "@/utils/supabase/statusAPI";
 
 const MafiaPlay = () => {
   const [eventName, setEventName] = useState("");
@@ -143,57 +142,13 @@ const MafiaPlay = () => {
       console.log(message);
     });
 
-    socket.on("setReadyError", (message) => {
-      console.log(message);
+    socket.on("setReadyError", () => {
+      console.log("레디를  설정하는데 실패했습니다.");
     });
 
-    socket.on("voteTo", (message) => {
-      console.log(message);
+    socket.on("canGameStartError", () => {
+      console.log("[canGameStartError]");
     });
-
-    socket.on("voteToError", (message) => {
-      console.log(message);
-    });
-
-    socket.on("voteYesOrNo", (message) => {
-      console.log(message);
-    });
-
-    socket.on("voteYesOrNoError", (message) => {
-      console.log(message);
-    });
-
-    socket.on("choosePlayer", (message) => {
-      console.log(message);
-    });
-
-    socket.on("choosePlayerError", (message) => {
-      console.log(message);
-    });
-
-    socket.on("showModal", (title, message, timer, nickname, yesOrNo) => {
-      console.log(title, message, timer, nickname, yesOrNo);
-    });
-
-    socket.on("setCamera", (userId, isOn) => {
-      console.log(userId, isOn);
-    });
-
-    socket.on("setMike", (userId, isOn) => {
-      console.log(userId, isOn);
-    });
-
-    socket.on("openPlayerRole", (userId, role) => {
-      console.log(userId, role);
-    });
-
-    socket.on("showVoteYesOrNoResult", (voteResult) => {
-      console.log(voteResult);
-    });
-
-    // socket.on("showVoteToResult", (voteResult) => {
-    //   console.log(voteResult);
-    // });
 
     socket.on("connect_error", (error) => {
       if (socket.active) {
@@ -208,39 +163,43 @@ const MafiaPlay = () => {
       console.log(`${userId}가 ready를 ${ready} 함`);
     });
 
-    socket.on("r0NightStart", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r0NightStart", () => {
       console.log("r0NightStart 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
-      // 타이머를 붙잡기 위한 용도
-      await setStatus(userId.current, { r0NightStart: true });
-      socket.emit("r0NightStart", roomId.current);
+      socket.emit("r0NightStart");
       console.log("r0NightStart 송신");
     });
 
-    socket.on("r0TurnAllUserCameraMikeOff", async (players) => {
+    socket.on("r0NightStartError", () => {
+      console.log("[r0NightStartError]");
+    });
+
+    socket.on("r0TurnAllUserCameraMikeOff", () => {
       console.log("r0TurnAllUserCameraMikeOff 수신");
 
-      console.log(`카메라 마이크 끌 플레이어 목록 : ${players}`);
+      console.log("모든 유저의 카메라와 마이크 끔");
 
-      await setStatus(userId.current, { r0TurnAllUserCameraMikeOff: true });
-      socket.emit("r0TurnAllUserCameraMikeOff", roomId.current);
+      socket.emit("r0TurnAllUserCameraMikeOff");
       console.log("r0TurnAllUserCameraMikeOff 송신");
     });
 
-    socket.on("r0SetAllUserRole", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r0SetAllUserRole 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+    socket.on("r0TurnAllUserCameraMikeOffError", () => {
+      console.log("[r0TurnAllUserCameraMikeOffError]");
+    });
 
-      await setStatus(userId.current, { r0SetAllUserRole: true });
-      socket.emit("r0SetAllUserRole", roomId.current);
+    socket.on("r0SetAllUserRole", () => {
+      console.log("r0SetAllUserRole 수신");
+      console.log("유저들 역할을 정하겠다는 모달창");
+
+      socket.emit("r0SetAllUserRole");
       console.log("r0SetAllUserRole 송신");
     });
 
-    socket.on("r0ShowAllUserRole", async (role) => {
+    socket.on("r0SetAllUserRoleError", () => {
+      console.log("[r0SetAllUserRoleError]");
+    });
+
+    socket.on("r0ShowAllUserRole", (role) => {
       console.log("r0ShowAllUserRole 수신");
 
       console.log(`마피아 : ${role["마피아"]}`);
@@ -248,314 +207,373 @@ const MafiaPlay = () => {
       console.log(`경찰 : ${role["경찰"]}`);
       console.log(`시민 : ${role["시민"]}`);
 
-      await setStatus(userId.current, { r0ShowAllUserRole: true });
-      socket.emit("r0ShowAllUserRole", roomId.current);
+      socket.emit("r0ShowAllUserRole");
       console.log("r0ShowAllUserRole 송신");
     });
 
-    socket.on("r0ShowMafiaUserEachOther", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r0ShowMafiaUserEachOther 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+    socket.on("r0SetAllUserRoleError", () => {
+      console.log("[r0SetAllUserRoleError]");
+    });
 
-      await setStatus(userId.current, { r0ShowMafiaUserEachOther: true });
-      socket.emit("r0ShowMafiaUserEachOther", roomId.current);
+    socket.on("r0ShowMafiaUserEachOther", () => {
+      console.log("r0ShowMafiaUserEachOther 수신");
+
+      console.log("r0ShowMafiaUserEachOther 모달 창 띄움");
+
+      socket.emit("r0ShowMafiaUserEachOther");
       console.log("r0ShowMafiaUserEachOther 송신");
     });
 
-    socket.on("r0TurnMafiaUserCameraOn", async (players) => {
+    socket.on("r0ShowMafiaUserEachOtherError", () => {
+      console.log("r0ShowMafiaUserEachOtherError 수신");
+    });
+
+    socket.on("r0TurnMafiaUserCameraOn", (mafiaPlayers) => {
       console.log("r0TurnMafiaUserCameraOn 수신");
 
-      await setStatus(userId.current, { r0TurnMafiaUserCameraOn: true });
+      console.log(`자신이 마피아 플레이어라면 카메라 켤 마피아 목록 : ${mafiaPlayers}`);
 
-      console.log(`카메라 켤 마피아 목록 : ${players}`);
-
-      waitForMs(500);
-
-      socket.emit("r0TurnMafiaUserCameraOn", roomId.current);
+      socket.emit("r0TurnMafiaUserCameraOn");
       console.log("r0TurnMafiaUserCameraOn 송신");
     });
 
-    socket.on("r0TurnMafiaUserCameraOff", async (players) => {
+    socket.on("r0TurnMafiaUserCameraOnError", () => {
+      console.log("[r0TurnMafiaUserCameraOnError]");
+    });
+
+    socket.on("r0TurnMafiaUserCameraOff", (mafiaPlayers) => {
       console.log("r0TurnMafiaUserCameraOff 수신");
 
-      await setStatus(userId.current, { r0TurnMafiaUserCameraOff: true });
+      console.log(`자신이 마피아 플레이어라면 카메라 끌 마피아 목록 : ${mafiaPlayers}`);
 
-      console.log(`카메라 끌 마피아 목록 : ${players}`);
-
-      socket.emit("r0TurnMafiaUserCameraOff", roomId.current);
+      socket.emit("r0TurnMafiaUserCameraOff");
       console.log("r0TurnMafiaUserCameraOff 송신");
     });
 
-    socket.on("r1MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r0TurnMafiaUserCameraOffError", () => {
+      console.log("[r0TurnMafiaUserCameraOffError]");
+    });
+
+    socket.on("r1MorningStart", () => {
       console.log("r1MorningStart 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1MorningStart 모달 창 띄움");
 
-      await setStatus(userId.current, { r1MorningStart: true });
       socket.emit("r1MorningStart", roomId.current);
       console.log("r1MorningStart 송신");
     });
 
-    socket.on("r1TurnAllUserCameraMikeOn", async (players) => {
+    socket.on("r1MorningStartError", () => {
+      console.log("[r1MorningStartError]");
+    });
+
+    socket.on("r1TurnAllUserCameraMikeOn", () => {
       console.log("r1TurnAllUserCameraMikeOn 수신");
 
-      await setStatus(userId.current, { r1TurnAllUserCameraMikeOn: true });
+      console.log("모든 플레이어의 카메라와 마이크 켬");
 
-      console.log(`카메라와 마이크를 켤 플레이어 목록 : ${players}`);
-
-      socket.emit("r1TurnAllUserCameraMikeOn", roomId.current);
+      socket.emit("r1TurnAllUserCameraMikeOn");
       console.log("r1TurnAllUserCameraMikeOn 송신");
     });
 
-    socket.on("r1FindMafia", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1TurnAllUserCameraMikeOnError", () => {
+      console.log("[r1TurnAllUserCameraMikeOnError]");
+    });
+
+    socket.on("r1FindMafia", () => {
       console.log("r1FindMafia 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1FindMafia 모달 창 띄움");
 
-      await setStatus(userId.current, { r1FindMafia: true });
-      socket.emit("r1FindMafia", roomId.current);
+      socket.emit("r1FindMafia");
       console.log("r1FindMafia 송신");
     });
 
-    socket.on("r1MetingOver", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1FindMafiaError", () => {
+      console.log("[r1FindMafiaError]");
+    });
+
+    socket.on("r1MeetingOver", () => {
       console.log("r1MetingOver 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1MeetingOver 모달 창 띄움");
 
-      await setStatus(userId.current, { r1MetingOver: true });
-      socket.emit("r1MetingOver", roomId.current);
+      socket.emit("r1MeetingOver");
       console.log("r1MetingOver 송신");
     });
 
-    socket.on("r1VoteToMafia", async (title, message, timer, nickname, yesOrNo) => {
-      const votedPlayer = "55555555-f1b4-46eb-a187-2da752eed29c";
+    socket.on("r1MeetingOverError", () => {
+      console.log("[r1MeetingOverError]");
+    });
+
+    socket.on("r1VoteToMafia", () => {
       console.log("r1VoteToMafia 수신");
+      const votedPlayer = "55555555-f1b4-46eb-a187-2da752eed29c";
+
       console.log("투표 진행");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r1VoteToMafia 모달 창 띄움");
+      console.log(`${votedPlayer}에게 투표`);
 
-      await setStatus(userId.current, { r1VoteToMafia: true });
-      socket.emit("r1VoteToMafia", roomId.current, votedPlayer);
+      socket.emit("r1VoteToMafia", votedPlayer);
       console.log("r1VoteToMafia 송신");
     });
-    socket.on("r1ShowVoteToResult", async (voteBoard) => {
+
+    socket.on("r1VoteToMafiaError", () => {
+      console.log("[r1VoteToMafiaError]");
+    });
+
+    socket.on("r1ShowVoteToResult", (voteBoard) => {
       console.log("r1ShowVoteToResult 수신");
 
       console.log("투표 결과", voteBoard);
 
-      await setStatus(userId.current, { r1VoteToMafia: true });
-      socket.emit("r1ShowVoteToResult", roomId.current);
+      socket.emit("r1ShowVoteToResult");
       console.log("r1ShowVoteToResult 송신");
     });
 
-    socket.on("r1ShowMostVotedPlayer", async (title, message, timer, nickname, yesOrNo, isValid) => {
-      console.log("r1ShowMostVotedPlayer 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      await setStatus(userId.current, { r1ShowMostVotedPlayer: true });
+    socket.on("r1ShowVoteToResultError", () => {
+      console.log("[r1ShowVoteToResultError]");
+    });
 
-      socket.emit("r1ShowMostVotedPlayer", roomId.current, isValid);
+    socket.on("r1ShowMostVotedPlayer", (message, isValid) => {
+      console.log("r1ShowMostVotedPlayer 수신");
+
+      console.log(`r1ShowMostVotedPlayer ${message} 모달 창 띄움`);
+
+      socket.emit("r1ShowMostVotedPlayer", isValid);
       console.log("r1ShowMostVotedPlayer 송신");
     });
 
-    socket.on("r1LastTalk", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1ShowMostVotedPlayerError", () => {
+      console.log("[r1ShowMostVotedPlayerError]");
+    });
+
+    socket.on("r1LastTalk", (message) => {
       console.log("r1LastTalk 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log(`r1LastTalk ${message} 모달 창 띄움`);
 
-      await setStatus(userId.current, { r1LastTalk: true });
-      socket.emit("r1LastTalk", roomId.current);
+      socket.emit("r1LastTalk");
       console.log("r1LastTalk 송신");
     });
 
-    socket.on("r1VoteYesOrNo", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1LastTalkError", () => {
+      console.log("[r1LastTalkError]");
+    });
+
+    socket.on("r1VoteYesOrNo", () => {
       console.log("r1VoteYesOrNo 수신");
       const voteYesOrNo = true;
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log(`r1VoteYesOrNo 모달 창 띄움`);
+      console.log(`${voteYesOrNo} 투표를 함`);
 
-      await setStatus(userId.current, { r1VoteYesOrNo: true });
-      socket.emit("r1VoteYesOrNo", roomId.current, userId.current, voteYesOrNo);
+      socket.emit("r1VoteYesOrNo", voteYesOrNo);
       console.log("r1VoteYesOrNo 송신");
     });
 
-    socket.on("r1ShowVoteYesOrNoResult", async (voteResult) => {
+    socket.on("r1VoteYesOrNoError", () => {
+      console.log("[r1VoteYesOrNoError]");
+    });
+
+    socket.on("r1ShowVoteYesOrNoResult", (voteResult) => {
       console.log("r1ShowVoteYesOrNoResult 수신");
 
-      console.log(voteResult);
+      console.log(`찬성/반대 투표 결과 : ${voteResult}`);
 
-      await setStatus(userId.current, { r1ShowVoteYesOrNoResult: true });
-      socket.emit("r1ShowVoteYesOrNoResult", roomId.current);
+      socket.emit("r1ShowVoteYesOrNoResult");
       console.log("r1ShowVoteYesOrNoResult 송신");
     });
 
-    socket.on(
-      "r1KillMostVotedPlayer",
-      async (title, message, timer, nickname, yesOrNo, isValid, killedPlayer, role) => {
-        console.log("r1KillMostVotedPlayer 수신");
+    socket.on("r1ShowVoteYesOrNoResultError", () => {
+      console.log("[r1ShowVoteYesOrNoResultError]");
+    });
 
-        waitForMs(timer);
-        console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-        if (isValid) {
-          console.log(`${killedPlayer}가 ${role}인거 밝힘`);
-        } else {
-          console.log("무효 투표라서 아무도 죽지 않음");
-        }
-        console.log("만약 killedPlayer가 자신이라면 죽었다고 관전할거냐면서 물어보고 방에서 나갈지 사망할지 처리.");
+    socket.on("r1KillMostVotedPlayer", async (message, killedPlayer) => {
+      console.log("r1KillMostVotedPlayer 수신");
 
-        await setStatus(userId.current, { r1KillMostVotedPlayer: true });
-        socket.emit("r1KillMostVotedPlayer", roomId.current);
-        console.log("r1KillMostVotedPlayer 송신");
-      }
-    );
+      console.log(`r1KillMostVotedPlayer ${message} 모달 창 띄움`);
+      console.log("killedPlayer : 죽은 플레이어 userId, 아무도 죽지 않았다면 killedPlayer는 null");
+      console.log("만약 killedPlayer가 자신이라면 관전 여부 물어보고 방에서 나갈지 사망 처리할지 결정");
 
-    socket.on("r1TurnAllUserCameraMikeOff", async (allPlayers) => {
+      socket.emit("r1KillMostVotedPlayer");
+      console.log("r1KillMostVotedPlayer 송신");
+    });
+
+    socket.on("r1KillMostVotedPlayerError", () => {
+      console.log("[r1KillMostVotedPlayerError]");
+    });
+
+    socket.on("r1TurnAllUserCameraMikeOff", () => {
       console.log("r1TurnAllUserCameraMikeOff 수신");
 
-      console.log(`${allPlayers}의 카메라 마이크 전부 끔`);
+      console.log("모든 플레이어의 카메라 마이크 전부 끔");
 
-      await setStatus(userId.current, { r1TurnAllUserCameraMikeOff: true });
-      socket.emit("r1TurnAllUserCameraMikeOff", roomId.current);
+      socket.emit("r1TurnAllUserCameraMikeOff");
       console.log("r1TurnAllUserCameraMikeOff 송신");
     });
 
-    socket.on("r1DecideMafiaToKillPlayer", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r1DecideMafiaToKillPlayer 수신");
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+    socket.on("r1TurnAllUserCameraMikeOffError", () => {
+      console.log("[r1TurnAllUserCameraMikeOffError]");
+    });
 
-      await setStatus(userId.current, { r1DecideMafiaToKillPlayer: true });
-      socket.emit("r1DecideMafiaToKillPlayer", roomId.current);
+    socket.on("r1DecideMafiaToKillPlayer", () => {
+      console.log("r1DecideMafiaToKillPlayer 수신");
+
+      console.log("r1DecideMafiaToKillPlayer 모달 창 띄움");
+
+      socket.emit("r1DecideMafiaToKillPlayer");
       console.log("r1DecideMafiaToKillPlayer 송신");
     });
 
-    socket.on("r1TurnMafiaUserCameraOn", async (mafiaPlayers) => {
+    socket.on("r1DecideMafiaToKillPlayerError", () => {
+      console.log("[r1DecideMafiaToKillPlayerError]");
+    });
+
+    socket.on("r1TurnMafiaUserCameraOn", (mafiaPlayers) => {
       console.log("r1TurnMafiaUserCameraOn 수신");
+
       console.log(`카메라를 켤 마피아 목록 : ${mafiaPlayers}`);
 
-      await setStatus(userId.current, { r1TurnMafiaUserCameraOn: true });
-      socket.emit("r1TurnMafiaUserCameraOn", roomId.current);
+      socket.emit("r1TurnMafiaUserCameraOn");
       console.log("r1TurnMafiaUserCameraOn 송신");
     });
 
-    socket.on("r1GestureToMafiaEachOther", async (title, message, timer, nickname, yesOrNo, mafiaPlayers) => {
+    socket.on("r1TurnMafiaUserCameraOnError", () => {
+      console.log("[r1TurnMafiaUserCameraOnError]");
+    });
+
+    socket.on("r1GestureToMafiaEachOther", (message) => {
       console.log("r1GestureToMafiaEachOther 수신");
       const player = "44444444-f1b4-46eb-a187-2da752eed29c";
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
 
-      console.log("자신이 마피아 플레이어 목록에 있으면 모달창 띄우고 어떤 플레이어를 죽일지 선택");
+      console.log(`r1GestureToMafiaEachOther ${message} 모달 창 띄움`);
+      console.log("자신이 마피아라면 어떤 플레이어를 죽일지 선택");
 
-      await setStatus(userId.current, { r1GestureToMafiaEachOther: true });
-      socket.emit("r1GestureToMafiaEachOther", roomId.current, player);
+      socket.emit("r1GestureToMafiaEachOther", player, new Date());
       console.log("r1GestureToMafiaEachOther 송신");
     });
 
-    socket.on("r1TurnMafiaUserCameraOff", async (mafiaPlayers) => {
+    socket.on("r1GestureToMafiaEachOtherError", () => {
+      console.log("[r1GestureToMafiaEachOtherError]");
+    });
+
+    socket.on("r1TurnMafiaUserCameraOff", (mafiaPlayers) => {
       console.log("r1TurnMafiaUserCameraOff 수신");
+
       console.log(`카메라를 끌 마피아 목록 : ${mafiaPlayers}`);
 
-      await setStatus(userId.current, { r1TurnMafiaUserCameraOff: true });
-      socket.emit("r1TurnMafiaUserCameraOff", roomId.current);
+      socket.emit("r1TurnMafiaUserCameraOff");
       console.log("r1TurnMafiaUserCameraOff 송신");
     });
 
-    socket.on("r1DecideDoctorToSavePlayer", async (title, message, timer, nickname, yesOrNo, isValid, doctorPlayer) => {
+    socket.on("r1TurnMafiaUserCameraOffError", () => {
+      console.log("[r1TurnMafiaUserCameraOffError]");
+    });
+
+    socket.on("r1DecideDoctorToSavePlayer", (message, isValid, doctorPlayer) => {
       console.log("r1DecideDoctorToSavePlayer 수신");
       const player = null;
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-      console.log();
+
+      console.log(`r1DecideDoctorToSavePlayer ${message} 모달 창 띄움`);
+
       console.log(
-        "valid : 방 구성인원에 의사가 있음, doctorPlayer :  의사가 살아있으면 유저 아이디 죽었으면 null, player :  살릴 플레이어 유저아이디 대입"
+        "isValid : 방 구성인원에 의사가 있는지, doctorPlayer :  의사가 살아있으면 유저 아이디 죽었으면 null, player :  살릴 플레이어 유저아이디"
       );
 
-      await setStatus(userId.current, { r1DecideDoctorToSavePlayer: true });
-      socket.emit("r1DecideDoctorToSavePlayer", roomId.current, player);
+      socket.emit("r1DecideDoctorToSavePlayer", player);
       console.log("r1DecideDoctorToSavePlayer 송신");
     });
 
-    socket.on("r1DecidePoliceToDoubtPlayer", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1DecideDoctorToSavePlayerError", () => {
+      console.log("[r1DecideDoctorToSavePlayerError]");
+    });
+
+    socket.on("r1DecidePoliceToDoubtPlayer", (message, isValid, policePlayer) => {
       console.log("r1DecidePoliceToDoubtPlayer 수신");
       const player = null;
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+
+      console.log(`r1DecidePoliceToDoubtPlayer ${message} 모달 창 띄움`);
+
       console.log(
-        "valid : 방 구성인원에 경찰이 있음, policePlayer :  의사가 살아있으면 유저 아이디 죽었으면 null, player :  의심하는 플레이어 유저아이디 대입"
+        "isValid : 방 구성인원에 경찰이 있는지, policePlayer :  경찰이 살아있으면 유저 아이디 죽었으면 null, player :  의심하는 플레이어 유저아이디"
       );
 
-      await setStatus(userId.current, { r1DecidePoliceToDoubtPlayer: true });
-      socket.emit("r1DecidePoliceToDoubtPlayer", roomId.current, player);
+      socket.emit("r1DecidePoliceToDoubtPlayer", player);
       console.log("r1DecidePoliceToDoubtPlayer 송신");
     });
 
-    socket.on("r1ShowDoubtedPlayer", async (title, message, timer, nickname, yesOrNo, policePlayer) => {
+    socket.on("r1DecidePoliceToDoubtPlayerError", () => {
+      console.log("[r1DecidePoliceToDoubtPlayerError]");
+    });
+
+    socket.on("r1ShowDoubtedPlayer", (message, isValid, policePlayer) => {
       console.log("r1ShowDoubtedPlayer 수신");
       console.log("userId가 policePlayer면 의심하고 있는 유저가 마피아인지 알려줌");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log(`r1ShowDoubtedPlayer ${message} 모달 창 띄움`);
+      console.log(
+        "isValid : 방 구성인원 중 경찰 역할이 있는지(true,false) 경찰이 지목하지 않았다면 null, policePlayer : 경찰이 살아있으면 유저 아이디 죽었으면 null"
+      );
 
-      await setStatus(userId.current, { r1ShowDoubtedPlayer: true });
-      socket.emit("r1ShowDoubtedPlayer", roomId.current);
+      socket.emit("r1ShowDoubtedPlayer");
       console.log("r1ShowDoubtedPlayer 송신");
     });
 
-    socket.on("r1KillPlayerByRole", async () => {
+    socket.on("r1ShowDoubtedPlayerError", () => {
+      console.log("[r1ShowDoubtedPlayerError]");
+    });
+
+    socket.on("r1KillPlayerByRole", () => {
       console.log("r1KillPlayerByRole 수신");
 
-      await setStatus(userId.current, { r1KillPlayerByRole: true });
-      socket.emit("r1KillPlayerByRole", roomId.current);
+      socket.emit("r1KillPlayerByRole");
       console.log("r1KillPlayerByRole 송신");
     });
 
-    socket.on("r2MorningStart", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r1KillPlayerByRoleError", () => {
+      console.log("[r1KillPlayerByRoleError]");
+    });
+
+    socket.on("r2MorningStart", () => {
       console.log("r2MorningStart 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("r2MorningStart 모달 창 띄움");
 
-      await setStatus(userId.current, { r1DecidePoliceToDoubtPlayer: true });
-      socket.emit("r2MorningStart", roomId.current);
+      socket.emit("r2MorningStart");
       console.log("r2MorningStart 송신");
     });
 
-    socket.on("r2TurnAllUserCameraMikeOn", async (allPlayers) => {
-      console.log("r2TurnAllUserCameraMikeOn 수신");
-      console.log(`카메라와 마이크를 켤 플레이어 목록 : ${allPlayers}`);
+    socket.on("r2MorningStartError", () => {
+      console.log("[r2MorningStartError]");
+    });
 
-      await setStatus(userId.current, { r2TurnAllUserCameraMikeOn: true });
-      socket.emit("r2TurnAllUserCameraMikeOn", roomId.current);
+    socket.on("r2TurnAllUserCameraMikeOn", () => {
+      console.log("r2TurnAllUserCameraMikeOn 수신");
+      console.log("모든 플레이어의 카메라와 마이크를 켬");
+
+      socket.emit("r2TurnAllUserCameraMikeOn");
       console.log("r2TurnAllUserCameraMikeOn 송신");
     });
 
-    socket.on("r2ShowIsPlayerLived", async (title, message, timer, nickname, yesOrNo) => {
+    socket.on("r2TurnAllUserCameraMikeOnError", () => {
+      console.log("[r2TurnAllUserCameraMikeOnError]");
+    });
+
+    socket.on("r2ShowIsPlayerLived", (message, isKilled, playerToKill) => {
       console.log("r2ShowIsPlayerLived 수신");
 
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
+      console.log("isKilled : 해당 플레이어가 죽었는지");
+      console.log(`r2ShowIsPlayerLived ${message} 모달 창 띄움`);
+      console.log("만약 죽은 사람이 자신(playerToKill이 자신의 유저아이디)이면 관전할지 나갈지 물어봄");
 
-      await setStatus(userId.current, { r2ShowIsPlayerLived: true });
-      socket.emit("r2ShowIsPlayerLived", roomId.current);
+      socket.emit("r2ShowIsPlayerLived", isKilled);
       console.log("r2ShowIsPlayerLived 송신");
     });
 
-    socket.on("r2AskPlayerToExit", async (title, message, timer, nickname, yesOrNo) => {
-      console.log("r2AskPlayerToExit 수신");
-
-      waitForMs(timer);
-      console.log(`${timer}ms 뒤에 ${message} 모달 창 띄움`);
-
-      await setStatus(userId.current, { r2AskPlayerToExit: true });
-      socket.emit("r2AskPlayerToExit", roomId.current);
-      console.log("r2AskPlayerToExit 송신");
+    socket.on("r2ShowIsPlayerLivedError", () => {
+      console.log("[r2ShowIsPlayerLivedError]");
     });
 
     socket.on("gameOver", async (title, message, timer, nickname, yesOrNo) => {

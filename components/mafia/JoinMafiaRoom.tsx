@@ -26,7 +26,6 @@ const JoinMafiaRoom = () => {
   if (isError) {
     console.log("토큰 발급중 에러 발생");
   }
-  console.log("token", token);
 
   //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러 ==> useEffect와 비슷하다.
   const disConnected = () => {

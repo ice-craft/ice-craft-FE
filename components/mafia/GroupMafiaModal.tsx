@@ -12,9 +12,7 @@ const GroupMafiaModal = () => {
     return null;
   }
 
-  // console.log((timer * 10 - count) * (100 / (timer * 10)));
-
-  // //NOTE - 모달이 열리지 않았을 때 아무것도 랜더링 하지 않아야 함
+  //NOTE - 모달이 열리지 않았을 때 아무것도 랜더링 하지 않아야 함
   if (!isOpen) return null;
 
   return (
