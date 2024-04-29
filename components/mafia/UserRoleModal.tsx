@@ -17,26 +17,27 @@ const cards = {
   citizens: { src: CitizensCard.src, alt: "시민" }
 };
 
-const UserRoleModal = () => {
+interface UserRoleModalProps {
+  role: Role;
+  setRole: (role: Role) => void;
+}
+
+const UserRoleModal: React.FC<UserRoleModalProps> = ({ role, setRole }) => {
   const { userId } = useConnectStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [role, setRole] = useState<Role | null>(null);
+  const [currentRole, setCurrentRole] = useState<Role | null>(null);
   const [showAllCards, setShowAllCards] = useState(true);
 
   useEffect(() => {
-    socket.on("openPlayerRole", (incomingUserId, Role) => {
+    socket.on("r0ShowAllUserRole", (incomingUserId, Role) => {
       if (incomingUserId === userId) {
-        setRole(Role);
+        setCurrentRole(Role);
         setIsModalOpen(true);
         setTimeout(() => {
           setShowAllCards(false);
         }, 3000);
       }
     });
-
-    return () => {
-      socket.off("openPlayerRole");
-    };
   }, [userId]);
 
   if (!isModalOpen) return null;

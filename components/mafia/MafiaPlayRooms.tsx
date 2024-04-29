@@ -35,6 +35,7 @@ const MafiaPlayRooms = () => {
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
   const { setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
   const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]); // 여러 setTimeout의 타이머 상태를 저장하여 return시 한번에 제거
+  const [role, setRole] = useState(null);
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -95,6 +96,9 @@ const MafiaPlayRooms = () => {
     socket.on("r0ShowAllUserRole", async (role) => {
       console.log("r0ShowAllUserRole 수신");
 
+      setIsOpen(true);
+      setRole(role);
+      setCurrentModal(<UserRoleModal role={role} setRole={setRole} />);
       console.log(`역할들 : ${role}`);
 
       await setStatus(userId, { r0ShowAllUserRole: true });
@@ -222,7 +226,7 @@ const MafiaPlayRooms = () => {
     return () => {
       // 저장된 모든 타이머 클리어
       timerIds.forEach((timerId) => {
-        console.log("timerId", timerId);
+        // console.log("timerId", timerId);
         clearTimeout(timerId);
       });
       socket.off("r0NightStart");
