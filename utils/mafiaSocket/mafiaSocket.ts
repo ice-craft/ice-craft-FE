@@ -162,7 +162,8 @@ export const r1MorningStartHandler = ({
   setMessage,
   setTimer,
   setIsOverlay,
-  setTimerIds
+  setTimerIds,
+  clearActiveParticipant
 }: TotalSocketState) => {
   console.log("r1MorningStart 수신");
 
@@ -205,6 +206,8 @@ export const r1FindMafiaHandler = ({
   setTimerIds
 }: TotalSocketState) => {
   console.log("r1FindMafia 수신");
+  setIsOverlay(false); //캠 클릭 이벤트 비활성화
+  // setTimer(60); UI에 보여질 타이머
 
   // 1분 후에 setStatus와 socket.emit 실행
   const r1FindMafiaTimer = setTimeout(() => {
@@ -245,7 +248,7 @@ export const r1MeetingOverHandler = ({
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1MeetingOverTimer]);
 };
 
-//NOTE - UI 모달창 띄우기: 마피아일 것 같은 사람의 화면을 클릭해주세요.(투표시간)
+//NOTE - UI 모달창 띄우기: 투표시간 (마피아일 것 같은 사람의 화면을 클릭해주세요.)
 export const r1VoteToMafiaModalHandler = ({
   setIsOpen,
   setTitle,
@@ -262,9 +265,12 @@ export const r1VoteToMafiaModalHandler = ({
   console.log("r1VoteToMafia 수신");
 };
 
-//NOTE - 투표 시간에 클릭한 userId 값 전달
+//NOTE - 투표 시간의 캠 클릭 이벤트 핸들러 (userId 값 전달)
 export const r1VoteToMafiaHandler = ({ votedPlayer, setTimerIds, setIsOverlay, clearActiveParticipant }: VoteState) => {
   // 15초 후에 setStatus와 socket.emit 실행
+  // 의존성 배열에 title이라는 값을 넣어 초기 실행 조건을 맞췄다.
+  // setTitle에 값을 넣을 시기에 ui쪽에서는 모달 창이 띄어지며 5초라는 시간이 흘러가므로 15초동안 투표하기 위해서는
+  // 위의 모달창 타이머를 포함한 시간인 20초를 넣어야한다.
   const r1VoteToMafiaTimer = setTimeout(() => {
     console.log("votedPlayer", votedPlayer);
     socket.emit("r1VoteToMafia", votedPlayer);
@@ -303,7 +309,7 @@ export const r1ShowVoteToResultHandler = ({
   const r1ShowVoteToResultTimer = setTimeout(() => {
     socket.emit("r1ShowVoteToResult");
     console.log("r1ShowVoteToResult 송신");
-  }, 500);
+  }, 15000);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1ShowVoteToResultTimer]);
