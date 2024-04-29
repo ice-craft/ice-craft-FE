@@ -43,6 +43,9 @@ const MafiaPlayRooms = () => {
   const { title, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
   const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]); // 여러 setTimeout의 타이머 상태를 저장하여 return시 한번에 제거
   const [votedPlayer, setVotedPlayer] = useState("");
+  const [isVoted, setVoted] = useState(false);
+  const timerRef = useRef(false);
+  const [voteTimerClose, setVoteTimerClose] = useState<NodeJS.Timeout>();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -278,12 +281,25 @@ const MafiaPlayRooms = () => {
   //NOTE - 외존성 배열:
   // title: 처음 동작 시기를 설정
   // votedPlayer: 변화되는 값을 설정
+  // isVoted: 타이머 종료 후 다음 동작 설정
   useEffect(() => {
     if (title.includes("투표 시간")) {
-      console.log("OutState", votedPlayer);
-      r1VoteToMafiaHandler({ votedPlayer, setTimerIds, setIsOverlay, clearActiveParticipant });
+      //타이머 변수에 값 전달
+      r1VoteToMafiaHandler({
+        votedPlayer,
+        isVoted,
+        timerRef,
+        setVoteTimerClose,
+        setIsOverlay,
+        setVoted,
+        clearActiveParticipant
+      });
+      console.log("votedPlayer", votedPlayer);
     }
-  }, [title, votedPlayer]);
+
+    // 컴포넌트가 unmount되면 타이머를 클리어
+    return () => clearTimeout(voteTimerClose);
+  }, [title, votedPlayer, isVoted]);
 
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
     event.stopPropagation();

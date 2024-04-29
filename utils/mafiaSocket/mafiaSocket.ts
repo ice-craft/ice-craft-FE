@@ -266,21 +266,41 @@ export const r1VoteToMafiaModalHandler = ({
 };
 
 //NOTE - 투표 시간의 캠 클릭 이벤트 핸들러 (userId 값 전달)
-export const r1VoteToMafiaHandler = ({ votedPlayer, setTimerIds, setIsOverlay, clearActiveParticipant }: VoteState) => {
+export const r1VoteToMafiaHandler = ({
+  votedPlayer,
+  isVoted,
+  timerRef,
+  setVoteTimerClose,
+  setIsOverlay,
+  setVoted,
+  clearActiveParticipant
+}: VoteState) => {
   // 15초 후에 setStatus와 socket.emit 실행
-  // 의존성 배열에 title이라는 값을 넣어 초기 실행 조건을 맞췄다.
   // setTitle에 값을 넣을 시기에 ui쪽에서는 모달 창이 띄어지며 5초라는 시간이 흘러가므로 15초동안 투표하기 위해서는
   // 위의 모달창 타이머를 포함한 시간인 20초를 넣어야한다.
-  const r1VoteToMafiaTimer = setTimeout(() => {
-    console.log("votedPlayer", votedPlayer);
-    socket.emit("r1VoteToMafia", votedPlayer);
-    setIsOverlay(false); //캠 클릭 이벤트 비활성화
-    clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
-    console.log("r1VoteToMafia 송신");
-  }, 10000);
+  let r1VoteToMafiaTimer;
 
-  // 생성된 타이머 ID를 저장
-  setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1VoteToMafiaTimer]);
+  // setTimeout 함수를 한 번만 실행
+  // 캠 클릭시 마다 setTimeout이 새로 생성되어 유저별 동작이 달라진다.
+  if (!timerRef.current) {
+    timerRef.current = true;
+    console.log("작동 횟수 체크");
+
+    r1VoteToMafiaTimer = setTimeout(() => {
+      setVoted(true);
+      setIsOverlay(false); // 캠 클릭 이벤트 비활성화
+      clearActiveParticipant(); // 캠 이미지 및 활성화된 user 정보 초기화
+    }, 10000);
+  }
+
+  //타이머 종료 후 다음 동자을 실행
+  //votedPlayer의 최신 값을 인식하지 못한다.
+  if (isVoted) {
+    console.log("userId", votedPlayer);
+    socket.emit("r1VoteToMafia", votedPlayer);
+    setVoteTimerClose(r1VoteToMafiaTimer);
+    console.log("r1VoteToMafia 송신");
+  }
 };
 
 //NOTE - UI 모달창 띄우기: 투표 개표(결과)
@@ -297,18 +317,33 @@ export const r1ShowVoteToResultHandler = ({
   setTimerIds
 }: TotalSocketState) => {
   console.log("r1ShowVoteToResult 수신");
-  console.log("투표 결과", voteBoard); //user_id, user_nickname, voted_count(내림차순)
+  console.log("투표 결과", voteBoard);
+
+  const manyVote = voteBoard[0].voted_count;
+  const nextVote = voteBoard[1].voted_count;
+  let socketEmitEvent = "";
+
+  //동등표일 경우(최후의 반론 및 투표 찬성 반대 스킵) ==> 밤으로 이동
+  if (manyVote === nextVote || manyVote === 0) {
+    setMessage("아무도 선택되지 않았습니다.");
+    socketEmitEvent = "r1TurnAllUserCameraMikeOff"; //밤이 되었습니다.
+  }
+
+  //가장 많은 투표를 받았을 경우
+  if (manyVote > nextVote && manyVote > 0) {
+    setMessage(`${voteBoard[0].user_nickname}님이 마피아로 지목되었습니다.`);
+    socketEmitEvent = "r1ShowVoteToResult";
+  }
 
   // 모달창 요소
   setIsOpen(true);
   setTitle("투표 결과");
-  setMessage(`${voteBoard.nickname}님이 마피아로 지목되었습니다.`);
   setTimer(5);
 
   // 15초 후에 setStatus와 socket.emit 실행
   const r1ShowVoteToResultTimer = setTimeout(() => {
-    socket.emit("r1ShowVoteToResult");
-    console.log("r1ShowVoteToResult 송신");
+    socket.emit(socketEmitEvent);
+    console.log(socketEmitEvent);
   }, 15000);
 
   // 생성된 타이머 ID를 저장
