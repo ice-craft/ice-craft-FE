@@ -100,7 +100,6 @@ Communication
     </td>
     <td width="100" height="100">
       <div style="display: flex; align-items: center;">
-        &nbsp;
         <img src="https://github.com/ice-craft/ice-craft/assets/116704646/8d33be75-ce12-495c-8a19-03d4913e7578" alt="icon" width="60" height="60" />
       </div>     
     </td>
@@ -112,7 +111,6 @@ Communication
     </td>
     <td width="100" height="100">
       <div style="display: flex; align-items: center;">
-        &nbsp;
         <img src="https://github.com/ice-craft/ice-craft/assets/116704646/c57e63a4-2d75-4579-8ae2-4622f25d516d" alt="icon" width="60" height="60" />
       </div>     
     </td>
