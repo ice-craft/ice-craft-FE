@@ -1,4 +1,14 @@
-# IceCraft
+#프로젝트 "IceCraft"
+
+배포 도메인 : [배포 링크 이동하기](https://ice-craft-git-dev-ice-craft.vercel.app/)
+
+프로젝트 명 : IceCraft
+
+개발 기간 : 2024.03.36 ~ 2023.05.01
+
+프로젝트 소개 : 실시간 화상 게임 서비스
+
+<br>
 <br>
 <br>
 
@@ -13,19 +23,6 @@
 <br>
 <br>
 
-## 프로젝트 "IceCraft"
-
-배포 도메인 : [배포 링크 이동하기](https://ice-craft-git-dev-ice-craft.vercel.app/)
-
-프로젝트 명 : IceCraft
-
-개발 기간 : 2024.03.36 ~ 2023.05.01
-
-프로젝트 소개 : 실시간 화상 게임 서비스
-
-<br>
-<br>
-<br>
 
 ## Tools
 
