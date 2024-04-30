@@ -157,91 +157,107 @@ const Mainpage = () => {
   };
 
   return (
-    <main className={S.main}>
-      <section className={S.visualSection}>
-        <div>
-          <ul className={S.gameList}>
-            <li className={S.mafiaImage}>
-              <div className={S.gameTitle}>
-                <h2>
-                  <Image src={MafiaGameTitle} alt="mafia game title" priority />
-                </h2>
-                <div className={S.gameButton}>
-                  <button onClick={gameStartHandler}>Game Start</button>
-                  <Link href="/mafiainfo" className={S.mafiaInfo}>
-                    More Info
-                  </Link>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <div className={S.roomSectionWrap}>
-        <section className={S.roomSection}>
-          <div className={S.MainGnb}>
-            <p>현재 활성화 되어있는 방</p>
-            <div className={S.roomSearchAndButton}>
-              <form onSubmit={searchHandler}>
-                <div className={S.roomSearch}>
-                  <label htmlFor="RoomSearch">방 검색하기</label>
-                  <input
-                    type="text"
-                    id="RoomSearch"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="방 이름을 입력해 주세요."
-                  />
-                  <button>
-                    <Image src={SearchIcon} alt="search Icon" />
-                  </button>
-                </div>
-              </form>
-              <div className={S.gameGoButton}>
-                <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
-                  빠른입장
-                </button>
-                <div className={S.makeRoomButton}>
-                  <button onClick={() => setIsCreate(true)} className={S.makeRoom}>
-                    방 만들기
-                  </button>
-                </div>
-                {isCreate ? <MainCreateRoom /> : null}
-              </div>
-            </div>
-          </div>
-          {rooms.length > 0 ? (
-            <ul className={S.roomList}>
-              {rooms.map((item: Tables<"room_table">) => (
-                <li key={item.room_id}>
-                  <Image src={MafiaItem} alt="room image" />
-                  <div className={S.roomTitle}>
-                    <h3>{item.title}</h3>
-                    <div className={S.gameName}>
-                      <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
-                      <p className={S.currentPeople}>
-                        <Image src={PeopleIcon} alt="people icon" />
-                        <span>
-                          {item.current_user_count}/{item.total_user_count}
-                        </span>
-                      </p>
-                    </div>
+    <>
+      <head>
+        {/* <meta charset="utf-8" /> */}
+        <meta property="og:title" content="Ice Craft" />
+        <meta property="og:description" content="into stunning space! 놀라운 공간 속으로!" />
+        {/* //NOTE - URL<meta property="og:url" content="" /> */}
+        <meta property="og:type" content="game" />
+        {/* //NOTE - 대표이미지<meta property="og:image" content="" /> */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <main className={S.main}>
+        <section className={S.visualSection}>
+          <div>
+            <ul className={S.gameList}>
+              <li className={S.mafiaImage}>
+                <div className={S.gameTitle}>
+                  <h2>
+                    <Image src={MafiaGameTitle} alt="mafia game title" priority />
+                  </h2>
+                  <div className={S.gameButton}>
+                    <button onClick={gameStartHandler}>Game Start</button>
+                    <Link href="/mafiainfo" className={S.mafiaInfo}>
+                      More Info
+                    </Link>
                   </div>
-                  <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
-                    입장하기
-                  </button>
-                </li>
-              ))}
+                </div>
+              </li>
             </ul>
-          ) : (
-            <div className={S.roomVisitEmpty}>
-              <Image src={VisitEmptyImage} alt="visit empty" />
-            </div>
-          )}
+          </div>
         </section>
-      </div>
-      <GoTopButton />
-    </main>
+        <div className={S.roomSectionWrap}>
+          <section className={S.roomSection}>
+            <div className={S.MainGnb}>
+              <p>현재 활성화 되어있는 방</p>
+              <div className={S.roomSearchAndButton}>
+                <form onSubmit={searchHandler}>
+                  <div className={S.roomSearch}>
+                    <label htmlFor="RoomSearch">방 검색하기</label>
+                    <input
+                      type="text"
+                      id="RoomSearch"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="방 이름을 입력해 주세요."
+                    />
+                    <button>
+                      <Image src={SearchIcon} alt="search Icon" />
+                    </button>
+                  </div>
+                </form>
+                <div className={S.gameGoButton}>
+                  <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
+                    빠른입장
+                  </button>
+                  <div className={S.makeRoomButton}>
+                    <button onClick={() => setIsCreate(true)} className={S.makeRoom}>
+                      방 만들기
+                    </button>
+                  </div>
+                  {isCreate ? <MainCreateRoom /> : null}
+                </div>
+              </div>
+            </div>
+            {rooms.length > 0 ? (
+              <ul className={S.roomList}>
+                {rooms.map((item: Tables<"room_table">) => (
+                  <li key={item.room_id}>
+                    <Image src={MafiaItem} alt="room image" />
+                    <div className={S.roomTitle}>
+                      <h3>{item.title}</h3>
+                      <div className={S.gameName}>
+                        <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
+                        <p className={S.currentPeople}>
+                          <Image src={PeopleIcon} alt="people icon" />
+                          <span>
+                            {item.current_user_count}/{item.total_user_count}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      disabled={isGoInClick.current}
+                      onClick={() => joinRoomHandler(item)}
+                      className={S.gotoButton}
+                    >
+                      입장하기
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className={S.roomVisitEmpty}>
+                <Image src={VisitEmptyImage} alt="visit empty" />
+              </div>
+            )}
+          </section>
+        </div>
+        <GoTopButton />
+      </main>
+    </>
   );
 };
 
