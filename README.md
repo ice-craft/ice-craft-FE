@@ -75,7 +75,7 @@ Communication
   <tr>
     <td width="100" height="100">
       <div style="display: flex; align-items:center; justify-content:center;">
-         &nbsp;&nbsp;&nbsp;<img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/116704646/ca3b35d4-25bf-4038-9a33-2daf9e6c5ade" alt="icon" width="50" height="50" style="text-align:center" />
+        &nbsp;&nbsp;<img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/116704646/ca3b35d4-25bf-4038-9a33-2daf9e6c5ade" alt="icon" width="50" height="50" style="text-align:center" />
       </div>
     </td>
      <td width="100" height="100">
@@ -90,7 +90,6 @@ Communication
     </td>
     <td width="100" height="100">
       <div style="display: flex; align-items: center;">
-        &nbsp;
         <img src="https://github.com/ice-craft/ice-craft/assets/116704646/248b37f6-b404-42fd-8e4a-2ea1ab4a53d1" alt="icon" width="60" height="60" />
       </div>     
     </td>
