@@ -19,26 +19,23 @@ const cards = {
 
 interface UserRoleModalProps {
   role: Role;
-  setRole: (role: Role) => void;
 }
 
-const UserRoleModal: React.FC<UserRoleModalProps> = ({ role, setRole }) => {
-  const { userId } = useConnectStore();
+const UserRoleModal: React.FC<UserRoleModalProps> = ({ role }) => {
+  // const { userId } = useConnectStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentRole, setCurrentRole] = useState<Role | null>(null);
   const [showAllCards, setShowAllCards] = useState(true);
 
   useEffect(() => {
-    socket.on("r0ShowAllUserRole", (incomingUserId, Role) => {
-      if (incomingUserId === userId) {
-        setCurrentRole(Role);
-        setIsModalOpen(true);
-        setTimeout(() => {
-          setShowAllCards(false);
-        }, 3000);
-      }
-    });
-  }, [userId]);
+    setIsModalOpen(true);
+    setShowAllCards(true);
+
+    const timer = setTimeout(() => {
+      setShowAllCards(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [role]);
 
   if (!isModalOpen) return null;
 
