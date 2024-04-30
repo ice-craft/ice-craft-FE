@@ -1,4 +1,4 @@
-# 🐶 해피멍생 🐾
+# IceCraft
 
 ## <목차>
 
@@ -25,52 +25,43 @@
 #### 화면 구성 및 기능
 
 - 완성 프로젝트 페이지별 화면 구성 & 기능
-  1. 메인 페이지
-  2. 커뮤니티, 중고거래 리스트 페이지
-  3. 커뮤니티, 중고거래 게시글 작성 및 수정 페이지
-  4. 커뮤니티, 중고거래 게시글 상세 페이지
-  5. 식당/카페, 병원/약국 장소 정보 페이지
-  6. 로그인/회원가입 페이지
-
+  1. 인트로페이지
+  2. 메인페이지
+  3. Info페이지
+  4. 랭킹페이지
+  5. 게임페이지
 #### 파일 구조
 
 <br>
 <br>
-
-## 🐶 팀 소개
-
-<span style="font-size:150%;">팀 명: 혁우님과 함께하면 참 10조</span>
-
-<br>
-
+https://github.com/
 ### 팀원 소개
 
-|                                           서혜련                                           |                                           박서영                                           |                                           박재민                                           |                                           안주원                                           |
+|                                           박서영                                           |                                           김명환                                           |                                           이준구                                           |                                           안주원                                           |
 | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/121484282?v=4" alt="서혜련" width="100"> | <img src="https://avatars.githubusercontent.com/u/116704646?v=4" alt="박서영" width="100"> | <img src="https://avatars.githubusercontent.com/u/139940350?v=4" alt="박재민" width="100"> | <img src="https://avatars.githubusercontent.com/u/154520094?v=4" width="100" alt="안주원"> |
-|                      [@Hyeryeon-Seo](https://github.com/Hyeryeon-Seo)                      |                          [@seokachu](https://github.com/seokachu)                          |                          [@ahddl622](https://github.com/ahddl622)                          |                             [@joo1e](https://github.com/joo1e)                             |
-|                                            팀장                                            |                                            팀원                                            |                                            팀원                                            |                                            팀원                                            |
-|                                            배포                                            |                                        리드미 작성                                         |                                            발표                                            |                                         시연 영상                                          |
+| <img src="https://avatars.githubusercontent.com/u/116704646?v=4" alt="박서영" width="100"> | <img src="https://avatars.githubusercontent.com/u/154975499?v=4" alt="김명환" width="100"> | <img src="https://avatars.githubusercontent.com/u/139940350?v=4" alt="이준구" width="100"> | <img src="https://avatars.githubusercontent.com/u/154520094?v=4" width="100" alt="안주원"> |
+|                      [@seokachu](https://github.com/seokachu)                     |                          [@baram55](https://github.com/baram55)                          |                          [@LeeJunGoo](https://github.com/145527618?v=4)                          |                             [@joo1e](https://github.com/joo1e)                             |
+|                                            리더                                            |                                            부리더                                            |                                            팀원                                            |                                            팀원                                            |
 
 <br>
 <br>
 <br>
 
-## 🐶 프로젝트 "해피멍생" 🐾
+## 프로젝트 "IceCraft"
 
-배포 도메인 : [배포 링크 이동하기](https://happy-dogs-mung-life.vercel.app/)
+배포 도메인 : [배포 링크 이동하기](https://ice-craft-git-dev-ice-craft.vercel.app/)
 
-프로젝트 명 : 해피멍생
+프로젝트 명 : IceCraft
 
-개발 기간 : 2024.03.18 ~ 2023.03.24 (7일)
+개발 기간 : 2024.03.36 ~ 2023.05.01
 
-프로젝트 소개 : 강아지 반려견을 좋아하는 사람들의 정보교환, 커뮤니티, 반려견을 위한 장소 정보 조회 및 중고거래를 할 수 있는 사이트 입니다.
+프로젝트 소개 : 실시간 화상 게임 서비스
 
 <br>
 <br>
 <br>
 
-## 🐾 Tools
+## Tools
 
 Communication
 
