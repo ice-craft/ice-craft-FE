@@ -1,4 +1,4 @@
-#프로젝트 "IceCraft"
+# 프로젝트 "IceCraft"
 
 배포 도메인 : [배포 링크 이동하기](https://ice-craft-git-dev-ice-craft.vercel.app/)
 
@@ -65,8 +65,11 @@ Communication
     <th>Supabase</th>
     <th>Prettier</th>
     <th>Moudle css</th>
-    <th>socket.io</th>
+    <th>Zustand</th>
+    <th>Livekit</th>
+    <th>Socket.io</th>
     <th>Express</th>
+    <th>AWS</th>
   </tr>
   <tr>
     <td width="100" height="100">
@@ -87,154 +90,44 @@ Communication
     <td width="100" height="100">
       <div style="display: flex; align-items: center;">
         &nbsp;
-        <img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/116704646/c5cc1636-4a0e-4456-b369-1e15a8840363" alt="icon" width="60" height="60" />
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/248b37f6-b404-42fd-8e4a-2ea1ab4a53d1" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/c519f7e9-ae7a-4749-a849-97a836428a05" alt="icon" width="60" height="60" />
       </div>     
     </td>
     <td width="100" height="100">
       <div style="display: flex; align-items: center;">
         &nbsp;
-        <img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/116704646/a26efc15-198f-44f2-a337-13323e049ac2" alt="icon" width="60" height="60" />
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/8d33be75-ce12-495c-8a19-03d4913e7578" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+     <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        &nbsp;
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/98b0fa6c-8a9d-431d-9c21-b54a34858ddb" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        &nbsp;
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/c57e63a4-2d75-4579-8ae2-4622f25d516d" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+     <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        &nbsp;
+        <img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="60" height="60" />
       </div>     
     </td>
   </tr>
 </table>
 
-<br>
-<table>
-    <tr>
-       <th>기본 패키지 관리자</th>
-       <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        yarn
-      </div>
-    </td>
-    </tr>
-    <tr>
-       <th>FE 개발 툴</th>
-         <td width="300" height="30">
-      <div style="text-align:center">
-        Next.js
-      </div>
-    </td>
-    </tr>
-<!--    <tr>
-     <th>전역 상태 관리 라이브러리</th>
-     <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        Zustand
-      </div>
-    </td>
-   </tr> -->
-   <tr>
-      <th>비동기 로직 라이브러리</th>
-     <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        TanStack/React-Query
-      </div>
-    </td>
-   </tr>
-  <tr>
-      <th>CSS</th>
-          <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        Tailwind CSS, 디자인 시스템 Daisy UI
-      </div>
-    </td>
-   </tr>
-    <tr>
-          <th>DB</th>
-          <td>
-      <div style="display: flex; align-items:center; justify-content:center;">
-       Supabase
-      </div>
-    </td>
-    </tr>
-</table>
-<br>
-<br>
-<br>
 
-## Code Convention
 
 <br>
-
-### 깃허브 커밋 규칙
-
-<table>
-    <tr>
-       <th>Feat</th>
-       <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        기능구현
-      </div>
-    </td>
-    </tr>
-    <tr>
-       <th>Add</th>
-         <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        없던 파일을 생성함, 초기세팅
-      </div>
-    </td>
-    </tr>
-   <tr>
-     <th>Refactor</th>
-     <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        코드 리팩토링
-      </div>
-    </td>
-   </tr>
-   <tr>
-      <th>Fix</th>
-     <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        코드수정
-      </div>
-    </td>
-   </tr>
-   <tr>
-      <th>Move</th>
-          <td width="300" height="30">
-      <div style="display: flex; align-items:center; justify-content:center;">
-        파일 옮김/정리
-      </div>
-    </td>
-   </tr>
-    <tr>
-          <th>Del</th>
-          <td>
-      <div style="display: flex; align-items:center; justify-content:center;">
-        기능/파일을 삭제
-      </div>
-    </td>
-    </tr>
-    <tr>
-       <th>Style</th>
-       <td>
-      <div style="display: flex; align-items:center; justify-content:center;">
-        css
-      </div>
-    </td>
-    </tr>
-   <tr>
-      <th>Script</th>
-      <td>
-      <div style="display: flex; align-items:center; justify-content:center;">
-        package.json 추가
-      </div>
-    </td>
-   </tr>
-</table>
-
-<br>
-<br>
-<br>
-
-## 와이어프레임
-
-### 화면 구성 계획
-
 <br>
 
 협업 규칙 및 api명세서 이동하기 : [피그마](https://www.figma.com/file/rXrTHHxL6SKuHPSX4IuzJA/React-%EC%8B%AC%ED%99%94-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8---10%EC%A1%B0?type=whiteboard&node-id=4%3A61&t=MmWx8bpUjLQ2Po5F-1)
@@ -434,7 +327,7 @@ Communication
 
 <br>
 
-```
+<!--
 📦app
  ┣ 📂auth
  ┃ ┗ 📂callback
@@ -532,4 +425,4 @@ Communication
  ┣ 📜not-found.tsx
  ┣ 📜page.tsx
  ┗ 📜provider.tsx
- ```
+ -->
