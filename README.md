@@ -1,48 +1,14 @@
 # IceCraft
-
-## <목차>
-
-#### 팀 소개
-
-- 팀원 소개<br>
-
-#### 프로젝트 소개
-
-- 개발 기간 & 배포 도메인 & 프로젝트 소개<br>
-
-#### Project Rules
-
-- Tools
-- 개발환경
-- 프로젝트 운영 방식 및 Rule
-
-#### 와이어프레임
-
-- 화면 구성 계획
-- 기능 담당
-- 기능 소개
-
-#### 화면 구성 및 기능
-
-- 완성 프로젝트 페이지별 화면 구성 & 기능
-  1. 인트로페이지
-  2. 메인페이지
-  3. Info페이지
-  4. 랭킹페이지
-  5. 게임페이지
-#### 파일 구조
-
 <br>
 <br>
 
 ### 팀원 소개
 
-|                                           박서영                                           |                                           김명환                                           |                                           이준구                                           |                                           안주원                                           |
+|                                           박서영                                           |                                           김명환                                           |                                           이준구                                           |                                           안주원                                           |
 | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/116704646?v=4" alt="박서영" width="100"> | <img src="https://avatars.githubusercontent.com/u/154975499?v=4" alt="김명환" width="100"> | <img src="https://avatars.githubusercontent.com/u/139940350?v=4" alt="이준구" width="100"> | <img src="https://avatars.githubusercontent.com/u/154520094?v=4" width="100" alt="안주원"> |
+| <img src="https://avatars.githubusercontent.com/u/116704646?v=4" alt="박서영" width="100"> | <img src="https://avatars.githubusercontent.com/u/154975499?v=4" alt="김명환" width="100"> | <img src="https://avatars.githubusercontent.com/u/145527618?v=4" alt="이준구" width="100"> | <img src="https://avatars.githubusercontent.com/u/154520094?v=4" width="100" alt="안주원"> |
 |                      [@seokachu](https://github.com/seokachu)                     |                          [@baram55](https://github.com/baram55)                          |                          [@LeeJunGoo](https://github.com/145527618?v=4)                          |                             [@joo1e](https://github.com/joo1e)                             |
 |                                            리더                                            |                                            부리더                                            |                                            팀원                                            |                                            팀원                                            |
-
 <br>
 <br>
 <br>
@@ -94,15 +60,16 @@ Communication
 <br>
 <br>
 
-## 🐾 개발환경
+## 개발환경
 
 <table>
   <tr>
     <th>Next.js</th>
     <th>Supabase</th>
     <th>Prettier</th>
-    <th>Tailwind</th>
-    <th>DaisyUI</th>
+    <th>Moudle css</th>
+    <th>socket.io</th>
+    <th>Express</th>
   </tr>
   <tr>
     <td width="100" height="100">
@@ -149,7 +116,7 @@ Communication
        <th>FE 개발 툴</th>
          <td width="300" height="30">
       <div style="text-align:center">
-        Next.js (React 기반)
+        Next.js
       </div>
     </td>
     </tr>
@@ -190,7 +157,7 @@ Communication
 <br>
 <br>
 
-## 🐾 Code Convention
+## Code Convention
 
 <br>
 
@@ -267,7 +234,7 @@ Communication
 <br>
 <br>
 
-## 🐾 와이어프레임
+## 와이어프레임
 
 ### 화면 구성 계획
 
@@ -322,7 +289,7 @@ Communication
 <br>
 <br>
 
-## 🐾 기능 담당 (페이지)
+## 기능 담당 (페이지)
 
 |                                              서혜련                                              |                               박서영                               |                                              박재민                                              |           안주원           |
 | :----------------------------------------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------------------------------------: | :------------------------: |
@@ -342,7 +309,7 @@ Communication
 <br>
 <br>
 
-## 🐾 화면 구성 및 기능
+## 화면 구성 및 기능
 
 <table>
 <tr>
@@ -466,7 +433,7 @@ Communication
 <br>
 <br>
 
-## 🐾 파일 구조
+## 파일 구조
 
 <br>
 
