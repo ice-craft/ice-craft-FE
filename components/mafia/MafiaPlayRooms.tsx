@@ -42,6 +42,7 @@ const MafiaPlayRooms = () => {
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
   const { title, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
   const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]); // 여러 setTimeout의 타이머 상태를 저장하여 return시 한번에 제거
+  const [role, setRole] = useState(null);
   const [votedPlayer, setVotedPlayer] = useState("");
   const [isVoted, setVoted] = useState(false);
   const timerRef = useRef(false);
@@ -110,6 +111,9 @@ const MafiaPlayRooms = () => {
     socket.on("r0ShowAllUserRole", (role) => {
       console.log("r0ShowAllUserRole 수신");
 
+      setIsOpen(true);
+      setRole(role);
+      setCurrentModal(<UserRoleModal role={role} />);
       console.log(`역할들 : ${role}`);
 
       socket.emit("r0ShowAllUserRole", roomId);
@@ -365,29 +369,29 @@ const MafiaPlayRooms = () => {
   };
 
   //NOTE - 조건에 따른 모달창 띄우기 (case: "check" 라고 들어와야 랜더링 가능, 모달 이름들은 서버랑 이야기 해봐야함. ^^...)
-  useEffect(() => {
-    const showModal = (modalType: string) => {
-      switch (modalType) {
-        case "check":
-          setCurrentModal(<CheckModal />);
-          break;
-        case "globalModal":
-          setCurrentModal(<GroupMafiaModal />);
-          break;
-        case "userRole":
-          setCurrentModal(<UserRoleModal />);
-          break;
-        default:
-          setCurrentModal(null);
-      }
-    };
+  // useEffect(() => {
+  //   const showModal = (modalType: string) => {
+  //     switch (modalType) {
+  //       case "check":
+  //         setCurrentModal(<CheckModal />);
+  //         break;
+  //       case "globalModal":
+  //         setCurrentModal(<GroupMafiaModal />);
+  //         break;
+  //       case "userRole":
+  //         setCurrentModal(<UserRoleModal />);
+  //         break;
+  //       default:
+  //         setCurrentModal(null);
+  //     }
+  //   };
 
-    socket.on("showModal", showModal);
+  //   socket.on("showModal", showModal);
 
-    return () => {
-      socket.off("showModal", showModal);
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("showModal", showModal);
+  //   };
+  // }, []);
 
   BeforeUnloadHandler();
 
