@@ -1,7 +1,7 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import useConnectStore from "@/store/connect-store";
 import useOverlayStore from "@/store/overlay-store";
-import { useModalStore, useReadyStore } from "@/store/toggle-store";
+import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { socket } from "@/utils/socket/socket";
@@ -41,6 +41,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         </div>
       ))}
       <GameStartButton />
+      {/* isOpen: 모달창 띄우기 */}
       {isOpen && <GroupMafiaModal />}
     </div>
   );

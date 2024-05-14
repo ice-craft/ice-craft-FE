@@ -272,8 +272,6 @@ const MafiaPlayRooms = () => {
         clearTimeout(timerId);
       });
 
-      console.log("작동되니?");
-
       // socket Off
       socket.off("r0NightStart");
       socket.off("r0TurnAllUserCameraMikeOff");
@@ -412,8 +410,6 @@ const MafiaPlayRooms = () => {
       <div className={S.goToMainPage}>
         <button
           onClick={() => {
-            console.log("test");
-
             allAudioSetting(tracks, false);
           }}
           style={{ background: "red" }}

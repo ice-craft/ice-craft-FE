@@ -10,11 +10,6 @@ export interface MafiaRoom {
   userInfo: User | undefined | null;
 }
 
-export interface ModalState {
-  isModal: boolean;
-  setIsModal: (newModal: boolean) => void;
-}
-
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
   checkClickHandle: (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => void;
