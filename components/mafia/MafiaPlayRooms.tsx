@@ -34,12 +34,12 @@ import {
 } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
 import { useEffect, useRef, useState } from "react";
-import CheckModal from "./CheckModal";
-import GroupMafiaModal from "./GroupMafiaModal";
+import CheckModal from "@/components/modal/CheckModal";
+import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import UserRoleModal from "./UserRoleModal";
+import UserRoleModal from "@/components/modal/UserRoleModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
