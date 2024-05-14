@@ -349,10 +349,11 @@ const MafiaPlay = () => {
       console.log("[r1ShowMostVotedPlayerError]");
     });
 
-    socket.on("r1LastTalk", (message) => {
+    socket.on("r1LastTalk", (message, player) => {
       console.log("r1LastTalk 수신");
 
       console.log(`r1LastTalk ${message} 모달 창 띄움`);
+      console.log(`${player}가 유저 아이디`);
 
       socket.emit("r1LastTalk");
       console.log("r1LastTalk 송신");
