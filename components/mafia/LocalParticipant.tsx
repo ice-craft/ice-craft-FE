@@ -10,38 +10,15 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useShowModalStore from "@/store/showModal.store";
+import GameStartButton from "./GameStartButton";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
-  const { roomId, userId } = useConnectStore();
-  const { isModal, setIsModal } = useModalStore();
   const { isReady, setIsReady } = useReadyStore();
-  const [modalMessage, setModalMessage] = useState("");
   const { isOpen } = useShowModalStore();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
-
-  // 게임 준비 component로 쪼개기
-  const startGameHandler = () => {
-    const newIsReady = !isReady;
-    setIsReady(newIsReady);
-
-    socket.emit("setReady", userId, newIsReady, roomId);
-  };
-
-  useEffect(() => {
-    socket.on("setReady", (message) => {
-      console.log("게임 준비", message);
-
-      setModalMessage(message);
-      setIsModal(true);
-    });
-
-    return () => {
-      socket.off("setReady");
-    };
-  }, []);
 
   return (
     <div className={S.localParticipant}>
@@ -63,10 +40,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           </div>
         </div>
       ))}
-
-      <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
-        {isReady ? "취소" : "게임 준비"}
-      </button>
+      <GameStartButton />
       {isOpen && <GroupMafiaModal />}
     </div>
   );

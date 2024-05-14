@@ -74,19 +74,7 @@ const MafiaPlayRooms = () => {
   const participants = useParticipants();
   // console.log("participants", participants);
 
-  //훅 정리
-  // const { localParticipant } = useLocalParticipant(); //로컬 사용자
-  // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
-
   useEffect(() => {
-    // Round0()
-
-    // Round1()
-
-    // Round2()
-
-    // Round3()
-
     //NOTE - 게임 시작
     socket.on("r0NightStart", () => {
       clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
@@ -273,7 +261,10 @@ const MafiaPlayRooms = () => {
         clearActiveParticipant
       });
     });
+  }, [tracks]);
 
+  //OFF socket
+  useEffect(() => {
     return () => {
       // 저장된 모든 타이머 클리어
       // 의존성 배열에 track을 제거하고 사용하면 문제 없다.
@@ -298,7 +289,7 @@ const MafiaPlayRooms = () => {
       socket.off("r1VoteToMafia");
       socket.off("r1ShowVoteToResult");
     };
-  }, [tracks]);
+  }, []);
 
   useEffect(() => {
     if (title.includes("투표 시간")) {
