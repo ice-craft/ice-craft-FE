@@ -267,11 +267,11 @@ const MafiaPlayRooms = () => {
   useEffect(() => {
     return () => {
       // 저장된 모든 타이머 클리어
-      // 의존성 배열에 track을 제거하고 사용하면 문제 없다.
-      // timerIds.forEach((timerId) => {
-      //   console.log("timerId", timerId);
-      //   clearTimeout(timerId);
-      // });
+      timerIds.forEach((timerId) => {
+        console.log("timerId", timerId);
+        clearTimeout(timerId);
+      });
+
       console.log("작동되니?");
 
       // socket Off
