@@ -22,11 +22,12 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
+  // 게임 준비 component로 쪼개기
   const startGameHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
 
-    socket.emit("r1MeetingOver", userId, newIsReady, roomId);
+    socket.emit("setReady", userId, newIsReady, roomId);
   };
 
   useEffect(() => {
@@ -51,7 +52,11 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
           onClick={isLocalOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
         >
-          <ParticipantTile trackRef={track} className={isLocalOverlay ? S.localCam : undefined} />
+          <ParticipantTile
+            trackRef={track}
+            disableSpeakingIndicator={true}
+            className={isLocalOverlay ? S.localCam : undefined}
+          />
 
           <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}>
             <Image src={CamCheck} alt={track.participant.sid} />

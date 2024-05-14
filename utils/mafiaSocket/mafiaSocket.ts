@@ -30,7 +30,7 @@ export const r0NightStartHandler = ({
   const r0NightStartTimer = setTimeout(() => {
     socket.emit("r0NightStart");
     console.log("r0NightStart 송신");
-  }, 500);
+  }, 5000);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds) => [...prevTimerIds, r0NightStartTimer]);
@@ -68,7 +68,7 @@ export const r0ShowMafiaUserEachOther = ({
   const r0ShowMafiaUserEachOtherTimer = setTimeout(() => {
     socket.emit("r0ShowMafiaUserEachOther");
     console.log("r0ShowMafiaUserEachOther 송신");
-  }, 500);
+  }, 5000);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds) => [...prevTimerIds, r0ShowMafiaUserEachOtherTimer]);
@@ -108,7 +108,7 @@ export const r0TurnMafiaUserCameraOnHandler = ({
   const r0TurnMafiaUserCameraOnTimer = setTimeout(() => {
     socket.emit("r0TurnMafiaUserCameraOn");
     console.log("r0TurnMafiaUserCameraOn 송신");
-  }, 500);
+  }, 5000);
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r0TurnMafiaUserCameraOnTimer]);
