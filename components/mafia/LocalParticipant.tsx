@@ -63,6 +63,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           </div>
         </div>
       ))}
+
       <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
         {isReady ? "취소" : "게임 준비"}
       </button>
