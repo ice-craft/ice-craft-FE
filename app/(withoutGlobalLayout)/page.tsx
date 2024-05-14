@@ -26,13 +26,13 @@ const IntroPage = async () => {
       </header>
       <section className={S.section}>
         <Image src={IntroBg} alt="ice craft" className={S.IntroImage} priority />
-        {/* <video
+        <video
           className={S.video}
           src="https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/vedio/intro.mp4"
           muted
           autoPlay
           loop
-        ></video> */}
+        ></video>
         <div className={S.introTitle}>
           <TextTyping />
           <Link href="/main" className={S.mainButton}>
