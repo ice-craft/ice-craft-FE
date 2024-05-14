@@ -1,6 +1,6 @@
 import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
-import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
+import { LiveKitRoom, ParticipantAudioTile, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
@@ -27,7 +27,8 @@ const JoinMafiaRoom = () => {
     console.log("토큰 발급중 에러 발생");
   }
 
-  //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러 ==> useEffect와 비슷하다.
+  //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러
+  // supabase의 성능문제를 해결하기위해 로딩창을 띄어 텀을 주었다.
   const disConnected = () => {
     socket.emit("exitRoom", roomId, userId);
     setIsExit(true);
@@ -53,6 +54,7 @@ const JoinMafiaRoom = () => {
           onDisconnected={disConnected}
         >
           <MafiaPlayRooms />
+
           <RoomAudioRenderer />
         </LiveKitRoom>
       ) : (

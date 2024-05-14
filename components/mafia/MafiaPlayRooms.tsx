@@ -25,7 +25,13 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 
-import { DisconnectButton, useLocalParticipant, useParticipants, useTracks } from "@livekit/components-react";
+import {
+  DisconnectButton,
+  useLocalParticipant,
+  useParticipantTile,
+  useParticipants,
+  useTracks
+} from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
 import { useEffect, useRef, useState } from "react";
 import CheckModal from "./CheckModal";
@@ -62,6 +68,7 @@ const MafiaPlayRooms = () => {
   //NOTE -  로컬 user의 정보
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.metadata;
+  // console.log("localParticipant", (localParticipant.isCameraEnabled = true));
 
   //NOTE -  모든 user들의 정보
   const participants = useParticipants();
@@ -72,6 +79,14 @@ const MafiaPlayRooms = () => {
   // const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
 
   useEffect(() => {
+    // Round0()
+
+    // Round1()
+
+    // Round2()
+
+    // Round3()
+
     //NOTE - 게임 시작
     socket.on("r0NightStart", () => {
       clearActiveParticipant(); //캠 이미지 및 활성화된 user 정보 초기화
@@ -169,6 +184,8 @@ const MafiaPlayRooms = () => {
       });
     });
 
+    // ==========================================================================================
+
     //NOTE -  (토론시간) 아침이 시작되었습니다 모달창 띄우기
     socket.on("r1MorningStart", () => {
       r1MorningStartHandler({
@@ -264,7 +281,9 @@ const MafiaPlayRooms = () => {
       //   console.log("timerId", timerId);
       //   clearTimeout(timerId);
       // });
+      console.log("작동되니?");
 
+      // socket Off
       socket.off("r0NightStart");
       socket.off("r0TurnAllUserCameraMikeOff");
       socket.off("r0SetAllUserRole");
@@ -400,7 +419,14 @@ const MafiaPlayRooms = () => {
       <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
       <div className={S.goToMainPage}>
-        <button onClick={() => allAudioSetting(tracks, false)} style={{ background: "red" }}>
+        <button
+          onClick={() => {
+            console.log("test");
+
+            allAudioSetting(tracks, false);
+          }}
+          style={{ background: "red" }}
+        >
           전체 소리 끄기
         </button>
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>

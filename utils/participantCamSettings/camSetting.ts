@@ -42,6 +42,7 @@ export const specificUserAudioSetting = (ParticipantTrack: TrackReference[], isA
 };
 
 //NOTE - 특정 유저의 비디오 on/off
+// 특정 user의 카메라 경우에는 특정 user에게만 적용되게끔 만들었으니 오디오 또한,  변화되는 것을 다른 유저들은 몰라야한다.
 export const specificUserVideoSetting = (
   MafiaUserTrack: (LocalParticipant | RemoteParticipant | undefined)[],
   isVideo: boolean
@@ -55,6 +56,7 @@ export const specificUserVideoSetting = (
     if (audioTrack && camTrack && isVideo) {
       // audioTrack.enabled = true; focus문제로 현재 오디오설정은 비활성화
       camTrack.enabled = true;
+      camTrack.onmute;
     }
 
     if (audioTrack && camTrack && !isVideo) {
