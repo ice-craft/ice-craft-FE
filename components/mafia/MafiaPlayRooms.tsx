@@ -65,9 +65,9 @@ const MafiaPlayRooms = () => {
 
   const sources = tracks.map((item) => item.source);
 
-  //NOTE -  로컬 user의 정보
+  //NOTE -  로컬 user의 ID
   const localParticipant = useLocalParticipant();
-  const localUserId = localParticipant.localParticipant.metadata;
+  const localUserId = localParticipant.localParticipant.identity;
   // console.log("localParticipant", (localParticipant.isCameraEnabled = true));
 
   //NOTE -  모든 user들의 정보
@@ -316,19 +316,19 @@ const MafiaPlayRooms = () => {
     const exampleSocket = "마피아시간";
     const exampleServerUserinfo: string = "시민";
 
-    if (!participant.metadata) {
+    if (!participant.identity) {
       return;
     }
 
     if (title.includes("투표 시간")) {
-      setVotedPlayer(participant.metadata); //userId값 상태 저장
+      setVotedPlayer(participant.identity); //userId값 상태 저장
     }
 
     //NOTE - 마피아 시간 종료
     if (exampleSocket.includes("mafiaEndTime")) {
       // 마지막으로 클릭 된 user의 정보를 server에 전달
-      if (participant.metadata) {
-        console.log("userId", participant.metadata);
+      if (participant.identity) {
+        console.log("userId", participant.identity);
         setIsOverlay(false);
         clearActiveParticipant();
       }
@@ -337,8 +337,8 @@ const MafiaPlayRooms = () => {
     //NOTE - 의사 시간 종료
     if (exampleSocket.includes("doctorEndTime")) {
       //NOTE - 의사가 선택한 유저의 정보
-      if (participant.metadata) {
-        console.log("userId", participant.metadata);
+      if (participant.identity) {
+        console.log("userId", participant.identity);
         setIsOverlay(false);
         clearActiveParticipant();
       }
@@ -347,7 +347,7 @@ const MafiaPlayRooms = () => {
     //NOTE - 경찰 시간
     const policeTime = () => {
       // 클릭한 유저의 정보를 서버에 전달
-      const postData = participant.metadata;
+      const postData = participant.identity;
 
       // 서버에서 전송 받은 유저의 정보(직업)
       if (exampleServerUserinfo == postData) {

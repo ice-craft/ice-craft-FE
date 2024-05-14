@@ -92,12 +92,12 @@ export const r0TurnMafiaUserCameraOnHandler = ({
 
   //NOTE - 1. 특정 user의 track(데이터) 가져오기
   const MafiaUserTrack = players.map((userId) => {
-    return participants.find((item) => item.metadata === userId);
+    return participants.find((item) => item.identity === userId);
   });
 
   //NOTE - 2. 해당 user일 경우에만 캠 및 오디오 ON
   MafiaUserTrack.forEach((track) => {
-    if (localUserId === track?.metadata) {
+    if (localUserId === track?.identity) {
       specificUserVideoSetting(MafiaUserTrack, true);
     } else {
       allAudioSetting(tracks, false);
@@ -137,7 +137,7 @@ export const r0TurnMafiaUserCameraOffHandler = ({
     }
 
     return participants.map((participant) => {
-      if (participant.metadata === userId && localUserId === userId) {
+      if (participant.identity === userId && localUserId === userId) {
         return participant;
       }
     });

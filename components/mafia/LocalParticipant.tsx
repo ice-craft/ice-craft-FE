@@ -15,7 +15,7 @@ import GameStartButton from "./GameStartButton";
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
-  const { isReady, setIsReady } = useReadyStore();
+  const { isReady } = useReadyStore();
   const { isOpen } = useShowModalStore();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;

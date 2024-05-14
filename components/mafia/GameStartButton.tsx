@@ -1,17 +1,23 @@
 import useConnectStore from "@/store/connect-store";
 import { useReadyStore } from "@/store/toggle-store";
 import { socket } from "@/utils/socket/socket";
+import { useLocalParticipant } from "@livekit/components-react";
 import React, { useEffect, useState } from "react";
 
 const GameStartButton = () => {
   const { roomId, userId } = useConnectStore();
   const { isReady, setIsReady } = useReadyStore();
+  const local = useLocalParticipant();
 
   const startGameHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
     socket.emit("setReady", userId, newIsReady, roomId);
   };
+
+  useEffect(() => {
+    local.localParticipant.name = `${!isReady}`;
+  }, [isReady]);
 
   return (
     <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
