@@ -15,10 +15,6 @@ const GameStartButton = () => {
     socket.emit("setReady", userId, newIsReady, roomId);
   };
 
-  useEffect(() => {
-    local.localParticipant.name = `${!isReady}`;
-  }, [isReady]);
-
   return (
     <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
       {isReady ? "취소" : "게임 준비"}

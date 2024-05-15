@@ -103,11 +103,6 @@ export interface ModalData {
   isOpen: boolean;
 }
 
-export interface ParticipantReadyData {
-  userId: string;
-  isReady: boolean;
-}
-
 export interface RemoteReadyStates {
   [key: string]: boolean;
 }

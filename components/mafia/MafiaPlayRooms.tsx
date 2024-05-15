@@ -376,31 +376,6 @@ const MafiaPlayRooms = () => {
     socket.emit("exitRoom", roomId, userId);
   };
 
-  //NOTE - 조건에 따른 모달창 띄우기 (case: "check" 라고 들어와야 랜더링 가능, 모달 이름들은 서버랑 이야기 해봐야함. ^^...)
-  // useEffect(() => {
-  //   const showModal = (modalType: string) => {
-  //     switch (modalType) {
-  //       case "check":
-  //         setCurrentModal(<CheckModal />);
-  //         break;
-  //       case "globalModal":
-  //         setCurrentModal(<GroupMafiaModal />);
-  //         break;
-  //       case "userRole":
-  //         setCurrentModal(<UserRoleModal />);
-  //         break;
-  //       default:
-  //         setCurrentModal(null);
-  //     }
-  //   };
-
-  //   socket.on("showModal", showModal);
-
-  //   return () => {
-  //     socket.off("showModal", showModal);
-  //   };
-  // }, []);
-
   BeforeUnloadHandler();
 
   return (
