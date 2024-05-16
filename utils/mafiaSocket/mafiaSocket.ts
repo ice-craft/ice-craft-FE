@@ -2,6 +2,7 @@ import { MediaState, TotalSocketState, VoteState, SetModalState } from "@/types"
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { allAudioSetting, allMediaSetting, specificUserVideoSetting } from "../participantCamSettings/camSetting";
 import { socket } from "../socket/socket";
+import { MutableRefObject } from "react";
 
 //NOTE - 게임 시작
 export const r0NightStartHandler = ({
@@ -92,12 +93,12 @@ export const r0TurnMafiaUserCameraOnHandler = ({
 
   //NOTE - 1. 특정 user의 track(데이터) 가져오기
   const MafiaUserTrack = players.map((userId) => {
-    return participants.find((item) => item.metadata === userId);
+    return participants.find((item) => item.identity === userId);
   });
 
   //NOTE - 2. 해당 user일 경우에만 캠 및 오디오 ON
   MafiaUserTrack.forEach((track) => {
-    if (localUserId === track?.metadata) {
+    if (localUserId === track?.identity) {
       specificUserVideoSetting(MafiaUserTrack, true);
     } else {
       allAudioSetting(tracks, false);
@@ -137,7 +138,7 @@ export const r0TurnMafiaUserCameraOffHandler = ({
     }
 
     return participants.map((participant) => {
-      if (participant.metadata === userId && localUserId === userId) {
+      if (participant.identity === userId && localUserId === userId) {
         return participant;
       }
     });
@@ -347,4 +348,23 @@ export const r1ShowVoteToResultHandler = ({
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1ShowVoteToResultTimer]);
+};
+
+interface ErrorState {
+  timeOutClear: MutableRefObject<NodeJS.Timeout[]>;
+  errorCount: MutableRefObject<number>;
+}
+
+//NOTE - 공통 Error 처리 기능
+export const eventError = (eventName: string, { timeOutClear, errorCount }: ErrorState) => {
+  const count = Math.random() * 600 + 600;
+  errorCount.current = errorCount.current + 1;
+
+  const ErrorTimer = setTimeout(() => {
+    console.log(`${eventName}Error`, count);
+    socket.emit(eventName);
+    console.log(`${eventName} 송신`);
+  }, count);
+
+  timeOutClear.current.push(ErrorTimer);
 };

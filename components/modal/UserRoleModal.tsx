@@ -8,7 +8,7 @@ import CitizensCard from "@/assets/images/Citizens_Card.avif";
 import { Role } from "@/types/index";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
-import RenderCards from "./RenderCards";
+import RenderCards from "@/components/mafia/RenderCards";
 
 const cards = {
   doctor: { src: DoctorCard.src, alt: "의사" },

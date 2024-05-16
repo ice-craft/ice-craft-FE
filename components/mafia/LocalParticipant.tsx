@@ -1,47 +1,22 @@
 import CamCheck from "@/assets/images/cam_check.svg";
-import useConnectStore from "@/store/connect-store";
+import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useOverlayStore from "@/store/overlay-store";
-import { useModalStore, useReadyStore } from "@/store/toggle-store";
+import useShowModalStore from "@/store/showModal.store";
+import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
-import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import GroupMafiaModal from "./GroupMafiaModal";
-import useShowModalStore from "@/store/showModal.store";
+import React from "react";
+import GameStartButton from "./GameStartButton";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
-  const { roomId, userId } = useConnectStore();
-  const { isModal, setIsModal } = useModalStore();
-  const { isReady, setIsReady } = useReadyStore();
-  const [modalMessage, setModalMessage] = useState("");
+  const { isReady } = useReadyStore();
   const { isOpen } = useShowModalStore();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
-
-  // 게임 준비 component로 쪼개기
-  const startGameHandler = () => {
-    const newIsReady = !isReady;
-    setIsReady(newIsReady);
-
-    socket.emit("setReady", userId, newIsReady, roomId);
-  };
-
-  useEffect(() => {
-    socket.on("setReady", (message) => {
-      console.log("게임 준비", message);
-
-      setModalMessage(message);
-      setIsModal(true);
-    });
-
-    return () => {
-      socket.off("setReady");
-    };
-  }, []);
 
   return (
     <div className={S.localParticipant}>
@@ -63,9 +38,8 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
           </div>
         </div>
       ))}
-      <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
-        {isReady ? "취소" : "게임 준비"}
-      </button>
+      <GameStartButton />
+      {/* isOpen: 모달창 띄우기 */}
       {isOpen && <GroupMafiaModal />}
     </div>
   );

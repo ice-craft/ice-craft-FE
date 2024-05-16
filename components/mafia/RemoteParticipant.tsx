@@ -1,4 +1,4 @@
-import { ParticipantReadyData, Participants, RemoteReadyStates } from "@/types";
+import { Participants, RemoteReadyStates } from "@/types";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import React, { useEffect, useState } from "react";
 import S from "@/style/livekit/livekit.module.css";
@@ -18,19 +18,19 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
   const remoteTracks = cameraTracks.filter((track) => track.participant.sid !== localParticipant.sid);
 
   useEffect(() => {
-    const participantReady = (data: ParticipantReadyData) => {
-      const { userId, isReady } = data;
+    const participantReady = (userId: string, isReady: boolean) => {
       setRemoteReadyStates((prev) => ({ ...prev, [userId]: isReady }));
     };
 
-    socket.on("participantReady", participantReady);
+    socket.on("updateUserReady", participantReady);
 
     return () => {
-      socket.off("participantReady", participantReady);
+      socket.off("updateUserReady");
     };
   }, []);
 
   return (
+    // 원격 사용자들의 camera 및 클릭 Event 제어
     <div className={S.remoteParticipant}>
       {remoteTracks.map((track, index) => (
         <div
@@ -39,7 +39,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
           onClick={isRemoteOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
         >
           <ParticipantTile trackRef={track} className={`${S.remoteCam} ${isLocalOverlay ? "cursor-pointer" : ""}`} />
-          <div className={`${S.remoteOverlay} ${remoteReadyStates[track.participant.sid] ? S.active : ""}`}>
+          <div className={`${S.remoteOverlay} ${remoteReadyStates[track.participant.identity] ? S.active : ""}`}>
             <Image src={imageState!} alt={track.participant.sid} />
           </div>
         </div>
