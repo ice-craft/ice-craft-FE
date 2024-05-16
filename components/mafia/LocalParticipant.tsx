@@ -1,15 +1,13 @@
 import CamCheck from "@/assets/images/cam_check.svg";
-import useConnectStore from "@/store/connect-store";
+import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useOverlayStore from "@/store/overlay-store";
+import useShowModalStore from "@/store/showModal.store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
-import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
-import useShowModalStore from "@/store/showModal.store";
+import React from "react";
 import GameStartButton from "./GameStartButton";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {

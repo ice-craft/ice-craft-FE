@@ -2,6 +2,7 @@ import { MediaState, TotalSocketState, VoteState, SetModalState } from "@/types"
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { allAudioSetting, allMediaSetting, specificUserVideoSetting } from "../participantCamSettings/camSetting";
 import { socket } from "../socket/socket";
+import { MutableRefObject } from "react";
 
 //NOTE - 게임 시작
 export const r0NightStartHandler = ({
@@ -347,4 +348,23 @@ export const r1ShowVoteToResultHandler = ({
 
   // 생성된 타이머 ID를 저장
   setTimerIds((prevTimerIds: any) => [...prevTimerIds, r1ShowVoteToResultTimer]);
+};
+
+interface ErrorState {
+  timeOutClear: MutableRefObject<NodeJS.Timeout[]>;
+  errorCount: MutableRefObject<number>;
+}
+
+//NOTE - 공통 Error 처리 기능
+export const eventError = (eventName: string, { timeOutClear, errorCount }: ErrorState) => {
+  const count = Math.random() * 600 + 600;
+  errorCount.current = errorCount.current + 1;
+
+  const ErrorTimer = setTimeout(() => {
+    console.log(`${eventName}Error`, count);
+    socket.emit(eventName);
+    console.log(`${eventName} 송신`);
+  }, count);
+
+  timeOutClear.current.push(ErrorTimer);
 };

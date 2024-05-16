@@ -12,6 +12,7 @@ const GameStartButton = () => {
   const startGameHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
+    console.log(newIsReady);
     socket.emit("setReady", userId, newIsReady, roomId);
   };
 
