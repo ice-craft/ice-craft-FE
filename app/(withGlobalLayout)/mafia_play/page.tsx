@@ -58,6 +58,10 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, "마피아");
           socket.emit(eventName, userId.current, "마피아");
           break;
+        case "testStart":
+          console.log(eventName, "테스트 시작");
+          socket.emit(eventName, roomId.current);
+          break;
       }
     } else {
       alert("이벤트 명을 적으세요.");
@@ -92,6 +96,10 @@ const MafiaPlay = () => {
     console.log("나의 닉네임", nickname.current);
     socket.on("connect", () => {
       write(message);
+    });
+
+    socket.on("test", (msg) => {
+      console.log(`test : ${msg}`);
     });
 
     socket.on("disconnect", () => {

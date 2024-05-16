@@ -1,7 +1,7 @@
 "use client";
 
 import JoinMafiaRoom from "@/components/mafia/JoinMafiaRoom";
-import Loading from "@/components/mafia/Loading";
+import Loading from "@/components/layout/Loading";
 import { useExitStore } from "@/store/exit-store";
 import { useEffect } from "react";
 
