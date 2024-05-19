@@ -605,6 +605,10 @@ const MafiaPlay = () => {
     socket.on("showModal", (msg) => {
       console.log(`[showModal] ${msg}`);
     });
+
+    socket.on("inDiscuss", () => {
+      console.log("토론 중");
+    });
   }, []);
 
   return (
