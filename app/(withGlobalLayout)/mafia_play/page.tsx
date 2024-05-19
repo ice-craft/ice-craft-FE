@@ -607,7 +607,11 @@ const MafiaPlay = () => {
     });
 
     socket.on("inDiscuss", () => {
-      console.log("토론 중");
+      console.log("[inDiscuss] 토론 중");
+    });
+
+    socket.on("inVote", () => {
+      console.log("[inVote] 투표 중");
     });
   }, []);
 
