@@ -41,7 +41,8 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import UserRoleModal from "@/components/modal/UserRoleModal";
-import useSocket from "@/hooks/useSocket";
+import useShowModalSocket from "@/hooks/useShowModalSocket";
+import useMediaStatusSocket from "@/hooks/useMediaStatusSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -79,49 +80,22 @@ const MafiaPlayRooms = () => {
   const participants = useParticipants();
   // console.log("participants", participants);
 
-  const sockets = [
-    {
-      eventName: "r0NightStart",
-      handler: () => {
-        r0NightStartHandler({
-          roomId,
-          userId,
-          votedPlayer,
-          setIsOpen,
-          setTitle,
-          setMessage,
-          setTimer,
-          setIsClose,
-          setIsOverlay,
-          setTimerIds,
-          clearActiveParticipant
-        });
-      }
-    },
-    {
-      eventName: "r0TurnAllUserCameraMikeOff",
-      handler: () => {
-        r0TurnAllUserCameraMikeOffHandler(tracks, userId);
-      }
-    }
-    // 추가 소켓 리스트
-  ];
+  useShowModalSocket();
+  useMediaStatusSocket();
 
-  useSocket(sockets);
+  // useEffect(() => {
+  //   socket.on("r0NightStartError", () => {
+  //     eventError("r0NightStart", { timeOutClear, errorCount });
+  //   });
 
-  useEffect(() => {
-    socket.on("r0NightStartError", () => {
-      eventError("r0NightStart", { timeOutClear, errorCount });
-    });
+  //   socket.on("r0TurnAllUserCameraMikeOffError", () => {
+  //     eventError("r0TurnAllUserCameraMikeOff", { timeOutClear, errorCount });
+  //   });
 
-    socket.on("r0TurnAllUserCameraMikeOffError", () => {
-      eventError("r0TurnAllUserCameraMikeOff", { timeOutClear, errorCount });
-    });
-
-    socket.on("r0SetAllUserRoleError", () => {
-      eventError("r0SetAllUserRole", { timeOutClear, errorCount });
-    });
-  }, []);
+  //   socket.on("r0SetAllUserRoleError", () => {
+  //     eventError("r0SetAllUserRole", { timeOutClear, errorCount });
+  //   });
+  // }, []);
 
   // Clear Timer
   useEffect(() => {
@@ -135,25 +109,25 @@ const MafiaPlayRooms = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (title.includes("투표 시간")) {
-      r1VoteToMafiaHandler({
-        votedPlayer,
-        isVoted,
-        timerRef,
-        setVoteTimerClose,
-        setIsOverlay,
-        setVoted,
-        clearActiveParticipant
-      });
-      console.log("votedPlayer", votedPlayer);
-    }
+  // useEffect(() => {
+  //   if (title.includes("투표 시간")) {
+  //     r1VoteToMafiaHandler({
+  //       votedPlayer,
+  //       isVoted,
+  //       timerRef,
+  //       setVoteTimerClose,
+  //       setIsOverlay,
+  //       setVoted,
+  //       clearActiveParticipant
+  //     });
+  //     console.log("votedPlayer", votedPlayer);
+  //   }
 
-    // 컴포넌트가 unmount되면 타이머를 클리어
-    return () => clearTimeout(voteTimerClose);
+  //   // 컴포넌트가 unmount되면 타이머를 클리어
+  //   return () => clearTimeout(voteTimerClose);
 
-    // title: 처음 동작 시기를 설정, votedPlayer: 변화되는 값을 설정, isVoted: 타이머 종료 후 다음 동작 설정
-  }, [title, votedPlayer, isVoted]);
+  //   // title: 처음 동작 시기를 설정, votedPlayer: 변화되는 값을 설정, isVoted: 타이머 종료 후 다음 동작 설정
+  // }, [title, votedPlayer, isVoted]);
 
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
     event.stopPropagation();

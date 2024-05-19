@@ -5,11 +5,34 @@ import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
 import { VoteData } from "@/types";
 import useShowModalStore from "@/store/showModal.store";
+import useSocketOn from "@/hooks/useSocketOn";
+import useSocketOff from "@/hooks/useSocketOff";
 
 const CheckModal = () => {
   // const { timer } = useShowModalStore();
   // const initialSecond = timer;
   const initialSecond = 5;
+
+  // 한가지의 기능만 하는 socket일 경우에는 커스텀 훅을 만들지 않고 해당 component에서 생성하기
+  const sockets = [
+    {
+      eventName: "showLastVote",
+      handler: (userIdList: any, isCamera: any, isMike: any) => {
+        //처리 로직
+      }
+    },
+
+    {
+      eventName: "r0TurnAllUserCameraMikeOff",
+      handler: () => {
+        // r0TurnAllUserCameraMikeOffHandler(tracks, userId);
+      }
+    }
+    // 추가 소켓 리스트
+  ];
+
+  useSocketOn(sockets);
+  useSocketOff(sockets);
 
   const count = useCountDown(initialSecond);
   const { userId } = useConnectStore();
