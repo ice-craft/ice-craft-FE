@@ -598,7 +598,8 @@ const MafiaPlay = () => {
     });
 
     socket.on("playerMediaStatus", (media) => {
-      console.log(`[playerMediaStatus 수신] ${media}`);
+      console.log(`[playerMediaStatus 수신]`);
+      console.log(Object.entries(media));
     });
 
     socket.on("showModal", (msg) => {
