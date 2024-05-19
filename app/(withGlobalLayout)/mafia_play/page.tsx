@@ -60,7 +60,7 @@ const MafiaPlay = () => {
           break;
         case "testStart":
           console.log(eventName, "테스트 시작");
-          socket.emit(eventName, roomId.current);
+          socket.emit(eventName, roomId.current, 5);
           break;
       }
     } else {
@@ -595,6 +595,14 @@ const MafiaPlay = () => {
     socket.on("updateUserInRoom", (playerInfo) => {
       console.log("updateUserInRoom 수신");
       console.log(`GUI에 표시할 정보들 : ${playerInfo}`);
+    });
+
+    socket.on("playerMediaStatus", (media) => {
+      console.log(`[playerMediaStatus 수신] ${media}`);
+    });
+
+    socket.on("showModal", (msg) => {
+      console.log(`[showModal] ${msg}`);
     });
   }, []);
 
