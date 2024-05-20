@@ -10,12 +10,7 @@ const useMediaStatusSocket = () => {
       }
     },
 
-    {
-      eventName: "r0TurnAllUserCameraMikeOff",
-      handler: () => {
-        // r0TurnAllUserCameraMikeOffHandler(tracks, userId);
-      }
-    }
+    {}
     // 추가 소켓 리스트
   ];
 
