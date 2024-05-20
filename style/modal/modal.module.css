@@ -30,7 +30,7 @@
 }
 
 .modal h2 {
-  font-size: 35px;
+  font-size: var(--font-size-modal-content);
 }
 
 /*------------ UserCardImage ------------*/
