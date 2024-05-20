@@ -6,13 +6,15 @@ import useSocketOn from "./useSocketOn";
 import useSocketOff from "./useSocketOff";
 
 const useShowModalSocket = () => {
-  const { title, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
+  const { title, setIsOpen, setTitle, setMessage, setTimer } = useShowModalStore();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
+  // 하나의 Event에서 여러 처리를 해야하므로 별도로 socket 분리
   const sockets = [
     {
       eventName: "showModal",
       handler: (message: string) => {
+        console.log("message");
         if (message.includes("아침")) {
           //  로직 처리
           // 모달창 요소

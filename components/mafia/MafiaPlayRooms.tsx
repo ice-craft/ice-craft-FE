@@ -49,7 +49,7 @@ const MafiaPlayRooms = () => {
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const { setImageState } = useCamClickImageState();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
-  const { title, setIsOpen, setTitle, setMessage, setTimer, setIsClose } = useShowModalStore();
+  const { title, setIsOpen, setTitle, setMessage, setTimer } = useShowModalStore();
   const [timerIds, setTimerIds] = useState<NodeJS.Timeout[]>([]); // 여러 setTimeout의 타이머 상태를 저장하여 return시 한번에 제거
   const [role, setRole] = useState(null);
   const [votedPlayer, setVotedPlayer] = useState("");

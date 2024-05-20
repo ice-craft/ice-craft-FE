@@ -1,14 +1,14 @@
+import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
-import { LiveKitRoom, ParticipantAudioTile, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
-import S from "@/style/livekit/livekit.module.css";
-import "@livekit/components-styles";
 import { useExitStore } from "@/store/exit-store";
+import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
+import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
+import "@livekit/components-styles";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
