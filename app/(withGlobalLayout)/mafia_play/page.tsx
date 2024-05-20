@@ -598,20 +598,25 @@ const MafiaPlay = () => {
     });
 
     socket.on("playerMediaStatus", (media) => {
-      console.log(`[playerMediaStatus 수신]`);
+      console.log("[playerMediaStatus 수신]");
       console.log(Object.entries(media));
     });
 
-    socket.on("showModal", (msg) => {
-      console.log(`[showModal] ${msg}`);
+    socket.on("showModal", (msg, time) => {
+      console.log(`[showModal] ${msg} / ${time}초`);
     });
 
-    socket.on("inDiscuss", () => {
-      console.log("[inDiscuss] 토론 중");
+    socket.on("showAllPlayerRole", (role, timer) => {
+      console.log("[showAllPlayerRole]");
+      console.log(`역할 : ${Object.entries(role)} / ${timer}초`);
     });
 
-    socket.on("inVote", () => {
-      console.log("[inVote] 투표 중");
+    socket.on("inDiscuss", (time) => {
+      console.log(`[inDiscuss] 토론 중 / ${time}초`);
+    });
+
+    socket.on("inVote", (time) => {
+      console.log(`[inVote] 투표 중 / ${time}초`);
     });
 
     socket.on("voteToMafiaError", () => {
