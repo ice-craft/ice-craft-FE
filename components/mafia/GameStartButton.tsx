@@ -16,10 +16,17 @@ const GameStartButton = () => {
     socket.emit("setReady", userId, newIsReady, roomId);
   };
 
+  const test = () => {
+    socket.emit("testStart", roomId, 5);
+  };
+
   return (
-    <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
-      {isReady ? "취소" : "게임 준비"}
-    </button>
+    <>
+      <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
+        {isReady ? "취소" : "게임 준비"}
+      </button>
+      <button onClick={test}>테스트 버튼</button>
+    </>
   );
 };
 
