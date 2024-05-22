@@ -3,14 +3,13 @@ import { useEffect, useState } from "react";
 
 export const useCountDown = (initialSecond: number) => {
   const [count, setCount] = useState(initialSecond * 10);
-  const { setIsClose, setIsOpen } = useShowModalStore();
+  const { setIsOpen } = useShowModalStore();
 
   useEffect(() => {
     let timer = initialSecond * 10;
 
     const intervalId = setInterval(() => {
       if (timer === 0) {
-        setIsClose(true);
         setIsOpen(false);
         setCount(0);
         clearInterval(intervalId);

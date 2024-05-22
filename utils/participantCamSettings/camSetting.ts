@@ -8,7 +8,8 @@ import {
 } from "livekit-client";
 
 // //NOTE -  전체의 비디오 및 오디오 on/off
-export const allMediaSetting = (tracks: TrackReferenceOrPlaceholder[], isAllMedia: boolean) => {
+export const allMediaSetting = (tracks: TrackReferenceOrPlaceholder[], playerMediaStatus: object) => {
+  console.log("playerMediaStatus", playerMediaStatus);
   // tracks.forEach((track: TrackReferenceOrPlaceholder) => {
   //   const allTracks = track.publication;
   //   if (allTracks && allTracks.track) {

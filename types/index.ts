@@ -9,10 +9,26 @@ export interface MafiaRoom {
   // userInfo: User;
   userInfo: User | undefined | null;
 }
+// 각 사용자의 미디어 상태
+export interface MediaStatus {
+  camera: boolean;
+  mike: boolean;
+}
+
+// 미디어 상태 객체의 구조를 정의
+export interface MediaStatusMap {
+  [userId: string]: MediaStatus;
+}
 
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
   checkClickHandle: (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => void;
+}
+
+export interface playerMedia {
+  userId: string;
+  camera: boolean;
+  mike: boolean;
 }
 
 export interface OverlayState {

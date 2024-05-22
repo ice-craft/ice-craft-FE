@@ -9,20 +9,19 @@ const useShowModalSocket = () => {
   const { title, setIsOpen, setTitle, setMessage, setTimer } = useShowModalStore();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
-  // 하나의 Event에서 여러 처리를 해야하므로 별도로 socket 분리
-  const sockets = [
+  //NOTE - socket "handler" 실행되는 곳: useEffect 내부에서 실행(첫 렌더링 시)
+  const socketArr = [
     {
       eventName: "showModal",
       handler: (message: string) => {
-        console.log("message");
+        console.log("showModal Event Message", message);
         if (message.includes("아침")) {
-          //  로직 처리
           // 모달창 요소
-          setIsOpen(true);
-          setTitle("게임 시작");
-          setMessage("누군가 당신의 뒤를 노리고 있습니다.");
-          setTimer(5);
-          setIsOverlay(false); //캠 클릭 이벤트 비활성화
+          // setIsOpen(true);
+          // setTitle("게임 시작");
+          // setMessage("누군가 당신의 뒤를 노리고 있습니다.");
+          // setTimer(5);
+          // setIsOverlay(false); //캠 클릭 이벤트 비활성화
         }
 
         if (message.includes("저녁")) {
@@ -52,20 +51,13 @@ const useShowModalSocket = () => {
         if (message.includes("저녁")) {
           //  로직 처리
         }
-      }
-    },
-
-    {
-      eventName: "r0TurnAllUserCameraMikeOff",
-      handler: () => {
-        // r0TurnAllUserCameraMikeOffHandler(tracks, userId);
       }
     }
-    // 추가 소켓 리스트
   ];
 
-  useSocketOn(sockets);
-  useSocketOff(sockets);
+  //NOTE - socket On, Off 담당
+  useSocketOn(socketArr);
+  useSocketOff(socketArr);
 };
 
 export default useShowModalSocket;
