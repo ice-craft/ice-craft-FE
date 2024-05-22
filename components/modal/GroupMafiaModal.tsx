@@ -1,19 +1,19 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useModal from "@/hooks/useModal";
 import useShowModalStore from "@/store/showModal.store";
 import S from "@/style/modal/modal.module.css";
+import { useEffect } from "react";
 
 const GroupMafiaModal = () => {
-  const { isOpen, timer, title, message, nickname } = useShowModalStore();
+  const { isOpen, timer, title, message, nickname, setTimer, setIsOpen } = useShowModalStore();
   const count = useCountDown(timer);
-  const { modalState } = useModal();
 
-  if (count === 0) {
-    return null;
-  }
-
-  //NOTE - 모달이 열리지 않았을 때 아무것도 랜더링 하지 않아야 함
-  if (!isOpen) return null;
+  // 모달창 종료 시점
+  useEffect(() => {
+    if (count === 0) {
+      setIsOpen(false);
+      console.log("ModalTime 종료", count);
+    }
+  }, [count]);
 
   return (
     <>
