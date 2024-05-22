@@ -638,7 +638,7 @@ const MafiaPlay = () => {
 
     socket.on("showVoteDeadOrLive", (yesOrNoVoteResult, time) => {
       console.log("[showVOteDeadOrLive]");
-      console.log(`yesOrNoVoteResult, time`);
+      console.log(`투표결과 : ${yesOrNoVoteResult} / ${time}초`);
     });
   }, []);
 
