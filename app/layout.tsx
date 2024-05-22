@@ -3,11 +3,11 @@ import QueryProvider from "./provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { pretendard } from "@/public/fonts/fonts";
-import 
+import type { Metadata } from "next";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "IceCraft",
   description: "into stunning space! 놀라운 공간 속으로!",
@@ -16,25 +16,34 @@ export const metadata = {
   openGraph: {
     title: "IceCraft",
     description: "into stunning space! 놀라운 공간 속으로!",
-    image: [
+    images: [
       {
-        url: "../app/favicon.ico",
+        url: "/app/favicon.ico",
         width: 500,
-        height: 400
+        height: 400,
+        alt: "IceCraft Favicon"
       }
     ],
-    url: "",
+    //FIXME - url: "메인페이지URL",
     siteName: "IceCraft",
     locale: "ko_KR",
     type: "website"
   }
-  // description: "화상 채팅 기반 게임 서비스"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={pretendard.className}>
-      <head></head>
+      <head>
+        <meta charSet="utf-8" />
+        <meta property="og:title" content="Ice Craft" />
+        <meta property="og:description" content="into stunning space! 놀라운 공간 속으로!" />
+        {/* //NOTE - URL<meta property="og:url" content="" /> */}
+        <meta property="og:type" content="game" />
+        {/* //NOTE - 대표이미지<meta property="og:image" content="" /> */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body>
         <ToastContainer position="top-left" />
         <QueryProvider>{children}</QueryProvider>
