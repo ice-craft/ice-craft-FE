@@ -635,6 +635,11 @@ const MafiaPlay = () => {
     socket.on("voteYesOrNoError", () => {
       console.log("[voteYesOrNoError] 찬성/반대 투표 에러");
     });
+
+    socket.on("showVoteDeadOrLive", (yesOrNoVoteResult, time) => {
+      console.log("[showVOteDeadOrLive]");
+      console.log(`yesOrNoVoteResult, time`);
+    });
   }, []);
 
   return (
