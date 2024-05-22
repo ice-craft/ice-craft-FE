@@ -129,6 +129,8 @@ export interface ShowModalState {
   nickname?: string;
   timer: number;
   isClose: boolean;
+  modalType: "groupMafia" | "voteResult" | null;
+  openModal: (type: "groupMafia" | "voteResult") => void;
   setIsOpen: (newIsOpen: boolean) => void;
   setTitle: (newTitle: string) => void;
   setMessage: (newMessage: string) => void;

@@ -13,7 +13,8 @@ const useShowModalStore = create<ShowModalState>((set) => ({
   setTitle: (newTitle) => set({ title: newTitle }),
   setMessage: (newMessage) => set({ message: newMessage }),
   setTimer: (newTimer) => set({ timer: newTimer }),
-  setIsClose: (newIsClose) => set({ isClose: newIsClose })
+  setIsClose: (newIsClose) => set({ isClose: newIsClose }),
+  setModalType: null
 }));
 
 export default useShowModalStore;
