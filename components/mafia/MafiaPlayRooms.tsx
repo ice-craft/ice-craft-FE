@@ -1,5 +1,4 @@
 import useConnectStore from "@/store/connect-store";
-import { useCamClickImageState } from "@/store/image-store";
 import useOverlayStore from "@/store/overlay-store";
 import useShowModalStore from "@/store/showModal.store";
 import S from "@/style/livekit/livekit.module.css";
