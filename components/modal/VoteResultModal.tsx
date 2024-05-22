@@ -1,11 +1,10 @@
 import { useCountDown } from "@/hooks/useCountDown";
+import useSocketOff from "@/hooks/useSocketOff";
+import useSocketOn from "@/hooks/useSocketOn";
 import useShowModalStore from "@/store/showModal.store";
 import S from "@/style/modal/modal.module.css";
+import { VoteResults } from "@/types";
 import { useState } from "react";
-
-interface VoteResults {
-  [nickname: string]: number;
-}
 
 const VoteResultModal = () => {
   const { isOpen, timer } = useShowModalStore();
@@ -16,19 +15,25 @@ const VoteResultModal = () => {
     return null;
   }
 
-  if (!isOpen) return null;
+  const socketArr = [
+    {
+      eventName: "showVoteResult",
+      handler: (data: VoteResults) => {
+        console.log("showVoteResult Event Message", data);
+        setVoteResults(data);
+      }
+    }
+  ];
 
-  //NOTE - 서버로부터 데이터 수신하는 내용 가정 (useEffect 생략)
-  socket.on("showVoteResult", (data: VoteResults) => {
-    setVoteResults(data);
-  });
+  useSocketOn(socketArr);
+  useSocketOff(socketArr);
 
   return (
     <>
       <div className={S.modalWrap}>
         <div className={S.modal}>
           <div>
-            {<h1>마피아 의심 투표 결과</h1>}
+            <h1>마피아 의심 투표 결과</h1>
             <ul>
               {Object.entries(voteResults).map(([nickname, voteCount]) => (
                 <li key={nickname}>
