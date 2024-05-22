@@ -191,3 +191,7 @@ export interface MediaState {
   sources: Track.Source[];
   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
 }
+
+export interface VoteResults {
+  [nickname: string]: number;
+}

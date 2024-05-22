@@ -8,6 +8,7 @@ const useShowModalStore = create<ShowModalState>((set) => ({
   message: "",
   nickname: "",
   timer: 0,
+  isClose: false,
   setIsOpen: (newIsOpen) => set({ isOpen: newIsOpen }),
   setTitle: (newTitle) => set({ title: newTitle }),
   setMessage: (newMessage) => set({ message: newMessage }),
