@@ -1,14 +1,14 @@
+import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
-import { LiveKitRoom, ParticipantAudioTile, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
-import S from "@/style/livekit/livekit.module.css";
-import "@livekit/components-styles";
 import { useExitStore } from "@/store/exit-store";
+import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
+import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
+import "@livekit/components-styles";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
@@ -30,7 +30,6 @@ const JoinMafiaRoom = () => {
   //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러
   // supabase의 성능문제를 해결하기위해 로딩창을 띄어 텀을 주었다.
   const disConnected = () => {
-    socket.emit("exitRoom", roomId, userId);
     setIsExit(true);
 
     const timer = setTimeout(() => {
