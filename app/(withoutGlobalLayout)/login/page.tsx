@@ -12,6 +12,7 @@ import GithubLoginIcon from "@/assets/images/join_github.svg";
 import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
 import Logo from "@/assets/images/logo.svg";
 import ErrorMessage from "@/components/logIn/ErrorMessage";
+import { Metadata } from "next";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -174,4 +175,27 @@ const LogIn = () => {
     </div>
   );
 };
+//NOTE - 컴포넌트 분리해서 로그인페이지만의 메타데이터 삽입
+// export const metadata: Metadata = {
+//   title: "IceCraft 로그인페이지",
+//   description: "IceCraft 로그인페이지 입니다.",
+//   keywords: ["아이스브레이킹", "icebreaking", "마피아", "mafia"],
+//   creator: "IceCraft",
+//   openGraph: {
+//     title: "IceCraft",
+//     description: "Into Stunning Space, IceCraft",
+//     images: [
+//       {
+//         url: "/app/favicon.ico",
+//         width: 500,
+//         height: 400
+//       }
+//     ],
+//     //FIXME - url: '로그인 페이지URL',
+//     siteName: "IceCraft",
+//     locale: "ko_KR",
+//     type: "website"
+//   }
+// };
+
 export default LogIn;
