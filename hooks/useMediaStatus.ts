@@ -14,16 +14,8 @@ const useMediaStatus = (tracks: TrackReferenceOrPlaceholder[], playerList: Media
   const localParticipant = useLocalParticipant();
   const localUserId = localParticipant.localParticipant.identity;
 
-  //   const [playerTrack, setPlayerTrack] = useState<TrackReference[]>();
-
   //NOTE -  모든 원결 user들의 정보
-  const participants = useParticipants();
   const remoteTracks = useRemoteParticipants();
-  //   console.log("participants", participants);
-
-  const sources = tracks.map((item) => item.source);
-
-  //NOTE - 특정 사용자의 Media 정보
 
   useEffect(() => {
     if (!playerList || !localParticipant) {
