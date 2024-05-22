@@ -631,6 +631,10 @@ const MafiaPlay = () => {
       console.log("[showVoteResult]");
       console.log(`${Object.entries(voteBoard)} / ${time}초`);
     });
+
+    socket.on("voteYesOrNoError", () => {
+      console.log("[voteYesOrNoError] 찬성/반대 투표 에러");
+    });
   }, []);
 
   return (
