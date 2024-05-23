@@ -39,8 +39,6 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         </div>
       ))}
       <GameStartButton />
-      {/* isOpen: 모달창 띄우기 */}
-      {isModalOpen && <GroupMafiaModal />}
     </div>
   );
 };

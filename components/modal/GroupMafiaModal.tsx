@@ -5,7 +5,7 @@ import S from "@/style/modal/modal.module.css";
 import { useEffect } from "react";
 
 const GroupMafiaModal = () => {
-  const { title, round } = useGroupModalElement();
+  const title = useGroupModalElement();
   const { setIsOpen } = useModalActions();
   const timer = useModalTimer();
   const count = useCountDown(timer);
@@ -14,9 +14,15 @@ const GroupMafiaModal = () => {
   useEffect(() => {
     if (count === 0) {
       setIsOpen(false);
-      console.log("ModalTime 종료", count);
+      // console.log("ModalTime 종료", count);
     }
   }, [count]);
+
+  // console.log("GroupModal", timer);
+
+  if (!timer || !count) {
+    return;
+  }
 
   return (
     <>
@@ -24,7 +30,6 @@ const GroupMafiaModal = () => {
         <div className={S.modal}>
           <div>
             {title && <h1>{title}</h1>}
-            {round && <h2>{round}</h2>}
             <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>

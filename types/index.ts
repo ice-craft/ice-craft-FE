@@ -141,12 +141,10 @@ export interface CreateState {
 export interface ShowModalState {
   isOpen: boolean;
   title: string;
-  round: number;
   timer: number;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
     setTitle: (newTitle: string) => void;
-    setRound: (newRound: number) => void;
     setTimer: (newTimer: number) => void;
   };
 }

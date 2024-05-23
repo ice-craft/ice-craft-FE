@@ -6,12 +6,10 @@ import { create } from "zustand";
 const useShowModalStore = create<ShowModalState>((set) => ({
   isOpen: false,
   title: "",
-  round: 0,
-  timer: 0,
+  timer: -1,
   actions: {
     setIsOpen: (newIsOpen) => set({ isOpen: newIsOpen }),
     setTitle: (newTitle) => set({ title: newTitle }),
-    setRound: (newRound) => set({ round: newRound }),
     setTimer: (newTimer) => set({ timer: newTimer })
   }
 }));
@@ -20,7 +18,7 @@ const useShowModalStore = create<ShowModalState>((set) => ({
 export const useModalIsOpen = () => useShowModalStore((state) => state.isOpen);
 
 //NOTE - GroupModal 요소
-export const useGroupModalElement = () => useShowModalStore((state) => ({ title: state.title, round: state.round }));
+export const useGroupModalElement = () => useShowModalStore((state) => state.title);
 
 ///NOTE - modal timer
 export const useModalTimer = () => useShowModalStore((state) => state.timer);

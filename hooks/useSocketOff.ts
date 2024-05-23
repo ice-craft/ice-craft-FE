@@ -4,9 +4,8 @@ import React, { useEffect } from "react";
 const useSocketOff = (sockets: any) => {
   useEffect(() => {
     return () => {
-      console.log("useSocketOff 작동 횟수");
       sockets.forEach(({ eventName }: any) => {
-        console.log("OffEventName", eventName);
+        console.log("socket Off", eventName);
         socket.off(eventName);
       });
     };
