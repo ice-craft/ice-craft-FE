@@ -1,7 +1,6 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useOverlayStore from "@/store/overlay-store";
-import useShowModalStore from "@/store/show-modal-store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
@@ -9,12 +8,13 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import Image from "next/image";
 import React from "react";
 import GameStartButton from "./GameStartButton";
+import { useModalIsOpen } from "@/store/show-modal-store";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
   const { isReady } = useReadyStore();
-  const { isOpen } = useShowModalStore();
+  const isModalOpen = useModalIsOpen();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
@@ -39,8 +39,6 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         </div>
       ))}
       <GameStartButton />
-      {/* isOpen: 모달창 띄우기 */}
-      {isOpen && <GroupMafiaModal />}
     </div>
   );
 };

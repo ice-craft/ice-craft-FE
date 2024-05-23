@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 const useSocketOn = (sockets: any) => {
   useEffect(() => {
     sockets.forEach(({ eventName, handler }: any) => {
-      console.log("OnEventName", eventName);
+      console.log("socket On", eventName);
       socket.on(eventName, handler);
     });
   }, []);
