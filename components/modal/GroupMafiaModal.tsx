@@ -1,5 +1,5 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useShowModalStore from "@/store/showModal.store";
+import useShowModalStore from "@/store/showModal-store";
 import S from "@/style/modal/modal.module.css";
 import { useEffect } from "react";
 
