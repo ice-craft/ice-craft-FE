@@ -1,7 +1,7 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useOverlayStore from "@/store/overlay-store";
-import useShowModalStore from "@/store/showModal.store";
+import useShowModalStore from "@/store/showModal-store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";

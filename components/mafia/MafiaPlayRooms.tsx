@@ -1,6 +1,6 @@
 import useConnectStore from "@/store/connect-store";
 import useOverlayStore from "@/store/overlay-store";
-import useShowModalStore from "@/store/showModal.store";
+import useShowModalStore from "@/store/showModal-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
