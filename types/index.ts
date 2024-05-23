@@ -141,13 +141,12 @@ export interface CreateState {
 export interface ShowModalState {
   isOpen: boolean;
   title: string;
-  message: string;
-  nickname?: string;
   timer: number;
-  setIsOpen: (newIsOpen: boolean) => void;
-  setTitle: (newTitle: string) => void;
-  setMessage: (newMessage: string) => void;
-  setTimer: (newTimer: number) => void;
+  actions: {
+    setIsOpen: (newIsOpen: boolean) => void;
+    setTitle: (newTitle: string) => void;
+    setTimer: (newTimer: number) => void;
+  };
 }
 
 export interface TimerState {
