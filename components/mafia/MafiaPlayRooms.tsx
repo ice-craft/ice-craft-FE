@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useModalActions, useModalIsOpen } from "@/store/show-Modal-store";
+import { useModalActions, useModalIsOpen } from "@/store/show-modal-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();

@@ -8,7 +8,7 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import Image from "next/image";
 import React from "react";
 import GameStartButton from "./GameStartButton";
-import { useModalIsOpen } from "@/store/show-Modal-store";
+import { useModalIsOpen } from "@/store/show-modal-store";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();

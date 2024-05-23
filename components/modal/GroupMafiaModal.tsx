@@ -1,5 +1,5 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import { useGroupModalElement, useModalActions, useModalTimer } from "@/store/show-Modal-store";
+import { useGroupModalElement, useModalActions, useModalTimer } from "@/store/show-modal-store";
 
 import S from "@/style/modal/modal.module.css";
 import { useEffect } from "react";

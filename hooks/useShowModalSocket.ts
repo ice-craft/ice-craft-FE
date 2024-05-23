@@ -1,5 +1,5 @@
 import useOverlayStore from "@/store/overlay-store";
-import { useModalActions } from "@/store/show-Modal-store";
+import { useModalActions } from "@/store/show-modal-store";
 import useSocketOff from "./useSocketOff";
 import useSocketOn from "./useSocketOn";
 
