@@ -640,6 +640,10 @@ const MafiaPlay = () => {
       console.log("[showVOteDeadOrLive]");
       console.log(`투표결과 : ${yesOrNoVoteResult} / ${time}초`);
     });
+
+    socket.on("inSelect", (time) => {
+      console.log(`[inSelect] 선택 중 / ${time}초`);
+    });
   }, []);
 
   return (
