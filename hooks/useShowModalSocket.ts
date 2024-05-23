@@ -1,5 +1,5 @@
 import useOverlayStore from "@/store/overlay-store";
-import useShowModalStore from "@/store/showModal.store";
+import useShowModalStore from "@/store/showModal-store";
 import { socket } from "@/utils/socket/socket";
 import { useEffect } from "react";
 import useSocketOn from "./useSocketOn";
