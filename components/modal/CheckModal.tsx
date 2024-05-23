@@ -4,7 +4,7 @@ import { useCountDown } from "@/hooks/useCountDown";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
 import { VoteData } from "@/types";
-import useShowModalStore from "@/store/showModal.store";
+import useShowModalStore from "@/store/show-modal-store";
 import useSocketOn from "@/hooks/useSocketOn";
 import useSocketOff from "@/hooks/useSocketOff";
 

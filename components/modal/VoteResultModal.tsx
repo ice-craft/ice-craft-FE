@@ -1,7 +1,7 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import useSocketOff from "@/hooks/useSocketOff";
 import useSocketOn from "@/hooks/useSocketOn";
-import useShowModalStore from "@/store/showModal-store";
+import useShowModalStore from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import { VoteResults } from "@/types";
 import { useState } from "react";
