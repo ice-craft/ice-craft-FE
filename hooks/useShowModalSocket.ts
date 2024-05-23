@@ -10,44 +10,15 @@ const useShowModalSocket = () => {
   const socketArr = [
     {
       eventName: "showModal",
-      handler: (message: string) => {
-        console.log("showModal Event Message", message);
-        if (message.includes("아침")) {
-          // 모달창 요소
-          // setIsOpen(true);
-          // setTitle("게임 시작");
-          // setMessage("누군가 당신의 뒤를 노리고 있습니다.");
-          // setTimer(5);
-          // setIsOverlay(false); //캠 클릭 이벤트 비활성화
-        }
+      handler: (round: number, message: string, timer: number) => {
+        console.log("showModal", round, timer, message);
 
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("아침")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
-        if (message.includes("저녁")) {
-          //  로직 처리
-        }
+        // 모달창 요소
+        setIsOpen(true);
+        setTitle(message);
+        setRound(round);
+        setTimer(timer);
+        setIsOverlay(false); //캠 클릭 이벤트 비활성화
       }
     }
   ];

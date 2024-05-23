@@ -6,8 +6,8 @@ import { useEffect } from "react";
 
 const GroupMafiaModal = () => {
   const { title, round } = useGroupModalElement();
-  const timer = useModalTimer();
   const { setIsOpen } = useModalActions();
+  const timer = useModalTimer();
   const count = useCountDown(timer);
 
   // 모달창 종료 시점
