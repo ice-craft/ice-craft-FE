@@ -1,15 +1,12 @@
 import useOverlayStore from "@/store/overlay-store";
-import useShowModalStore from "@/store/showModal-store";
-import { socket } from "@/utils/socket/socket";
-import { useEffect } from "react";
-import useSocketOn from "./useSocketOn";
+import { useModalActions } from "@/store/show-Modal-store";
 import useSocketOff from "./useSocketOff";
+import useSocketOn from "./useSocketOn";
 
 const useShowModalSocket = () => {
-  const { title, setIsOpen, setTitle, setMessage, setTimer } = useShowModalStore();
+  const { setIsOpen, setTitle, setRound, setTimer } = useModalActions();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
-  //NOTE - socket "handler" 실행되는 곳: useEffect 내부에서 실행(첫 렌더링 시)
   const socketArr = [
     {
       eventName: "showModal",

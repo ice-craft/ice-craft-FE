@@ -1,10 +1,13 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useShowModalStore from "@/store/showModal-store";
+import { useGroupModalElement, useModalActions, useModalTimer } from "@/store/show-Modal-store";
+
 import S from "@/style/modal/modal.module.css";
 import { useEffect } from "react";
 
 const GroupMafiaModal = () => {
-  const { isOpen, timer, title, message, nickname, setTimer, setIsOpen } = useShowModalStore();
+  const { title, round } = useGroupModalElement();
+  const timer = useModalTimer();
+  const { setIsOpen } = useModalActions();
   const count = useCountDown(timer);
 
   // 모달창 종료 시점
@@ -21,8 +24,7 @@ const GroupMafiaModal = () => {
         <div className={S.modal}>
           <div>
             {title && <h1>{title}</h1>}
-            {message && <h2>{message}</h2>}
-            {nickname && <h2>{nickname}</h2>}
+            {round && <h2>{round}</h2>}
             <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>

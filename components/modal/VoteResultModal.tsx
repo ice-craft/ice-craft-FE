@@ -1,13 +1,14 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import useSocketOff from "@/hooks/useSocketOff";
 import useSocketOn from "@/hooks/useSocketOn";
-import useShowModalStore from "@/store/showModal-store";
+import { useModalIsOpen, useModalTimer } from "@/store/show-Modal-store";
 import S from "@/style/modal/modal.module.css";
 import { VoteResults } from "@/types";
 import { useState } from "react";
 
 const VoteResultModal = () => {
-  const { isOpen, timer } = useShowModalStore();
+  const isModalOpen = useModalIsOpen();
+  const timer = useModalTimer();
   const count = useCountDown(timer);
   const [voteResults, setVoteResults] = useState<VoteResults>({});
 
