@@ -2,7 +2,6 @@ import { ShowModalState } from "@/types";
 import { create } from "zustand";
 
 //NOTE - 모달의 데이터 요소
-
 const useShowModalStore = create<ShowModalState>((set) => ({
   isOpen: false,
   title: "",

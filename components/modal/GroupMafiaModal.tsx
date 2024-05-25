@@ -1,16 +1,37 @@
 import { useCountDown } from "@/hooks/useCountDown";
+import useSocketOff from "@/hooks/useSocketOff";
+import useSocketOn from "@/hooks/useSocketOn";
 import { useGroupModalElement, useModalActions, useModalTimer } from "@/store/show-modal-store";
 
 import S from "@/style/modal/modal.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const GroupMafiaModal = () => {
-  const title = useGroupModalElement();
+  // const title = useGroupModalElement();
+  // const timer = useModalTimer();
+  const [title, setTitle] = useState("");
+  const [timer, setTimer] = useState(-1);
   const { setIsOpen } = useModalActions();
-  const timer = useModalTimer();
   const count = useCountDown(timer);
+  // const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
-  // 모달창 종료 시점
+  // const { setIsOpen, setTitle, setTimer } = useModalActions();
+
+  const showModalSocket = "showModal";
+  const showModalHandler = (title: string, timer: number) => {
+    // 모달창 요소
+    setIsOpen(true);
+    setTitle(title);
+    setTimer(timer);
+    // setIsOverlay(false); //캠 클릭 이벤트 비활성화
+    console.log("showModal 정상작동");
+  };
+
+  //NOTE - socket On, Off 담당
+  useSocketOn(showModalSocket, showModalHandler);
+  useSocketOff(showModalSocket);
+
+  // 모달창 종료
   useEffect(() => {
     if (count === 0) {
       setIsOpen(false);
@@ -18,11 +39,7 @@ const GroupMafiaModal = () => {
     }
   }, [count]);
 
-  // console.log("GroupModal", timer);
-
-  if (!timer || !count) {
-    return;
-  }
+  console.log("GroupModalCount", count);
 
   return (
     <>

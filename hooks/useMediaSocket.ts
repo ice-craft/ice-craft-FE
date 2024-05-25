@@ -18,7 +18,7 @@ const useMediaSocket = () => {
   // playersMedias 구조: {userId: {cam: boolean, mike: boolean}}
   const mediaSocket = "playerMediaStatus";
   const mediaHandler = (playersMedias: MediaStatus) => {
-    console.log("playerMediaStatus Event Message ");
+    console.log("playerMediaStatus Event Message", playersMedias);
     //NOTE - 모달 테스트할 경우 카메라 부분 실행을 임시로 막기
     // setPlayersMediaStatus(playersMedias);
   };
