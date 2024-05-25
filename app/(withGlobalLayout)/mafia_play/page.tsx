@@ -644,6 +644,10 @@ const MafiaPlay = () => {
     socket.on("inSelect", (time) => {
       console.log(`[inSelect] 선택 중 / ${time}초`);
     });
+
+    socket.on("selectError", () => {
+      console.log("[selectError] 의사가 살릴 플레이어를 고르는 과정에서 에러 발생");
+    });
   }, []);
 
   return (
