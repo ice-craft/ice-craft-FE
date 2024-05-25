@@ -7,24 +7,19 @@ const useShowModalSocket = () => {
   const { setIsOpen, setTitle, setTimer } = useModalActions();
   const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
-  const socketArr = [
-    {
-      eventName: "showModal",
-      handler: (title: string, timer: number) => {
-        console.log("showModal", title, timer);
-
-        // 모달창 요소
-        setIsOpen(true);
-        setTitle(title);
-        setTimer(timer);
-        setIsOverlay(false); //캠 클릭 이벤트 비활성화
-      }
-    }
-  ];
+  const showModalSocket = "showModal";
+  const showModalHandler = (title: string, timer: number) => {
+    // 모달창 요소
+    setIsOpen(true);
+    setTitle(title);
+    setTimer(timer);
+    setIsOverlay(false); //캠 클릭 이벤트 비활성화
+    console.log("showModal 정상작동");
+  };
 
   //NOTE - socket On, Off 담당
-  useSocketOn(socketArr);
-  useSocketOff(socketArr);
+  useSocketOn(showModalSocket, showModalHandler);
+  useSocketOff(showModalSocket);
 };
 
 export default useShowModalSocket;

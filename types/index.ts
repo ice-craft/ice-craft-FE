@@ -6,18 +6,17 @@ import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
 
 export interface MafiaRoom {
   room: string;
-  // userInfo: User;
   userInfo: User | undefined | null;
-}
-// 각 사용자의 미디어 상태
-export interface MediaStatus {
-  camera: boolean;
-  mike: boolean;
 }
 
 // 미디어 상태 객체의 구조를 정의
-export interface MediaStatusMap {
-  [userId: string]: MediaStatus;
+export interface MediaStatus {
+  [userId: string]: { camera: boolean; mike: boolean };
+}
+
+// socket 이벤트 핸들러 인터페이스 정의
+export interface SocketEventHandler {
+  (...args: any[]): void;
 }
 
 export interface Participants {
