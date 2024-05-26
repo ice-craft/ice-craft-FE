@@ -1,11 +1,15 @@
+import { SocketEventHandler } from "@/types";
 import { socket } from "@/utils/socket/socket";
 import React, { useEffect } from "react";
 
-const useSocketOff = (socketName: string) => {
+const useSocketOff = (handlers: SocketEventHandler) => {
   useEffect(() => {
+    const sockets = Object.keys(handlers);
     return () => {
-      console.log("socket Off", socketName);
-      socket.off(socketName);
+      sockets.forEach((socketName) => {
+        console.log("socket Off", socketName);
+        socket.off(socketName);
+      });
     };
   }, []);
 };

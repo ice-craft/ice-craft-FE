@@ -9,6 +9,7 @@ import { Role } from "@/types/index";
 import { socket } from "@/utils/socket/socket";
 import useConnectStore from "@/store/connect-store";
 import RenderCards from "@/components/mafia/RenderCards";
+import { useRoleModalElement } from "@/store/show-modal-store";
 
 const cards = {
   doctor: { src: DoctorCard.src, alt: "의사" },
@@ -23,13 +24,13 @@ interface UserRoleModalProps {
 
 const UserRoleModal: React.FC<UserRoleModalProps> = ({ role }) => {
   // const { userId } = useConnectStore();
+  // const role = useRoleModalElement()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAllCards, setShowAllCards] = useState(true);
 
   useEffect(() => {
     setIsModalOpen(true);
     setShowAllCards(true);
-
     const timer = setTimeout(() => {
       setShowAllCards(false);
     }, 3000);

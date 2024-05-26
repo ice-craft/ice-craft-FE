@@ -16,7 +16,7 @@ export interface MediaStatus {
 
 // socket 이벤트 핸들러 인터페이스 정의
 export interface SocketEventHandler {
-  (...args: any[]): void;
+  [eventName: string]: (...args: any[]) => void;
 }
 
 export interface Participants {
@@ -141,10 +141,12 @@ export interface ShowModalState {
   isOpen: boolean;
   title: string;
   timer: number;
+  role: object;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
-    setTitle: (newTitle: string) => void;
     setTimer: (newTimer: number) => void;
+    setTitle: (newTitle: string) => void;
+    setRole: (newRole: object) => void;
   };
 }
 

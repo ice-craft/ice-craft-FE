@@ -11,18 +11,18 @@ const VoteResultModal = () => {
   const count = useCountDown(timer);
 
   const [voteResults, setVoteResults] = useState<VoteResults>({});
-  const socketArr = [
-    {
-      eventName: "showVoteResult",
-      handler: (data: VoteResults) => {
-        console.log("showVoteResult Event Message", data);
-        setVoteResults(data);
-      }
-    }
-  ];
+  // const socketArr = [
+  //   {
+  //     eventName: "showVoteResult",
+  //     handler: (data: VoteResults) => {
+  //       console.log("showVoteResult Event Message", data);
+  //       setVoteResults(data);
+  //     }
+  //   }
+  // ];
 
-  useSocketOn(socketArr);
-  useSocketOff(socketArr);
+  // useSocketOn(socketArr);
+  // useSocketOff(socketArr);
 
   if (!timer || !count) {
     return;
