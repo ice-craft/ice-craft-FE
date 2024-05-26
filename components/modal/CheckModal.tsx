@@ -70,7 +70,7 @@ const CheckModal = () => {
             <h1>찬반 투표</h1>
             <div className={S.userCheckNickName}>
               <p>
-                <span>{chooseUser.nickname}</span> 님을
+                <strong>{chooseUser.nickname}</strong> 님을
                 <br /> 최종적으로 지목하시겠습니까?
               </p>
             </div>

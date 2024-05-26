@@ -43,7 +43,7 @@ const UserRoleModal = () => {
     <>
       <div className={S.modalWrap}>
         <div className={S.workModal}>
-          <h2 className={S.workTitle}>직업을 정하겠습니다.</h2>
+          <h1 className={S.workTitle}>직업을 정하겠습니다.</h1>
           <ul className={S.workList}>
             <RenderCards cards={cards} role={role} showAllCards={showAllCards} />
           </ul>

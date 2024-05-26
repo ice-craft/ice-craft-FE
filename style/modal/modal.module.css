@@ -14,17 +14,18 @@
 
 .modal {
   position: absolute;
-  background-color: var(--white);
+  background: url("../../assets/images/modal_bg.svg") center center no-repeat;
   opacity: 1;
-  border-radius: 12px;
   z-index: 999;
-  color: var(--text-black);
   padding: 80px;
   text-align: center;
+  width: 865px;
+  height: 506px;
+  color: var(--white);
 }
 
 .modal h1 {
-  color: #999;
+  color: var(--text-black);
   font-size: var(--font-size-modal-title);
   margin-bottom: 30px;
 }
@@ -84,6 +85,16 @@
 }
 
 /*------------ mainpage modal ------------*/
+.mainModal {
+  position: absolute;
+  background-color: var(--white);
+  opacity: 1;
+  z-index: 999;
+  padding: 80px;
+  text-align: center;
+  border-radius: 12px;
+}
+
 .gameForm {
   display: flex;
   flex-direction: column;
@@ -92,7 +103,7 @@
 }
 .gameForm > .gameChoice {
   font-weight: var(--font-bold);
-  font-size: var(--font-size-modal-title);
+  font-size: var(--font-size-title);
 }
 
 .gameTitle {
@@ -153,7 +164,11 @@
   font-size: var(--font-size-modal-content);
 }
 
-.userCheckNickName > p > span {
+.userCheckNickName > p {
+  font-size: var(--font-size-modal-content);
+}
+
+.userCheckNickName > p > strong {
   font-weight: var(--font-bold);
 }
 

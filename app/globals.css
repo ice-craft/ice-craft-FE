@@ -11,11 +11,13 @@
   --modal-title-color: #838383;
   --font-size-base: 16px;
   --font-size-title: 20px;
-  --font-size-modal-title: 24px;
-  --font-size-modal-content: 35px;
+  --font-size-modal-title: 18px;
+  --font-size-modal-content: 16px;
   --font-size-small: 14px;
   --font-bold: 700;
   --border-radius: 8px;
+  --font-size-title: 24px;
+  --font-size-content: 35px;
 
   /* Setting Variables : Text Color */
   --text-black: #111111;
