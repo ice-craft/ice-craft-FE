@@ -5,7 +5,7 @@ import { useModalActions } from "@/store/show-modal-store";
 import useOverlayStore from "@/store/overlay-store";
 import { SocketEventHandler } from "@/types";
 
-const useShowAllPlayerRoleSocket = () => {
+const useModalSocket = () => {
   const { setIsOpen, setTimer, setTitle, setRole } = useModalActions();
   const { setIsOverlay } = useOverlayStore();
 
@@ -43,4 +43,4 @@ const useShowAllPlayerRoleSocket = () => {
   useSocketOff(sockets);
 };
 
-export default useShowAllPlayerRoleSocket;
+export default useModalSocket;

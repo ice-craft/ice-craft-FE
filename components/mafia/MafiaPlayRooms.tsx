@@ -14,7 +14,7 @@ import { useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import useShowAllPlayerRoleSocket from "@/hooks/useShowAllPlayerRoleSocket";
+import useModalSocket from "@/hooks/useModalSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -41,7 +41,7 @@ const MafiaPlayRooms = () => {
 
   //"socket 실행"
   useMediaSocket();
-  useShowAllPlayerRoleSocket();
+  useModalSocket();
 
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
