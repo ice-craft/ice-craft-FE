@@ -3,10 +3,12 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import GoTopButtonIcon from "@/assets/images/arrow_top.svg";
+import GoTopButtonIconHover from "@/assets/images/arrow_top_hover.svg";
 import S from "@/style/commons/commons.module.css";
 
 export default function GoTopButton() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,11 +32,24 @@ export default function GoTopButton() {
     });
   };
 
+  const mouseEnterHandler = () => {
+    setIsHovered(true);
+  };
+
+  const mouseLeaveHandler = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div>
       {isVisible && (
-        <button className={S.goTopButton} onClick={scrollToTop}>
-          <Image src={GoTopButtonIcon} alt="Scroll to Top" />
+        <button
+          className={S.goTopButton}
+          onClick={scrollToTop}
+          onMouseEnter={mouseEnterHandler}
+          onMouseLeave={mouseLeaveHandler}
+        >
+          <Image src={isHovered ? GotopButtonIconHover : GoTopButtonIcon} alt="Scroll to Top" />
         </button>
       )}
     </div>
