@@ -24,7 +24,7 @@
 }
 
 .modal h1 {
-  color: #999;
+  color: var(--text-black);
   font-size: var(--font-size-modal-title);
   margin-bottom: 30px;
 }
@@ -153,7 +153,11 @@
   font-size: var(--font-size-modal-content);
 }
 
-.userCheckNickName > p > span {
+.userCheckNickName > p {
+  font-size: var(--font-size-modal-content);
+}
+
+.userCheckNickName > p > strong {
   font-weight: var(--font-bold);
 }
 
