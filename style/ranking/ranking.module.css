@@ -13,7 +13,7 @@
 }
 
 .userRanking h2 {
-  font-size: var(--font-size-modal-title);
+  font-size: var(--font-size-title);
   font-weight: var(--font-bold);
 }
 
