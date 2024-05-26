@@ -7,7 +7,6 @@ import { socket } from "@/utils/socket/socket";
 
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
-import useShowModalSocket from "@/hooks/useShowModalSocket";
 import { useModalActions, useModalIsOpen } from "@/store/show-modal-store";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
@@ -41,7 +40,6 @@ const MafiaPlayRooms = () => {
   );
 
   //"socket 실행"
-  useShowModalSocket();
   useMediaSocket();
   useShowAllPlayerRoleSocket();
 
