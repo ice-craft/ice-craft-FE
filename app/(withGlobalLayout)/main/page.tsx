@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
+import St from "@/style/modal/modal.module.css";
 
 const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
@@ -158,6 +159,11 @@ const Mainpage = () => {
 
   return (
     <main className={S.main}>
+      {/* <div className={St.modalWrap}>
+        <div className={St.modal}>
+          <p>테스트입니다.</p>
+        </div>
+      </div> */}
       <section className={S.visualSection}>
         <div>
           <ul className={S.gameList}>
