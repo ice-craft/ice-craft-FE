@@ -74,8 +74,8 @@ const MafiaPlayRooms = () => {
       </div>
       <MafiaToolTip />
       {/* isOpen: 모달창 띄우기 */}
-      {/* {isModalOpen && <GroupMafiaModal />} */}
-      {isModalOpen && <UserRoleModal />}
+      {isModalOpen && <GroupMafiaModal />}
+      {/* {isModalOpen && <UserRoleModal />} */}
     </section>
   );
 };

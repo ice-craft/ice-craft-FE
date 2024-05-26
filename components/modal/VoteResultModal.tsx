@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const VoteResultModal = () => {
   const timer = useModalTimer();
-  const count = useCountDown(timer);
+  const count = useCountDown(timer, 10, 100);
 
   const [voteResults, setVoteResults] = useState<VoteResults>({});
   // const socketArr = [

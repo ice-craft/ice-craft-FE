@@ -18,7 +18,7 @@ const cards = {
 
 const UserRoleModal = () => {
   const timer = useModalTimer();
-  const count = useCountDown(timer);
+  const count = useCountDown(timer, 10, 100);
   const role = useRoleModalElement();
   const { setIsOpen } = useModalActions();
   const [showAllCards, setShowAllCards] = useState(true);

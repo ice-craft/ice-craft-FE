@@ -10,7 +10,7 @@ const GroupMafiaModal = () => {
   const title = useGroupModalElement();
   const timer = useModalTimer();
   const { setIsOpen } = useModalActions();
-  const count = useCountDown(timer);
+  const count = useCountDown(timer, 10, 100);
 
   // 모달창 종료
   useEffect(() => {

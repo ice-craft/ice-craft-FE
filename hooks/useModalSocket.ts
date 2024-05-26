@@ -1,4 +1,3 @@
-import React from "react";
 import useSocketOn from "./useSocketOn";
 import useSocketOff from "./useSocketOff";
 import { useModalActions } from "@/store/show-modal-store";
@@ -13,7 +12,7 @@ const useModalSocket = () => {
     //NOTE - GroupModal
     showModal: (title: string, timer: number) => {
       // 모달창 요소
-      // setIsOpen(true);
+      setIsOpen(true);
       setTitle(title);
       setTimer(timer);
       setIsOverlay(false); //캠 클릭 이벤트 비활성화
@@ -21,7 +20,7 @@ const useModalSocket = () => {
 
     //NOTE - UserRoleModal
     showAllPlayerRole: (role: Role, timer: number) => {
-      setIsOpen(true);
+      // setIsOpen(true);
       setRole(role);
       setTimer(timer);
       setIsOverlay(false); // 캠 클릭 이벤트 비활성화
