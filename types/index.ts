@@ -6,18 +6,32 @@ import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
 
 export interface MafiaRoom {
   room: string;
-  // userInfo: User;
   userInfo: User | undefined | null;
-}
-// 각 사용자의 미디어 상태
-export interface MediaStatus {
-  camera: boolean;
-  mike: boolean;
 }
 
 // 미디어 상태 객체의 구조를 정의
-export interface MediaStatusMap {
-  [userId: string]: MediaStatus;
+export interface MediaStatus {
+  [userId: string]: { camera: boolean; mike: boolean };
+}
+
+// socket 이벤트 핸들러 인터페이스 정의
+export interface SocketEventHandler {
+  [eventName: string]: (...args: any[]) => void;
+}
+
+export interface Role {
+  [job: string]: string[];
+}
+
+export interface RenderCardsProps {
+  cards: {
+    의사: { src: string; alt: string };
+    경찰: { src: string; alt: string };
+    마피아: { src: string; alt: string };
+    시민: { src: string; alt: string };
+  };
+  role: Role;
+  showAllCards: boolean;
 }
 
 export interface Participants {
@@ -44,11 +58,11 @@ export interface OverlayState {
   setIsRemoteOverlay: (newIsOverlay: boolean) => void;
 }
 
-export type Role = "citizens" | "mafia" | "doctor" | "police" | null;
+// export type Role = "citizens" | "mafia" | "doctor" | "police" | null;
 
-export interface MafiaGameToolTip {
-  role: Role;
-}
+// export interface MafiaGameToolTip {
+//   role: Role;
+// }
 
 export interface MafiaModalContent {
   count: number;
@@ -100,17 +114,6 @@ export interface CardInfo {
   alt: string;
 }
 
-export interface RenderCardsProps {
-  cards: {
-    doctor: { src: string; alt: string };
-    police: { src: string; alt: string };
-    mafia: { src: string; alt: string };
-    citizens: { src: string; alt: string };
-  };
-  role: Role;
-  showAllCards: boolean;
-}
-
 export interface ModalData {
   title: string;
   message: string;
@@ -142,10 +145,12 @@ export interface ShowModalState {
   isOpen: boolean;
   title: string;
   timer: number;
+  role: Role;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
-    setTitle: (newTitle: string) => void;
     setTimer: (newTimer: number) => void;
+    setTitle: (newTitle: string) => void;
+    setRole: (newRole: Role) => void;
   };
 }
 
