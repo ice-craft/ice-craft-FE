@@ -12,10 +12,6 @@ const GroupMafiaModal = () => {
   const { setIsOpen } = useModalActions();
   const count = useCountDown(timer);
 
-  useEffect(() => {
-    console.log("실행되니?");
-  }, []);
-
   // 모달창 종료
   useEffect(() => {
     if (count === 0) {

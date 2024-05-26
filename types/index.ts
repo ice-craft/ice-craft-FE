@@ -19,6 +19,21 @@ export interface SocketEventHandler {
   [eventName: string]: (...args: any[]) => void;
 }
 
+export interface Role {
+  [job: string]: string[];
+}
+
+export interface RenderCardsProps {
+  cards: {
+    의사: { src: string; alt: string };
+    경찰: { src: string; alt: string };
+    마피아: { src: string; alt: string };
+    시민: { src: string; alt: string };
+  };
+  role: Role;
+  showAllCards: boolean;
+}
+
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
   checkClickHandle: (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => void;
@@ -43,11 +58,11 @@ export interface OverlayState {
   setIsRemoteOverlay: (newIsOverlay: boolean) => void;
 }
 
-export type Role = "citizens" | "mafia" | "doctor" | "police" | null;
+// export type Role = "citizens" | "mafia" | "doctor" | "police" | null;
 
-export interface MafiaGameToolTip {
-  role: Role;
-}
+// export interface MafiaGameToolTip {
+//   role: Role;
+// }
 
 export interface MafiaModalContent {
   count: number;
@@ -99,17 +114,6 @@ export interface CardInfo {
   alt: string;
 }
 
-export interface RenderCardsProps {
-  cards: {
-    doctor: { src: string; alt: string };
-    police: { src: string; alt: string };
-    mafia: { src: string; alt: string };
-    citizens: { src: string; alt: string };
-  };
-  role: Role;
-  showAllCards: boolean;
-}
-
 export interface ModalData {
   title: string;
   message: string;
@@ -141,12 +145,12 @@ export interface ShowModalState {
   isOpen: boolean;
   title: string;
   timer: number;
-  role: object;
+  role: Role;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
     setTimer: (newTimer: number) => void;
     setTitle: (newTitle: string) => void;
-    setRole: (newRole: object) => void;
+    setRole: (newRole: Role) => void;
   };
 }
 

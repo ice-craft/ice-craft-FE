@@ -15,6 +15,7 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import useModalSocket from "@/hooks/useModalSocket";
+import UserRoleModal from "../modal/UserRoleModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -73,7 +74,8 @@ const MafiaPlayRooms = () => {
       </div>
       <MafiaToolTip />
       {/* isOpen: 모달창 띄우기 */}
-      {isModalOpen && <GroupMafiaModal />}
+      {/* {isModalOpen && <GroupMafiaModal />} */}
+      {isModalOpen && <UserRoleModal />}
     </section>
   );
 };
