@@ -18,7 +18,7 @@ const cards = {
 
 const UserRoleModal = () => {
   const timer = useModalTimer();
-  const count = useCountDown(timer, 10, 100);
+  // const count = useCountDown(timer, 10, 100);
   const role = useRoleModalElement();
   const { setIsOpen } = useModalActions();
   const [showAllCards, setShowAllCards] = useState(true);
@@ -33,11 +33,11 @@ const UserRoleModal = () => {
   }, []);
 
   // 모달창 종료
-  useEffect(() => {
-    if (count === 0) {
-      setIsOpen(false);
-    }
-  }, [count]);
+  // useEffect(() => {
+  //   if (count === 0) {
+  //     setIsOpen(false);
+  //   }
+  // }, [count]);
 
   return (
     <>

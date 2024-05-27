@@ -6,7 +6,7 @@ import { Role } from "@/types";
 
 const useModalSocket = () => {
   const { setIsOpen, setTimer, setTitle, setRole } = useModalActions();
-  const { setIsOverlay } = useOverlayStore();
+  // const { setIsOverlay } = useOverlayStore();
 
   const sockets = {
     //NOTE - GroupModal
@@ -15,7 +15,7 @@ const useModalSocket = () => {
       setIsOpen(true);
       setTitle(title);
       setTimer(timer);
-      setIsOverlay(false); //캠 클릭 이벤트 비활성화
+      // setIsOverlay(false); //캠 클릭 이벤트 비활성화
     },
 
     //NOTE - UserRoleModal
@@ -23,7 +23,7 @@ const useModalSocket = () => {
       // setIsOpen(true);
       setRole(role);
       setTimer(timer);
-      setIsOverlay(false); // 캠 클릭 이벤트 비활성화
+      // setIsOverlay(false); // 캠 클릭 이벤트 비활성화
     }
   };
 

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const VoteResultModal = () => {
   const timer = useModalTimer();
-  const count = useCountDown(timer, 10, 100);
+  // const count = useCountDown(timer, 10, 100);
 
   const [voteResults, setVoteResults] = useState<VoteResults>({});
   // const socketArr = [
@@ -24,9 +24,9 @@ const VoteResultModal = () => {
   // useSocketOn(socketArr);
   // useSocketOff(socketArr);
 
-  if (!timer || !count) {
-    return;
-  }
+  // if (!timer || !count) {
+  //   return;
+  // }
   return (
     <>
       <div className={S.modalWrap}>
@@ -40,7 +40,7 @@ const VoteResultModal = () => {
                 </li>
               ))}
             </ul>
-            <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
+            {/* <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress> */}
           </div>
         </div>
       </div>

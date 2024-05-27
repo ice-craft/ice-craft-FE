@@ -22,10 +22,13 @@
   width: 865px;
   height: 506px;
   color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal h1 {
-  color: var(--text-black);
+  /* color: var(--text-black); */
   font-size: var(--font-size-modal-title);
   margin-bottom: 30px;
 }
