@@ -88,7 +88,7 @@ const MainCreateRoom = () => {
 
   return (
     <div className={S.modalWrap} onClick={closeModalHandler}>
-      <div className={S.modal}>
+      <div className={S.mainModal}>
         <form onSubmit={createRoomSubmitHandler} className={S.gameForm}>
           <h2 className={S.gameChoice}>게임을 선택해 주세요</h2>
           <div>

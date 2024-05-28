@@ -16,7 +16,7 @@
 }
 
 .localParticipant h2 {
-  font-size: var(--font-size-modal-content);
+  font-size: var(--font-size-content);
   border: 1px solid var(--silver-gray);
   padding: 5px 50px;
   border-radius: 100px;

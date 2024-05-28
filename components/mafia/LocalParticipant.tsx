@@ -14,7 +14,6 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const { localParticipant } = useLocalParticipant();
   const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
   const { isReady } = useReadyStore();
-  const isModalOpen = useModalIsOpen();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 

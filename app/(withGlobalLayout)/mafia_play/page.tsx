@@ -59,8 +59,8 @@ const MafiaPlay = () => {
           socket.emit(eventName, userId.current, "마피아");
           break;
         case "testStart":
-          console.log(eventName, "테스트 시작");
-          socket.emit(eventName, roomId.current, 5);
+          console.log(eventName, "테스트 시작", roomId.current);
+          socket.emit(eventName, roomId.current);
           break;
       }
     } else {
@@ -595,58 +595,6 @@ const MafiaPlay = () => {
     socket.on("updateUserInRoom", (playerInfo) => {
       console.log("updateUserInRoom 수신");
       console.log(`GUI에 표시할 정보들 : ${playerInfo}`);
-    });
-
-    socket.on("playerMediaStatus", (media) => {
-      console.log("[playerMediaStatus 수신]");
-      console.log(Object.entries(media));
-    });
-
-    socket.on("timerStatus", (time) => {
-      console.log(`[timerStatus] ${time}초`);
-    });
-
-    socket.on("showModal", (msg, time) => {
-      console.log(`[showModal] ${msg} / ${time}초`);
-    });
-
-    socket.on("showAllPlayerRole", (role, timer) => {
-      console.log("[showAllPlayerRole]");
-      console.log(`역할 : ${Object.entries(role)} / ${timer}초`);
-    });
-
-    socket.on("inDiscuss", (time) => {
-      console.log(`[inDiscuss] 토론 중 / ${time}초`);
-    });
-
-    socket.on("inVote", (time) => {
-      console.log(`[inVote] 투표 중 / ${time}초`);
-    });
-
-    socket.on("voteToMafiaError", () => {
-      console.log("[voteToMafiaError] 마피아 투표 에러");
-    });
-
-    socket.on("showVoteResult", (voteBoard, time) => {
-      console.log("[showVoteResult]");
-      console.log(`${Object.entries(voteBoard)} / ${time}초`);
-    });
-
-    socket.on("voteYesOrNoError", () => {
-      console.log("[voteYesOrNoError] 찬성/반대 투표 에러");
-    });
-
-    socket.on("showVoteDeadOrLive", (yesOrNoVoteResult, time) => {
-      console.log("[showVOteDeadOrLive]");
-      console.log(`투표결과 : ${yesOrNoVoteResult} / ${time}초`);
-    });
-
-    socket.on("inSelect", (time) => {
-      console.log(`[inSelect] 선택 중 / ${time}초`);
-    });
-
-    socket.on("selectError", () => {
-      console.log("[selectError] 의사가 살릴 플레이어를 고르는 과정에서 에러 발생");
     });
   }, []);
 

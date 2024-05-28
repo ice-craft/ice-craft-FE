@@ -7,14 +7,15 @@ import { socket } from "@/utils/socket/socket";
 
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
-import useShowModalSocket from "@/hooks/useShowModalSocket";
+import { useModalActions, useModalIsOpen } from "@/store/show-modal-store";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Participant, Track } from "livekit-client";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useModalActions, useModalIsOpen } from "@/store/show-modal-store";
+import useModalSocket from "@/hooks/useModalSocket";
+import UserRoleModal from "../modal/UserRoleModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId, nickname } = useConnectStore();
@@ -36,13 +37,12 @@ const MafiaPlayRooms = () => {
       { source: Track.Source.Camera, withPlaceholder: true },
       { source: Track.Source.Microphone, withPlaceholder: true }
     ],
-    { onlySubscribed: false }
+    { onlySubscribed: false } // 구독 여부 상관없이 실행
   );
 
-  //"showModal" 소켓 이벤트 헨들러
-  useShowModalSocket();
-  //"playerMediaStatus" 소켓 에빈트 헨들러
+  //"socket 실행"
   useMediaSocket();
+  useModalSocket();
 
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
@@ -74,7 +74,8 @@ const MafiaPlayRooms = () => {
       </div>
       <MafiaToolTip />
       {/* isOpen: 모달창 띄우기 */}
-      {isModalOpen && <GroupMafiaModal />}
+      {/* {isModalOpen && <GroupMafiaModal />} */}
+      {isModalOpen && <UserRoleModal />}
     </section>
   );
 };

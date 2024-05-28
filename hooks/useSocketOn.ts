@@ -1,10 +1,14 @@
+import { SocketEventHandler } from "@/types";
 import { socket } from "@/utils/socket/socket";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
-const useSocketOn = (sockets: any) => {
+const useSocketOn = (handlers: SocketEventHandler) => {
   useEffect(() => {
-    sockets.forEach(({ eventName, handler }: any) => {
-      console.log("socket On", eventName);
+    const sockets = Object.entries(handlers);
+
+    // [key, value] 형식의 튜플로써 첫 번째 요소는 키의 타입이 되고 두 번째 요소는 값의 타입
+    sockets.forEach(([eventName, handler]) => {
+      console.log("socketEventName", eventName);
       socket.on(eventName, handler);
     });
   }, []);
