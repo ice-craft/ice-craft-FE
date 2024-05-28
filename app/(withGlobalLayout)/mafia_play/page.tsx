@@ -59,7 +59,7 @@ const MafiaPlay = () => {
           socket.emit(eventName, userId.current, "마피아");
           break;
         case "testStart":
-          console.log(eventName, "테스트 시작", roomId.current);
+          console.log(eventName, "테스트 시작");
           socket.emit(eventName, roomId.current);
           break;
       }
