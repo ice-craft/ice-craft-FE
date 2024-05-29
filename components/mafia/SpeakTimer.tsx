@@ -1,11 +1,14 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import useSocketOff from "@/hooks/useSocketOff";
 import useSocketOn from "@/hooks/useSocketOn";
-import { useEffect, useState } from "react";
+import useOverlayStore from "@/store/overlay-store";
+import { useState } from "react";
 
 const RoundTimer = () => {
   const [count, setCount] = useState(0);
   const [isTimer, setIsTimer] = useState(false);
+  const { setIsOverlay } = useOverlayStore();
+
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
 
@@ -14,6 +17,20 @@ const RoundTimer = () => {
     timerStatus: (timer: number) => {
       setCount(timer);
       setIsTimer(true);
+    },
+    inSelect: (isClick: boolean, timer: number) => {
+      //NOTE - 공통적인 요소
+      setCount(timer);
+      setIsTimer(true);
+      setIsOverlay(true);
+
+      //NOTE - 지속적인 클릭 이벤트
+      if (isClick) {
+      }
+
+      //NOTE - 주어진 시간동안 한번만 클릭 이벤트
+      if (!isClick) {
+      }
     }
   };
   //NOTE - socket On, Off 담당
