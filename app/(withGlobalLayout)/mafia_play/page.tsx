@@ -60,7 +60,8 @@ const MafiaPlay = () => {
           break;
         case "testStart":
           console.log(eventName, "테스트 시작");
-          socket.emit(eventName, roomId.current, totalUserCount.current);
+          socket.emit(eventName, roomId.current, Number(totalUserCount.current));
+          //NOTE - 방 인원수는 반드시 숫자로 보내야함
           break;
       }
     } else {
@@ -595,6 +596,10 @@ const MafiaPlay = () => {
     socket.on("updateUserInRoom", (playerInfo) => {
       console.log("updateUserInRoom 수신");
       console.log(`GUI에 표시할 정보들 : ${playerInfo}`);
+    });
+
+    socket.on("showModal", (message, time) => {
+      console.log(`[showModal] ${message} / ${time}초`);
     });
   }, []);
 
