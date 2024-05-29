@@ -2,25 +2,25 @@ import { create } from "zustand";
 import { OverlayState } from "../types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
-  showOverlay: null,
+  showOverlay: null, //NOTE - 사용처 모름
   activeParticipantSid: null, //NOTE -  캠 이미지 띄우기
-  activeParticipantIndex: null,
-  isLocalOverlay: false, //NOTE - local click event handler
-  isRemoteOverlay: false, //NOTE - remote click event handler
+  activeParticipantIndex: null, //NOTE - 사용처 모름
+  isLocalOverlay: true, //NOTE - local click event handler
+  isRemoteOverlay: true, //NOTE - remote click event handler
 
   setActiveParticipant: (sid: string | null, index: number | null) =>
     set({ activeParticipantSid: sid, activeParticipantIndex: index }),
 
-  //NOTE - 캠 클릭 시 user의 정보를 update
-  toggleOverlay: (participantSid, index) =>
+  //NOTE - 클릭한 user의 정보를 update
+  toggleOverlay: (newParticipantSid, index) =>
     set((state) => {
-      if (state.activeParticipantSid === participantSid) {
+      if (state.activeParticipantSid === newParticipantSid) {
         return { ...state };
       } else {
         return {
           ...state,
-          showOverlay: participantSid,
-          activeParticipantSid: participantSid,
+          showOverlay: newParticipantSid,
+          activeParticipantSid: newParticipantSid,
           activeParticipantIndex: index
         };
       }

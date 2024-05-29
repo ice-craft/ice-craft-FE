@@ -44,6 +44,8 @@ const MafiaPlayRooms = () => {
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
     event.stopPropagation();
+    console.log("클릭 Id", participant.sid);
+
     toggleOverlay(participant.sid, index); // 캠 클릭시 이미지 띄우기
   };
 
