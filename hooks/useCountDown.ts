@@ -1,22 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export const useCountDown = (initialTime: number) => {
-  const [time, setTime] = useState(initialTime * 10);
+// count가 변화하더라도 useCountDown 내부의 useEffect 훅이 불필요하게 다시 실행되지 않는다는 것
+export const useCountDown = (callback: () => void, delay: number, isCount: boolean) => {
+  const savedCallback = useRef<() => void>(callback);
 
   useEffect(() => {
-    if (!initialTime) {
+    if (!isCount || !delay) {
       return;
     }
+    console.log("setInterval 실행");
 
-    const timer = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
-    }, 100);
+    //현재 저장된 콜백 함수 호출
+    const tick = () => {
+      savedCallback.current();
+    };
+
+    const timerId = setInterval(tick, delay);
 
     return () => {
-      console.log("TimerClear 종료");
-      clearInterval(timer);
+      console.log("타이머 종료", timerId);
+      clearInterval(timerId);
     };
-  }, [initialTime]);
-
-  return time;
+  }, [isCount]);
 };

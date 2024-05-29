@@ -30,7 +30,7 @@ const CheckModal = () => {
     // 추가 소켓 리스트
   ];
 
-  const count = useCountDown(initialSecond);
+  // const count = useCountDown(initialSecond, 10, 100);
   const { userId } = useConnectStore();
   //NOTE - 찬반 투표 대상이 되는 다른 사용자의 ID와 닉네임을 저장하는 state
   const [chooseUser, setChooseUser] = useState<{ id: string; nickname: string } | null>(null);
@@ -80,7 +80,7 @@ const CheckModal = () => {
             </div>
             <progress
               className={S.progress}
-              value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
+              // value={(initialSecond * 10 - count) * (100 / (initialSecond * 10))}
               max={100}
             ></progress>
           </div>

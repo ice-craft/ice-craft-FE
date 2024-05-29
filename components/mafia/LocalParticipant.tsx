@@ -1,5 +1,4 @@
 import CamCheck from "@/assets/images/cam_check.svg";
-import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useOverlayStore from "@/store/overlay-store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
@@ -8,7 +7,7 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import Image from "next/image";
 import React from "react";
 import GameStartButton from "./GameStartButton";
-import { useModalIsOpen } from "@/store/show-modal-store";
+import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
@@ -19,7 +18,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
 
   return (
     <div className={S.localParticipant}>
-      <h2>00 : 00</h2>
+      <SpeakTimer />
       {localTracks.map((track, index) => (
         <div
           key={`${track.participant.sid}-${index}`}
