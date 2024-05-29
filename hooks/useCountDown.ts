@@ -1,50 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 
-// export const useCountDown = (initialTime: number | null, ms: number) => {
-//   const [time, setTime] = useState<number | null>(initialTime); // 초기값이 null인 경우 null로 설정
-
-//   useEffect(() => {
-//     if (initialTime === -1) {
-//       console.log("initialTime", initialTime);
-//       return;
-//     }
-
-//     // setTime(initialTime * multiplication);
-
-//     console.log("time", time); //현재 time이라는 값이 변화되지 않는 걸 볼 수 있다.
-//     console.log("ms", ms);
-
-//     const timer = setInterval(() => {
-//       setTime((prevTime) => {
-//         if (prevTime === null || prevTime <= 0) {
-//           clearInterval(timer);
-//           return 0;
-//         }
-//         return prevTime - 1;
-//       });
-//     }, ms);
-
-//     return () => {
-//       console.log("TimerClear 종료");
-//       clearInterval(timer);
-//     };
-//   }, [initialTime]);
-
-//   return time;
-// };
-
-export const useCountDown = (callback: any, delay: any) => {
-  const savedCallback = useRef(callback);
+// count가 변화하더라도 useCountDown 내부의 useEffect 훅이 불필요하게 다시 실행되지 않는다는 것
+export const useCountDown = (callback: () => void, delay: number, isCount: boolean) => {
+  const savedCallback = useRef<() => void>(callback);
 
   useEffect(() => {
-    savedCallback.current = callback;
-  });
+    if (!isCount || !delay) {
+      return;
+    }
+    console.log("setInterval 실행");
 
-  useEffect(() => {
-    // cf. delay 인자에 null 값을 전달할 경우 타이머를 멈출 수 있음
-    if (delay === null) return;
+    //현재 저장된 콜백 함수 호출
+    const tick = () => {
+      savedCallback.current();
+    };
 
-    const timer = setInterval(() => savedCallback.current(), delay);
-    return () => clearInterval(timer);
-  }, [delay]);
+    const timerId = setInterval(tick, delay);
+
+    return () => {
+      console.log("타이머 종료", timerId);
+      clearInterval(timerId);
+    };
+  }, [isCount]);
 };

@@ -1,37 +1,38 @@
-import React, { useState } from "react";
 import { useCountDown } from "@/hooks/useCountDown";
-import useSocketOn from "@/hooks/useSocketOn";
 import useSocketOff from "@/hooks/useSocketOff";
-import { useModalTimer } from "@/store/show-modal-store";
+import useSocketOn from "@/hooks/useSocketOn";
+import { useEffect, useState } from "react";
 
 const RoundTimer = () => {
-  const [timer, setTimer] = useState<number | null>(null);
-  const [count, setCount] = useState(timer);
-  //   const count = useCountDown(timer, 1000);
+  const [count, setCount] = useState(0);
+  const [isTimer, setIsTimer] = useState(false);
+  const minutes = Math.floor((count % 3600) / 60);
+  const seconds = Math.floor(count % 60);
 
-  useCountDown(() => {
-    if (!count) {
-      return;
-    }
-    setCount(count - 1);
-  }, 1000);
-
+  //NOTE - 마피아 player들끼리 확인하는 시간, 토론시간, 최후의 변론 시간
   const sockets = {
-    //NOTE - 마피아 player들끼리 확인하는 시간, 토론시간, 최후의 변론 시간
     timerStatus: (timer: number) => {
-      setTimer(timer);
+      setCount(timer);
+      setIsTimer(true);
     }
   };
-
   //NOTE - socket On, Off 담당
   useSocketOn(sockets);
   useSocketOff(sockets);
 
-  console.log("count", count);
+  //NOTE - 타이머 기능
+  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isTimer);
+
+  //NOTE - 타이머 종료
+  if (count <= 0 && isTimer) {
+    setIsTimer(false);
+  }
 
   return (
     <>
-      <h2>00 : 00</h2>
+      <h2>
+        {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+      </h2>
     </>
   );
 };

@@ -28,9 +28,6 @@ const MafiaPlayRooms = () => {
   const { setIsOpen } = useModalActions();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
 
-  //기존 "r0ShowAllUserRole" socket Event에서 사용한 state값이다. ==> 직업 카드 효과
-  const [role, setRole] = useState(null);
-
   //NOTE -  전체 데이터
   const tracks = useTracks(
     [
@@ -73,9 +70,9 @@ const MafiaPlayRooms = () => {
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
-      {/* isOpen: 모달창 띄우기 */}
-      {isModalOpen && <GroupMafiaModal />}
-      {/* {isModalOpen && <UserRoleModal />} */}
+      isOpen: 모달창 띄우기
+      {/* {isModalOpen && <GroupMafiaModal />} */}
+      {isModalOpen && <UserRoleModal />}
     </section>
   );
 };

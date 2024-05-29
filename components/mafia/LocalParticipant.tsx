@@ -5,9 +5,9 @@ import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React from "react";
 import GameStartButton from "./GameStartButton";
-import RoundTimer from "./SpeakTimer";
+import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
@@ -18,7 +18,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
 
   return (
     <div className={S.localParticipant}>
-      <RoundTimer />
+      <SpeakTimer />
       {localTracks.map((track, index) => (
         <div
           key={`${track.participant.sid}-${index}`}
