@@ -60,7 +60,7 @@ const MafiaPlay = () => {
           break;
         case "testStart":
           console.log(eventName, "테스트 시작");
-          socket.emit(eventName, roomId.current, totalUserCount);
+          socket.emit(eventName, roomId.current, totalUserCount.current);
           break;
       }
     } else {
