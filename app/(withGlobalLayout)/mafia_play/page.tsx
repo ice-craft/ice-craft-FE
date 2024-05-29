@@ -601,6 +601,10 @@ const MafiaPlay = () => {
     socket.on("showModal", (message, time) => {
       console.log(`[showModal] ${message} / ${time}초`);
     });
+
+    socket.on("playerMediaStatus", (media) => {
+      console.log(`[playerMediaStatus] ${media}`);
+    });
   }, []);
 
   return (
