@@ -605,6 +605,10 @@ const MafiaPlay = () => {
     socket.on("playerMediaStatus", (media) => {
       console.log(`[playerMediaStatus] ${media}`);
     });
+
+    socket.on("showAllPlayerRole", (role) => {
+      console.log(`[showAllPlayerRole] ${role}`);
+    });
   }, []);
 
   return (
