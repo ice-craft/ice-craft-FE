@@ -3,13 +3,16 @@ import { ParticipantTile, useLocalParticipant } from "@livekit/components-react"
 import React, { useEffect, useState } from "react";
 import S from "@/style/livekit/livekit.module.css";
 import Image from "next/image";
-import useOverlayStore from "@/store/overlay-store";
+import { useActivePlayer, useIsLocalOverlay, useIsRemoteOverlay } from "@/store/overlay-store";
 import { useCamClickImageState } from "@/store/image-store";
 import { socket } from "@/utils/socket/socket";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const { activePlayerId, isRemoteOverlay, isLocalOverlay } = useOverlayStore();
+  const activePlayerId = useActivePlayer();
+  const isRemoteOverlay = useIsRemoteOverlay();
+  const isLocalOverlay = useIsLocalOverlay();
+
   const { imageState } = useCamClickImageState();
 
   const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});

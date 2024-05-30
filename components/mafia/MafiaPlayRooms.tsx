@@ -1,5 +1,4 @@
 import useConnectStore from "@/store/connect-store";
-import useOverlayStore from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
@@ -16,12 +15,14 @@ import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import useModalSocket from "@/hooks/useModalSocket";
 import UserRoleModal from "../modal/UserRoleModal";
+import { useOverLayActions } from "@/store/overlay-store";
 
 const MafiaPlayRooms = () => {
-  const { userId, roomId, nickname } = useConnectStore();
+  const { userId, roomId } = useConnectStore();
 
   //캠 클릭 이벤트의 구성요소
-  const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
+  const { setActiveParticipant } = useOverLayActions();
+  // const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
   // "GroupMafiaModal" 모달의 구성요소
   const isModalOpen = useModalIsOpen();
@@ -44,9 +45,9 @@ const MafiaPlayRooms = () => {
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, userId: string) => {
     event.stopPropagation();
-    console.log("클릭 Id", userId);
+    console.log("checkClickHandle PlayerId", userId);
 
-    toggleOverlay(userId); // 캠 클릭시 이미지 띄우기
+    setActiveParticipant(userId); // 캠 클릭시 이미지 띄우기
   };
 
   //NOTE - 방 나가기 이벤트 헨들러
