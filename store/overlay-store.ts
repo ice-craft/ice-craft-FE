@@ -2,9 +2,9 @@ import { create } from "zustand";
 import { OverlayState } from "../types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
-  activePlayerId: null, //NOTE -  캠 이미지 띄우기
-  isLocalOverlay: true, //NOTE - local click event handler
-  isRemoteOverlay: true, //NOTE - remote click event handler
+  activePlayerId: null,
+  isLocalOverlay: true,
+  isRemoteOverlay: true,
 
   // showOverlay: null, //NOTE - 사용처 모름
   // activeParticipantIndex: null, //NOTE - 사용처 모름
@@ -22,7 +22,14 @@ const useOverlayStore = create<OverlayState>((set) => ({
   }
 }));
 
+//NOTE -  캠 이미지 띄우기
 export const useActivePlayer = () => useOverlayStore((state) => state.activePlayerId);
+
+//NOTE - local의 캠 클릭 이벤트
 export const useIsLocalOverlay = () => useOverlayStore((state) => state.isLocalOverlay);
+
+//NOTE - remote의 캠 클릭 이벤트
 export const useIsRemoteOverlay = () => useOverlayStore((state) => state.isRemoteOverlay);
+
+//NOTE - overlay actions 관리
 export const useOverLayActions = () => useOverlayStore((state) => state.actions);

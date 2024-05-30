@@ -15,8 +15,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const isLocalOverlay = useIsLocalOverlay();
   const { isReady } = useReadyStore();
 
-  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
+  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
 
+  console.log("localTracks", localTracks);
   return (
     <div className={S.localParticipant}>
       <SpeakTimer />
@@ -27,8 +28,9 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
         >
           <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
 
-          <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}></div>
-          <Image src={CamCheck} alt={localParticipant.identity} />
+          <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}>
+            <Image src={CamCheck} alt={localParticipant.identity} />
+          </div>
         </div>
       </TrackLoop>
       <GameStartButton />

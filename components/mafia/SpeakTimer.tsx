@@ -1,13 +1,13 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import useSocketOff from "@/hooks/useSocketOff";
 import useSocketOn from "@/hooks/useSocketOn";
-import useOverlayStore from "@/store/overlay-store";
+import { useOverLayActions } from "@/store/overlay-store";
 import { useState } from "react";
 
 const RoundTimer = () => {
   const [count, setCount] = useState(0);
   const [isTimer, setIsTimer] = useState(false);
-  const { setIsOverlay } = useOverlayStore();
+  const { setIsOverlay } = useOverLayActions();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);

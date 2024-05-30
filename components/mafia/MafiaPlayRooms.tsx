@@ -73,7 +73,7 @@ const MafiaPlayRooms = () => {
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
-      isOpen: 모달창 띄우기
+      {/* isOpen: 모달창 띄우기 */}
       {/* {isModalOpen && <GroupMafiaModal />} */}
       {isModalOpen && <UserRoleModal />}
     </section>
