@@ -19,14 +19,10 @@ import { useOverLayActions } from "@/store/overlay-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
+  const isModalOpen = useModalIsOpen(); // "GroupMafiaModal" 모달의 구성요소
+  const { setActiveParticipant } = useOverLayActions(); //캠 클릭 이벤트의 구성요소
 
-  //캠 클릭 이벤트의 구성요소
-  const { setActiveParticipant } = useOverLayActions();
   // const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
-
-  // "GroupMafiaModal" 모달의 구성요소
-  const isModalOpen = useModalIsOpen();
-  const { setIsOpen } = useModalActions();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
 
   //NOTE -  전체 데이터
@@ -41,7 +37,6 @@ const MafiaPlayRooms = () => {
   //"socket 실행"
   useMediaSocket();
   useModalSocket();
-  // useSelectPlayer();
 
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, userId: string) => {
