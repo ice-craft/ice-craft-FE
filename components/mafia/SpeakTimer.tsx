@@ -4,6 +4,7 @@ import { useOverLayActions } from "@/store/overlay-store";
 import { useState } from "react";
 
 const RoundTimer = () => {
+  //NOTE - count, isTimer 전역관리하기 이유) socket Event의 isSelect 부분이 실행될 때 timer값을 현재 RoundTimer 컴포넌트에 전달해야하므로
   const [count, setCount] = useState(0);
   const [isTimer, setIsTimer] = useState(false);
   const { setIsOverlay } = useOverLayActions();
