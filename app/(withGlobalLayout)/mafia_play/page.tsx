@@ -609,8 +609,13 @@ const MafiaPlay = () => {
     socket.on("showAllPlayerRole", (role) => {
       console.log(`[showAllPlayerRole] ${role}`);
     });
+
     socket.on("timerStatus", (time) => {
-      console.log(`[timerStatus] ${time}`);
+      console.log(`[timerStatus] ${time}초`);
+    });
+
+    socket.on("inSelect", (time) => {
+      console.log(`[inSelect] ${time}초`);
     });
   }, []);
 
