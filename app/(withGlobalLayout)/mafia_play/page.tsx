@@ -600,22 +600,33 @@ const MafiaPlay = () => {
 
     socket.on("showModal", (message, time) => {
       console.log(`[showModal] ${message} / ${time}초`);
+      console.log("");
     });
 
     socket.on("playerMediaStatus", (media) => {
-      console.log(`[playerMediaStatus] ${media}`);
+      console.log("[playerMediaStatus]");
+      Object.keys(media).forEach((key) => {
+        console.log(`${key} : ${media[key]["camera"]}, ${media[key]["mike"]}`);
+      });
+      console.log("");
     });
 
     socket.on("showAllPlayerRole", (role) => {
-      console.log(`[showAllPlayerRole] ${role}`);
+      console.log("[showAllPlayerRole]");
+      Object.keys(role).forEach((key) => {
+        console.log(`${key} : ${role[key]}`);
+      });
+      console.log("");
     });
 
     socket.on("timerStatus", (time) => {
       console.log(`[timerStatus] ${time}초`);
+      console.log("");
     });
 
     socket.on("inSelect", (time) => {
       console.log(`[inSelect] ${time}초`);
+      console.log("");
     });
   }, []);
 
