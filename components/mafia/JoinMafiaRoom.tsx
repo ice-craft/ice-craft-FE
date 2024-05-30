@@ -5,7 +5,7 @@ import { useExitStore } from "@/store/exit-store";
 import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
-import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
+import { LiveKitRoom, PreJoin, RoomAudioRenderer, VideoConference } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -53,8 +53,7 @@ const JoinMafiaRoom = () => {
           onDisconnected={disConnected}
         >
           <MafiaPlayRooms />
-
-          <RoomAudioRenderer />
+          <RoomAudioRenderer /> {/*  원격 참가자의 오디오 트랙을 처리하고, 마이크와 화면 공유가 잘 들리도록 관리 */}
         </LiveKitRoom>
       ) : (
         <section className={S.settingWrapper}>

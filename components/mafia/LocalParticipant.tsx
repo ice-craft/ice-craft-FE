@@ -3,7 +3,7 @@ import useOverlayStore from "@/store/overlay-store";
 import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
-import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
+import { ParticipantTile, TrackLoop, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import React from "react";
 import GameStartButton from "./GameStartButton";
@@ -11,31 +11,25 @@ import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid, isLocalOverlay } = useOverlayStore();
+  const { activePlayerId, isLocalOverlay } = useOverlayStore();
   const { isReady } = useReadyStore();
 
-  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
+  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
 
   return (
     <div className={S.localParticipant}>
       <SpeakTimer />
-      {localTracks.map((track, index) => (
+      <TrackLoop tracks={localTracks}>
         <div
-          key={`${track.participant.sid}-${index}`}
-          className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={isLocalOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
+          className={`${S.participantOverlay} ${activePlayerId === localParticipant.identity ? S.active : ""}`}
+          onClick={isLocalOverlay ? (e) => checkClickHandle(e, localParticipant.identity) : undefined}
         >
-          <ParticipantTile
-            trackRef={track}
-            disableSpeakingIndicator={true}
-            className={isLocalOverlay ? S.localCam : undefined}
-          />
+          <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
 
-          <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}>
-            <Image src={CamCheck} alt={track.participant.sid} />
-          </div>
+          <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}></div>
+          <Image src={CamCheck} alt={localParticipant.identity} />
         </div>
-      ))}
+      </TrackLoop>
       <GameStartButton />
     </div>
   );

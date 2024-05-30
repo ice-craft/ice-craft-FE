@@ -36,7 +36,7 @@ export interface RenderCardsProps {
 
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
-  checkClickHandle: (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => void;
+  checkClickHandle: (event: React.MouseEvent<HTMLElement>, userId: string) => void;
 }
 
 export interface playerMedia {
@@ -46,14 +46,14 @@ export interface playerMedia {
 }
 
 export interface OverlayState {
-  showOverlay: string | null;
-  activeParticipantSid: string | null;
-  activeParticipantIndex: number | null;
+  // showOverlay: string | null;
+  activePlayerId: string | null;
+  // activeParticipantIndex: number | null;
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   clearActiveParticipant: () => void;
-  setActiveParticipant: (sid: string | null, index: number | null) => void;
-  toggleOverlay: (participantSid: string, index: number) => void;
+  setActiveParticipant: (playerId: string | null) => void;
+  toggleOverlay: (newPlayerId: string) => void;
   setIsOverlay: (newIsOverlay: boolean) => void;
   setIsRemoteOverlay: (newIsOverlay: boolean) => void;
 }
