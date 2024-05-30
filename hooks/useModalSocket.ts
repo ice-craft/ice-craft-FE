@@ -1,12 +1,11 @@
-import useSocketOn from "./useSocketOn";
-import useSocketOff from "./useSocketOff";
 import { useModalActions } from "@/store/show-modal-store";
-import useOverlayStore from "@/store/overlay-store";
 import { Role } from "@/types";
+import { useOverLayActions } from "@/store/overlay-store";
+import useSocketOn from "./useSocketOn";
 
 const useModalSocket = () => {
   const { setIsOpen, setTimer, setTitle, setRole } = useModalActions();
-  // const { setIsOverlay } = useOverlayStore();
+  const { setIsOverlay } = useOverLayActions();
 
   const sockets = {
     //NOTE - GroupModal
@@ -30,7 +29,6 @@ const useModalSocket = () => {
 
   //NOTE - socket On, Off 담당
   useSocketOn(sockets);
-  useSocketOff(sockets);
 };
 
 export default useModalSocket;

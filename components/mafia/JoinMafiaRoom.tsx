@@ -53,7 +53,8 @@ const JoinMafiaRoom = () => {
           onDisconnected={disConnected}
         >
           <MafiaPlayRooms />
-          <RoomAudioRenderer /> {/*  원격 참가자의 오디오 트랙을 처리하고, 마이크와 화면 공유가 잘 들리도록 관리 */}
+          {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
+          <RoomAudioRenderer muted={false} />
         </LiveKitRoom>
       ) : (
         <section className={S.settingWrapper}>

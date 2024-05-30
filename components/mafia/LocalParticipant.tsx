@@ -15,9 +15,8 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
   const isLocalOverlay = useIsLocalOverlay();
   const { isReady } = useReadyStore();
 
-  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
+  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
 
-  console.log("localTracks", localTracks);
   return (
     <div className={S.localParticipant}>
       <SpeakTimer />

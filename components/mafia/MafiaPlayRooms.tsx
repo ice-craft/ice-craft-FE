@@ -41,6 +41,7 @@ const MafiaPlayRooms = () => {
   //"socket 실행"
   useMediaSocket();
   useModalSocket();
+  // useSelectPlayer();
 
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, userId: string) => {
@@ -73,6 +74,7 @@ const MafiaPlayRooms = () => {
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
+
       {/* isOpen: 모달창 띄우기 */}
       {/* {isModalOpen && <GroupMafiaModal />} */}
       {isModalOpen && <UserRoleModal />}

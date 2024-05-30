@@ -1,5 +1,4 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useSocketOff from "@/hooks/useSocketOff";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useOverLayActions } from "@/store/overlay-store";
 import { useState } from "react";
@@ -35,7 +34,6 @@ const RoundTimer = () => {
   };
   //NOTE - socket On, Off 담당
   useSocketOn(sockets);
-  useSocketOff(sockets);
 
   //NOTE - 타이머 기능
   useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isTimer);
