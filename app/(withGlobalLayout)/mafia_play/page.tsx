@@ -628,6 +628,11 @@ const MafiaPlay = () => {
       console.log(`[inSelect] ${time}초`);
       console.log("");
     });
+
+    socket.on("showVoteResult", (voteBoard, time) => {
+      console.log(`[showVoteResult] ${time}`);
+      console.log(voteBoard);
+    });
   }, []);
 
   return (
