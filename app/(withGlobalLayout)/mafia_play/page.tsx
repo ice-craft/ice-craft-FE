@@ -630,7 +630,7 @@ const MafiaPlay = () => {
     });
 
     socket.on("showVoteResult", (voteBoard, time) => {
-      console.log(`[showVoteResult] ${time}`);
+      console.log(`[showVoteResult] ${time}초`);
       console.log(voteBoard);
     });
 
@@ -638,6 +638,10 @@ const MafiaPlay = () => {
       console.log("[showVoteDeadOrLive]");
       console.log(yesOrNoVoteResult);
       console.log("");
+    });
+
+    socket.on("diedPlayer", (killedPlayer) => {
+      console.log(`[diedPlayer] ${killedPlayer}`);
     });
   }, []);
 
