@@ -633,6 +633,12 @@ const MafiaPlay = () => {
       console.log(`[showVoteResult] ${time}`);
       console.log(voteBoard);
     });
+
+    socket.on("showVoteDeadOrLive", (yesOrNoVoteResult) => {
+      console.log("[showVoteDeadOrLive]");
+      console.log(yesOrNoVoteResult);
+      console.log("");
+    });
   }, []);
 
   return (
