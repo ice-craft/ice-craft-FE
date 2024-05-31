@@ -25,10 +25,10 @@ export interface Role {
 
 export interface RenderCardsProps {
   cards: {
-    의사: { src: string; alt: string };
-    경찰: { src: string; alt: string };
-    마피아: { src: string; alt: string };
-    시민: { src: string; alt: string };
+    doctor: { src: string; alt: string };
+    police: { src: string; alt: string };
+    mafia: { src: string; alt: string };
+    citizen: { src: string; alt: string };
   };
   role: Role;
   showAllCards: boolean;

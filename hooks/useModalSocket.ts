@@ -24,6 +24,7 @@ const useModalSocket = () => {
       setRole(role);
       setTimer(timer);
       // setIsOverlay(false); // 캠 클릭 이벤트 비활성화
+      console.log("직업 Role", role);
     }
   };
 

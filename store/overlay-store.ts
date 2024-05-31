@@ -22,7 +22,7 @@ const useOverlayStore = create<OverlayState>((set) => ({
   }
 }));
 
-//NOTE -  캠 이미지 띄우기
+//NOTE -  클릭한 캠 위치에 이미지 띄우기
 export const useActivePlayer = () => useOverlayStore((state) => state.activePlayerId);
 
 //NOTE - local의 캠 클릭 이벤트

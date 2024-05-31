@@ -10,10 +10,10 @@ import React, { useEffect, useState } from "react";
 
 // 카드 이미지 리스트
 const cards = {
-  의사: { src: DoctorCard.src, alt: "의사" },
-  경찰: { src: PoliceCard.src, alt: "경찰" },
-  마피아: { src: MafiaCard.src, alt: "마피아" },
-  시민: { src: CitizensCard.src, alt: "시민" }
+  doctor: { src: DoctorCard.src, alt: "의사" },
+  police: { src: PoliceCard.src, alt: "경찰" },
+  mafia: { src: MafiaCard.src, alt: "마피아" },
+  citizen: { src: CitizensCard.src, alt: "시민" }
 };
 
 const UserRoleModal = () => {

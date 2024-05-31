@@ -43,7 +43,7 @@ const MafiaPlayRooms = () => {
     event.stopPropagation();
     console.log("checkClickHandle PlayerId", userId);
 
-    setActiveParticipant(userId); // 캠 클릭시 이미지 띄우기
+    setActiveParticipant(userId); // 캠 클릭시 클릭한 위치에 이미지 띄우기
   };
 
   //NOTE - 방 나가기 이벤트 헨들러
