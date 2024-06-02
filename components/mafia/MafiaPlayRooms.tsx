@@ -6,21 +6,22 @@ import { socket } from "@/utils/socket/socket";
 
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
-import { useModalActions, useModalIsOpen } from "@/store/show-modal-store";
+import useModalSocket from "@/hooks/useModalSocket";
+import { useInSelect, useOverLayActions } from "@/store/overlay-store";
+import { useModalIsOpen } from "@/store/show-modal-store";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
-import { Participant, Track } from "livekit-client";
+import { Track } from "livekit-client";
 import { useState } from "react";
+import UserRoleModal from "../modal/UserRoleModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import useModalSocket from "@/hooks/useModalSocket";
-import UserRoleModal from "../modal/UserRoleModal";
-import { useOverLayActions } from "@/store/overlay-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
   const isModalOpen = useModalIsOpen(); // "GroupMafiaModal" 모달의 구성요소
-  const { setActiveParticipant } = useOverLayActions(); //캠 클릭 이벤트의 구성요소
+  const { setActiveParticipant, setIsOverlay } = useOverLayActions(); //캠 클릭 이벤트의 구성요소
+  const inSelect = useInSelect();
 
   // const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
   const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
@@ -39,11 +40,31 @@ const MafiaPlayRooms = () => {
   useModalSocket();
 
   //NOTE - 캠 클릭 이벤트 헨들러
-  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, userId: string) => {
+  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
-    console.log("checkClickHandle PlayerId", userId);
 
-    setActiveParticipant(userId); // 캠 클릭시 클릭한 위치에 이미지 띄우기
+    if (inSelect.includes("vote")) {
+      socket.emit("voteToMafia", userId);
+    }
+
+    if (inSelect.includes("mafia")) {
+      socket.emit("voteToCitizen", userId);
+    }
+
+    if (inSelect.includes("doctor")) {
+      socket.emit("selectByDoctor", userId);
+    }
+
+    if (inSelect.includes("police")) {
+      socket.emit("selectByPolice", userId);
+    }
+
+    // 클릭 이벤트를 한 번만 수행
+    setIsOverlay(false);
+    // 캠 클릭시 클릭한 위치에 이미지 띄우기
+    setActiveParticipant(userId);
+
+    console.log("checkClickHandle PlayerId", playerId);
   };
 
   //NOTE - 방 나가기 이벤트 헨들러
@@ -52,6 +73,8 @@ const MafiaPlayRooms = () => {
   };
 
   BeforeUnloadHandler();
+
+  console.log("MafiaPlayRooms 작동");
 
   return (
     <section className={S.section}>

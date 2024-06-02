@@ -25,6 +25,11 @@ const useModalSocket = () => {
       setTimer(timer);
       // setIsOverlay(false); // 캠 클릭 이벤트 비활성화
       console.log("직업 Role", role);
+    },
+
+    showVoteResult: (voteResult: any, time: number) => {
+      console.log("voteResult", voteResult);
+      console.log("voteResult Time", time);
     }
   };
 

@@ -5,6 +5,7 @@ const useOverlayStore = create<OverlayState>((set) => ({
   activePlayerId: null,
   isLocalOverlay: true,
   isRemoteOverlay: true,
+  inSelect: "",
 
   // showOverlay: null, //NOTE - 사용처 모름
   // activeParticipantIndex: null, //NOTE - 사용처 모름
@@ -18,7 +19,9 @@ const useOverlayStore = create<OverlayState>((set) => ({
 
     //NOTE - 캠 클릭 이벤트 핸들러 및 cursor 활성화 및 비활성화
     setIsOverlay: (newIsOverlay) => set({ isLocalOverlay: newIsOverlay, isRemoteOverlay: newIsOverlay }),
-    setIsRemoteOverlay: (newIsOverlay) => set({ isRemoteOverlay: newIsOverlay })
+    setIsRemoteOverlay: (newIsOverlay) => set({ isRemoteOverlay: newIsOverlay }),
+    //NOTE - OO시간 구별(투표, 마피아, 의사, 경찰)
+    setInSelect: (newSelect) => set({ inSelect: newSelect })
   }
 }));
 
@@ -30,6 +33,9 @@ export const useIsLocalOverlay = () => useOverlayStore((state) => state.isLocalO
 
 //NOTE - remote의 캠 클릭 이벤트
 export const useIsRemoteOverlay = () => useOverlayStore((state) => state.isRemoteOverlay);
+
+//NOTE - OO시간 구별(투표, 마피아, 의사, 경찰)
+export const useInSelect = () => useOverlayStore((state) => state.inSelect);
 
 //NOTE - overlay actions 관리
 export const useOverLayActions = () => useOverlayStore((state) => state.actions);

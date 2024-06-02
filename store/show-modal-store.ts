@@ -7,11 +7,13 @@ const useShowModalStore = create<ShowModalState>((set) => ({
   timer: -1,
   title: "",
   role: {},
+  voteResult: { userId: "", nickname: "", count: 0 },
   actions: {
     setIsOpen: (newIsOpen) => set({ isOpen: newIsOpen }),
     setTimer: (newTimer) => set({ timer: newTimer }),
     setTitle: (newTitle) => set({ title: newTitle }),
-    setRole: (newRole) => set({ role: newRole })
+    setRole: (newRole) => set({ role: newRole }),
+    setVoteResult: (newResult) => set({ voteResult: newResult })
   }
 }));
 
@@ -29,3 +31,6 @@ export const useGroupModalElement = () => useShowModalStore((state) => state.tit
 
 //NOTE - UserRoleModal 요소
 export const useRoleModalElement = () => useShowModalStore((state) => state.role);
+
+//NOTE - VoteResultModal 요소
+export const useVoteResultElement = () => useShowModalStore((state) => state.voteResult);

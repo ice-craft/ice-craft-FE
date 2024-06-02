@@ -13,6 +13,20 @@ const RoundTimer = () => {
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
 
+  //NOTE - 타이머 기능
+  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isTimer);
+
+  useEffect(() => {
+    //NOTE - 타이머 종료
+    if (count <= 0 && isTimer) {
+      setIsTimer(false);
+    }
+    //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화
+    if (count <= 0 && isTimer && (isLocalOverlay || isRemoteOverlay)) {
+      setIsOverlay(false);
+    }
+  }, [count]);
+
   const sockets = {
     //NOTE - 마피아 player들끼리 확인하는 시간, 토론시간, 최후의 변론 시간
     timerStatus: (timer: number) => {
@@ -20,7 +34,7 @@ const RoundTimer = () => {
       setIsTimer(true);
     },
     //NOTE - 투표 시간, 특정 직업의 선택 시간
-    inSelect: (isClick: boolean, timer: number) => {
+    inSelect: (isClick: boolean, message: string, timer: number) => {
       setCount(timer);
       setIsTimer(true);
       setIsOverlay(true);
@@ -37,21 +51,8 @@ const RoundTimer = () => {
     }
   };
 
-  //NOTE - socket On, Off 담당
+  // //NOTE - socket On, Off 담당
   useSocketOn(sockets);
-
-  //NOTE - 타이머 기능
-  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isTimer);
-
-  //NOTE - 타이머 종료
-  if (count <= 0 && isTimer) {
-    setIsTimer(false);
-  }
-
-  //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화
-  if (count <= 0 && isTimer && (isLocalOverlay || isRemoteOverlay)) {
-    setIsOverlay(false);
-  }
 
   return (
     <>

@@ -34,6 +34,12 @@ export interface RenderCardsProps {
   showAllCards: boolean;
 }
 
+export interface VoteResult {
+  userId: string;
+  nickname: string;
+  count: number;
+}
+
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
   checkClickHandle: (event: React.MouseEvent<HTMLElement>, userId: string) => void;
@@ -49,11 +55,13 @@ export interface OverlayState {
   activePlayerId: string | null;
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
+  inSelect: string;
   actions: {
     clearActiveParticipant: () => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
+    setInSelect: (newSelect: string) => void;
   };
 }
 
@@ -63,28 +71,28 @@ export interface OverlayState {
 //   role: Role;
 // }
 
-export interface MafiaModalContent {
-  count: number;
-  content: string;
-  nickname?: string;
-}
+// export interface MafiaModalContent {
+//   count: number;
+//   content: string;
+//   nickname?: string;
+// }
 
-export interface CountState {
-  isStart: boolean;
-  timer: number;
-  setTimer: (newCount: number) => void;
-  setIsStart: (newToggle: boolean) => void;
-}
+// export interface CountState {
+//   isStart: boolean;
+//   timer: number;
+//   setTimer: (newCount: number) => void;
+//   setIsStart: (newToggle: boolean) => void;
+// }
 
 export interface ImageState {
   imageState: StaticImageData | null;
   setImageState: (newImage: StaticImageData | null) => void;
 }
 
-export interface ActiveNameState {
-  activeName: string | null;
-  setActiveName: (newName: string | null) => void;
-}
+// export interface ActiveNameState {
+//   activeName: string | null;
+//   setActiveName: (newName: string | null) => void;
+// }
 
 export interface ConnectState {
   join: boolean;
@@ -97,29 +105,29 @@ export interface ConnectState {
   setUserNickname: (id: string) => void;
 }
 
-export interface MessageState {
-  messages: string[];
-  addMessage: (newMessage: string) => void;
-  clearMessages: () => void;
-}
+// export interface MessageState {
+//   messages: string[];
+//   addMessage: (newMessage: string) => void;
+//   clearMessages: () => void;
+// }
 
 export interface VoteData {
   userId: string;
   nickname: string;
 }
 
-export interface CardInfo {
-  src: string;
-  alt: string;
-}
+// export interface CardInfo {
+//   src: string;
+//   alt: string;
+// }
 
-export interface ModalData {
-  title: string;
-  message: string;
-  nickname: string;
-  timer: number;
-  isOpen: boolean;
-}
+// export interface ModalData {
+//   title: string;
+//   message: string;
+//   nickname: string;
+//   timer: number;
+//   isOpen: boolean;
+// }
 
 export interface RemoteReadyStates {
   [key: string]: boolean;
@@ -145,55 +153,66 @@ export interface ShowModalState {
   title: string;
   timer: number;
   role: Role;
+  voteResult: VoteResult;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
     setTimer: (newTimer: number) => void;
     setTitle: (newTitle: string) => void;
     setRole: (newRole: Role) => void;
+    setVoteResult: (newVote: VoteResult) => void;
   };
 }
 
-export interface TimerState {
-  timerIds: NodeJS.Timeout[];
-  setTimerIds: (newTimerId: NodeJS.Timeout) => void;
+export interface totalTimeState {
+  timer: number;
+  isTimer: boolean;
+  actions: {
+    setTimer: (newTimer: number) => void;
+    setIsTimer: (newTimer: boolean) => void;
+  };
 }
 
-export interface TotalSocketState {
-  userId: string;
-  roomId: string;
-  votedPlayer: string;
-  voteBoard?: any;
-  setIsOpen: (newIsOpen: boolean) => void;
-  setTitle: (newTitle: string) => void;
-  setMessage: (newMessage: string) => void;
-  setTimer: (newTimer: number) => void;
-  setIsClose: (newIsClose: boolean) => void;
-  setIsOverlay: (newIsOverlay: boolean) => void;
-  setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
-  clearActiveParticipant: () => void;
-}
+// export interface TimerState {
+//   timerIds: NodeJS.Timeout[];
+//   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
+// }
 
-export interface VoteState {
-  votedPlayer: string;
-  isVoted: boolean;
-  timerRef: MutableRefObject<boolean>;
-  setVoteTimerClose: Dispatch<SetStateAction<NodeJS.Timeout | undefined>>;
-  setIsOverlay: (newIsOverlay: boolean) => void;
-  clearActiveParticipant: () => void;
-  setVoted: (newIsVoted: boolean) => void;
-}
-export type SetModalState = Omit<TotalSocketState, "userId" | "roomId" | "votedPlayer" | "voteBoard" | "setTimerIds">;
+// export interface TotalSocketState {
+//   userId: string;
+//   roomId: string;
+//   votedPlayer: string;
+//   voteBoard?: any;
+//   setIsOpen: (newIsOpen: boolean) => void;
+//   setTitle: (newTitle: string) => void;
+//   setMessage: (newMessage: string) => void;
+//   setTimer: (newTimer: number) => void;
+//   setIsClose: (newIsClose: boolean) => void;
+//   setIsOverlay: (newIsOverlay: boolean) => void;
+//   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
+//   clearActiveParticipant: () => void;
+// }
 
-export interface MediaState {
-  tracks: TrackReferenceOrPlaceholder[];
-  localUserId: string | undefined;
-  participants: (RemoteParticipant | LocalParticipant)[];
-  players: string[];
-  userId: string;
-  roomId: string;
-  sources: Track.Source[];
-  setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
-}
+// export interface VoteState {
+//   votedPlayer: string;
+//   isVoted: boolean;
+//   timerRef: MutableRefObject<boolean>;
+//   setVoteTimerClose: Dispatch<SetStateAction<NodeJS.Timeout | undefined>>;
+//   setIsOverlay: (newIsOverlay: boolean) => void;
+//   clearActiveParticipant: () => void;
+//   setVoted: (newIsVoted: boolean) => void;
+// }
+// export type SetModalState = Omit<TotalSocketState, "userId" | "roomId" | "votedPlayer" | "voteBoard" | "setTimerIds">;
+
+// export interface MediaState {
+//   tracks: TrackReferenceOrPlaceholder[];
+//   localUserId: string | undefined;
+//   participants: (RemoteParticipant | LocalParticipant)[];
+//   players: string[];
+//   userId: string;
+//   roomId: string;
+//   sources: Track.Source[];
+//   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
+// }
 
 export interface VoteResults {
   [nickname: string]: number;

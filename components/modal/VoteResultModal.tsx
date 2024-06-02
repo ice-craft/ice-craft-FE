@@ -1,5 +1,6 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import { useModalTimer } from "@/store/show-modal-store";
+import useSocketOn from "@/hooks/useSocketOn";
+import { useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import { VoteResults } from "@/types";
 import { useState } from "react";
@@ -9,21 +10,11 @@ const VoteResultModal = () => {
   // const count = useCountDown(timer, 10, 100);
 
   const [voteResults, setVoteResults] = useState<VoteResults>({});
-  // const socketArr = [
-  //   {
-  //     eventName: "showVoteResult",
-  //     handler: (data: VoteResults) => {
-  //       console.log("showVoteResult Event Message", data);
-  //       setVoteResults(data);
-  //     }
-  //   }
-  // ];
-
-  // useSocketOn(socketArr);
 
   // if (!timer || !count) {
   //   return;
   // }
+
   return (
     <>
       <div className={S.modalWrap}>
