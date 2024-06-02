@@ -20,7 +20,7 @@ const UserRoleModal = () => {
   const isModal = useModalIsOpen();
   const timer = useModalTimer();
   const role = useRoleModalElement();
-  const { setIsOpen } = useModalActions();
+  const { setIsOpen, setRoleIsOpen } = useModalActions();
 
   const [count, setCount] = useState(timer * 10);
 
@@ -39,7 +39,7 @@ const UserRoleModal = () => {
   // 모달창 종료
   useEffect(() => {
     if (count === 0 && isModal) {
-      setIsOpen(false);
+      setRoleIsOpen(false);
     }
   }, [count]);
 

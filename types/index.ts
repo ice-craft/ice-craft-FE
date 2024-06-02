@@ -150,12 +150,18 @@ export interface CreateState {
 
 export interface ShowModalState {
   isOpen: boolean;
+  IsGroupOpen: boolean;
+  IsRoleOpen: boolean;
+  IsVoteOpen: boolean;
   title: string;
   timer: number;
   role: Role;
   voteResult: VoteResult;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
+    setGroupIsOpen: (newIsOpen: boolean) => void;
+    setRoleIsOpen: (newIsOpen: boolean) => void;
+    setVoteIsOpen: (newIsOpen: boolean) => void;
     setTimer: (newTimer: number) => void;
     setTitle: (newTitle: string) => void;
     setRole: (newRole: Role) => void;

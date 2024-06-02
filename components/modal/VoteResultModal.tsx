@@ -1,19 +1,26 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useSocketOn from "@/hooks/useSocketOn";
-import { useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
+import { useModalActions, useModalIsOpen, useModalTimer, useVoteResultElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import { VoteResults } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const VoteResultModal = () => {
   const timer = useModalTimer();
-  // const count = useCountDown(timer, 10, 100);
+  const [count, setCount] = useState(timer * 10);
+  const isModal = useModalIsOpen();
+  const voteResults = useVoteResultElement();
+  const { setIsOpen, setVoteIsOpen } = useModalActions();
 
-  const [voteResults, setVoteResults] = useState<VoteResults>({});
+  //NOTE - 타이머 기능
+  useCountDown(() => setCount((prevCount) => prevCount - 1), 100, isModal);
 
-  // if (!timer || !count) {
-  //   return;
-  // }
+  // 모달창 종료
+  useEffect(() => {
+    if (count === 0 && isModal) {
+      setVoteIsOpen(false);
+    }
+  }, [count]);
+
+  // console.log("Modal", count);
 
   return (
     <>
@@ -28,7 +35,7 @@ const VoteResultModal = () => {
                 </li>
               ))}
             </ul>
-            {/* <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress> */}
+            <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>
       </div>

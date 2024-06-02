@@ -8,7 +8,7 @@ import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useModalSocket from "@/hooks/useModalSocket";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
-import { useModalIsOpen } from "@/store/show-modal-store";
+import { useGroupModalIsOpen, useModalIsOpen, useRoleModalIsOpen, useVoteModalIsOpen } from "@/store/show-modal-store";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import { useState } from "react";
@@ -16,10 +16,13 @@ import UserRoleModal from "../modal/UserRoleModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
+import VoteResultModal from "../modal/VoteResultModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
-  const isModalOpen = useModalIsOpen(); // "GroupMafiaModal" 모달의 구성요소
+  const isGroupModal = useGroupModalIsOpen();
+  const isRoleModal = useRoleModalIsOpen();
+  const isVoteModal = useVoteModalIsOpen();
   const { setActiveParticipant, setIsOverlay } = useOverLayActions(); //캠 클릭 이벤트의 구성요소
   const inSelect = useInSelect();
 
@@ -94,8 +97,9 @@ const MafiaPlayRooms = () => {
       <MafiaToolTip />
 
       {/* isOpen: 모달창 띄우기 */}
-      {/* {isModalOpen && <GroupMafiaModal />} */}
-      {isModalOpen && <UserRoleModal />}
+      {isGroupModal && <GroupMafiaModal />}
+      {isRoleModal && <UserRoleModal />}
+      {isVoteModal && <VoteResultModal />}
     </section>
   );
 };
