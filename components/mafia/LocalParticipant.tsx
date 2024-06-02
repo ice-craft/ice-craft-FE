@@ -17,8 +17,6 @@ const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) 
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
 
-  console.log("LocalParticipant 작동", activePlayerId);
-
   return (
     <div className={S.localParticipant}>
       <SpeakTimer />

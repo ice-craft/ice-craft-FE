@@ -20,13 +20,14 @@ import VoteResultModal from "../modal/VoteResultModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
+  //NOTE - 임시: 각 모달창 별로 On, Off
   const isGroupModal = useGroupModalIsOpen();
   const isRoleModal = useRoleModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
-  const { setActiveParticipant, setIsOverlay } = useOverLayActions(); //캠 클릭 이벤트의 구성요소
+  //NOTE - 캠 클릭 이벤트의 구성요소
+  const { setActiveParticipant, setIsOverlay } = useOverLayActions();
+  //NOTE - 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
   const inSelect = useInSelect();
-
-  // const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -44,6 +45,7 @@ const MafiaPlayRooms = () => {
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
+    console.log("checkClickHandle PlayerId", playerId);
 
     if (inSelect.includes("vote")) {
       console.log("inSelect", inSelect);
@@ -68,8 +70,6 @@ const MafiaPlayRooms = () => {
     setIsOverlay(false);
     // 캠 클릭시 클릭한 위치에 이미지 띄우기
     setActiveParticipant(playerId);
-
-    console.log("checkClickHandle PlayerId", playerId);
   };
 
   //NOTE - 방 나가기 이벤트 헨들러
@@ -78,8 +78,6 @@ const MafiaPlayRooms = () => {
   };
 
   BeforeUnloadHandler();
-
-  console.log("MafiaPlayRooms 작동");
 
   return (
     <section className={S.section}>

@@ -35,9 +35,9 @@ export interface RenderCardsProps {
 }
 
 export interface VoteResult {
-  userId: string;
-  nickname: string;
-  count: number;
+  user_id: string;
+  user_nickname: string;
+  voted_count: number;
 }
 
 export interface Participants {
@@ -156,7 +156,7 @@ export interface ShowModalState {
   title: string;
   timer: number;
   role: Role;
-  voteResult: VoteResult;
+  voteResult: VoteResult[];
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
     setGroupIsOpen: (newIsOpen: boolean) => void;
@@ -165,7 +165,7 @@ export interface ShowModalState {
     setTimer: (newTimer: number) => void;
     setTitle: (newTitle: string) => void;
     setRole: (newRole: Role) => void;
-    setVoteResult: (newVote: VoteResult) => void;
+    setVoteResult: (newVote: VoteResult[]) => void;
   };
 }
 

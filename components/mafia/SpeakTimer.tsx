@@ -35,21 +35,12 @@ const RoundTimer = () => {
     },
     //NOTE - 투표 시간, 특정 직업의 선택 시간
     inSelect: (message: string, timer: number) => {
-      console.log("inSelect", timer);
       // OO시간
       setInSelect(message);
       // 타이머 실행
       setCount(timer);
       setIsTimer(true);
       setIsOverlay(true); // 클릭 이벤트 활성화
-
-      // //NOTE - 지속적인 클릭 이벤트
-      // if (isClick) {
-      // }
-
-      // //NOTE - 주어진 시간동안 한번만 클릭 이벤트
-      // if (!isClick) {
-      // }
     }
   };
 

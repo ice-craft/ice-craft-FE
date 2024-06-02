@@ -29,8 +29,6 @@ const GroupMafiaModal = () => {
     }
   }, [count]);
 
-  console.log("Modal", count);
-
   return (
     <>
       <div className={S.modalWrap}>

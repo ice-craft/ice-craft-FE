@@ -36,11 +36,11 @@ const VoteResultModal = () => {
           <div>
             <h1>마피아 의심 투표 결과</h1>
             <ul>
-              {/* {Object.entries(voteResults).map(([nickname, voteCount]) => (
-                <li key={nickname}>
-                  <span>{nickname}</span> &rarr; {voteCount}
+              {voteResults.map((vote) => (
+                <li key={vote.user_id}>
+                  <span>{vote.user_nickname}</span> &rarr; {vote.voted_count}
                 </li>
-              ))} */}
+              ))}
             </ul>
             <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
