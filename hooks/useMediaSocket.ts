@@ -1,9 +1,8 @@
 import { useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
-import useSocketOff from "./useSocketOff";
-import useSocketOn from "./useSocketOn";
 import { MediaStatus } from "@/types";
+import useSocketOn from "./useSocketOn";
 
 const useMediaSocket = () => {
   const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus>();
@@ -18,7 +17,6 @@ const useMediaSocket = () => {
   };
 
   useSocketOn(mediaSocket);
-  useSocketOff(mediaSocket);
 
   //NOTE -  로컬 player의 정보
   const localParticipant = useLocalParticipant();

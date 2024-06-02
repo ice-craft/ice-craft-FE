@@ -16,19 +16,19 @@ import { useRoleModalElement } from "@/store/show-modal-store";
 import { useLocalParticipant } from "@livekit/components-react";
 
 const toolTipInfo: { [key: string]: { icon: string; text: string } } = {
-  시민: {
+  citizen: {
     icon: CitizensToolTipIcon,
     text: CitizensToolTipText
   },
-  마피아: {
+  mafia: {
     icon: MafiaToolTipIcon,
     text: MafiaToolTipText
   },
-  의사: {
+  doctor: {
     icon: DoctorToolTipIcon,
     text: DoctorToolTipText
   },
-  경찰: {
+  police: {
     icon: PoliceToolTipIcon,
     text: PoliceToolTipText
   }

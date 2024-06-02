@@ -11,6 +11,13 @@ const useSocketOn = (handlers: SocketEventHandler) => {
       console.log("socketEventName", eventName);
       socket.on(eventName, handler);
     });
+
+    return () => {
+      sockets.forEach(([eventName]) => {
+        console.log("socket Off", eventName);
+        socket.off(eventName);
+      });
+    };
   }, []);
 };
 

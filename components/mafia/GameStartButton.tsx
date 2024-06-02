@@ -15,7 +15,6 @@ const GameStartButton = () => {
 
   //FIXME - 추후) 방장일 경우에만 버튼 활성화
   const startHandler = () => {
-    console.log("start 클릭");
     socket.emit("testStart", roomId, 5);
   };
 

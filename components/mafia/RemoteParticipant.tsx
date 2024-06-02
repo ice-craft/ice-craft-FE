@@ -1,15 +1,17 @@
 import { Participants, RemoteReadyStates } from "@/types";
-import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
+import { ParticipantTile, TrackLoop, TrackRefContext, useLocalParticipant } from "@livekit/components-react";
 import React, { useEffect, useState } from "react";
 import S from "@/style/livekit/livekit.module.css";
 import Image from "next/image";
-import useOverlayStore from "@/store/overlay-store";
+import { useActivePlayer, useIsLocalOverlay, useIsRemoteOverlay } from "@/store/overlay-store";
 import { useCamClickImageState } from "@/store/image-store";
 import { socket } from "@/utils/socket/socket";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid, isRemoteOverlay, isLocalOverlay } = useOverlayStore();
+  const PlayerId = useActivePlayer();
+  const isRemoteOverlay = useIsRemoteOverlay();
+
   const { imageState } = useCamClickImageState();
 
   const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
@@ -32,18 +34,24 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
   return (
     // 원격 사용자들의 camera 및 클릭 Event 제어
     <div className={S.remoteParticipant}>
-      {remoteTracks.map((track, index) => (
-        <div
-          key={`${track.participant.sid}-${index}`}
-          className={`${S.remoteParticipantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={isRemoteOverlay ? (e) => checkClickHandle(e, track.participant, index) : undefined}
-        >
-          <ParticipantTile trackRef={track} className={`${S.remoteCam} ${isLocalOverlay ? "cursor-pointer" : ""}`} />
-          <div className={`${S.remoteOverlay} ${remoteReadyStates[track.participant.identity] ? S.active : ""}`}>
-            <Image src={imageState!} alt={track.participant.sid} />
-          </div>
-        </div>
-      ))}
+      <TrackLoop tracks={remoteTracks}>
+        <TrackRefContext.Consumer>
+          {(track) => (
+            <div
+              className={`${S.remoteParticipantOverlay} ${PlayerId === track!.participant.identity ? S.active : ""}`}
+              onClick={isRemoteOverlay ? (e) => checkClickHandle(e, track!.participant.identity) : undefined}
+            >
+              <ParticipantTile
+                disableSpeakingIndicator={true}
+                className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : ""}`}
+              />
+              <div className={`${S.remoteOverlay} ${remoteReadyStates[track!.participant.identity] ? S.active : ""}`}>
+                <Image src={imageState!} alt={track!.participant.identity} />
+              </div>
+            </div>
+          )}
+        </TrackRefContext.Consumer>
+      </TrackLoop>
     </div>
   );
 };

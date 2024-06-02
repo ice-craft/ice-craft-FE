@@ -1,5 +1,4 @@
 import useConnectStore from "@/store/connect-store";
-import useOverlayStore from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
@@ -7,26 +6,28 @@ import { socket } from "@/utils/socket/socket";
 
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
-import { useModalActions, useModalIsOpen } from "@/store/show-modal-store";
+import useModalSocket from "@/hooks/useModalSocket";
+import { useInSelect, useOverLayActions } from "@/store/overlay-store";
+import { useGroupModalIsOpen, useModalIsOpen, useRoleModalIsOpen, useVoteModalIsOpen } from "@/store/show-modal-store";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
-import { Participant, Track } from "livekit-client";
+import { Track } from "livekit-client";
 import { useState } from "react";
+import UserRoleModal from "../modal/UserRoleModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import useModalSocket from "@/hooks/useModalSocket";
-import UserRoleModal from "../modal/UserRoleModal";
+import VoteResultModal from "../modal/VoteResultModal";
 
 const MafiaPlayRooms = () => {
-  const { userId, roomId, nickname } = useConnectStore();
-
-  //캠 클릭 이벤트의 구성요소
-  const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
-
-  // "GroupMafiaModal" 모달의 구성요소
-  const isModalOpen = useModalIsOpen();
-  const { setIsOpen } = useModalActions();
-  const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
+  const { userId, roomId } = useConnectStore();
+  //NOTE - 임시: 각 모달창 별로 On, Off
+  const isGroupModal = useGroupModalIsOpen();
+  const isRoleModal = useRoleModalIsOpen();
+  const isVoteModal = useVoteModalIsOpen();
+  //NOTE - 캠 클릭 이벤트의 구성요소
+  const { setActiveParticipant, setIsOverlay } = useOverLayActions();
+  //NOTE - 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
+  const inSelect = useInSelect();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -42,9 +43,33 @@ const MafiaPlayRooms = () => {
   useModalSocket();
 
   //NOTE - 캠 클릭 이벤트 헨들러
-  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participant: Participant, index: number) => {
+  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
-    toggleOverlay(participant.sid, index); // 캠 클릭시 이미지 띄우기
+    console.log("checkClickHandle PlayerId", playerId);
+
+    if (inSelect.includes("vote")) {
+      console.log("inSelect", inSelect);
+      socket.emit("voteTo", playerId);
+    }
+
+    if (inSelect.includes("mafia")) {
+      console.log("inSelect", inSelect);
+      socket.emit("voteTo", playerId);
+    }
+
+    if (inSelect.includes("doctor")) {
+      console.log("inSelect", inSelect);
+      socket.emit("selectPlayer", playerId);
+    }
+
+    if (inSelect.includes("police")) {
+      console.log("inSelect", inSelect);
+    }
+
+    // 클릭 이벤트를 한 번만 수행
+    setIsOverlay(false);
+    // 캠 클릭시 클릭한 위치에 이미지 띄우기
+    setActiveParticipant(playerId);
   };
 
   //NOTE - 방 나가기 이벤트 헨들러
@@ -70,9 +95,11 @@ const MafiaPlayRooms = () => {
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
-      isOpen: 모달창 띄우기
-      {/* {isModalOpen && <GroupMafiaModal />} */}
-      {isModalOpen && <UserRoleModal />}
+
+      {/* isOpen: 모달창 띄우기 */}
+      {isGroupModal && <GroupMafiaModal />}
+      {isRoleModal && <UserRoleModal />}
+      {isVoteModal && <VoteResultModal />}
     </section>
   );
 };

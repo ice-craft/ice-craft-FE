@@ -4,14 +4,22 @@ import { create } from "zustand";
 //NOTE - 모달의 데이터 요소
 const useShowModalStore = create<ShowModalState>((set) => ({
   isOpen: false,
+  IsGroupOpen: false,
+  IsRoleOpen: false,
+  IsVoteOpen: false,
   timer: -1,
   title: "",
   role: {},
+  voteResult: [],
   actions: {
     setIsOpen: (newIsOpen) => set({ isOpen: newIsOpen }),
+    setGroupIsOpen: (newIsOpen) => set({ IsGroupOpen: newIsOpen }),
+    setRoleIsOpen: (newIsOpen) => set({ IsRoleOpen: newIsOpen }),
+    setVoteIsOpen: (newIsOpen) => set({ IsVoteOpen: newIsOpen }),
     setTimer: (newTimer) => set({ timer: newTimer }),
     setTitle: (newTitle) => set({ title: newTitle }),
-    setRole: (newRole) => set({ role: newRole })
+    setRole: (newRole) => set({ role: newRole }),
+    setVoteResult: (newResult) => set({ voteResult: newResult })
   }
 }));
 
@@ -29,3 +37,11 @@ export const useGroupModalElement = () => useShowModalStore((state) => state.tit
 
 //NOTE - UserRoleModal 요소
 export const useRoleModalElement = () => useShowModalStore((state) => state.role);
+
+//NOTE - VoteResultModal 요소
+export const useVoteResultElement = () => useShowModalStore((state) => state.voteResult);
+
+//NOTE - 각각의 임시 모달 on, off 요소
+export const useGroupModalIsOpen = () => useShowModalStore((state) => state.IsGroupOpen);
+export const useRoleModalIsOpen = () => useShowModalStore((state) => state.IsRoleOpen);
+export const useVoteModalIsOpen = () => useShowModalStore((state) => state.IsVoteOpen);

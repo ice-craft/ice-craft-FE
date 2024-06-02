@@ -1,27 +1,33 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import { useGroupModalElement, useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
+import {
+  useGroupModalElement,
+  useGroupModalIsOpen,
+  useModalActions,
+  useModalIsOpen,
+  useModalTimer
+} from "@/store/show-modal-store";
 
 import S from "@/style/modal/modal.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const GroupMafiaModal = () => {
   const isModal = useModalIsOpen();
+  const isGroupModal = useGroupModalIsOpen();
   const title = useGroupModalElement();
   const timer = useModalTimer();
 
   const [count, setCount] = useState(timer * 10);
-  const { setIsOpen } = useModalActions();
+  const { setIsOpen, setGroupIsOpen } = useModalActions();
 
-  useCountDown(() => setCount((prevCount) => prevCount - 1), 100, isModal);
+  //NOTE - 타이머 기능
+  useCountDown(() => setCount((prevCount) => prevCount - 1), 100, isGroupModal);
 
   // 모달창 종료
   useEffect(() => {
-    if (count === 0 && isModal) {
-      setIsOpen(false);
+    if (count === 0 && isGroupModal) {
+      setGroupIsOpen(false);
     }
   }, [count]);
-
-  // console.log("Modal", count);
 
   return (
     <>

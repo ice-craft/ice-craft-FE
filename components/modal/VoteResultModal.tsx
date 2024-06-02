@@ -1,32 +1,34 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useSocketOff from "@/hooks/useSocketOff";
-import useSocketOn from "@/hooks/useSocketOn";
-import { useModalTimer } from "@/store/show-modal-store";
+import {
+  useModalActions,
+  useModalIsOpen,
+  useModalTimer,
+  useVoteModalIsOpen,
+  useVoteResultElement
+} from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import { VoteResults } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const VoteResultModal = () => {
   const timer = useModalTimer();
-  // const count = useCountDown(timer, 10, 100);
+  const [count, setCount] = useState(timer * 10);
+  const isModal = useModalIsOpen();
+  const isVoteModal = useVoteModalIsOpen();
+  const voteResults = useVoteResultElement();
+  const { setIsOpen, setVoteIsOpen } = useModalActions();
 
-  const [voteResults, setVoteResults] = useState<VoteResults>({});
-  // const socketArr = [
-  //   {
-  //     eventName: "showVoteResult",
-  //     handler: (data: VoteResults) => {
-  //       console.log("showVoteResult Event Message", data);
-  //       setVoteResults(data);
-  //     }
-  //   }
-  // ];
+  //NOTE - 타이머 기능
+  useCountDown(() => setCount((prevCount) => prevCount - 1), 100, isVoteModal);
 
-  // useSocketOn(socketArr);
-  // useSocketOff(socketArr);
+  // 모달창 종료
+  useEffect(() => {
+    if (count === 0 && isVoteModal) {
+      setVoteIsOpen(false);
+    }
+  }, [count]);
 
-  // if (!timer || !count) {
-  //   return;
-  // }
+  console.log("Modal", voteResults);
+
   return (
     <>
       <div className={S.modalWrap}>
@@ -34,13 +36,13 @@ const VoteResultModal = () => {
           <div>
             <h1>마피아 의심 투표 결과</h1>
             <ul>
-              {Object.entries(voteResults).map(([nickname, voteCount]) => (
-                <li key={nickname}>
-                  <span>{nickname}</span> &rarr; {voteCount}
+              {voteResults.map((vote) => (
+                <li key={vote.user_id}>
+                  <span>{vote.user_nickname}</span> &rarr; {vote.voted_count}
                 </li>
               ))}
             </ul>
-            {/* <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress> */}
+            <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>
       </div>
