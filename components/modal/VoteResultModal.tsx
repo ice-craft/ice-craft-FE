@@ -27,8 +27,6 @@ const VoteResultModal = () => {
     }
   }, [count]);
 
-  console.log("Modal", voteResults);
-
   return (
     <>
       <div className={S.modalWrap}>

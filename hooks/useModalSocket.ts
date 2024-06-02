@@ -4,18 +4,35 @@ import { useOverLayActions } from "@/store/overlay-store";
 import useSocketOn from "./useSocketOn";
 
 const useModalSocket = () => {
-  const { setIsOpen, setGroupIsOpen, setVoteIsOpen, setRoleIsOpen, setTimer, setTitle, setRole, setVoteResult } =
-    useModalActions();
+  const {
+    setIsOpen,
+    setGroupIsOpen,
+    setVoteIsOpen,
+    setRoleIsOpen,
+    setTimer,
+    setTitle,
+    setRole,
+    setVoteResult,
+    setCheckIsOpen
+  } = useModalActions();
 
   // 추후 "isModalOpen" 통일될 예정
   const sockets = {
-    //NOTE - GroupModal
+    //NOTE - GroupModal, CheckModal
     showModal: (title: string, timer: number) => {
+      //NOTE - 최후의 투표
+      if (title.includes("찬성/반대 투표")) {
+        console.log("최후의 투표 실행");
+        setCheckIsOpen(true);
+        setTitle(title);
+        setTimer(timer);
+        return;
+      }
+
       // 모달창 요소
       setGroupIsOpen(true);
       setTitle(title);
       setTimer(timer);
-      console.log("GroupTimer", timer);
     },
 
     //NOTE - UserRoleModal
@@ -23,14 +40,12 @@ const useModalSocket = () => {
       setRoleIsOpen(true);
       setRole(role);
       setTimer(timer);
-      console.log("직업 Role", role);
     },
 
     showVoteResult: (voteResult: VoteResult[], timer: number) => {
       setVoteIsOpen(true);
       setVoteResult(voteResult);
       setTimer(timer);
-      console.log("voteResult", voteResult);
     }
   };
 

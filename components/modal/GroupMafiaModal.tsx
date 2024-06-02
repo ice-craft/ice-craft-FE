@@ -24,7 +24,7 @@ const GroupMafiaModal = () => {
 
   // 모달창 종료
   useEffect(() => {
-    if (count === 0 && isGroupModal) {
+    if (count <= 0 && isGroupModal) {
       setGroupIsOpen(false);
     }
   }, [count]);
