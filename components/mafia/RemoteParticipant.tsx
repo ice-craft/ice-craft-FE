@@ -30,6 +30,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
       socket.off("updateUserReady");
     };
   }, []);
+  console.log("active", PlayerId);
 
   return (
     // 원격 사용자들의 camera 및 클릭 Event 제어

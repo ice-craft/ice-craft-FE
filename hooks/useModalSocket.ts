@@ -15,18 +15,19 @@ const useModalSocket = () => {
       setGroupIsOpen(true);
       setTitle(title);
       setTimer(timer);
+      console.log("timer", timer);
     },
 
     //NOTE - UserRoleModal
     showAllPlayerRole: (role: Role, timer: number) => {
-      setVoteIsOpen(true);
+      setRoleIsOpen(true);
       setRole(role);
       setTimer(timer);
       console.log("직업 Role", role);
     },
 
     showVoteResult: (voteResult: VoteResult, timer: number) => {
-      setRoleIsOpen(true);
+      setVoteIsOpen(true);
       setVoteResult(voteResult);
       setTimer(timer);
       console.log("voteResult", voteResult);

@@ -27,7 +27,6 @@ const MafiaPlayRooms = () => {
   const inSelect = useInSelect();
 
   // const { toggleOverlay, setIsOverlay, clearActiveParticipant, setIsRemoteOverlay } = useOverlayStore();
-  const [currentModal, setCurrentModal] = useState<React.ReactNode>(<GroupMafiaModal />);
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -47,25 +46,28 @@ const MafiaPlayRooms = () => {
     event.stopPropagation();
 
     if (inSelect.includes("vote")) {
-      socket.emit("voteToMafia", userId);
+      console.log("inSelect", inSelect);
+      socket.emit("voteTo", playerId);
     }
 
     if (inSelect.includes("mafia")) {
-      socket.emit("voteToCitizen", userId);
+      console.log("inSelect", inSelect);
+      socket.emit("voteTo", playerId);
     }
 
     if (inSelect.includes("doctor")) {
-      socket.emit("selectByDoctor", userId);
+      console.log("inSelect", inSelect);
+      socket.emit("selectPlayer", playerId);
     }
 
     if (inSelect.includes("police")) {
-      socket.emit("selectByPolice", userId);
+      console.log("inSelect", inSelect);
     }
 
     // 클릭 이벤트를 한 번만 수행
     setIsOverlay(false);
     // 캠 클릭시 클릭한 위치에 이미지 띄우기
-    setActiveParticipant(userId);
+    setActiveParticipant(playerId);
 
     console.log("checkClickHandle PlayerId", playerId);
   };

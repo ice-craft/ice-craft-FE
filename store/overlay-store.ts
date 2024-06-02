@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { OverlayState } from "../types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
-  activePlayerId: null,
+  activePlayerId: "",
   isLocalOverlay: true,
   isRemoteOverlay: true,
   inSelect: "",
