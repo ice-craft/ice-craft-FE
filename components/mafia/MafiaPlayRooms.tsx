@@ -57,7 +57,6 @@ const MafiaPlayRooms = () => {
     console.log("checkClickHandle PlayerId", playerId);
 
     if (inSelect.includes("vote")) {
-      console.log("inSelect", inSelect);
       socket.emit("voteTo", playerId);
     }
 
@@ -77,6 +76,7 @@ const MafiaPlayRooms = () => {
 
     // 클릭 이벤트를 한 번만 수행
     setIsOverlay(false);
+
     // 캠 클릭시 클릭한 위치에 이미지 띄우기
     setActiveParticipant(playerId);
   };

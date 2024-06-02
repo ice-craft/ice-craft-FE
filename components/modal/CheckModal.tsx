@@ -1,14 +1,7 @@
-import { useCountDown } from "@/hooks/useCountDown";
-import {
-  useCheckModalIsOpen,
-  useGroupModalElement,
-  useModalActions,
-  useModalTimer,
-  useVoteResultElement
-} from "@/store/show-modal-store";
+import { useGroupModalElement, useVoteResultElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import ModalProgress from "./ModalProgress";
 
 const CheckModal = () => {
@@ -24,8 +17,6 @@ const CheckModal = () => {
     setIsVote(true);
     socket.emit("VoteYesOrNo", vote);
   };
-
-  console.log("checkModal실행");
 
   return (
     <>

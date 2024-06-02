@@ -1,14 +1,7 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import {
-  useCheckModalIsOpen,
-  useGroupModalIsOpen,
-  useModalActions,
-  useModalIsOpen,
-  useModalTimer,
-  useVoteModalIsOpen
-} from "@/store/show-modal-store";
+import { useCheckModalIsOpen, useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 //NOTE - 추후 합칠 예정
 const ModalProgress = () => {

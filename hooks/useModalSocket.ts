@@ -20,16 +20,15 @@ const useModalSocket = () => {
   const sockets = {
     //NOTE - GroupModal, CheckModal
     showModal: (title: string, timer: number) => {
-      //NOTE - 최후의 투표
+      //NOTE - 최후의 투표 모달창 요소
       if (title.includes("찬성/반대 투표")) {
-        console.log("최후의 투표 실행");
         setCheckIsOpen(true);
         setTitle(title);
         setTimer(timer);
         return;
       }
 
-      // 모달창 요소
+      //기본 모달창 요소
       setGroupIsOpen(true);
       setTitle(title);
       setTimer(timer);
