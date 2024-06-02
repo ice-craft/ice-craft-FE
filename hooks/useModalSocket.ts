@@ -40,11 +40,13 @@ const useModalSocket = () => {
       setRole(role);
       setTimer(timer);
     },
-
     showVoteResult: (voteResult: VoteResult[], timer: number) => {
       setVoteIsOpen(true);
       setVoteResult(voteResult);
       setTimer(timer);
+    },
+    showVoteDeadOrLive: (voteResult: any, timer: number) => {
+      console.log("최후의 투표 결과", voteResult);
     }
   };
 

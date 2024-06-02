@@ -111,11 +111,6 @@ export interface ConnectState {
 //   clearMessages: () => void;
 // }
 
-export interface VoteData {
-  userId: string;
-  nickname: string;
-}
-
 // export interface CardInfo {
 //   src: string;
 //   alt: string;
@@ -158,6 +153,7 @@ export interface ShowModalState {
   timer: number;
   role: Role;
   voteResult: VoteResult[];
+  yesOrNoResult: YesOrNoResults;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
     setGroupIsOpen: (newIsOpen: boolean) => void;
@@ -168,7 +164,22 @@ export interface ShowModalState {
     setTitle: (newTitle: string) => void;
     setRole: (newRole: Role) => void;
     setVoteResult: (newVote: VoteResult[]) => void;
+    setYesOrNoVoteResult: (newVote: YesOrNoResults) => void;
   };
+}
+
+export interface VoteData {
+  userId: string;
+  nickname: string;
+}
+
+export interface VoteResults {
+  [nickname: string]: number;
+}
+
+export interface YesOrNoResults {
+  detail: { noCount: number; yesCount: number };
+  result: boolean;
 }
 
 export interface totalTimeState {
@@ -221,7 +232,3 @@ export interface totalTimeState {
 //   sources: Track.Source[];
 //   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
 // }
-
-export interface VoteResults {
-  [nickname: string]: number;
-}

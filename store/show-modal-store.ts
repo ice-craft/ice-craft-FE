@@ -12,6 +12,7 @@ const useShowModalStore = create<ShowModalState>((set) => ({
   title: "",
   role: {},
   voteResult: [],
+  yesOrNoResult: { detail: { noCount: 0, yesCount: 0 }, result: false },
   actions: {
     setIsOpen: (newIsOpen) => set({ isOpen: newIsOpen }),
     setGroupIsOpen: (newIsOpen) => set({ isGroupOpen: newIsOpen }),
@@ -21,7 +22,8 @@ const useShowModalStore = create<ShowModalState>((set) => ({
     setTimer: (newTimer) => set({ timer: newTimer }),
     setTitle: (newTitle) => set({ title: newTitle }),
     setRole: (newRole) => set({ role: newRole }),
-    setVoteResult: (newResult) => set({ voteResult: newResult })
+    setVoteResult: (newResult) => set({ voteResult: newResult }),
+    setYesOrNoVoteResult: (newVote) => set({ yesOrNoResult: newVote })
   }
 }));
 
