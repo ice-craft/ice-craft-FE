@@ -4,7 +4,8 @@ import {
   useModalIsOpen,
   useModalTimer,
   useVoteModalIsOpen,
-  useVoteResultElement
+  useVoteResultElement,
+  useYesOrNoResultElement
 } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ const VoteResultModal = () => {
   const isModal = useModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
   const voteResults = useVoteResultElement();
+  const yesOrNoResults = useYesOrNoResultElement(); //찬반 투표 결과값
   const { setIsOpen, setVoteIsOpen } = useModalActions();
 
   //NOTE - 타이머 기능
@@ -40,6 +42,7 @@ const VoteResultModal = () => {
                 </li>
               ))}
             </ul>
+
             <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>

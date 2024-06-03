@@ -1,11 +1,12 @@
 import { useModalActions } from "@/store/show-modal-store";
-import { Role, VoteResult } from "@/types";
+import { Role, VoteResult, YesOrNoResults } from "@/types";
 import { useOverLayActions } from "@/store/overlay-store";
 import useSocketOn from "./useSocketOn";
 
 const useModalSocket = () => {
   const {
     setIsOpen,
+    setYesOrNoVoteResult,
     setGroupIsOpen,
     setVoteIsOpen,
     setRoleIsOpen,
@@ -45,7 +46,10 @@ const useModalSocket = () => {
       setVoteResult(voteResult);
       setTimer(timer);
     },
-    showVoteDeadOrLive: (voteResult: any, timer: number) => {
+    showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
+      setVoteIsOpen(true);
+      setYesOrNoVoteResult(voteResult);
+      setTimer(timer);
       console.log("최후의 투표 결과", voteResult);
     }
   };

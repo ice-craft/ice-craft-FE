@@ -42,8 +42,11 @@ export const useGroupModalElement = () => useShowModalStore((state) => state.tit
 //NOTE - UserRoleModal 요소
 export const useRoleModalElement = () => useShowModalStore((state) => state.role);
 
-//NOTE - VoteResultModal 요소
+//NOTE - VoteResultModal 요소(투표 결과)
 export const useVoteResultElement = () => useShowModalStore((state) => state.voteResult);
+
+//NOTE - VoteResultModal 요소(최후의 투표 결과)
+export const useYesOrNoResultElement = () => useShowModalStore((state) => state.yesOrNoResult);
 
 //NOTE - 각각의 임시 모달 on, off 요소
 export const useGroupModalIsOpen = () => useShowModalStore((state) => state.isGroupOpen);
