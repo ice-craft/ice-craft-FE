@@ -1,5 +1,4 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import usePlayerJob from "@/hooks/usePlayerJob";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useIsLocalOverlay, useIsRemoteOverlay, useOverLayActions } from "@/store/overlay-store";
 import { useEffect, useState } from "react";
@@ -10,8 +9,6 @@ const RoundTimer = () => {
   const { setIsOverlay, setInSelect, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
   const isRemoteOverlay = useIsRemoteOverlay();
-  //NOTE - 캠 클릭 이벤트 활성화
-  usePlayerJob();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
