@@ -29,6 +29,8 @@ const VoteResultModal = () => {
     }
   }, [count]);
 
+  console.log("찬/반투표 결과", yesOrNoResults);
+
   return (
     <>
       <div className={S.modalWrap}>
