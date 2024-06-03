@@ -11,22 +11,24 @@ import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import {
   useCheckModalIsOpen,
   useGroupModalIsOpen,
-  useModalIsOpen,
+  useRoleModalElement,
   useRoleModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useState } from "react";
+import CheckModal from "../modal/CheckModal";
 import UserRoleModal from "../modal/UserRoleModal";
+import VoteResultModal from "../modal/VoteResultModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import VoteResultModal from "../modal/VoteResultModal";
-import CheckModal from "../modal/CheckModal";
+import { useJobImageAction } from "@/store/image-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
+  const setImageState = useJobImageAction();
+  const role = useRoleModalElement();
   //NOTE - 임시: 각 모달창 별로 On, Off
   const isGroupModal = useGroupModalIsOpen();
   const isRoleModal = useRoleModalIsOpen();
@@ -71,6 +73,27 @@ const MafiaPlayRooms = () => {
     }
 
     if (inSelect.includes("police")) {
+      //NOTE - role 구조: {jobName: string, userList: []}
+      const jobNameList = Object.keys(role);
+
+      //NOTE - 해당 player의 직업
+      jobNameList.find((job) => {
+        //NOTE - 직업별 해당 userId[]
+        const jobPlayerList = role[job];
+
+        //NOTE - 직업이 존재하지 않을 경우(경찰, 의사)
+        if (!jobPlayerList) {
+          return;
+        }
+
+        const isPlayerJob = jobPlayerList.find((userId: string) => playerId === userId);
+
+        if (isPlayerJob) {
+          return job;
+        }
+      });
+
+      console.log("role", role);
       console.log("inSelect", inSelect);
     }
 

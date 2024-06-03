@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const RoundTimer = () => {
   const [count, setCount] = useState(0);
   const [isTimer, setIsTimer] = useState(false);
-  const { setIsOverlay, setInSelect } = useOverLayActions();
+  const { setIsOverlay, setInSelect, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
   const isRemoteOverlay = useIsRemoteOverlay();
 
@@ -21,9 +21,10 @@ const RoundTimer = () => {
     if (count <= 0 && isTimer) {
       setIsTimer(false);
     }
-    //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화
+    //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화 및 투표 이미지 초기화
     if (count <= 0 && isTimer && (isLocalOverlay || isRemoteOverlay)) {
       setIsOverlay(false);
+      clearActiveParticipant();
     }
   }, [count]);
 
@@ -38,8 +39,19 @@ const RoundTimer = () => {
       // 타이머 실행
       setCount(timer);
       setIsTimer(true);
-      setIsOverlay(true); // 클릭 이벤트 활성화
-      setInSelect(message);
+
+      setIsOverlay(true); //모든 캠의 클릭 이벤트 활성화
+      setInSelect(message); // 투표, 마피아, 의사, 경찰 시간 구분
+      console.log("message", message);
+
+      // 원격 사용자의 캠만 활성화
+      if (message.includes("mafia")) {
+        setIsRemoteOverlay(true);
+      }
+
+      if (message.includes("police")) {
+        setIsRemoteOverlay(true);
+      }
     }
   };
 
