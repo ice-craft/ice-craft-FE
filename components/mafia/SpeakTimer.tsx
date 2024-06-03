@@ -1,4 +1,5 @@
 import { useCountDown } from "@/hooks/useCountDown";
+import usePlayerJob from "@/hooks/usePlayerJob";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useIsLocalOverlay, useIsRemoteOverlay, useOverLayActions } from "@/store/overlay-store";
 import { useEffect, useState } from "react";
@@ -9,6 +10,8 @@ const RoundTimer = () => {
   const { setIsOverlay, setInSelect, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
   const isRemoteOverlay = useIsRemoteOverlay();
+  //NOTE - 캠 클릭 이벤트 활성화
+  usePlayerJob();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
@@ -39,19 +42,7 @@ const RoundTimer = () => {
       // 타이머 실행
       setCount(timer);
       setIsTimer(true);
-
-      setIsOverlay(true); //모든 캠의 클릭 이벤트 활성화
-      setInSelect(message); // 투표, 마피아, 의사, 경찰 시간 구분
-      console.log("message", message);
-
-      // 원격 사용자의 캠만 활성화
-      if (message.includes("mafia")) {
-        setIsRemoteOverlay(true);
-      }
-
-      if (message.includes("police")) {
-        setIsRemoteOverlay(true);
-      }
+      setInSelect(message);
     }
   };
 

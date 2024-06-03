@@ -1,8 +1,8 @@
-import useConnectStore from "@/store/connect-store";
-import S from "@/style/livekit/livekit.module.css";
 import Citizen from "@/assets/images/cam_citizen.svg";
 import Doctor from "@/assets/images/cam_doctor.svg";
 import Mafia from "@/assets/images/cam_mafia.svg";
+import useConnectStore from "@/store/connect-store";
+import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
@@ -10,15 +10,15 @@ import { socket } from "@/utils/socket/socket";
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useModalSocket from "@/hooks/useModalSocket";
+import { useJobImageAction } from "@/store/image-store";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import {
   useCheckModalIsOpen,
   useGroupModalIsOpen,
-  useRoleModalElement,
   useRoleModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
-import { DisconnectButton, useTracks } from "@livekit/components-react";
+import { DisconnectButton, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import CheckModal from "../modal/CheckModal";
 import UserRoleModal from "../modal/UserRoleModal";
@@ -26,20 +26,22 @@ import VoteResultModal from "../modal/VoteResultModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useJobImageAction } from "@/store/image-store";
+
 import { Role } from "@/types";
+import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import { useEffect } from "react";
 
 const MafiaPlayRooms = () => {
-  // const role: Role = {
-  //   mafia: ["12312312312312312", "adfasdfasfasfdsaf"],
-  //   doctor: ["asdfkjhkj32k21123", "adhfk23jk1h3k123", "6ef00822-f847-4e94-9732-61b71c467e68"],
-  //   police: ["asdfhkjwehfkwjehf", "afasdfasdfkasdlfkjasgdfsda"],
-  //   citizen: ["53f37d03-9080-479f-bf78-aa5da13c6390"]
-  // };
+  const role: Role = {
+    mafia: ["12312312312312312", "adfasdfasfasfdsaf"],
+    doctor: ["asdfkjhkj32k21123", "adhfk23jk1h3k123", "6ef00822-f847-4e94-9732-61b71c467e68"],
+    police: ["asdfhkjwehfkwjehf", "afasdfasdfkasdlfkjasgdfsda"],
+    citizen: ["53f37d03-9080-479f-bf78-aa5da13c6390"]
+  };
 
   const { userId, roomId } = useConnectStore();
   const setImageState = useJobImageAction();
-  const role = useRoleModalElement();
+  // const role = useRoleModalElement();
   //NOTE - 임시: 각 모달창 별로 On, Off
   const isGroupModal = useGroupModalIsOpen();
   const isRoleModal = useRoleModalIsOpen();
@@ -47,9 +49,10 @@ const MafiaPlayRooms = () => {
   const isCheckModal = useCheckModalIsOpen();
 
   //NOTE - 캠 클릭 이벤트의 구성요소
-  const { setActiveParticipant, setIsOverlay } = useOverLayActions();
+  const { setActiveParticipant, setIsOverlay, setIsRemoteOverlay } = useOverLayActions();
   //NOTE - 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
   const inSelect = useInSelect();
+  const { localParticipant } = useLocalParticipant();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -64,56 +67,72 @@ const MafiaPlayRooms = () => {
   useMediaSocket();
   useModalSocket();
 
-  //NOTE - 캠 클릭 이벤트 헨들러
-  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
-    event.stopPropagation();
-    console.log("PlayerId", playerId);
+  //NOTE - 캠 클릭 활성화
+  useEffect(() => {
+    // NOTE - role, inSelect 존재하지 않을 시
+    if (!role || !inSelect) return;
+
     console.log("role", role);
     console.log("inSelect", inSelect);
 
-    if (inSelect.includes("vote")) {
-      socket.emit("voteTo", playerId);
-    }
+    //NOTE - 해당 player의 직업
+    const localJob = getPlayerJob(role, localParticipant.identity);
 
-    if (inSelect.includes("mafia")) {
+    console.log("LocalJob", localJob);
+
+    //NOTE - 투표 시간이면서, 모든 player 캠 클릭 이벤트 활성화
+    if (inSelect.includes("vote")) {
+      setIsOverlay(true);
+    }
+    //NOTE - 마피아 시간이면서, 마피아인 player만 캠 클릭 이벤트 활성화
+    if (inSelect.includes("mafia") && localJob === "mafia") {
+      setIsRemoteOverlay(true);
+    }
+    //NOTE - 의사 시간이면서, 의사인 player만 캠 클릭 이벤트 활성화
+    if (inSelect.includes("doctor") && localJob === "doctor") {
+      setIsOverlay(true);
+    }
+    //NOTE - 경찰 시간이면서, 경찰인 player만 캠 클릭 이벤트 활성화
+    if (inSelect.includes("police") && localJob === "police") {
+      setIsRemoteOverlay(true);
+    }
+  }, [inSelect]);
+
+  //NOTE - 캠 클릭 이벤트 헨들러
+  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
+    event.stopPropagation();
+    console.log("ClickPlayer", playerId);
+
+    if (inSelect.includes("vote" || "mafia")) {
       socket.emit("voteTo", playerId);
+      setIsOverlay(false);
+      return;
     }
 
     if (inSelect.includes("doctor")) {
       socket.emit("selectPlayer", playerId);
+      setIsOverlay(false);
+      return;
     }
 
-    if (inSelect.includes("police")) {
-      //NOTE - role 구조: {jobName: string, userList: []}
-      const jobNameList = Object.keys(role);
+    //NOTE - 경찰 시간
+    const remoteJob = getPlayerJob(role, playerId);
 
-      //NOTE - 해당 player의 직업
-      jobNameList.find((job) => {
-        //NOTE - 직업별 해당 userId[]
-        const jobPlayerList = role[job];
-
-        //NOTE - 직업이 존재하지 않을 경우(경찰, 의사)
-        if (!jobPlayerList) {
-          return;
-        }
-
-        const isPlayerJob = jobPlayerList.find((jobId: string) => playerId === jobId);
-
-        if (isPlayerJob && job === "mafia") {
-          setImageState(Mafia);
-        }
-        if (isPlayerJob && job === "citizen") {
-          setImageState(Citizen);
-        }
-        if (isPlayerJob && job === "doctor") {
-          setImageState(Doctor);
-        }
-      });
+    if (remoteJob === "mafia") {
+      setImageState(Mafia);
+      setIsOverlay(false);
+    }
+    if (remoteJob === "doctor") {
+      setImageState(Doctor);
+      setIsOverlay(false);
+    }
+    if (remoteJob === "citizen") {
+      setImageState(Citizen);
+      setIsOverlay(false);
     }
 
     // 클릭 이벤트를 한 번만 수행
     // setIsOverlay(false);
-
     // 캠 클릭시 클릭한 위치에 이미지 띄우기
     setActiveParticipant(playerId);
   };

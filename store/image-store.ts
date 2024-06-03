@@ -5,7 +5,6 @@ import CamCheck from "@/assets/images/cam_check.svg";
 
 const useCamClickImageState = create<ImageState>((set) => ({
   imageState: CamCheck as StaticImageData | null,
-
   setImageState: (newImage: StaticImageData | null) => set({ imageState: newImage })
 }));
 
