@@ -15,7 +15,7 @@ const getPlayerJob = (role: Role, playerId: string) => {
 
     const isPlayerJob = jobPlayerList.find((jobId: string) => playerId === jobId);
 
-    if (isPlayerJob) return;
+    if (isPlayerJob) return job;
   });
 
   return PlayerJob;

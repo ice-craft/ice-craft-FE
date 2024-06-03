@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const RoundTimer = () => {
   const [count, setCount] = useState(0);
   const [isTimer, setIsTimer] = useState(false);
-  const { setIsOverlay, setInSelect, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
+  const { setIsOverlay, setInSelect, clearActiveParticipant } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
   const isRemoteOverlay = useIsRemoteOverlay();
 

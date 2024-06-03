@@ -15,6 +15,7 @@ import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import {
   useCheckModalIsOpen,
   useGroupModalIsOpen,
+  useRoleModalElement,
   useRoleModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
@@ -27,31 +28,23 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 
-import { Role } from "@/types";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { useEffect } from "react";
 
 const MafiaPlayRooms = () => {
-  const role: Role = {
-    mafia: ["12312312312312312", "adfasdfasfasfdsaf"],
-    doctor: ["asdfkjhkj32k21123", "adhfk23jk1h3k123", "6ef00822-f847-4e94-9732-61b71c467e68"],
-    police: ["asdfhkjwehfkwjehf", "afasdfasdfkasdlfkjasgdfsda"],
-    citizen: ["53f37d03-9080-479f-bf78-aa5da13c6390"]
-  };
-
   const { userId, roomId } = useConnectStore();
   const setImageState = useJobImageAction();
-  // const role = useRoleModalElement();
+  const role = useRoleModalElement();
   //NOTE - 임시: 각 모달창 별로 On, Off
   const isGroupModal = useGroupModalIsOpen();
   const isRoleModal = useRoleModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
   const isCheckModal = useCheckModalIsOpen();
-
-  //NOTE - 캠 클릭 이벤트의 구성요소
-  const { setActiveParticipant, setIsOverlay, setIsRemoteOverlay } = useOverLayActions();
   //NOTE - 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
   const inSelect = useInSelect();
+
+  //NOTE - 캠 클릭 이벤트의 구성요소
+  const { setActiveParticipant, setIsOverlay, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
   const { localParticipant } = useLocalParticipant();
 
   //NOTE -  전체 데이터
@@ -72,13 +65,8 @@ const MafiaPlayRooms = () => {
     // NOTE - role, inSelect 존재하지 않을 시
     if (!role || !inSelect) return;
 
-    console.log("role", role);
-    console.log("inSelect", inSelect);
-
     //NOTE - 해당 player의 직업
     const localJob = getPlayerJob(role, localParticipant.identity);
-
-    console.log("LocalJob", localJob);
 
     //NOTE - 투표 시간이면서, 모든 player 캠 클릭 이벤트 활성화
     if (inSelect.includes("vote")) {
@@ -101,17 +89,18 @@ const MafiaPlayRooms = () => {
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
-    console.log("ClickPlayer", playerId);
 
     if (inSelect.includes("vote" || "mafia")) {
       socket.emit("voteTo", playerId);
       setIsOverlay(false);
+      setActiveParticipant(playerId);
       return;
     }
 
     if (inSelect.includes("doctor")) {
       socket.emit("selectPlayer", playerId);
       setIsOverlay(false);
+      setActiveParticipant(playerId);
       return;
     }
 
@@ -121,20 +110,18 @@ const MafiaPlayRooms = () => {
     if (remoteJob === "mafia") {
       setImageState(Mafia);
       setIsOverlay(false);
+      setActiveParticipant(playerId);
     }
     if (remoteJob === "doctor") {
       setImageState(Doctor);
       setIsOverlay(false);
+      setActiveParticipant(playerId);
     }
     if (remoteJob === "citizen") {
       setImageState(Citizen);
-      setIsOverlay(false);
+      setIsOverlay(false); // 클릭 이벤트를 한 번만 수행
+      setActiveParticipant(playerId); // 캠 클릭시 클릭한 위치에 이미지 띄우기
     }
-
-    // 클릭 이벤트를 한 번만 수행
-    // setIsOverlay(false);
-    // 캠 클릭시 클릭한 위치에 이미지 띄우기
-    setActiveParticipant(playerId);
   };
 
   //NOTE - 방 나가기 이벤트 헨들러
