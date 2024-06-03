@@ -3,8 +3,8 @@ import { OverlayState } from "../types";
 
 const useOverlayStore = create<OverlayState>((set) => ({
   activePlayerId: "",
-  isLocalOverlay: true,
-  isRemoteOverlay: true,
+  isLocalOverlay: false,
+  isRemoteOverlay: false,
   inSelect: "",
 
   // showOverlay: null, //NOTE - 사용처 모름

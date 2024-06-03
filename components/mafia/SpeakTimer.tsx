@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const RoundTimer = () => {
   const [count, setCount] = useState(0);
   const [isTimer, setIsTimer] = useState(false);
-  const { setIsOverlay, setInSelect } = useOverLayActions();
+  const { setIsOverlay, setInSelect, clearActiveParticipant } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
   const isRemoteOverlay = useIsRemoteOverlay();
 
@@ -21,9 +21,10 @@ const RoundTimer = () => {
     if (count <= 0 && isTimer) {
       setIsTimer(false);
     }
-    //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화
+    //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화 및 투표 이미지 초기화
     if (count <= 0 && isTimer && (isLocalOverlay || isRemoteOverlay)) {
       setIsOverlay(false);
+      clearActiveParticipant();
     }
   }, [count]);
 
@@ -35,16 +36,14 @@ const RoundTimer = () => {
     },
     //NOTE - 투표 시간, 특정 직업의 선택 시간
     inSelect: (message: string, timer: number) => {
-      // OO시간
-      setInSelect(message);
       // 타이머 실행
       setCount(timer);
       setIsTimer(true);
-      setIsOverlay(true); // 클릭 이벤트 활성화
+      setInSelect(message);
     }
   };
 
-  // //NOTE - socket On, Off 담당
+  // NOTE - socket On, Off 담당
   useSocketOn(sockets);
 
   return (
