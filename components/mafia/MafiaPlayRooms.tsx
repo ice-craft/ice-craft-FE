@@ -30,6 +30,7 @@ import RemoteParticipant from "./RemoteParticipant";
 
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { useEffect } from "react";
+import useDiedSocket from "@/hooks/useDiedSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
@@ -59,6 +60,7 @@ const MafiaPlayRooms = () => {
   //"socket 실행"
   useMediaSocket();
   useModalSocket();
+  useDiedSocket();
 
   //NOTE - 캠 클릭 활성화
   useEffect(() => {
