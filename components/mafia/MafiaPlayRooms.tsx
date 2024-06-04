@@ -6,7 +6,6 @@ import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
-
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useModalSocket from "@/hooks/useModalSocket";
@@ -19,7 +18,7 @@ import {
   useRoleModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
-import { DisconnectButton, useLocalParticipant, useTracks } from "@livekit/components-react";
+import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import CheckModal from "../modal/CheckModal";
 import UserRoleModal from "../modal/UserRoleModal";
@@ -28,9 +27,8 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 
+import useDiedSocket from "@/hooks/useSelectSocket";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
-import { useEffect } from "react";
-import useDiedSocket from "@/hooks/useDiedSocket";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
@@ -41,12 +39,10 @@ const MafiaPlayRooms = () => {
   const isRoleModal = useRoleModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
   const isCheckModal = useCheckModalIsOpen();
-  //NOTE - 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
-  const inSelect = useInSelect();
+  const inSelect = useInSelect(); // 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
 
   //NOTE - 캠 클릭 이벤트의 구성요소
   const { setActiveParticipant, setIsOverlay, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
-  const { localParticipant } = useLocalParticipant();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -57,41 +53,18 @@ const MafiaPlayRooms = () => {
     { onlySubscribed: false } // 구독 여부 상관없이 실행
   );
 
-  //"socket 실행"
+  //socket 실행
   useMediaSocket();
   useModalSocket();
   useDiedSocket();
 
-  //NOTE - 캠 클릭 활성화
-  useEffect(() => {
-    // NOTE - role, inSelect 존재하지 않을 시
-    if (!role || !inSelect) return;
-
-    //NOTE - 해당 player의 직업
-    const localJob = getPlayerJob(role, localParticipant.identity);
-
-    //NOTE - 투표 시간이면서, 모든 player 캠 클릭 이벤트 활성화
-    if (inSelect.includes("vote")) {
-      setIsOverlay(true);
-    }
-    //NOTE - 마피아 시간이면서, 마피아인 player만 캠 클릭 이벤트 활성화
-    if (inSelect.includes("mafia") && localJob === "mafia") {
-      setIsRemoteOverlay(true);
-    }
-    //NOTE - 의사 시간이면서, 의사인 player만 캠 클릭 이벤트 활성화
-    if (inSelect.includes("doctor") && localJob === "doctor") {
-      setIsOverlay(true);
-    }
-    //NOTE - 경찰 시간이면서, 경찰인 player만 캠 클릭 이벤트 활성화
-    if (inSelect.includes("police") && localJob === "police") {
-      setIsRemoteOverlay(true);
-    }
-  }, [inSelect]);
-
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
+    //setIsOverlay(false): 클릭 이벤트를 한 번만 수행
+    //setActiveParticipant(playerId): 캠 클릭시 클릭한 위치에 이미지 띄우기
 
+    //NOTE - 투표 및 마피아 시간
     if (inSelect.includes("vote" || "mafia")) {
       socket.emit("voteTo", playerId);
       setIsOverlay(false);
@@ -99,6 +72,7 @@ const MafiaPlayRooms = () => {
       return;
     }
 
+    //NOTE - 의사 시간
     if (inSelect.includes("doctor")) {
       socket.emit("selectPlayer", playerId);
       setIsOverlay(false);
@@ -121,8 +95,8 @@ const MafiaPlayRooms = () => {
     }
     if (remoteJob === "citizen") {
       setImageState(Citizen);
-      setIsOverlay(false); // 클릭 이벤트를 한 번만 수행
-      setActiveParticipant(playerId); // 캠 클릭시 클릭한 위치에 이미지 띄우기
+      setIsOverlay(false);
+      setActiveParticipant(playerId);
     }
   };
 
@@ -131,6 +105,7 @@ const MafiaPlayRooms = () => {
     socket.emit("exitRoom", roomId, userId);
   };
 
+  //NOTE - 뒤로가기 및 새로고침(미완성)
   BeforeUnloadHandler();
 
   return (

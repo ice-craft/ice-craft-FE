@@ -7,7 +7,14 @@ import useSocketOn from "./useSocketOn";
 const useMediaSocket = () => {
   const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus>();
 
-  //NOTE - layersMedias 구조: {userId: {cam: boolean, mike: boolean}}
+  //NOTE -  로컬 player의 정보
+  const localParticipant = useLocalParticipant();
+  const localUserId = localParticipant.localParticipant.identity;
+
+  //NOTE -  모든 원격 player들의 정보
+  const remoteTracks = useRemoteParticipants();
+
+  //NOTE - playersMedias 구조: {userId: {cam: boolean, mike: boolean}}
   const mediaSocket = {
     playerMediaStatus: (playersMedias: MediaStatus) => {
       console.log("playerMediaStatus Event Message", playersMedias);
@@ -18,13 +25,7 @@ const useMediaSocket = () => {
 
   useSocketOn(mediaSocket);
 
-  //NOTE -  로컬 player의 정보
-  const localParticipant = useLocalParticipant();
-  const localUserId = localParticipant.localParticipant.identity;
-
-  //NOTE -  모든 원격 player들의 정보
-  const remoteTracks = useRemoteParticipants();
-
+  //NOTE - 미디어 관리
   useEffect(() => {
     //NOTE - Type 좁히기: "playersMediaStatus": MediaStatus | undefined
     if (!playersMediaStatus) {

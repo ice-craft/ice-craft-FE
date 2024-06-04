@@ -11,6 +11,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
   const { localParticipant } = useLocalParticipant();
   const PlayerId = useActivePlayer();
   const isRemoteOverlay = useIsRemoteOverlay();
+  const isLocalOverlay = useIsLocalOverlay();
   const imageState = useJobImageState();
 
   const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
@@ -42,7 +43,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
             >
               <ParticipantTile
                 disableSpeakingIndicator={true}
-                className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : ""}`}
+                className={`${S.remoteCam} ${isLocalOverlay ? "cursor-pointer" : ""}`}
               />
               <div className={`${S.remoteOverlay} ${remoteReadyStates[track!.participant.identity] ? S.active : ""}`}>
                 <Image src={imageState!} alt={track!.participant.identity} />
