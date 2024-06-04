@@ -27,22 +27,21 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 
-import useDiedSocket from "@/hooks/useSelectSocket";
+import useSelectSocket from "@/hooks/useSelectSocket";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
   const setImageState = useJobImageAction();
   const role = useRoleModalElement();
+  const inSelect = useInSelect(); // 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
+  //NOTE - 캠 클릭 이벤트의 구성요소
+  const { setActiveParticipant, setIsOverlay, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
   //NOTE - 임시: 각 모달창 별로 On, Off
   const isGroupModal = useGroupModalIsOpen();
   const isRoleModal = useRoleModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
   const isCheckModal = useCheckModalIsOpen();
-  const inSelect = useInSelect(); // 투표시간, 마피아시간, 의사시간, 경찰시간 구성요소
-
-  //NOTE - 캠 클릭 이벤트의 구성요소
-  const { setActiveParticipant, setIsOverlay, setIsRemoteOverlay, clearActiveParticipant } = useOverLayActions();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -56,7 +55,7 @@ const MafiaPlayRooms = () => {
   //socket 실행
   useMediaSocket();
   useModalSocket();
-  useDiedSocket();
+  useSelectSocket();
 
   //NOTE - 캠 클릭 이벤트 헨들러
   const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {

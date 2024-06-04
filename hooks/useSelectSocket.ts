@@ -6,7 +6,7 @@ import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { useLocalParticipant } from "@livekit/components-react";
 
 //캠 클릭 이벤트 비활성화
-const useDiedSocket = () => {
+const useSelectSocket = () => {
   const inSelect = useInSelect();
   const role = useRoleModalElement();
   const { setIsOverlay, setIsRemoteOverlay } = useOverLayActions();
@@ -16,18 +16,18 @@ const useDiedSocket = () => {
 
   const sockets = {
     diedPlayer: (playerId: string) => {
-      setDiedPlayer(playerId);
       console.log("죽은 player", playerId);
+      setDiedPlayer(playerId);
     }
   };
 
-  // NOTE - socket On, Off 담당
+  // NOTE - socket On 담당
   useSocketOn(sockets);
 
-  //NOTE - 캠 클릭 활성화
+  //NOTE - 시간, 직업별 캠 클릭 활성화
   useEffect(() => {
-    // NOTE - role, inSelect 존재하지 않을 시
-    if (!role || !inSelect) return;
+    // role 존재하지 않을 시
+    if (!role) return;
 
     //NOTE - 죽은 player일 경우 캠클릭 비활성화
     if (localPlayerId === diedPlayer) {
@@ -57,4 +57,4 @@ const useDiedSocket = () => {
   }, [inSelect, diedPlayer]);
 };
 
-export default useDiedSocket;
+export default useSelectSocket;

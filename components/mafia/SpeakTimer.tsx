@@ -16,8 +16,8 @@ const RoundTimer = () => {
   //NOTE - 타이머 기능
   useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isTimer);
 
+  //NOTE - 타이머 종료
   useEffect(() => {
-    //NOTE - 타이머 종료
     if (count <= 0 && isTimer) {
       setIsTimer(false);
     }
