@@ -49,7 +49,7 @@ export default function GoTopButton() {
           onMouseEnter={mouseEnterHandler}
           onMouseLeave={mouseLeaveHandler}
         >
-          <Image src={isHovered ? GotopButtonIconHover : GoTopButtonIcon} alt="Scroll to Top" />
+          <Image src={isHovered ? GoTopButtonIconHover : GoTopButtonIcon} alt="Scroll to Top" />
         </button>
       )}
     </div>

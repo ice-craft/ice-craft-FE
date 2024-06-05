@@ -1,9 +1,10 @@
-import { create } from "zustand";
-import { CountState } from "../types";
+// import { create } from "zustand";
+// import { CountState } from "../types";
 
-export const useCountStore = create<CountState>((set) => ({
-  isStart: false,
-  timer: 0,
-  setTimer: (newTimer: number) => set({ timer: newTimer }),
-  setIsStart: (newToggle: boolean) => set({ isStart: newToggle })
-}));
+// export const useCountStore = create<CountState>((set) => ({
+//   count: 0,
+//   isTimer: false,
+//   decrementCount: () => set((state) => ({ count: state.count - 1 })),
+//   setCount: (count) => set({ count }),
+//   setIsTimer: (isTimer) => set({ isTimer })
+// }));

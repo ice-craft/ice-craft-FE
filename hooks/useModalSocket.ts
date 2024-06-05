@@ -1,36 +1,61 @@
-import React from "react";
-import useSocketOn from "./useSocketOn";
-import useSocketOff from "./useSocketOff";
 import { useModalActions } from "@/store/show-modal-store";
-import useOverlayStore from "@/store/overlay-store";
-import { Role } from "@/types";
+import { Role, VoteResult, YesOrNoResults } from "@/types";
+import { useOverLayActions } from "@/store/overlay-store";
+import useSocketOn from "./useSocketOn";
 
 const useModalSocket = () => {
-  const { setIsOpen, setTimer, setTitle, setRole } = useModalActions();
-  const { setIsOverlay } = useOverlayStore();
+  const {
+    setIsOpen,
+    setYesOrNoVoteResult,
+    setGroupIsOpen,
+    setVoteIsOpen,
+    setRoleIsOpen,
+    setTimer,
+    setTitle,
+    setRole,
+    setVoteResult,
+    setCheckIsOpen
+  } = useModalActions();
 
+  // 추후 "isModalOpen" 통일될 예정
   const sockets = {
-    //NOTE - GroupModal
+    //NOTE - GroupModal, CheckModal
     showModal: (title: string, timer: number) => {
-      // 모달창 요소
-      // setIsOpen(true);
+      //NOTE - 최후의 투표 모달창 요소
+      if (title.includes("찬성/반대 투표")) {
+        setCheckIsOpen(true);
+        setTitle(title);
+        setTimer(timer);
+        return;
+      }
+
+      //기본 모달창 요소
+      setGroupIsOpen(true);
       setTitle(title);
       setTimer(timer);
-      setIsOverlay(false); //캠 클릭 이벤트 비활성화
     },
 
     //NOTE - UserRoleModal
     showAllPlayerRole: (role: Role, timer: number) => {
-      setIsOpen(true);
+      setRoleIsOpen(true);
       setRole(role);
       setTimer(timer);
-      setIsOverlay(false); // 캠 클릭 이벤트 비활성화
+    },
+    showVoteResult: (voteResult: VoteResult[], timer: number) => {
+      setVoteIsOpen(true);
+      setVoteResult(voteResult);
+      setTimer(timer);
+    },
+    showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
+      setVoteIsOpen(true);
+      setYesOrNoVoteResult(voteResult);
+      setTimer(timer);
+      console.log("최후의 투표 결과", voteResult);
     }
   };
 
   //NOTE - socket On, Off 담당
   useSocketOn(sockets);
-  useSocketOff(sockets);
 };
 
 export default useModalSocket;
