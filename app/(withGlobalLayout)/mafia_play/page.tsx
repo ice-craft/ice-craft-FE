@@ -624,8 +624,8 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("inSelect", (time) => {
-      console.log(`[inSelect] ${time}초`);
+    socket.on("inSelect", (type, time) => {
+      console.log(`[inSelect] ${type} ${time}초`);
       console.log("");
     });
 
