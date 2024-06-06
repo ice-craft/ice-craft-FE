@@ -1,8 +1,10 @@
-// import { create } from "zustand";
-// import { ActiveNameState } from "../types";
+import { create } from "zustand";
+import { DiedPlayerState } from "../types";
 
-// export const useActiveStore = create<ActiveNameState>((set) => ({
-//   activeName: null,
+const useDiedPlayerStore = create<DiedPlayerState>((set) => ({
+  diedPlayerId: [],
+  setDiedPlayer: (playerId: string) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] }))
+}));
 
-//   setActiveName: (name: string | null) => set({ activeName: name })
-// }));
+export const useDiedPlayer = () => useDiedPlayerStore((state) => state.diedPlayerId);
+export const useDiedAction = () => useDiedPlayerStore((state) => state.setDiedPlayer);

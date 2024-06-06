@@ -29,7 +29,7 @@ const VoteResultModal = () => {
     }
   }, [count]);
 
-  console.log("찬/반투표 결과", yesOrNoResults);
+  // console.log("찬/반투표 결과", yesOrNoResults);
 
   return (
     <>

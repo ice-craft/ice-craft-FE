@@ -56,6 +56,7 @@ export interface OverlayState {
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
+
   actions: {
     clearActiveParticipant: () => void;
     setActiveParticipant: (playerId: string | null) => void;
@@ -89,10 +90,10 @@ export interface ImageState {
   setImageState: (newImage: StaticImageData | null) => void;
 }
 
-// export interface ActiveNameState {
-//   activeName: string | null;
-//   setActiveName: (newName: string | null) => void;
-// }
+export interface DiedPlayerState {
+  diedPlayerId: string[];
+  setDiedPlayer: (playerId: string) => void;
+}
 
 export interface ConnectState {
   join: boolean;

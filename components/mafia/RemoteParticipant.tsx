@@ -1,17 +1,18 @@
-import { Participants, RemoteReadyStates } from "@/types";
-import { ParticipantTile, TrackLoop, TrackRefContext, useLocalParticipant } from "@livekit/components-react";
-import React, { useEffect, useState } from "react";
-import S from "@/style/livekit/livekit.module.css";
-import Image from "next/image";
-import { useActivePlayer, useIsLocalOverlay, useIsRemoteOverlay } from "@/store/overlay-store";
+import { useDiedPlayer } from "@/store/active-store";
 import { useJobImageState } from "@/store/image-store";
+import { useActivePlayer, useIsRemoteOverlay } from "@/store/overlay-store";
+import S from "@/style/livekit/livekit.module.css";
+import { Participants, RemoteReadyStates } from "@/types";
 import { socket } from "@/utils/socket/socket";
+import { ParticipantTile, TrackLoop, TrackRefContext, useLocalParticipant } from "@livekit/components-react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const PlayerId = useActivePlayer();
+  const diedPlayers = useDiedPlayer();
   const isRemoteOverlay = useIsRemoteOverlay();
-  const isLocalOverlay = useIsLocalOverlay();
   const imageState = useJobImageState();
 
   const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
@@ -43,7 +44,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
             >
               <ParticipantTile
                 disableSpeakingIndicator={true}
-                className={`${S.remoteCam} ${isLocalOverlay ? "cursor-pointer" : ""}`}
+                className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : "pointer-events : none"}`}
               />
               <div className={`${S.remoteOverlay} ${remoteReadyStates[track!.participant.identity] ? S.active : ""}`}>
                 <Image src={imageState!} alt={track!.participant.identity} />
