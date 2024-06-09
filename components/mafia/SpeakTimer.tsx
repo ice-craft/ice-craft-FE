@@ -1,8 +1,7 @@
 import { useCountDown } from "@/hooks/useCountDown";
-import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const SpeakTimer = () => {
   const inSelect = useInSelect();

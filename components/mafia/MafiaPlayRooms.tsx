@@ -32,7 +32,7 @@ import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { Role } from "@/types";
-import { useGameActions } from "@/store/active-store";
+import { useGameActions } from "@/store/game-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();

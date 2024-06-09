@@ -1,4 +1,4 @@
-import { useGameActions, useIsReady } from "@/store/active-store";
+import { useGameActions, useIsReady } from "@/store/game-store";
 import useConnectStore from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 

@@ -3,7 +3,7 @@ import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import { useEffect, useState } from "react";
 import ModalProgress from "./ModalProgress";
-import { useDiedPlayer } from "@/store/active-store";
+import { useDiedPlayer } from "@/store/game-store";
 import { useLocalParticipant } from "@livekit/components-react";
 
 const CheckModal = () => {

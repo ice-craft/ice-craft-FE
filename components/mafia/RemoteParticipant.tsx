@@ -1,4 +1,4 @@
-import { useIsStart } from "@/store/active-store";
+import { useIsStart } from "@/store/game-store";
 import { useJobImageState } from "@/store/image-store";
 import { useActivePlayer, useIsRemoteOverlay } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";

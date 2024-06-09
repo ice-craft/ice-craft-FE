@@ -22,7 +22,7 @@ import { Track } from "livekit-client";
 import React, { useEffect } from "react";
 import S from "@/style/livekit/livekit.module.css";
 import { useActivePlayer } from "@/store/overlay-store";
-import { useDiedPlayer } from "@/store/active-store";
+import { useDiedPlayer } from "@/store/game-store";
 
 export function MyParticipantTile({
   trackRef,

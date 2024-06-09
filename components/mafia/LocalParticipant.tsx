@@ -7,7 +7,7 @@ import React from "react";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
 import { useActivePlayer, useIsLocalOverlay } from "@/store/overlay-store";
-import { useIsReady } from "@/store/active-store";
+import { useIsReady } from "@/store/game-store";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
