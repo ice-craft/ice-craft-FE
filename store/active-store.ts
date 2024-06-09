@@ -1,10 +1,18 @@
+import { GameState } from "@/types";
 import { create } from "zustand";
-import { DiedPlayerState } from "../types";
 
-const useDiedPlayerStore = create<DiedPlayerState>((set) => ({
+const useGameStore = create<GameState>((set) => ({
+  isReady: false,
+  isStart: false,
   diedPlayerId: [],
-  setDiedPlayer: (playerId: string) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] }))
+  actions: {
+    setIsReady: (newToggle: boolean) => set({ isReady: newToggle }),
+    setIsStart: (newIsStarts: boolean) => set({ isStart: newIsStarts }),
+    setDiedPlayer: (playerId: string) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] }))
+  }
 }));
 
-export const useDiedPlayer = () => useDiedPlayerStore((state) => state.diedPlayerId);
-export const useDiedAction = () => useDiedPlayerStore((state) => state.setDiedPlayer);
+export const useIsStart = () => useGameStore((state) => state.isStart);
+export const useIsReady = () => useGameStore((state) => state.isReady);
+export const useDiedPlayer = () => useGameStore((state) => state.diedPlayerId);
+export const useGameActions = () => useGameStore((state) => state.actions);

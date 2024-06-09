@@ -90,9 +90,15 @@ export interface ImageState {
   setImageState: (newImage: StaticImageData | null) => void;
 }
 
-export interface DiedPlayerState {
+export interface GameState {
+  isStart: boolean;
+  isReady: boolean;
   diedPlayerId: string[];
-  setDiedPlayer: (playerId: string) => void;
+  actions: {
+    setIsStart: (isStart: boolean) => void;
+    setIsReady: (isReady: boolean) => void;
+    setDiedPlayer: (playerId: string) => void;
+  };
 }
 
 export interface ConnectState {

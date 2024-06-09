@@ -1,11 +1,11 @@
+import { useGameActions, useIsReady } from "@/store/active-store";
 import useConnectStore from "@/store/connect-store";
-import { useReadyStore } from "@/store/toggle-store";
 import { socket } from "@/utils/socket/socket";
-import { useState } from "react";
 
 const GameStartButton = () => {
   const { roomId, userId } = useConnectStore();
-  const { isReady, setIsReady } = useReadyStore();
+  const isReady = useIsReady();
+  const { setIsStart, setIsReady } = useGameActions();
 
   const readyHandler = () => {
     const newIsReady = !isReady;
@@ -15,6 +15,7 @@ const GameStartButton = () => {
 
   //FIXME - 추후) 방장일 경우에만 버튼 활성화
   const startHandler = () => {
+    setIsStart(true);
     socket.emit("testStart", roomId, 5);
   };
 

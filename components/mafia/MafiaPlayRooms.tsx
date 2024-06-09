@@ -30,9 +30,9 @@ import RemoteParticipant from "./RemoteParticipant";
 
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
-import { useDiedAction } from "@/store/active-store";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { Role } from "@/types";
+import { useGameActions } from "@/store/active-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
@@ -55,7 +55,7 @@ const MafiaPlayRooms = () => {
   };
 
   const inSelect = useInSelect();
-  const setDiedPlayer = useDiedAction();
+  const { setDiedPlayer } = useGameActions();
   const setImageState = useJobImageAction();
 
   //NOTE - 캠 클릭 이벤트의 구성요소

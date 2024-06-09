@@ -1,24 +1,39 @@
-import { useDiedPlayer } from "@/store/active-store";
+import { useIsStart } from "@/store/active-store";
 import { useJobImageState } from "@/store/image-store";
 import { useActivePlayer, useIsRemoteOverlay } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants, RemoteReadyStates } from "@/types";
 import { socket } from "@/utils/socket/socket";
-import { ParticipantTile, TrackLoop, TrackRefContext, useLocalParticipant } from "@livekit/components-react";
+import {
+  ParticipantTile,
+  TrackLoop,
+  TrackRefContext,
+  TrackReferenceOrPlaceholder,
+  useLocalParticipant
+} from "@livekit/components-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
+  const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
+  const [remoteTracks, setRemoteTracks] = useState<TrackReferenceOrPlaceholder[]>([]);
   const { localParticipant } = useLocalParticipant();
-  const PlayerId = useActivePlayer();
-  const diedPlayers = useDiedPlayer();
   const isRemoteOverlay = useIsRemoteOverlay();
   const imageState = useJobImageState();
+  const PlayerId = useActivePlayer();
+  const isStart = useIsStart();
 
-  const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
+  //NOTE -  게임 시작 전까지 track에 대한 정보를 전역 state값에 저장한 후 게임 시작 이후부터는 state값을 유지
+  useEffect(() => {
+    if (isStart) {
+      return;
+    }
 
-  const cameraTracks = tracks.filter((track) => track.source === "camera");
-  const remoteTracks = cameraTracks.filter((track) => track.participant.sid !== localParticipant.sid);
+    const filteredTracks = tracks.filter(
+      (track) => track.source === "camera" && track.participant.sid !== localParticipant.sid
+    );
+    setRemoteTracks(filteredTracks);
+  }, [tracks, isStart]);
 
   useEffect(() => {
     const participantReady = (userId: string, isReady: boolean) => {
@@ -44,7 +59,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
             >
               <ParticipantTile
                 disableSpeakingIndicator={true}
-                className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : "pointer-events : none"}`}
+                className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : ""}`}
               />
               <div className={`${S.remoteOverlay} ${remoteReadyStates[track!.participant.identity] ? S.active : ""}`}>
                 <Image src={imageState!} alt={track!.participant.identity} />
