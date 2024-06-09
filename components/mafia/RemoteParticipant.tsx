@@ -23,8 +23,9 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
   const PlayerId = useActivePlayer();
   const isStart = useIsStart();
 
-  //NOTE -  게임 시작 전까지 track에 대한 정보를 전역 state값에 저장한 후 게임 시작 이후부터는 state값을 유지
+  //NOTE -  게임 시작 전까지 track에 대한 정보를 state 값에 저장
   useEffect(() => {
+    // 게임 시작 이후부터는 state값을 유지
     if (isStart) {
       return;
     }
@@ -48,7 +49,6 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks, checkClickHandle })
   }, []);
 
   return (
-    // 원격 사용자들의 camera 및 클릭 Event 제어
     <div className={S.remoteParticipant}>
       <TrackLoop tracks={remoteTracks}>
         <TrackRefContext.Consumer>

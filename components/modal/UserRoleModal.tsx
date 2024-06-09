@@ -45,8 +45,7 @@ const UserRoleModal = () => {
 
   // 모달창 종료
   useEffect(() => {
-    if (count === 0 && isRoleModal) {
-      console.log("RoleModal 종료");
+    if (count === 2 && isRoleModal) {
       setRoleIsOpen(false);
     }
   }, [count]);

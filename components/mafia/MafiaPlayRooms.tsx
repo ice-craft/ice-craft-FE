@@ -36,23 +36,7 @@ import { useGameActions } from "@/store/game-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
-  // const role = useRoleModalElement();
-
-  const role: Role = {
-    mafia: ["ed21e5d9-e3b6-4faf-af38-3a906c7827", "adfasdfasfasfdsaf"],
-    doctor: [
-      "ed21e5d9-e3b6-4faf-af38-3a906c7827ae",
-      "adhfk23jk1h3k123",
-      "ec975a0a-e9b7-4af5-9a1f-0e5a906abf72",
-      "6ef00822-f847-4e94-9732-61b71c467e68"
-    ],
-    police: [
-      "4446de7f-27bd-46f8-bf2a-b870edb5a950",
-      "6efef090-2466-4a1c-9e27-0ff9068c93c1",
-      "b73d123a-cc89-496b-a786-dc2cab696b21"
-    ],
-    citizen: ["794d5dc8-cf4c-46e8-b7cc-82a41c537c4c", ""]
-  };
+  const role = useRoleModalElement();
 
   const inSelect = useInSelect();
   const { setDiedPlayer } = useGameActions();
@@ -78,7 +62,6 @@ const MafiaPlayRooms = () => {
   //NOTE - 죽은 playerId 관리
   const sockets = {
     diedPlayer: (playerId: string) => {
-      // console.log("죽은 player", playerId);
       setDiedPlayer(playerId);
     }
   };
@@ -101,6 +84,7 @@ const MafiaPlayRooms = () => {
 
     //NOTE - 투표 및 마피아 시간
     if (inSelect.includes("vote" || "mafia")) {
+      console.log("vote", playerId);
       socket.emit("voteTo", playerId);
       setImageState(CamCheck);
       return;
