@@ -1,4 +1,4 @@
-import { useDiedPlayer } from "@/store/active-store";
+import { useDiedPlayer } from "@/store/game-store";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useRoleModalElement } from "@/store/show-modal-store";
 import { Role } from "@/types";

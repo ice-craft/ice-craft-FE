@@ -1,4 +1,4 @@
-import { useDiedPlayer } from "@/store/active-store";
+import { useDiedPlayer } from "@/store/game-store";
 import { MediaStatus } from "@/types";
 import { useLocalParticipant, useRemoteParticipants } from "@livekit/components-react";
 import { Track } from "livekit-client";
