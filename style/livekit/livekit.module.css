@@ -119,6 +119,16 @@
   font-weight: var(--font-bold);
 }
 
+.playerDieOverlay {
+  background-color: #000;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /*-------------- ToolTipIcon ----------------*/
 .toolTipWrap {
   position: absolute;
