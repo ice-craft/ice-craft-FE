@@ -228,6 +228,11 @@
   transition: 0.3s ease-out;
 }
 
+/*------------ victory modal ------------*/
+.modal.victoryModal{
+  position: 
+}
+
 /*------------ animation ------------*/
 @keyframes citizensCard {
   0% {

@@ -10,7 +10,7 @@ import {
 import S from "@/style/modal/modal.module.css";
 import { useEffect, useState } from "react";
 
-const VictoryResultModal = () => {
+const VictoryModal = () => {
   const isModal = useModalIsOpen();
   const isGroupModal = useGroupModalIsOpen();
   const timer = useModalTimer();
@@ -31,7 +31,7 @@ const VictoryResultModal = () => {
   return (
     <>
       <div className={S.modalWrap}>
-        <div className={S.modal}>
+        <div className={`${S.modal} ${S.victoryModal}`}>
           <div>
             <p>시민 승리!</p>
           </div>
@@ -41,4 +41,4 @@ const VictoryResultModal = () => {
   );
 };
 
-export default VictoryResultModal;
+export default VictoryModal;

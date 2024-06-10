@@ -10,7 +10,7 @@ import {
 import S from "@/style/modal/modal.module.css";
 import { useEffect, useState } from "react";
 
-const AgreeAndDisagreeModal = () => {
+const LastVoteResultModal = () => {
   const isModal = useModalIsOpen();
   const isGroupModal = useGroupModalIsOpen();
   const title = useGroupModalElement();
@@ -46,4 +46,4 @@ const AgreeAndDisagreeModal = () => {
   );
 };
 
-export default AgreeAndDisagreeModal;
+export default LastVoteResultModal;
