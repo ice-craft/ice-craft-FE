@@ -33,7 +33,7 @@ const VictoryResultModal = () => {
       <div className={S.modalWrap}>
         <div className={S.modal}>
           <div>
-            <p>시민 승리</p>
+            <p>시민 승리!</p>
           </div>
         </div>
       </div>
