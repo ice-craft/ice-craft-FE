@@ -1,11 +1,5 @@
 import { create } from "zustand";
-import { CreateState, ReadyState } from "../types";
-
-export const useReadyStore = create<ReadyState>((set) => ({
-  isReady: false,
-
-  setIsReady: (newToggle: boolean) => set({ isReady: newToggle })
-}));
+import { CreateState } from "../types";
 
 export const useCreateStore = create<CreateState>((set) => ({
   isCreate: false,

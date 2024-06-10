@@ -1,5 +1,4 @@
 import CamCheck from "@/assets/images/cam_check.svg";
-import { useReadyStore } from "@/store/toggle-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { ParticipantTile, TrackLoop, useLocalParticipant } from "@livekit/components-react";
@@ -8,12 +7,13 @@ import React from "react";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
 import { useActivePlayer, useIsLocalOverlay } from "@/store/overlay-store";
+import { useIsReady } from "@/store/game-store";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
   const { localParticipant } = useLocalParticipant();
   const activePlayerId = useActivePlayer();
   const isLocalOverlay = useIsLocalOverlay();
-  const { isReady } = useReadyStore();
+  const isReady = useIsReady();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
 

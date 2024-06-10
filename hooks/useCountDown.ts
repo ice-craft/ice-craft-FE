@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-// count가 변화하더라도 useCountDown 내부의 useEffect 훅이 불필요하게 다시 실행되지 않는다는 것
+// count가 변화하더라도 useCountDown 내부의 useEffect 훅이 불필요하게 리렌더링되지 않는다.
 export const useCountDown = (callback: () => void, delay: number, isCount: boolean) => {
   const savedCallback = useRef<() => void>(callback);
 

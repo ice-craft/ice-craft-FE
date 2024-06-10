@@ -1,13 +1,22 @@
 import { useGroupModalElement, useVoteResultElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalProgress from "./ModalProgress";
+import { useDiedPlayer } from "@/store/game-store";
+import { useLocalParticipant } from "@livekit/components-react";
 
 const CheckModal = () => {
   const title = useGroupModalElement();
   const voteResults = useVoteResultElement();
   const [isVote, setIsVote] = useState(false);
+
+  const diedPlayerId = useDiedPlayer();
+  const { localParticipant } = useLocalParticipant();
+  const localPlayerId = localParticipant.identity;
+
+  //NOTE - 죽은 playerId
+  const isDiedPlayer = diedPlayerId.find((playerId) => localPlayerId === playerId);
 
   //NOTE - 가장 많은 투표 수를 받는 player
   const diePlayer = voteResults[0];
@@ -24,7 +33,7 @@ const CheckModal = () => {
         <div className={S.modal}>
           <div>
             <h1>찬반 투표</h1>
-            {!isVote ? (
+            {!isVote && !isDiedPlayer ? (
               <>
                 <div className={S.userCheckNickName}>
                   <p>

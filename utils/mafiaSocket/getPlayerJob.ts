@@ -1,5 +1,4 @@
 import { Role } from "@/types";
-import React from "react";
 
 const getPlayerJob = (role: Role, playerId: string) => {
   //NOTE - role 구조: {jobName: string, userList: []}

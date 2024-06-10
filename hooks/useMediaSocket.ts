@@ -1,31 +1,41 @@
-import { useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
+import { useDiedPlayer } from "@/store/game-store";
+import { MediaStatus } from "@/types";
+import { useLocalParticipant, useRemoteParticipants } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
-import { MediaStatus } from "@/types";
 import useSocketOn from "./useSocketOn";
 
 const useMediaSocket = () => {
+  const diedPlayerId = useDiedPlayer();
   const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus>();
 
-  //NOTE - layersMedias 구조: {userId: {cam: boolean, mike: boolean}}
+  //NOTE -  로컬 player의 정보
+  const localParticipant = useLocalParticipant();
+  const localPlayerId = localParticipant.localParticipant.identity;
+
+  //NOTE -  모든 원격 player들의 정보
+  const remoteTracks = useRemoteParticipants();
+
+  //NOTE - playersMedias 구조: {userId: {cam: boolean, mike: boolean}}
   const mediaSocket = {
     playerMediaStatus: (playersMedias: MediaStatus) => {
-      console.log("playerMediaStatus Event Message", playersMedias);
-      //NOTE - 모달 테스트할 경우 카메라 부분 실행을 임시로 막기
-      // setPlayersMediaStatus(playersMedias);
+      setPlayersMediaStatus(playersMedias);
     }
   };
 
   useSocketOn(mediaSocket);
 
-  //NOTE -  로컬 player의 정보
-  const localParticipant = useLocalParticipant();
-  const localUserId = localParticipant.localParticipant.identity;
-
-  //NOTE -  모든 원격 player들의 정보
-  const remoteTracks = useRemoteParticipants();
-
+  //NOTE - 미디어 관리
   useEffect(() => {
+    //NOTE - 죽은 player일 경우 캠클릭 비활성화
+    const isDiedPlayer = diedPlayerId.find((playerId) => localPlayerId === playerId);
+
+    if (isDiedPlayer) {
+      localParticipant.localParticipant.setCameraEnabled(false);
+      localParticipant.localParticipant.setMicrophoneEnabled(false);
+      return;
+    }
+
     //NOTE - Type 좁히기: "playersMediaStatus": MediaStatus | undefined
     if (!playersMediaStatus) {
       return;
@@ -37,7 +47,7 @@ const useMediaSocket = () => {
       const isMedia = playersMediaStatus[playerId];
 
       //NOTE - 로컬 사용자의 미디어
-      if (localUserId == playerId) {
+      if (localPlayerId == playerId) {
         const localCamera = localParticipant.cameraTrack?.track?.mediaStreamTrack;
         const localMike = localParticipant.microphoneTrack?.track?.mediaStreamTrack;
 
@@ -46,7 +56,7 @@ const useMediaSocket = () => {
       }
 
       //NOTE - 원격 사용자들의 미디어
-      if (localUserId !== playerId) {
+      if (localPlayerId !== playerId) {
         //특정 plyer의 track(카메라 및 오디오 데이터)
         const remotePlayerTrack = remoteTracks.find((track) => track.identity === playerId);
 
@@ -62,7 +72,7 @@ const useMediaSocket = () => {
         mike?.setSubscribed(isMedia.mike);
       }
     });
-  }, [playersMediaStatus]);
+  }, [playersMediaStatus, diedPlayerId]);
 };
 
 export default useMediaSocket;

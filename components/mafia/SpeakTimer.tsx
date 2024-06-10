@@ -1,28 +1,28 @@
 import { useCountDown } from "@/hooks/useCountDown";
 import useSocketOn from "@/hooks/useSocketOn";
-import { useIsLocalOverlay, useIsRemoteOverlay, useOverLayActions } from "@/store/overlay-store";
+import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useEffect, useState } from "react";
 
-const RoundTimer = () => {
+const SpeakTimer = () => {
+  const inSelect = useInSelect();
   const [count, setCount] = useState(0);
-  const [isTimer, setIsTimer] = useState(false);
-  const { setIsOverlay, setInSelect, clearActiveParticipant } = useOverLayActions();
-  const isLocalOverlay = useIsLocalOverlay();
-  const isRemoteOverlay = useIsRemoteOverlay();
+  const [isCount, setIsCount] = useState(false);
+  const { setInSelect, setIsOverlay, clearActiveParticipant } = useOverLayActions();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
 
   //NOTE - 타이머 기능
-  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isTimer);
+  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isCount);
 
+  //NOTE - 타이머 종료 및 클릭 이벤트 비활성화
   useEffect(() => {
-    //NOTE - 타이머 종료
-    if (count <= 0 && isTimer) {
-      setIsTimer(false);
+    if (count <= 0 && isCount) {
+      setIsCount(false);
     }
-    //NOTE - 타이머 종료 시 캠 클릭 이벤트 비활성화 및 투표 이미지 초기화
-    if (count <= 0 && isTimer && (isLocalOverlay || isRemoteOverlay)) {
+    // 캠 클릭 이벤트 비활성화 및 캠 이미지 초기화
+    if (count <= 0 && isCount && inSelect) {
+      setInSelect("");
       setIsOverlay(false);
       clearActiveParticipant();
     }
@@ -32,13 +32,12 @@ const RoundTimer = () => {
     //NOTE - 마피아 player들끼리 확인하는 시간, 토론시간, 최후의 변론 시간
     timerStatus: (timer: number) => {
       setCount(timer);
-      setIsTimer(true);
+      setIsCount(true);
     },
     //NOTE - 투표 시간, 특정 직업의 선택 시간
     inSelect: (message: string, timer: number) => {
-      // 타이머 실행
       setCount(timer);
-      setIsTimer(true);
+      setIsCount(true);
       setInSelect(message);
     }
   };
@@ -55,4 +54,4 @@ const RoundTimer = () => {
   );
 };
 
-export default RoundTimer;
+export default SpeakTimer;
