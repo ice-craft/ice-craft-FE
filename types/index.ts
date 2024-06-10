@@ -42,7 +42,6 @@ export interface VoteResult {
 
 export interface Participants {
   tracks: TrackReferenceOrPlaceholder[];
-  // checkClickHandle: (event: React.MouseEvent<HTMLElement>, userId: string) => void;
 }
 
 export interface playerMedia {
