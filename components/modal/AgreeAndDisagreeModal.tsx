@@ -34,7 +34,10 @@ const AgreeAndDisagreeModal = () => {
       <div className={S.modalWrap}>
         <div className={S.modal}>
           <div>
-            {title && <h1>{title}</h1>}
+            <h1>최종 투표 결과</h1>
+            <div>
+              찬성: <span>0</span> 반대: <span>0</span>
+            </div>
             <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>
