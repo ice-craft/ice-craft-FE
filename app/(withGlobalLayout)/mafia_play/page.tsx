@@ -60,7 +60,8 @@ const MafiaPlay = () => {
           break;
         case "testStart":
           console.log(eventName, "테스트 시작");
-          socket.emit(eventName, roomId.current);
+          socket.emit(eventName, roomId.current, Number(totalUserCount.current));
+          //NOTE - 방 인원수는 반드시 숫자로 보내야함
           break;
       }
     } else {
@@ -595,6 +596,52 @@ const MafiaPlay = () => {
     socket.on("updateUserInRoom", (playerInfo) => {
       console.log("updateUserInRoom 수신");
       console.log(`GUI에 표시할 정보들 : ${playerInfo}`);
+    });
+
+    socket.on("showModal", (message, time) => {
+      console.log(`[showModal] ${message} / ${time}초`);
+      console.log("");
+    });
+
+    socket.on("playerMediaStatus", (media) => {
+      console.log("[playerMediaStatus]");
+      Object.keys(media).forEach((key) => {
+        console.log(`${key} : ${media[key]["camera"]}, ${media[key]["mike"]}`);
+      });
+      console.log("");
+    });
+
+    socket.on("showAllPlayerRole", (role) => {
+      console.log("[showAllPlayerRole]");
+      Object.keys(role).forEach((key) => {
+        console.log(`${key} : ${role[key]}`);
+      });
+      console.log("");
+    });
+
+    socket.on("timerStatus", (time) => {
+      console.log(`[timerStatus] ${time}초`);
+      console.log("");
+    });
+
+    socket.on("inSelect", (type, time) => {
+      console.log(`[inSelect] ${type} ${time}초`);
+      console.log("");
+    });
+
+    socket.on("showVoteResult", (voteBoard, time) => {
+      console.log(`[showVoteResult] ${time}초`);
+      console.log(voteBoard);
+    });
+
+    socket.on("showVoteDeadOrLive", (yesOrNoVoteResult) => {
+      console.log("[showVoteDeadOrLive]");
+      console.log(yesOrNoVoteResult);
+      console.log("");
+    });
+
+    socket.on("diedPlayer", (killedPlayer) => {
+      console.log(`[diedPlayer] ${killedPlayer}`);
     });
   }, []);
 
