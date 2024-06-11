@@ -119,7 +119,8 @@ const MafiaPlay = () => {
     });
 
     socket.on("createRoomError", (message) => {
-      console.log(message);
+      console.log(`[createRoomError] ${message}`);
+      console.log("");
     });
 
     socket.on("joinRoom", (userInfo) => {
