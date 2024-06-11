@@ -32,7 +32,7 @@ const VictoryModal = () => {
   }, [count]);
 
   jsConfetti.addConfetti({
-    confettiColors: ["#ff0000", "#00ff00", "#0000ff"],
+    confettiColors: ["#5C5BAD", "#FFFFFF", "#EB7FEC", "#E72424"],
     confettiRadius: 5,
     confettiNumber: 300
   });
