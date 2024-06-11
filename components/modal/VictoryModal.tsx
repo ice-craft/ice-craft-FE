@@ -1,3 +1,4 @@
+import JSConfetti from "js-confetti";
 import { useCountDown } from "@/hooks/useCountDown";
 import {
   useGroupModalElement,
@@ -11,6 +12,8 @@ import S from "@/style/modal/modal.module.css";
 import { useEffect, useState } from "react";
 
 const VictoryModal = () => {
+  const jsConfetti = new JSConfetti();
+
   const isModal = useModalIsOpen();
   const isGroupModal = useGroupModalIsOpen();
   const timer = useModalTimer();
@@ -27,6 +30,12 @@ const VictoryModal = () => {
       setGroupIsOpen(false);
     }
   }, [count]);
+
+  jsConfetti.addConfetti({
+    confettiColors: ["#ff0000", "#00ff00", "#0000ff"],
+    confettiRadius: 5,
+    confettiNumber: 300
+  });
 
   return (
     <>
