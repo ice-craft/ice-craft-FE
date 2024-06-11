@@ -109,7 +109,8 @@ const MafiaPlay = () => {
     });
 
     socket.on("enterMafiaError", (message) => {
-      console.log(message);
+      console.log(`[enterMafiaError] ${message}`);
+      console.log("");
     });
 
     socket.on("createRoom", (room_info) => {
