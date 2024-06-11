@@ -99,16 +99,13 @@ const MafiaPlay = () => {
       write(message);
     });
 
-    socket.on("test", (msg) => {
-      console.log(`test : ${msg}`);
-    });
-
     socket.on("disconnect", () => {
       write("서버와 연결이 끊어졌습니다.");
     });
 
     socket.on("enterMafia", (rooms) => {
-      console.log(rooms);
+      console.log(`[enterMafia] ${rooms}`);
+      console.log("");
     });
 
     socket.on("enterMafiaError", (message) => {
