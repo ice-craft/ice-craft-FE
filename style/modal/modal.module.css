@@ -229,8 +229,9 @@
 }
 
 /*------------ victory modal ------------*/
-.modal.victoryModal{
-  position: 
+.modal.victoryModal {
+  position: absolute;
+  animation: victoryModal 0.5s 0.4s 1 ease forwards;
 }
 
 /*------------ animation ------------*/
@@ -279,5 +280,14 @@
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes victoryModal {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }
