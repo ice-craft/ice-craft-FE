@@ -44,7 +44,6 @@ const VoteResultModal = () => {
                 </li>
               ))}
             </ul>
-
             <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>
           </div>
         </div>
