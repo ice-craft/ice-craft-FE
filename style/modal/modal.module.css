@@ -228,6 +228,12 @@
   transition: 0.3s ease-out;
 }
 
+/*------------ victory modal ------------*/
+.modal.victoryModal {
+  position: absolute;
+  animation: victoryModal 1s 0.4s 1 ease forwards;
+}
+
 /*------------ animation ------------*/
 @keyframes citizensCard {
   0% {
@@ -274,5 +280,19 @@
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes victoryModal {
+  0% {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
   }
 }
