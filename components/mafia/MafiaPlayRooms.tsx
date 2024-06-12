@@ -1,17 +1,10 @@
-import Citizen from "@/assets/images/cam_citizen.svg";
-import Doctor from "@/assets/images/cam_doctor.svg";
-import Mafia from "@/assets/images/cam_mafia.svg";
-import CamCheck from "@/assets/images/cam_check.svg";
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useModalSocket from "@/hooks/useModalSocket";
 import useConnectStore from "@/store/connect-store";
-import { useJobImageAction } from "@/store/image-store";
-import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import {
   useCheckModalIsOpen,
   useGroupModalIsOpen,
-  useRoleModalElement,
   useRoleModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
@@ -30,20 +23,12 @@ import RemoteParticipant from "./RemoteParticipant";
 
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
-import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
-import { Role } from "@/types";
 import { useGameActions } from "@/store/game-store";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
-  const role = useRoleModalElement();
-
-  const inSelect = useInSelect();
   const { setDiedPlayer } = useGameActions();
-  const setImageState = useJobImageAction();
 
-  //NOTE - 캠 클릭 이벤트의 구성요소
-  const { setActiveParticipant, setIsOverlay } = useOverLayActions();
   //NOTE - 임시: 각 모달창 별로 On, Off
   const isGroupModal = useGroupModalIsOpen();
   const isRoleModal = useRoleModalIsOpen();
@@ -74,45 +59,6 @@ const MafiaPlayRooms = () => {
   useModalSocket();
   useSelectSocket();
 
-  //NOTE - 캠 클릭 이벤트 헨들러
-  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
-    event.stopPropagation();
-    console.log("clickEvent", playerId);
-
-    setIsOverlay(false); // : 클릭 이벤트를 한 번만 수행
-    setActiveParticipant(playerId); // : 캠 클릭시 클릭한 위치에 이미지 띄우기
-
-    //NOTE - 투표 및 마피아 시간
-    if (inSelect.includes("vote" || "mafia")) {
-      console.log("vote", playerId);
-      socket.emit("voteTo", playerId);
-      setImageState(CamCheck);
-      return;
-    }
-
-    //NOTE - 의사 시간
-    if (inSelect.includes("doctor")) {
-      socket.emit("selectPlayer", playerId);
-      setImageState(CamCheck);
-      return;
-    }
-
-    //NOTE - 경찰 시간
-    if (inSelect.includes("police")) {
-      const clickPlayerJob = getPlayerJob(role, playerId);
-
-      if (clickPlayerJob === "mafia") {
-        setImageState(Mafia);
-      }
-      if (clickPlayerJob === "doctor") {
-        setImageState(Doctor);
-      }
-      if (clickPlayerJob === "citizen") {
-        setImageState(Citizen);
-      }
-    }
-  };
-
   //NOTE - 방 나가기 이벤트 헨들러
   const leaveRoom = () => {
     socket.emit("exitRoom", roomId, userId);
@@ -123,8 +69,8 @@ const MafiaPlayRooms = () => {
 
   return (
     <section className={S.section}>
-      <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
-      <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
+      <LocalParticipant tracks={tracks} />
+      <RemoteParticipant tracks={tracks} />
       <div className={S.goToMainPage}>
         <button
           onClick={() => {
