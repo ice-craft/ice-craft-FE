@@ -18,7 +18,6 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
-import VictoryModal from "@/components/modal/VictoryModal";
 
 const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
@@ -159,7 +158,6 @@ const Mainpage = () => {
 
   return (
     <main className={S.main}>
-      <VictoryModal />
       <section className={S.visualSection}>
         <div>
           <ul className={S.gameList}>
