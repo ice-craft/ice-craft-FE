@@ -153,8 +153,9 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("setReady", (message) => {
-      console.log(message);
+    socket.on("setReady", (userId, ready) => {
+      console.log(`[setReady] userId : ${userId}, ready :  ${ready}`);
+      console.log("");
     });
 
     socket.on("setReadyError", () => {
