@@ -159,11 +159,18 @@ const MafiaPlay = () => {
     });
 
     socket.on("setReadyError", () => {
-      console.log("레디를  설정하는데 실패했습니다.");
+      console.log(`[exitRoomError] ${message}`);
+      console.log("");
     });
 
-    socket.on("canGameStartError", () => {
-      console.log("[canGameStartError]");
+    socket.on("chiefStart", () => {
+      console.log(`[chiefStart]`);
+      console.log("");
+    });
+
+    socket.on("canGameStartError", (message) => {
+      console.log(`[canGameStartError] ${message}`);
+      console.log("");
     });
 
     socket.on("connect_error", (error) => {
