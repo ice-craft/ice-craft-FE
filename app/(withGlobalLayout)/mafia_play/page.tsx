@@ -143,8 +143,9 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("exitRoom", () => {
-      console.log("방에서 나갔습니다.");
+    socket.on("exitRoom", (usersInfo) => {
+      console.log(`[exitRoom] ${usersInfo}`);
+      console.log("");
     });
 
     socket.on("exitRoomError", (message) => {
