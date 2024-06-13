@@ -155,6 +155,7 @@ export interface ShowModalState {
   isRoleOpen: boolean;
   isVoteOpen: boolean;
   isCheckOpen: boolean;
+  isLastVoteOpen: boolean;
   title: string;
   timer: number;
   role: Role;
@@ -166,6 +167,7 @@ export interface ShowModalState {
     setRoleIsOpen: (newIsOpen: boolean) => void;
     setVoteIsOpen: (newIsOpen: boolean) => void;
     setCheckIsOpen: (newIsOpen: boolean) => void;
+    setLastVoteIsOpen: (newIsOpen: boolean) => void;
     setTimer: (newTimer: number) => void;
     setTitle: (newTitle: string) => void;
     setRole: (newRole: Role) => void;

@@ -8,6 +8,7 @@ const useShowModalStore = create<ShowModalState>((set) => ({
   isRoleOpen: false,
   isVoteOpen: false,
   isCheckOpen: false,
+  isLastVoteOpen: false,
   timer: -1,
   title: "",
   role: {},
@@ -19,6 +20,7 @@ const useShowModalStore = create<ShowModalState>((set) => ({
     setRoleIsOpen: (newIsOpen) => set({ isRoleOpen: newIsOpen }),
     setVoteIsOpen: (newIsOpen) => set({ isVoteOpen: newIsOpen }),
     setCheckIsOpen: (newIsOpen) => set({ isCheckOpen: newIsOpen }),
+    setLastVoteIsOpen: (newIsOpen) => set({ isCheckOpen: newIsOpen }),
     setTimer: (newTimer) => set({ timer: newTimer }),
     setTitle: (newTitle) => set({ title: newTitle }),
     setRole: (newRole) => set({ role: newRole }),
@@ -53,3 +55,4 @@ export const useGroupModalIsOpen = () => useShowModalStore((state) => state.isGr
 export const useRoleModalIsOpen = () => useShowModalStore((state) => state.isRoleOpen);
 export const useVoteModalIsOpen = () => useShowModalStore((state) => state.isVoteOpen);
 export const useCheckModalIsOpen = () => useShowModalStore((state) => state.isCheckOpen);
+export const useLastModalIsOpen = () => useShowModalStore((state) => state.isLastVoteOpen);

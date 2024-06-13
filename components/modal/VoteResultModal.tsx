@@ -13,10 +13,9 @@ import { useEffect, useState } from "react";
 const VoteResultModal = () => {
   const timer = useModalTimer();
   const [count, setCount] = useState(timer * 10);
-  const isModal = useModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
   const voteResults = useVoteResultElement();
-  const yesOrNoResults = useYesOrNoResultElement(); //찬반 투표 결과값
+  const isModal = useModalIsOpen();
   const { setIsOpen, setVoteIsOpen } = useModalActions();
 
   //NOTE - 타이머 기능

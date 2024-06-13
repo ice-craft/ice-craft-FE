@@ -5,6 +5,7 @@ import useConnectStore from "@/store/connect-store";
 import {
   useCheckModalIsOpen,
   useGroupModalIsOpen,
+  useLastModalIsOpen,
   useRoleModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
@@ -24,6 +25,7 @@ import RemoteParticipant from "./RemoteParticipant";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useGameActions } from "@/store/game-store";
+import LastVoteResultModal from "../modal/LastVoteResultModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
@@ -34,6 +36,7 @@ const MafiaPlayRooms = () => {
   const isRoleModal = useRoleModalIsOpen();
   const isVoteModal = useVoteModalIsOpen();
   const isCheckModal = useCheckModalIsOpen();
+  const isLastOpen = useLastModalIsOpen();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -89,6 +92,7 @@ const MafiaPlayRooms = () => {
       {isRoleModal && <UserRoleModal />}
       {isVoteModal && <VoteResultModal />}
       {isCheckModal && <CheckModal />}
+      {isLastOpen && <LastVoteResultModal />}
     </section>
   );
 };

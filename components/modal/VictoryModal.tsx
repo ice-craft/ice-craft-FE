@@ -9,11 +9,11 @@ const VictoryModal = () => {
   const jsConfetti = new JSConfetti();
 
   const isModal = useModalIsOpen();
-  const isGroupModal = useGroupModalIsOpen();
+  const { setIsOpen, setGroupIsOpen } = useModalActions();
+  const isGroupModal = useGroupModalIsOpen(); // 모달 변경
   const timer = useModalTimer();
 
   const [count, setCount] = useState(timer * 10);
-  const { setIsOpen, setGroupIsOpen } = useModalActions();
 
   //NOTE - 타이머 기능
   useCountDown(() => setCount((prevCount) => prevCount - 1), 100, isGroupModal);
