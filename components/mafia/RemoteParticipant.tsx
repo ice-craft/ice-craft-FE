@@ -6,9 +6,9 @@ import React, { useEffect, useState } from "react";
 import MyParticipantTile from "./MyParticipantTile";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
+  const isStart = useIsStart();
   const [remoteTracks, setRemoteTracks] = useState<TrackReferenceOrPlaceholder[]>([]);
   const { localParticipant } = useLocalParticipant();
-  const isStart = useIsStart();
 
   const filteredTracks = tracks.filter(
     (track) => track.source === "camera" && track.participant.sid !== localParticipant.sid
