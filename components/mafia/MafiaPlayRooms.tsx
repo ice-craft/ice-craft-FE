@@ -2,12 +2,6 @@ import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useModalSocket from "@/hooks/useModalSocket";
 import useConnectStore from "@/store/connect-store";
-import {
-  useCheckModalIsOpen,
-  useGroupModalIsOpen,
-  useRoleModalIsOpen,
-  useVoteModalIsOpen
-} from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
@@ -29,11 +23,11 @@ const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
   const { setDiedPlayer } = useGameActions();
 
-  //NOTE - 임시: 각 모달창 별로 On, Off
-  const isGroupModal = useGroupModalIsOpen();
-  const isRoleModal = useRoleModalIsOpen();
-  const isVoteModal = useVoteModalIsOpen();
-  const isCheckModal = useCheckModalIsOpen();
+  // //NOTE - 임시: 각 모달창 별로 On, Off
+  // const isGroupModal = useGroupModalIsOpen();
+  // const isRoleModal = useRoleModalIsOpen();
+  // const isVoteModal = useVoteModalIsOpen();
+  // const isCheckModal = useCheckModalIsOpen();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -85,12 +79,10 @@ const MafiaPlayRooms = () => {
       <MafiaToolTip />
 
       {/* isOpen: 모달창 띄우기 */}
-      {isGroupModal && <GroupMafiaModal />}
+      {/* {isGroupModal && <GroupMafiaModal />}
       {isRoleModal && <UserRoleModal />}
       {isVoteModal && <VoteResultModal />}
-      {isCheckModal && <CheckModal />}
-
-      
+      {isCheckModal && <CheckModal />} */}
     </section>
   );
 };
