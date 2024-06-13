@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
-  const [selectedGame, setSelectedGame] = useState("Mafia");
+  const [selectedGame, setSelectedGame] = useState("마피아");
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const roomId = useRef("");
@@ -37,7 +37,10 @@ const MainCreateRoom = () => {
       if (roomId.current) {
         setRoomId(roomId.current);
         setIsCreate(false);
-        router.push(`/room/${roomId.current}/`);
+        if (selectedGame === "마피아") {
+          router.push(`/room/${roomId.current}/`);
+        }
+        return null;
       }
     });
 
@@ -71,15 +74,22 @@ const MainCreateRoom = () => {
         return;
       }
 
-      // 유효성검사필요
-      // if (!selectedGame || !roomTitle || !numberOfPlayers) {
-      // }
+      //유효성 검사
+      if (!roomTitle) {
+        toast.error("방 제목을 입력해 주세요.");
+        return;
+      }
+
+      if (selectedGame === "노래맞추기") {
+        toast.error("노래 맞추기 게임은 준비중입니다.");
+        return;
+      }
 
       if (!isGoInClick.current) {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
         //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
-        setSelectedGame("");
+        setSelectedGame("마피아");
         setRoomTitle("");
         setNumberOfPlayers(5);
       }
@@ -98,12 +108,12 @@ const MainCreateRoom = () => {
           <div>
             <h3 className={S.gameTitle}>게임 고르기</h3>
             <ul className={S.gameChoiceList}>
-              <li onClick={() => setSelectedGame("Mafia")}>
-                <Image src={selectedGame === "Mafia" ? MafiaGameChoiceActive : MafiaGameChoice} alt="마피아 게임" />
+              <li onClick={() => setSelectedGame("마피아")}>
+                <Image src={selectedGame === "마피아" ? MafiaGameChoiceActive : MafiaGameChoice} alt="마피아 게임" />
               </li>
-              <li onClick={() => setSelectedGame("Song Guessing")}>
+              <li onClick={() => setSelectedGame("노래맞추기")}>
                 <Image
-                  src={selectedGame === "Song Guessing" ? MafiaGameSongActive : MafiaGameSong}
+                  src={selectedGame === "노래맞추기" ? MafiaGameSongActive : MafiaGameSong}
                   alt="노래 맞추기 게임"
                 />
               </li>
@@ -119,7 +129,7 @@ const MainCreateRoom = () => {
               onChange={(e) => setRoomTitle(e.target.value)}
             />
           </div>
-          {selectedGame === "Mafia" ? (
+          {selectedGame === "마피아" ? (
             <div className={S.playerPeopleChoice}>
               <h3 className={S.gameTitle}>인원수</h3>
               <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
