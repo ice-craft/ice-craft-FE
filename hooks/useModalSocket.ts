@@ -41,12 +41,17 @@ const useModalSocket = () => {
     },
     //NOTE - 찬성/반대 투표 결과 모달창 요소
     showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
-      //isExample(true) 모달 boolean 값 필요
       setCurrentModal("LastVoteResultModal");
       setYesOrNoVoteResult(voteResult);
       setTimer(timer);
       setIsOpen(true);
-      console.log("최후의 투표 결과", voteResult);
+    },
+    //NOTE - 승리한 팀 모달창 요소
+    victoryPlayer: (victoryTeam: string, timer: number) => {
+      setCurrentModal("VictoryModal");
+      setTitle(victoryTeam);
+      setTimer(timer);
+      setIsOpen(true);
     }
   };
 

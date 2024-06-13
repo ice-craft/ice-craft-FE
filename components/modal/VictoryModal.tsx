@@ -1,6 +1,6 @@
 import JSConfetti from "js-confetti";
 import { useCountDown } from "@/hooks/useCountDown";
-import { useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
+import { useGroupModalElement, useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
 
 import S from "@/style/modal/modal.module.css";
 import { useEffect, useState } from "react";
@@ -9,10 +9,10 @@ const VictoryModal = () => {
   const jsConfetti = new JSConfetti();
 
   const isModal = useModalIsOpen();
-  const timer = useModalTimer();
-
-  const [count, setCount] = useState(timer * 10);
   const { setIsOpen } = useModalActions();
+  const title = useGroupModalElement();
+  const timer = useModalTimer();
+  const [count, setCount] = useState(timer * 10);
 
   //NOTE - 타이머 기능
   useCountDown(() => setCount((prevCount) => prevCount - 1), 100, isModal);
@@ -35,7 +35,7 @@ const VictoryModal = () => {
       <div className={S.modalWrap}>
         <div className={`${S.modal} ${S.victoryModal}`}>
           <div>
-            <p>{} 승리!</p>
+            <p>{title} 승리!</p>
           </div>
         </div>
       </div>

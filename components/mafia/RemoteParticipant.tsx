@@ -2,13 +2,13 @@ import { useIsStart } from "@/store/game-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
 import { TrackLoop, TrackReferenceOrPlaceholder, useLocalParticipant } from "@livekit/components-react";
-import React, { useEffect, useState } from "react";
-import MyParticipantTile from "./MyParticipantTile";
+import React, { useState } from "react";
+import RemoteParticipantTile from "./RemoteParticipantTile";
 
 const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
+  const isStart = useIsStart();
   const [remoteTracks, setRemoteTracks] = useState<TrackReferenceOrPlaceholder[]>([]);
   const { localParticipant } = useLocalParticipant();
-  const isStart = useIsStart();
 
   const filteredTracks = tracks.filter(
     (track) => track.source === "camera" && track.participant.sid !== localParticipant.sid
@@ -30,7 +30,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
   return (
     <ul className={S.remoteParticipant}>
       <TrackLoop tracks={filteredTracks}>
-        <MyParticipantTile />
+        <RemoteParticipantTile />
       </TrackLoop>
     </ul>
   );

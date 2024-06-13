@@ -23,16 +23,16 @@ export interface Role {
   [job: string]: string[];
 }
 
-export interface RenderCardsProps {
-  cards: {
-    doctor: { src: string; alt: string };
-    police: { src: string; alt: string };
-    mafia: { src: string; alt: string };
-    citizen: { src: string; alt: string };
-  };
-  role: Role;
-  showAllCards: boolean;
-}
+// export interface RenderCardsProps {
+//   cards: {
+//     doctor: { src: string; alt: string };
+//     police: { src: string; alt: string };
+//     mafia: { src: string; alt: string };
+//     citizen: { src: string; alt: string };
+//   };
+//   role: Role;
+//   showAllCards: boolean;
+// }
 
 export interface VoteResult {
   user_id: string;

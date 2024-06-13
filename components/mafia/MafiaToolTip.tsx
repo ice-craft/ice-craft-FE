@@ -11,7 +11,7 @@ import S from "@/style/livekit/livekit.module.css";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const toolTipInfo: { [key: string]: { icon: string; text: string } } = {
   citizen: {
@@ -35,16 +35,27 @@ const toolTipInfo: { [key: string]: { icon: string; text: string } } = {
 const MafiaToolTip = () => {
   const role = useRoleModalElement();
   const { localParticipant } = useLocalParticipant();
-  let playerJob: string | undefined | null = "";
+  const [playerJob, setPlayerJob] = useState<string | undefined>("");
 
   useEffect(() => {
-    playerJob = getPlayerJob(role, localParticipant.identity);
+    //NOTE - 초기 렌더링 처리
+    if (!role) {
+      return;
+    }
+    const job = getPlayerJob(role, localParticipant.identity);
+
+    //NOTE - 직업 카드
+    const toolTipTimer = setTimeout(() => {
+      setPlayerJob(job);
+    }, 3000);
+
+    return () => clearTimeout(toolTipTimer);
   }, [role]);
 
+  //NOTE - 직업이 존재하지 않았을 경우
   if (!role || !playerJob) {
     return null;
   }
-
   const currentRoleInfo = toolTipInfo[playerJob];
 
   return (
