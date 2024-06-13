@@ -18,6 +18,11 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
@@ -159,23 +164,41 @@ const Mainpage = () => {
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
-        <div>
-          <ul className={S.gameList}>
-            <li className={S.mafiaImage}>
-              <div className={S.gameTitle}>
-                <h2>
-                  <Image src={MafiaGameTitle} alt="mafia game title" priority />
-                </h2>
-                <div className={S.gameButton}>
-                  <button onClick={gameStartHandler}>Game Start</button>
-                  <Link href="/mafiainfo" className={S.mafiaInfo}>
-                    More Info
-                  </Link>
-                </div>
+        <Swiper
+          className={S.gameList}
+          pagination={{
+            type: "fraction"
+          }}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+        >
+          <SwiperSlide className={S.mafiaImage}>
+            <div className={S.gameTitle}>
+              <h2>
+                <Image src={MafiaGameTitle} alt="mafia game title" priority />
+              </h2>
+              <div className={S.gameButton}>
+                <button onClick={gameStartHandler}>Game Start</button>
+                <Link href="/mafiainfo" className={S.mafiaInfo}>
+                  More Info
+                </Link>
               </div>
-            </li>
-          </ul>
-        </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide className={S.mafiaImage}>
+            <div className={S.gameTitle}>
+              <h2>
+                <Image src={MafiaGameTitle} alt="mafia game title" priority />
+              </h2>
+              <div className={S.gameButton}>
+                <button onClick={gameStartHandler}>Game Start</button>
+                <Link href="/mafiainfo" className={S.mafiaInfo}>
+                  More Info
+                </Link>
+              </div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
       </section>
       <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>
