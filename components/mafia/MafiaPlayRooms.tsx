@@ -89,6 +89,8 @@ const MafiaPlayRooms = () => {
       {isRoleModal && <UserRoleModal />}
       {isVoteModal && <VoteResultModal />}
       {isCheckModal && <CheckModal />}
+
+      
     </section>
   );
 };

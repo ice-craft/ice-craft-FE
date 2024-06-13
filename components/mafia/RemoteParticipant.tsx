@@ -29,7 +29,7 @@ const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
 
   return (
     <ul className={S.remoteParticipant}>
-      <TrackLoop tracks={remoteTracks}>
+      <TrackLoop tracks={filteredTracks}>
         <MyParticipantTile />
       </TrackLoop>
     </ul>
