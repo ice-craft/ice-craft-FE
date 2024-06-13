@@ -7,6 +7,7 @@ import {
   useGroupModalIsOpen,
   useLastModalIsOpen,
   useRoleModalIsOpen,
+  useVictoryModalIsOpen,
   useVoteModalIsOpen
 } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
@@ -26,6 +27,7 @@ import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useGameActions } from "@/store/game-store";
 import LastVoteResultModal from "../modal/LastVoteResultModal";
+import VictoryModal from "../modal/VictoryModal";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
@@ -37,6 +39,7 @@ const MafiaPlayRooms = () => {
   const isVoteModal = useVoteModalIsOpen();
   const isCheckModal = useCheckModalIsOpen();
   const isLastOpen = useLastModalIsOpen();
+  const isVictoryOpen = useVictoryModalIsOpen();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -93,6 +96,7 @@ const MafiaPlayRooms = () => {
       {isVoteModal && <VoteResultModal />}
       {isCheckModal && <CheckModal />}
       {isLastOpen && <LastVoteResultModal />}
+      {isVictoryOpen && <VictoryModal />}
     </section>
   );
 };

@@ -12,7 +12,9 @@ const useModalSocket = () => {
     setTitle,
     setRole,
     setVoteResult,
-    setCheckIsOpen
+    setCheckIsOpen,
+    setVictoryIsOpen,
+    setLastVoteIsOpen
   } = useModalActions();
 
   // 추후 "isModalOpen" 통일될 예정
@@ -46,16 +48,15 @@ const useModalSocket = () => {
     },
     //NOTE - 찬성/반대 투표 결과 모달창 요소
     showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
-      //isExample(true) 모달 boolean 값 필요
+      setLastVoteIsOpen(true);
       setYesOrNoVoteResult(voteResult);
       setTimer(timer);
-      console.log("최후의 투표 결과", voteResult);
     },
     //NOTE - 승리한 팀 모달창 요소
     victoryPlayer: (victoryTeam: string, timer: number) => {
-      //isExampleTeam(true) 모달 boolean 값 필요
+      setVictoryIsOpen(true);
+      setTitle(victoryTeam);
       setTimer(timer);
-      console.log("승리한 팀", victoryTeam);
     }
   };
 
