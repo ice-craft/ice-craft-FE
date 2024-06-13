@@ -34,6 +34,7 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const router = useRouter();
+  const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     //NOTE -  서버와 연결
@@ -163,6 +164,23 @@ const Mainpage = () => {
     }
   };
 
+  const mouseEnterHandler = () => {
+    if (swiperRef.current) {
+      swiperRef.current.autoplay.stop();
+    }
+  };
+
+  const mouseLeaveHandler = () => {
+    if (swiperRef.current) {
+      swiperRef.current.autoplay.start();
+    }
+  };
+
+  //NOTE - 노래맞추기 버튼
+  const songHandler = () => {
+    toast("서비스 준비 중 입니다.");
+  };
+
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
@@ -180,30 +198,43 @@ const Mainpage = () => {
           speed={1000}
           parallax={true}
           modules={[Parallax, Autoplay, Pagination, Navigation]}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
         >
           <SwiperSlide className={S.mafiaImage}>
-            <div className={S.gameTitle} data-swiper-parallax="-100%">
+            <div
+              className={S.gameTitle}
+              data-swiper-parallax="-100%"
+              onMouseEnter={mouseEnterHandler}
+              onMouseLeave={mouseLeaveHandler}
+            >
               <h2>
                 <Image src={MafiaGameTitle} alt="mafia game title" priority />
               </h2>
               <div className={S.gameButton}>
                 <button onClick={gameStartHandler}>Game Start</button>
-                <Link href="/mafiainfo" className={S.mafiaInfo}>
+                <Link href="/mafiainfo" className={S.gameInfo}>
                   More Info
                 </Link>
               </div>
             </div>
           </SwiperSlide>
           <SwiperSlide className={S.mafiaImage}>
-            <div className={S.gameTitle} data-swiper-parallax="-100%">
+            <div
+              className={S.gameTitle}
+              data-swiper-parallax="-100%"
+              onMouseEnter={mouseEnterHandler}
+              onMouseLeave={mouseLeaveHandler}
+            >
               <h2>
                 <Image src={MafiaGameTitle} alt="mafia game title" priority />
               </h2>
               <div className={S.gameButton}>
-                <button onClick={gameStartHandler}>Game Start</button>
-                <Link href="/songinfo" className={S.mafiaInfo}>
+                <button onClick={songHandler}>Game Start</button>
+                <button onClick={songHandler} className={S.gameInfo}>
                   More Info
-                </Link>
+                </button>
               </div>
             </div>
           </SwiperSlide>

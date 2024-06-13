@@ -108,7 +108,7 @@
   font-weight: var(--font-bold);
 }
 
-.gameButton .mafiaInfo {
+.gameButton .gameInfo {
   display: block;
   padding: 12px 24px;
   text-align: center;
@@ -120,7 +120,7 @@
   font-weight: 400;
 }
 
-.gameButton .mafiaInfo:before {
+.gameButton .gameInfo:before {
   content: "";
   position: absolute;
   left: 25px;
