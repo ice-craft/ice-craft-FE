@@ -11,7 +11,7 @@ import S from "@/style/livekit/livekit.module.css";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const toolTipInfo: { [key: string]: { icon: string; text: string } } = {
   citizen: {
@@ -35,10 +35,11 @@ const toolTipInfo: { [key: string]: { icon: string; text: string } } = {
 const MafiaToolTip = () => {
   const role = useRoleModalElement();
   const { localParticipant } = useLocalParticipant();
-  let playerJob: string | undefined | null = "";
+  const [playerJob, setPlayerJob] = useState<string | undefined>("");
 
   useEffect(() => {
-    playerJob = getPlayerJob(role, localParticipant.identity);
+    const job = getPlayerJob(role, localParticipant.identity);
+    setPlayerJob(job);
   }, [role]);
 
   if (!role || !playerJob) {
@@ -46,6 +47,8 @@ const MafiaToolTip = () => {
   }
 
   const currentRoleInfo = toolTipInfo[playerJob];
+
+  console.log("currentRole", currentRoleInfo);
 
   return (
     <ul className={S.toolTipWrap}>
