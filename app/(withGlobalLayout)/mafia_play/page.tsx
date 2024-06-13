@@ -173,6 +173,11 @@ const MafiaPlay = () => {
       console.log("");
     });
 
+    socket.on("initError", (message) => {
+      console.log(`[canGameStartError] ${message}`);
+      console.log("");
+    });
+
     socket.on("connect_error", (error) => {
       if (socket.active) {
         write("잠시 연결이 끊어졌습니다.\n곧 연결됩니다.");
