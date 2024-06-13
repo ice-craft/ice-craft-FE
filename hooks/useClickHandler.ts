@@ -5,7 +5,6 @@ import Mafia from "@/assets/images/cam_mafia.svg";
 import { useJobImageAction } from "@/store/image-store";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useRoleModalElement } from "@/store/show-modal-store";
-import { Role } from "@/types";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { socket } from "@/utils/socket/socket";
 import React from "react";

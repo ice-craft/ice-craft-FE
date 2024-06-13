@@ -10,7 +10,7 @@ import { ParticipantTile, ParticipantTileProps, useEnsureTrackRef } from "@livek
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const MyParticipantTile = ({ trackRef }: ParticipantTileProps) => {
+const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const trackReference = useEnsureTrackRef(trackRef);
   const diedPlayers = useDiedPlayer();
   const PlayerId = useActivePlayer();
@@ -62,4 +62,4 @@ const MyParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   );
 };
 
-export default MyParticipantTile;
+export default RemoteParticipantTile;
