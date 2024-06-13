@@ -19,10 +19,12 @@ import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
+import SwiperType from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "@/style/mainpage/swiper.css";
 
 const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
@@ -169,16 +171,18 @@ const Mainpage = () => {
           pagination={{
             type: "fraction"
           }}
-          rewind={true}
+          loop={true}
           autoplay={{
-            delay: 2500,
+            delay: 5000,
             disableOnInteraction: false
           }}
           navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
+          speed={1000}
+          parallax={true}
+          modules={[Parallax, Autoplay, Pagination, Navigation]}
         >
           <SwiperSlide className={S.mafiaImage}>
-            <div className={S.gameTitle}>
+            <div className={S.gameTitle} data-swiper-parallax="-100%">
               <h2>
                 <Image src={MafiaGameTitle} alt="mafia game title" priority />
               </h2>
@@ -191,13 +195,13 @@ const Mainpage = () => {
             </div>
           </SwiperSlide>
           <SwiperSlide className={S.mafiaImage}>
-            <div className={S.gameTitle}>
+            <div className={S.gameTitle} data-swiper-parallax="-100%">
               <h2>
                 <Image src={MafiaGameTitle} alt="mafia game title" priority />
               </h2>
               <div className={S.gameButton}>
                 <button onClick={gameStartHandler}>Game Start</button>
-                <Link href="/mafiainfo" className={S.mafiaInfo}>
+                <Link href="/songinfo" className={S.mafiaInfo}>
                   More Info
                 </Link>
               </div>

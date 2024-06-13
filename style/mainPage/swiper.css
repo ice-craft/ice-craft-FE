@@ -1,0 +1,29 @@
+.swiper-pagination-fraction {
+  position: absolute;
+  left: 85%;
+  top: 30px;
+  width: 80px;
+  height: 35px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.swiper-pagination-fraction > span {
+  color: var(--text-black);
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--secondary-color);
+  margin: 0 10px;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: var(--primary-color);
+}
