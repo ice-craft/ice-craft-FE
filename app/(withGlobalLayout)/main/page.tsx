@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -169,8 +169,13 @@ const Mainpage = () => {
           pagination={{
             type: "fraction"
           }}
+          rewind={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false
+          }}
           navigation={true}
-          modules={[Pagination, Navigation]}
+          modules={[Autoplay, Pagination, Navigation]}
         >
           <SwiperSlide className={S.mafiaImage}>
             <div className={S.gameTitle}>
