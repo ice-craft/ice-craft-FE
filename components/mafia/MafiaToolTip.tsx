@@ -38,17 +38,25 @@ const MafiaToolTip = () => {
   const [playerJob, setPlayerJob] = useState<string | undefined>("");
 
   useEffect(() => {
+    //NOTE - 초기 렌더링 처리
+    if (!role) {
+      return;
+    }
     const job = getPlayerJob(role, localParticipant.identity);
-    setPlayerJob(job);
+
+    //NOTE - 직업 카드
+    const toolTipTimer = setTimeout(() => {
+      setPlayerJob(job);
+    }, 3000);
+
+    return () => clearTimeout(toolTipTimer);
   }, [role]);
 
+  //NOTE - 직업이 존재하지 않았을 경우
   if (!role || !playerJob) {
     return null;
   }
-
   const currentRoleInfo = toolTipInfo[playerJob];
-
-  console.log("currentRole", currentRoleInfo);
 
   return (
     <ul className={S.toolTipWrap}>
