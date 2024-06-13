@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
-  const [selectedGame, setSelectedGame] = useState("마피아");
+  const [selectedGame, setSelectedGame] = useState("Mafia");
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const roomId = useRef("");
@@ -88,6 +88,8 @@ const MainCreateRoom = () => {
     }
   };
 
+  const playerOptions = Array.from({ length: 6 }, (_, i) => i + 5);
+
   return (
     <div className={S.modalWrap} onClick={closeModalHandler}>
       <div className={S.mainModal}>
@@ -96,11 +98,14 @@ const MainCreateRoom = () => {
           <div>
             <h3 className={S.gameTitle}>게임 고르기</h3>
             <ul className={S.gameChoiceList}>
-              <li onClick={() => setSelectedGame("마피아")}>
-                <Image src={MafiaGameChoiceActive} alt="마피아 게임" />
+              <li onClick={() => setSelectedGame("Mafia")}>
+                <Image src={selectedGame === "Mafia" ? MafiaGameChoiceActive : MafiaGameChoice} alt="마피아 게임" />
               </li>
-              <li onClick={() => setSelectedGame("노래 맞추기")}>
-                <Image src={MafiaGameSong} alt="노래 맞추기 게임" />
+              <li onClick={() => setSelectedGame("Song Guessing")}>
+                <Image
+                  src={selectedGame === "Song Guessing" ? MafiaGameSongActive : MafiaGameSong}
+                  alt="노래 맞추기 게임"
+                />
               </li>
             </ul>
           </div>
@@ -114,17 +119,18 @@ const MainCreateRoom = () => {
               onChange={(e) => setRoomTitle(e.target.value)}
             />
           </div>
-          <div className={S.playerPeopleChoice}>
-            <h3 className={S.gameTitle}>인원수</h3>
-            <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
-              <option value="5">5명</option>
-              <option value="6">6명</option>
-              <option value="7">7명</option>
-              <option value="8">8명</option>
-              <option value="9">9명</option>
-              <option value="10">10명</option>
-            </select>
-          </div>
+          {selectedGame === "Mafia" ? (
+            <div className={S.playerPeopleChoice}>
+              <h3 className={S.gameTitle}>인원수</h3>
+              <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
+                {playerOptions.map((number) => (
+                  <option key={number} value={number}>
+                    {number}명
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
           <div className={S.gameChoiceButton}>
             <button className={S.closedButton} type="button" onClick={() => setIsCreate(false)}>
               닫기
