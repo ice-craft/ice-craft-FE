@@ -1,5 +1,7 @@
 import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
+import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
+import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg";
 import useConnectStore from "@/store/connect-store";
 import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
