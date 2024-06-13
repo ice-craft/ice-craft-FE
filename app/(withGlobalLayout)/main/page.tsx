@@ -277,7 +277,7 @@ const Mainpage = () => {
           </div>
           {rooms.length > 0 ? (
             <ul className={S.roomList}>
-              {rooms.map((item: Tables<"room_table">) => (
+              {rooms.map((item) => (
                 <li key={item.room_id}>
                   <Image src={MafiaItem} alt="room image" />
                   <div className={S.roomTitle}>
