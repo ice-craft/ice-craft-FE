@@ -2,6 +2,7 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import SearchIcon from "@/assets/images/icon_search.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
+import SongGameTitle from "@/assets/images/song_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import useConnectStore from "@/store/connect-store";
@@ -191,7 +192,7 @@ const Mainpage = () => {
           }}
           loop={true}
           autoplay={{
-            delay: 5000,
+            delay: 1000,
             disableOnInteraction: false
           }}
           navigation={true}
@@ -202,7 +203,7 @@ const Mainpage = () => {
             swiperRef.current = swiper;
           }}
         >
-          <SwiperSlide className={S.mafiaImage}>
+          <SwiperSlide className={S.gameImage}>
             <div
               className={S.gameTitle}
               data-swiper-parallax="-100%"
@@ -220,7 +221,7 @@ const Mainpage = () => {
               </div>
             </div>
           </SwiperSlide>
-          <SwiperSlide className={S.mafiaImage}>
+          <SwiperSlide className={S.gameImage}>
             <div
               className={S.gameTitle}
               data-swiper-parallax="-100%"
@@ -228,7 +229,7 @@ const Mainpage = () => {
               onMouseLeave={mouseLeaveHandler}
             >
               <h2>
-                <Image src={MafiaGameTitle} alt="mafia game title" priority />
+                <Image src={SongGameTitle} alt="song game title" priority />
               </h2>
               <div className={S.gameButton}>
                 <button onClick={songHandler}>Game Start</button>
