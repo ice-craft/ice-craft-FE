@@ -149,7 +149,8 @@ const MafiaPlay = () => {
     });
 
     socket.on("exitRoomError", (message) => {
-      console.log(message);
+      console.log(`[exitRoomError] ${message}`);
+      console.log("");
     });
 
     socket.on("setReady", (message) => {
