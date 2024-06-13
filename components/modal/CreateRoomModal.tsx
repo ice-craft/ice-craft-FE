@@ -57,6 +57,11 @@ const MainCreateRoom = () => {
     };
   }, []);
 
+  const gameSelectHandler = (game: string) => {
+    setSelectedGame(game);
+    setRoomTitle("");
+  };
+
   const closeModalHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       setIsCreate(false);
@@ -108,10 +113,10 @@ const MainCreateRoom = () => {
           <div>
             <h3 className={S.gameTitle}>게임 고르기</h3>
             <ul className={S.gameChoiceList}>
-              <li onClick={() => setSelectedGame("마피아")}>
+              <li onClick={() => gameSelectHandler("마피아")}>
                 <Image src={selectedGame === "마피아" ? MafiaGameChoiceActive : MafiaGameChoice} alt="마피아 게임" />
               </li>
-              <li onClick={() => setSelectedGame("노래맞추기")}>
+              <li onClick={() => gameSelectHandler("노래맞추기")}>
                 <Image
                   src={selectedGame === "노래맞추기" ? MafiaGameSongActive : MafiaGameSong}
                   alt="노래 맞추기 게임"
