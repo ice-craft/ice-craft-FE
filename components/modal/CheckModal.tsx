@@ -1,10 +1,10 @@
 import { useDiedPlayer } from "@/store/game-store";
 import { useGroupModalElement, useVoteResultElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
+import ModalProgress from "@/utils/ModalProgress";
 import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant } from "@livekit/components-react";
 import { useState } from "react";
-import ModalProgress from "./ModalProgress";
 
 const CheckModal = () => {
   const title = useGroupModalElement();

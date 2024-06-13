@@ -4,12 +4,7 @@ import { create } from "zustand";
 //NOTE - 모달 데이터 요소
 const useShowModalStore = create<ShowModalState>((set) => ({
   isOpen: false,
-  isGroupOpen: false,
-  isRoleOpen: false,
-  isVoteOpen: false,
-  isCheckOpen: false,
-  isLastVoteOpen: false,
-  isVictoryOpen: false,
+  currentModal: "",
   timer: -1,
   title: "",
   role: {},
@@ -17,12 +12,7 @@ const useShowModalStore = create<ShowModalState>((set) => ({
   yesOrNoResult: { detail: { noCount: 0, yesCount: 0 }, result: false },
   actions: {
     setIsOpen: (newIsOpen) => set({ isOpen: newIsOpen }),
-    setGroupIsOpen: (newIsOpen) => set({ isGroupOpen: newIsOpen }),
-    setRoleIsOpen: (newIsOpen) => set({ isRoleOpen: newIsOpen }),
-    setVoteIsOpen: (newIsOpen) => set({ isVoteOpen: newIsOpen }),
-    setCheckIsOpen: (newIsOpen) => set({ isCheckOpen: newIsOpen }),
-    setLastVoteIsOpen: (newIsOpen) => set({ isLastVoteOpen: newIsOpen }),
-    setVictoryIsOpen: (newIsOpen) => set({ isVictoryOpen: newIsOpen }),
+    setCurrentModal: (newCurrentModal) => set({ currentModal: newCurrentModal }),
     setTimer: (newTimer) => set({ timer: newTimer }),
     setTitle: (newTitle) => set({ title: newTitle }),
     setRole: (newRole) => set({ role: newRole }),
@@ -52,10 +42,5 @@ export const useVoteResultElement = () => useShowModalStore((state) => state.vot
 //NOTE - VoteResultModal 요소(최후의 투표 결과)
 export const useYesOrNoResultElement = () => useShowModalStore((state) => state.yesOrNoResult);
 
-//NOTE - 각각의 임시 모달 on, off 요소
-export const useGroupModalIsOpen = () => useShowModalStore((state) => state.isGroupOpen);
-export const useRoleModalIsOpen = () => useShowModalStore((state) => state.isRoleOpen);
-export const useVoteModalIsOpen = () => useShowModalStore((state) => state.isVoteOpen);
-export const useCheckModalIsOpen = () => useShowModalStore((state) => state.isCheckOpen);
-export const useLastModalIsOpen = () => useShowModalStore((state) => state.isLastVoteOpen);
-export const useVictoryModalIsOpen = () => useShowModalStore((state) => state.isVictoryOpen);
+//NOTE - ModalList 조건부 랜더링 관리
+export const useCurrentModal = () => useShowModalStore((state) => state.currentModal);

@@ -151,12 +151,7 @@ export interface CreateState {
 
 export interface ShowModalState {
   isOpen: boolean;
-  isGroupOpen: boolean;
-  isRoleOpen: boolean;
-  isVoteOpen: boolean;
-  isCheckOpen: boolean;
-  isLastVoteOpen: boolean;
-  isVictoryOpen: boolean;
+  currentModal: string;
   title: string;
   timer: number;
   role: Role;
@@ -164,12 +159,7 @@ export interface ShowModalState {
   yesOrNoResult: YesOrNoResults;
   actions: {
     setIsOpen: (newIsOpen: boolean) => void;
-    setGroupIsOpen: (newIsOpen: boolean) => void;
-    setRoleIsOpen: (newIsOpen: boolean) => void;
-    setVoteIsOpen: (newIsOpen: boolean) => void;
-    setCheckIsOpen: (newIsOpen: boolean) => void;
-    setLastVoteIsOpen: (newIsOpen: boolean) => void;
-    setVictoryIsOpen: (newIsOpen: boolean) => void;
+    setCurrentModal: (newCurrentModal: string) => void;
     setTimer: (newTimer: number) => void;
     setTitle: (newTitle: string) => void;
     setRole: (newRole: Role) => void;

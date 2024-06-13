@@ -1,24 +1,12 @@
-import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useModalSocket from "@/hooks/useModalSocket";
 import useConnectStore from "@/store/connect-store";
-import {
-  useCheckModalIsOpen,
-  useGroupModalIsOpen,
-  useLastModalIsOpen,
-  useRoleModalIsOpen,
-  useVictoryModalIsOpen,
-  useVoteModalIsOpen
-} from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import CheckModal from "../modal/CheckModal";
-import UserRoleModal from "../modal/UserRoleModal";
-import VoteResultModal from "../modal/VoteResultModal";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
@@ -26,20 +14,11 @@ import RemoteParticipant from "./RemoteParticipant";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useGameActions } from "@/store/game-store";
-import LastVoteResultModal from "../modal/LastVoteResultModal";
-import VictoryModal from "../modal/VictoryModal";
+import MafiaModals from "./MafiaModals";
 
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
   const { setDiedPlayer } = useGameActions();
-
-  //NOTE - 임시: 각 모달창 별로 On, Off
-  const isGroupModal = useGroupModalIsOpen();
-  const isRoleModal = useRoleModalIsOpen();
-  const isVoteModal = useVoteModalIsOpen();
-  const isCheckModal = useCheckModalIsOpen();
-  const isLastOpen = useLastModalIsOpen();
-  const isVictoryOpen = useVictoryModalIsOpen();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -62,7 +41,6 @@ const MafiaPlayRooms = () => {
 
   //socket 실행
   useMediaSocket();
-  useModalSocket();
   useSelectSocket();
 
   //NOTE - 방 나가기 이벤트 헨들러
@@ -89,14 +67,7 @@ const MafiaPlayRooms = () => {
         <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
       </div>
       <MafiaToolTip />
-
-      {/* isOpen: 모달창 띄우기 */}
-      {isGroupModal && <GroupMafiaModal />}
-      {isRoleModal && <UserRoleModal />}
-      {isVoteModal && <VoteResultModal />}
-      {isCheckModal && <CheckModal />}
-      {isLastOpen && <LastVoteResultModal />}
-      {isVictoryOpen && <VictoryModal />}
+      <MafiaModals />
     </section>
   );
 };
