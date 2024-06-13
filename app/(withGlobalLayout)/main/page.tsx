@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
+import { EffectFade, Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
 import SwiperType from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -190,15 +190,16 @@ const Mainpage = () => {
           pagination={{
             type: "fraction"
           }}
-          loop={true}
+          rewind={true}
+          effect={"fade"}
           autoplay={{
-            delay: 1000,
+            delay: 5000,
             disableOnInteraction: false
           }}
           navigation={true}
-          speed={1000}
+          speed={800}
           parallax={true}
-          modules={[Parallax, Autoplay, Pagination, Navigation]}
+          modules={[EffectFade, Parallax, Autoplay, Pagination, Navigation]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
@@ -224,7 +225,7 @@ const Mainpage = () => {
           <SwiperSlide className={S.gameImage}>
             <div
               className={S.gameTitle}
-              data-swiper-parallax="-100%"
+              data-swiper-parallax="200%"
               onMouseEnter={mouseEnterHandler}
               onMouseLeave={mouseLeaveHandler}
             >

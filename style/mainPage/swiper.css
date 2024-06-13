@@ -19,11 +19,15 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-  color: var(--secondary-color);
+  color: var(--primary-color);
   margin: 0 10px;
 }
 
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-  color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.swiper-slide-active {
+  z-index: 1;
 }
