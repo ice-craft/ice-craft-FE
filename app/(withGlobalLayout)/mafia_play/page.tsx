@@ -129,7 +129,8 @@ const MafiaPlay = () => {
     });
 
     socket.on("joinRoomError", (message) => {
-      console.log(message);
+      console.log(`[joinRoomError] ${message}`);
+      console.log("");
     });
 
     socket.on("fastJoinRoom", (room_id, userInfo) => {
