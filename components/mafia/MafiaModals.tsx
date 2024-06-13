@@ -5,9 +5,15 @@ import CheckModal from "../modal/CheckModal";
 import VoteResultModal from "../modal/VoteResultModal";
 import LastVoteResultModal from "../modal/LastVoteResultModal";
 import VictoryModal from "../modal/VictoryModal";
+import { useCurrentModal, useModalIsOpen } from "@/store/show-modal-store";
+import useModalSocket from "@/hooks/useModalSocket";
 
 const MafiaModals = () => {
-  const [modals, setModals] = useState();
+  useModalSocket();
+  const isOpen = useModalIsOpen();
+  const currentModal = useCurrentModal();
+
+  if (!isOpen) return null;
 
   //NOTE - 모달창 리스트
   /*
@@ -19,16 +25,22 @@ const MafiaModals = () => {
     VictoryModal - 승리 결과 모달창
   */
 
-  return (
-    <>
-      <GroupMafiaModal />
-      <UserRoleModal />
-      <CheckModal />
-      <VoteResultModal />
-      <LastVoteResultModal />
-      <VictoryModal />
-    </>
-  );
+  switch (currentModal) {
+    case "GroupMafiaModal":
+      return <GroupMafiaModal />;
+    case "UserRoleModal":
+      return <UserRoleModal />;
+    case "CheckModal":
+      return <CheckModal />;
+    case "VoteResultModal":
+      return <VoteResultModal />;
+    case "LastVoteResultModal":
+      return <LastVoteResultModal />;
+    case "VictoryModal":
+      return <VictoryModal />;
+    default:
+      return null;
+  }
 };
 
 export default MafiaModals;
