@@ -22,7 +22,7 @@ import { useCreateStore } from "../../../store/toggle-store";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
 import SwiperType from "swiper";
-import "swiper/css";
+import "swiper/css/bundle";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "@/style/mainpage/swiper.css";
