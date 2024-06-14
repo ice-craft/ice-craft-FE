@@ -1,30 +1,37 @@
-import React from "react";
+import CitizensCard from "@/assets/images/Citizens_Card.avif";
+import DoctorCard from "@/assets/images/Doctor_Card.avif";
+import MafiaCard from "@/assets/images/Mafia_Card.avif";
+import PoliceCard from "@/assets/images/Police_Card.avif";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { RenderCardsProps } from "@/types/index";
 import { useLocalParticipant } from "@livekit/components-react";
+import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import { useRoleModalElement } from "@/store/show-modal-store";
 
-const RenderCards = ({ cards, role, showAllCards }: RenderCardsProps) => {
+const RenderCards = () => {
+  const role = useRoleModalElement();
   const { localParticipant } = useLocalParticipant();
+  const [showAllCards, setShowAllCards] = useState(true);
 
-  //NOTE - role 구조: {jobName: string, userList: []}
-  const jobNameList = Object.keys(role);
+  //NOTE - 해당 local player의 직업 찾기
+  const playerJob = getPlayerJob(role, localParticipant.identity);
 
-  //NOTE - 해당 player의 직업
-  const playerJob = jobNameList.find((job) => {
-    //NOTE - 직업별 해당 userId[]
-    const jobPlayerList = role[job];
+  // 카드 이미지 리스트
+  const cards = {
+    doctor: { src: DoctorCard.src, alt: "의사" },
+    police: { src: PoliceCard.src, alt: "경찰" },
+    mafia: { src: MafiaCard.src, alt: "마피아" },
+    citizen: { src: CitizensCard.src, alt: "시민" }
+  };
 
-    //NOTE - 직업이 존재하지 않을 경우
-    if (!jobPlayerList) {
-      return;
-    }
+  //NOTE - 직업 카드
+  useEffect(() => {
+    const cardTimer = setTimeout(() => {
+      setShowAllCards(false);
+    }, 3000);
 
-    const isPlayerJob = jobPlayerList.find((userId: string) => localParticipant.identity === userId);
-
-    if (isPlayerJob) {
-      return job;
-    }
-  });
+    return () => clearTimeout(cardTimer);
+  }, []);
 
   return (
     <>
