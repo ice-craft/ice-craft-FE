@@ -10,13 +10,21 @@
   height: 820px;
 }
 
-.mafiaImage {
+.gameImage {
   position: relative;
   display: flex;
   align-items: center;
   height: inherit;
   background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
   justify-content: center;
+}
+
+.visualSection .gameImage:nth-of-type(2) {
+  background: url("../../assets/images/song_visual.avif") center center/cover no-repeat !important;
+}
+
+.visualSection .gameImage:nth-of-type(2) .gameTitle > h2 {
+  transform: translate(-20px, 10px);
 }
 
 .roomSectionWrap {
@@ -108,7 +116,7 @@
   font-weight: var(--font-bold);
 }
 
-.gameButton .mafiaInfo {
+.gameButton .gameInfo {
   display: block;
   padding: 12px 24px;
   text-align: center;
@@ -120,7 +128,7 @@
   font-weight: 400;
 }
 
-.gameButton .mafiaInfo:before {
+.gameButton .gameInfo:before {
   content: "";
   position: absolute;
   left: 25px;
