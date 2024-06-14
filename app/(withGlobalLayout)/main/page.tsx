@@ -5,7 +5,7 @@ import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import useConnectStore from "@/store/connect-store";
-import S from "@/style/mainPage/main.module.css";
+import S from "@/style/mainpage/main.module.css";
 import { Tables } from "@/types/supabase";
 import GoTopButton from "@/utils/GoTopButton";
 import { socket } from "@/utils/socket/socket";
