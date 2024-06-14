@@ -17,6 +17,8 @@ import MafiaModals from "./MafiaModals";
 const MafiaPlayRooms = () => {
   const { userId, roomId } = useConnectStore();
   const { setDiedPlayer } = useGameActions();
+  useMediaSocket(); // 카메라 및 오디오 처리
+  useSelectSocket(); // 클릭 이벤트 처리
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -33,13 +35,8 @@ const MafiaPlayRooms = () => {
       setDiedPlayer(playerId);
     }
   };
-
   // NOTE - socket On 담당
   useSocketOn(sockets);
-
-  //socket 실행
-  useMediaSocket();
-  useSelectSocket();
 
   //NOTE - 방 나가기 이벤트 헨들러
   const leaveRoom = () => {
