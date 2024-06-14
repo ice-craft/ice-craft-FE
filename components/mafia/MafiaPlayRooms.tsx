@@ -1,5 +1,4 @@
 import useMediaSocket from "@/hooks/useMediaSocket";
-import useModalSocket from "@/hooks/useModalSocket";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
@@ -10,7 +9,6 @@ import { Track } from "livekit-client";
 import LocalParticipant from "./LocalParticipant";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useGameActions } from "@/store/game-store";
