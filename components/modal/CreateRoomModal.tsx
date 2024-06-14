@@ -80,7 +80,7 @@ const MainCreateRoom = () => {
       }
 
       //유효성 검사
-      if (!roomTitle) {
+      if (!roomTitle.trim()) {
         toast.error("방 제목을 입력해 주세요.");
         return;
       }
