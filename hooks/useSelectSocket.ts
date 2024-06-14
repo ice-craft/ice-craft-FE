@@ -1,7 +1,6 @@
 import { useDiedPlayer } from "@/store/game-store";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useRoleModalElement } from "@/store/show-modal-store";
-import { Role } from "@/types";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import { useLocalParticipant } from "@livekit/components-react";
 import { useEffect } from "react";
