@@ -25,7 +25,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
       setRemoteReadyStates((prev) => ({ ...prev, [userId]: isReady }));
     };
 
-    socket.on("updateUserReady", participantReady);
+    socket.on("setReady", participantReady);
 
     return () => {
       socket.off("updateUserReady");
