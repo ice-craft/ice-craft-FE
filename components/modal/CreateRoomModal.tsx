@@ -37,7 +37,10 @@ const MainCreateRoom = () => {
       if (roomId.current) {
         setRoomId(roomId.current);
         setIsCreate(false);
-        router.push(`/room/${roomId.current}/`);
+        if (selectedGame === "마피아") {
+          router.push(`/room/${roomId.current}/`);
+        }
+        return null;
       }
     });
 
@@ -53,6 +56,11 @@ const MainCreateRoom = () => {
       socket.off("joinRoomError");
     };
   }, []);
+
+  const gameSelectHandler = (game: string) => {
+    setSelectedGame(game);
+    setRoomTitle("");
+  };
 
   const closeModalHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
@@ -71,15 +79,22 @@ const MainCreateRoom = () => {
         return;
       }
 
-      // 유효성검사필요
-      // if (!selectedGame || !roomTitle || !numberOfPlayers) {
-      // }
+      //유효성 검사
+      if (!roomTitle.trim()) {
+        toast.error("방 제목을 입력해 주세요.");
+        return;
+      }
+
+      if (selectedGame === "노래맞추기") {
+        toast("노래 맞추기 게임은 준비중입니다.");
+        return;
+      }
 
       if (!isGoInClick.current) {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
         //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
-        setSelectedGame("");
+        setSelectedGame("마피아");
         setRoomTitle("");
         setNumberOfPlayers(5);
       }
@@ -87,6 +102,8 @@ const MainCreateRoom = () => {
       console.log("error", error);
     }
   };
+
+  const playerOptions = Array.from({ length: 6 }, (_, i) => i + 5);
 
   return (
     <div className={S.modalWrap} onClick={closeModalHandler}>
@@ -96,11 +113,14 @@ const MainCreateRoom = () => {
           <div>
             <h3 className={S.gameTitle}>게임 고르기</h3>
             <ul className={S.gameChoiceList}>
-              <li onClick={() => setSelectedGame("마피아")}>
-                <Image src={MafiaGameChoiceActive} alt="마피아 게임" />
+              <li onClick={() => gameSelectHandler("마피아")}>
+                <Image src={selectedGame === "마피아" ? MafiaGameChoiceActive : MafiaGameChoice} alt="마피아 게임" />
               </li>
-              <li onClick={() => setSelectedGame("노래 맞추기")}>
-                <Image src={MafiaGameSong} alt="노래 맞추기 게임" />
+              <li onClick={() => gameSelectHandler("노래맞추기")}>
+                <Image
+                  src={selectedGame === "노래맞추기" ? MafiaGameSongActive : MafiaGameSong}
+                  alt="노래 맞추기 게임"
+                />
               </li>
             </ul>
           </div>
@@ -114,17 +134,18 @@ const MainCreateRoom = () => {
               onChange={(e) => setRoomTitle(e.target.value)}
             />
           </div>
-          <div className={S.playerPeopleChoice}>
-            <h3 className={S.gameTitle}>인원수</h3>
-            <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
-              <option value="5">5명</option>
-              <option value="6">6명</option>
-              <option value="7">7명</option>
-              <option value="8">8명</option>
-              <option value="9">9명</option>
-              <option value="10">10명</option>
-            </select>
-          </div>
+          {selectedGame === "마피아" ? (
+            <div className={S.playerPeopleChoice}>
+              <h3 className={S.gameTitle}>인원수</h3>
+              <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
+                {playerOptions.map((number) => (
+                  <option key={number} value={number}>
+                    {number}명
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
           <div className={S.gameChoiceButton}>
             <button className={S.closedButton} type="button" onClick={() => setIsCreate(false)}>
               닫기

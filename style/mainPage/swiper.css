@@ -21,6 +21,7 @@
 .swiper-button-next {
   color: var(--primary-color);
   margin: 0 10px;
+  font-weight: var(--font-bold);
 }
 
 .swiper-button-prev:hover,
