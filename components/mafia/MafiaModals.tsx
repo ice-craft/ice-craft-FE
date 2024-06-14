@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import GroupMafiaModal from "../modal/GroupMafiaModal";
 import UserRoleModal from "../modal/UserRoleModal";
 import CheckModal from "../modal/CheckModal";
