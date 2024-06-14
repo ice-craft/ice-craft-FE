@@ -2,6 +2,7 @@
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import SearchIcon from "@/assets/images/icon_search.svg";
 import MafiaGameTitle from "@/assets/images/mafia_game_title.svg";
+import SongGameTitle from "@/assets/images/song_game_title.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import useConnectStore from "@/store/connect-store";
@@ -18,6 +19,13 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "../../../store/toggle-store";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade, Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
+import SwiperType from "swiper";
+import "swiper/css/bundle";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "@/style/mainpage/swiper.css";
 
 const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
@@ -27,6 +35,7 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const router = useRouter();
+  const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     //NOTE -  서버와 연결
@@ -156,26 +165,82 @@ const Mainpage = () => {
     }
   };
 
+  const mouseEnterHandler = () => {
+    if (swiperRef.current) {
+      swiperRef.current.autoplay.stop();
+    }
+  };
+
+  const mouseLeaveHandler = () => {
+    if (swiperRef.current) {
+      swiperRef.current.autoplay.start();
+    }
+  };
+
+  //NOTE - 노래맞추기 버튼
+  const songHandler = () => {
+    toast("서비스 준비 중 입니다.");
+  };
+
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
-        <div>
-          <ul className={S.gameList}>
-            <li className={S.mafiaImage}>
-              <div className={S.gameTitle}>
-                <h2>
-                  <Image src={MafiaGameTitle} alt="mafia game title" priority />
-                </h2>
-                <div className={S.gameButton}>
-                  <button onClick={gameStartHandler}>Game Start</button>
-                  <Link href="/mafiainfo" className={S.mafiaInfo}>
-                    More Info
-                  </Link>
-                </div>
+        <Swiper
+          className={S.gameList}
+          pagination={{
+            type: "fraction"
+          }}
+          rewind={true}
+          effect={"fade"}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false
+          }}
+          navigation={true}
+          speed={800}
+          parallax={true}
+          modules={[EffectFade, Parallax, Autoplay, Pagination, Navigation]}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+        >
+          <SwiperSlide className={S.gameImage}>
+            <div
+              className={S.gameTitle}
+              data-swiper-parallax="-100%"
+              onMouseEnter={mouseEnterHandler}
+              onMouseLeave={mouseLeaveHandler}
+            >
+              <h2>
+                <Image src={MafiaGameTitle} alt="mafia game title" priority />
+              </h2>
+              <div className={S.gameButton}>
+                <button onClick={gameStartHandler}>Game Start</button>
+                <Link href="/mafiainfo" className={S.gameInfo}>
+                  More Info
+                </Link>
               </div>
-            </li>
-          </ul>
-        </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide className={S.gameImage}>
+            <div
+              className={S.gameTitle}
+              data-swiper-parallax="200%"
+              onMouseEnter={mouseEnterHandler}
+              onMouseLeave={mouseLeaveHandler}
+            >
+              <h2>
+                <Image src={SongGameTitle} alt="song game title" priority />
+              </h2>
+              <div className={S.gameButton}>
+                <button onClick={songHandler}>Game Start</button>
+                <button onClick={songHandler} className={S.gameInfo}>
+                  More Info
+                </button>
+              </div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
       </section>
       <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>
@@ -212,7 +277,7 @@ const Mainpage = () => {
           </div>
           {rooms.length > 0 ? (
             <ul className={S.roomList}>
-              {rooms.map((item: Tables<"room_table">) => (
+              {rooms.map((item) => (
                 <li key={item.room_id}>
                   <Image src={MafiaItem} alt="room image" />
                   <div className={S.roomTitle}>
