@@ -86,7 +86,7 @@ const MainCreateRoom = () => {
       }
 
       if (selectedGame === "노래맞추기") {
-        toast.error("노래 맞추기 게임은 준비중입니다.");
+        toast("노래 맞추기 게임은 준비중입니다.");
         return;
       }
 
