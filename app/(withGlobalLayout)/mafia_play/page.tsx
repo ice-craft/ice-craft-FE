@@ -174,7 +174,7 @@ const MafiaPlay = () => {
     });
 
     socket.on("playError", (roundName, message) => {
-      console.log(`[canGameStartError] ${roundName}, ${message}`);
+      console.log(`[playError] ${roundName}, ${message}`);
       console.log("");
     });
 
