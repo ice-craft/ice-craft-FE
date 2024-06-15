@@ -58,7 +58,7 @@ const MafiaPlay = () => {
           console.log(eventName, userId.current, "마피아");
           socket.emit(eventName, userId.current, "마피아");
           break;
-        case "testStart":
+        case "gameStart":
           console.log(eventName, "테스트 시작");
           socket.emit(eventName, roomId.current, Number(totalUserCount.current));
           //NOTE - 방 인원수는 반드시 숫자로 보내야함
@@ -173,8 +173,8 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("initError", (message) => {
-      console.log(`[canGameStartError] ${message}`);
+    socket.on("playError", (roundName, message) => {
+      console.log(`[canGameStartError] ${roundName}, ${message}`);
       console.log("");
     });
 
