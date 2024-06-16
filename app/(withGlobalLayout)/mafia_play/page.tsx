@@ -59,7 +59,7 @@ const MafiaPlay = () => {
           socket.emit(eventName, userId.current, "마피아");
           break;
         case "gameStart":
-          console.log(eventName, "테스트 시작");
+          console.log(eventName, "게임 시작");
           socket.emit(eventName, roomId.current, Number(totalUserCount.current));
           //NOTE - 방 인원수는 반드시 숫자로 보내야함
           break;
@@ -73,6 +73,8 @@ const MafiaPlay = () => {
     if (!socket.connected) {
       socket.connect();
       console.log("서버와 연결이 되었습니다.");
+      console.log(eventName, "게임 시작"); //FIXME - 테스트용 코드
+      socket.emit(eventName, roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드
     }
   };
 
