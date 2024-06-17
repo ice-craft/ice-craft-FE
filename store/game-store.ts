@@ -8,7 +8,8 @@ const useGameStore = create<GameState>((set) => ({
   actions: {
     setIsReady: (newToggle: boolean) => set({ isReady: newToggle }),
     setIsStart: (newIsStarts: boolean) => set({ isStart: newIsStarts }),
-    setDiedPlayer: (playerId: string) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] }))
+    setDiedPlayer: (playerId: string) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] })),
+    setGameReset: () => set({ isReady: false, isStart: false, diedPlayerId: [] })
   }
 }));
 

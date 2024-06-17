@@ -25,7 +25,11 @@ const useOverlayStore = create<OverlayState>((set) => ({
     setIsOverlay: (newIsOverlay) => set({ isLocalOverlay: newIsOverlay, isRemoteOverlay: newIsOverlay }),
     setIsRemoteOverlay: (newIsOverlay) => set({ isRemoteOverlay: newIsOverlay }),
     //NOTE - OO시간 구별(투표, 마피아, 의사, 경찰)
-    setInSelect: (newSelect) => set({ inSelect: newSelect })
+    setInSelect: (newSelect) => set({ inSelect: newSelect }),
+
+    //NOTE - overlay 초기화
+    setOverlayReset: () =>
+      set({ activePlayerId: "", playersReady: {}, isLocalOverlay: false, isRemoteOverlay: false, inSelect: "" })
   }
 }));
 

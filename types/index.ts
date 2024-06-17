@@ -64,6 +64,7 @@ export interface OverlayState {
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
     setInSelect: (newSelect: string) => void;
+    setOverlayReset: () => void;
   };
 }
 
@@ -89,6 +90,7 @@ export interface OverlayState {
 export interface ImageState {
   imageState: StaticImageData | null;
   setImageState: (newImage: StaticImageData | null) => void;
+  setImageReset: () => void;
 }
 
 export interface GameState {
@@ -99,6 +101,7 @@ export interface GameState {
     setIsStart: (isStart: boolean) => void;
     setIsReady: (isReady: boolean) => void;
     setDiedPlayer: (playerId: string) => void;
+    setGameReset: () => void;
   };
 }
 
