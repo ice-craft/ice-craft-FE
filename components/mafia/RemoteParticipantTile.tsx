@@ -15,20 +15,18 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const PlayerId = useActivePlayer();
   const imageState = useJobImageState();
   const isRemoteOverlay = useIsRemoteOverlay();
-  const { clickHandler } = useClickHandler();
   const remoteReadyStates = useReadyPlayers();
+  const { clickHandler } = useClickHandler();
   const { setReadyPlayers } = useOverLayActions();
-  const [,] = useState<RemoteReadyStates>({});
 
   const diedPlayers = useDiedPlayer();
   const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === trackReference.participant.identity);
 
   //NOTE - players의 실시간 준비 상태 update
   const sockets = {
-    setReady: (userId: string, isReady: boolean) => {
-      // setRemoteReadyStates((prev) => ({ ...prev, [userId]: isReady }));
+    setReady: (playerId: string, isReady: boolean) => {
       console.log("너 작동하니?");
-      setReadyPlayers(userId, isReady);
+      setReadyPlayers(playerId, isReady);
     }
   };
 

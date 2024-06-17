@@ -1,7 +1,7 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
-import { useDiedPlayer, useIsReady } from "@/store/game-store";
+import { useDiedPlayer, useIsReady, useIsStart } from "@/store/game-store";
 import { useActivePlayer, useIsLocalOverlay } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
@@ -16,6 +16,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
   const activePlayerId = useActivePlayer();
   const isLocalOverlay = useIsLocalOverlay();
   const isReady = useIsReady();
+  const isStart = useIsStart();
   const { clickHandler } = useClickHandler();
   const diedPlayers = useDiedPlayer();
 
@@ -42,7 +43,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
           )}
         </div>
       </TrackLoop>
-      <GameStartButton />
+      {!isStart && <GameStartButton />}
     </div>
   );
 };

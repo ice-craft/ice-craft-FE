@@ -7,7 +7,7 @@ const SpeakTimer = () => {
   const inSelect = useInSelect();
   const [count, setCount] = useState(0);
   const [isCount, setIsCount] = useState(false);
-  const { setInSelect, setIsOverlay, clearActiveParticipant } = useOverLayActions();
+  const { setInSelect, setIsOverlay, clearActiveImage } = useOverLayActions();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
@@ -24,7 +24,7 @@ const SpeakTimer = () => {
     if (count <= 0 && isCount && inSelect) {
       setInSelect("");
       setIsOverlay(false);
-      clearActiveParticipant();
+      clearActiveImage();
     }
   }, [count]);
 

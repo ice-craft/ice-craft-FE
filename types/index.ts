@@ -59,7 +59,7 @@ export interface OverlayState {
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
-    clearActiveParticipant: () => void;
+    clearActiveImage: () => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;

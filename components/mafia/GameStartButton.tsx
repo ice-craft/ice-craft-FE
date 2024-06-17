@@ -1,5 +1,6 @@
 import useSocketOn from "@/hooks/useSocketOn";
 import { useGameActions, useIsReady } from "@/store/game-store";
+import { useOverLayActions } from "@/store/overlay-store";
 import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant, useParticipants } from "@livekit/components-react";
 import { useState } from "react";
@@ -7,7 +8,8 @@ import { useState } from "react";
 const GameStartButton = () => {
   const [isAllReady, setIsAllReady] = useState(false);
   const isReady = useIsReady();
-  const { setIsReady } = useGameActions();
+  const { setIsReady, setIsStart } = useGameActions();
+  const { clearActiveImage } = useOverLayActions();
 
   const participants = useParticipants();
   const { localParticipant } = useLocalParticipant();
@@ -26,6 +28,11 @@ const GameStartButton = () => {
   //NOTE - 게임 시작 이벤트 핸들러
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
+
+    // 버튼 비활성화
+    setIsStart(false);
+    // 이미지 초기화clearActiveImage
+    clearActiveImage();
   };
 
   //NOTE - 방장일 경우에만 "게임시작 버튼" 활성화
