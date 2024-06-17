@@ -52,11 +52,13 @@ export interface playerMedia {
 
 export interface OverlayState {
   activePlayerId: string | null;
+  playersReady: RemoteReadyStates;
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
 
   actions: {
+    setReadyPlayers: (userId: string, isReady: boolean) => void;
     clearActiveParticipant: () => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;

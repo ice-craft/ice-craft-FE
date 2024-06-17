@@ -3,7 +3,7 @@ import useClickHandler from "@/hooks/useClickHandler";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useDiedPlayer } from "@/store/game-store";
 import { useJobImageState } from "@/store/image-store";
-import { useActivePlayer, useIsRemoteOverlay } from "@/store/overlay-store";
+import { useActivePlayer, useIsRemoteOverlay, useOverLayActions, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { RemoteReadyStates } from "@/types";
 import { ParticipantTile, ParticipantTileProps, useEnsureTrackRef } from "@livekit/components-react";
@@ -16,7 +16,9 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const imageState = useJobImageState();
   const isRemoteOverlay = useIsRemoteOverlay();
   const { clickHandler } = useClickHandler();
-  const [remoteReadyStates, setRemoteReadyStates] = useState<RemoteReadyStates>({});
+  const remoteReadyStates = useReadyPlayers();
+  const { setReadyPlayers } = useOverLayActions();
+  const [,] = useState<RemoteReadyStates>({});
 
   const diedPlayers = useDiedPlayer();
   const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === trackReference.participant.identity);
@@ -24,9 +26,13 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   //NOTE - players의 실시간 준비 상태 update
   const sockets = {
     setReady: (userId: string, isReady: boolean) => {
-      setRemoteReadyStates((prev) => ({ ...prev, [userId]: isReady }));
+      // setRemoteReadyStates((prev) => ({ ...prev, [userId]: isReady }));
+      console.log("너 작동하니?");
+      setReadyPlayers(userId, isReady);
     }
   };
+
+  console.log("remoteReadyStates", remoteReadyStates);
 
   useSocketOn(sockets);
 
