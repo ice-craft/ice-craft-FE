@@ -73,8 +73,8 @@ const MafiaPlay = () => {
     if (!socket.connected) {
       socket.connect();
       console.log("서버와 연결이 되었습니다.");
-      console.log(eventName, "게임 시작"); //FIXME - 테스트용 코드
-      socket.emit(eventName, roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드
+      console.log("게임 시작"); //FIXME - 테스트용 코드
+      socket.emit("gameStart", roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드
     }
   };
 
@@ -165,8 +165,8 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("chiefStart", () => {
-      console.log(`[chiefStart]`);
+    socket.on("chiefStart", (canStart) => {
+      console.log(`[chiefStart] ${canStart}`);
       console.log("");
     });
 
