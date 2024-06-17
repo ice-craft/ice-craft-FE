@@ -2,7 +2,6 @@ import useMediaSocket from "@/hooks/useMediaSocket";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
-import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
@@ -42,9 +41,6 @@ const MafiaPlayRooms = () => {
   const leaveRoom = () => {
     socket.emit("exitRoom", roomId, userId);
   };
-
-  //NOTE - 뒤로가기 및 새로고침(미완성)
-  BeforeUnloadHandler();
 
   return (
     <section className={S.section}>

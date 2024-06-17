@@ -7,7 +7,7 @@ import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
@@ -61,19 +61,14 @@ const JoinMafiaRoom = () => {
           <div className={S.settingCam}>
             <PreJoin
               onError={(err) => console.log("setting error", err)}
-              defaults={{
-                username: "",
-                videoEnabled: true,
-                audioEnabled: true
-              }}
               joinLabel="입장하기"
-              onSubmit={() => setIsJoin(true)}
-              onValidate={() => true}
+              onSubmit={() => setIsJoin(true)} // 입장하기 버튼 이벤트 헨들러
+              onValidate={() => true} // 입장하기 버튼 활성화
             ></PreJoin>
             <div className={S.settingUserButton}>
               <ul>
-                <li>오디오 설정 확인</li>
-                <li>캠 설정 확인</li>
+                <li>오디오 설정 </li>
+                <li>캠 설정 </li>
               </ul>
             </div>
             <div className={S.cover}></div>
