@@ -7,58 +7,62 @@ import Image from "next/image";
 import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
 import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 
-function Items({ currentItems }: any) {
-  return (
-    <>
-      {currentItems && (
-        <ul className={S.userRankingList}>
-          {currentItems.map((item: any, index: number) => (
-            <li key={index}>
-              <div>
-                <h2>{index + 1}</h2>
-                <h3>{item.nickname}</h3>
-                <p className={S.mafiaUserRanking}>{item.game_category}</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>{item.total_score}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
-  );
+interface PageNateProps {
+  data: any;
 }
 
-function PaginatedItems({ items, itemsPerPage }: any) {
-  const [itemOffset, setItemOffset] = useState(0);
-
-  const endOffset = itemOffset + itemsPerPage;
-  const currentItems = items.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
-
-  const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    setItemOffset(newOffset);
-  };
-
-  return (
-    <>
-      <Items currentItems={currentItems} />
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel=">"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="<"
-        renderOnZeroPageCount={null}
-      />
-    </>
-  );
-}
-
-export default function Pagination() {
+export default function Pagination({ data }: PageNateProps) {
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  console.log(data);
+  function Items({ currentItems }: any) {
+    return (
+      <>
+        {currentItems && (
+          <ul className={S.userRankingList}>
+            {currentItems.map((item: any, index: number) => (
+              <li key={index}>
+                <div>
+                  <h2>{index + 1}</h2>
+                  <h3>{item.nickname}</h3>
+                  <p className={S.mafiaUserRanking}>{item.game_category}</p>
+                  <p className={S.songUserRanking}>-</p>
+                  <p className={S.totalRanking}>{item.total_score}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </>
+    );
+  }
+
+  function PaginatedItems({ items, itemsPerPage }: any) {
+    const [itemOffset, setItemOffset] = useState(0);
+
+    const endOffset = itemOffset + itemsPerPage;
+    const currentItems = items.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(items.length / itemsPerPage);
+
+    const handlePageClick = (event: any) => {
+      const newOffset = (event.selected * itemsPerPage) % items.length;
+      setItemOffset(newOffset);
+    };
+
+    return (
+      <>
+        <Items currentItems={currentItems} />
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+        />
+      </>
+    );
+  }
 
   return (
     <div>
