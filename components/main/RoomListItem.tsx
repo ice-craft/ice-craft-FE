@@ -1,4 +1,6 @@
 import React from "react";
+import PeopleIcon from "@/assets/images/icon_person.svg";
+import MafiaItem from "@/assets/images/mafia_item.png";
 
 const RoomListItem = () => {
   return (

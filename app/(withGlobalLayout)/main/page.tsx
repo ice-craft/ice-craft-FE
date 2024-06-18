@@ -1,7 +1,4 @@
 "use client";
-import PeopleIcon from "@/assets/images/icon_person.svg";
-import SearchIcon from "@/assets/images/icon_search.svg";
-import MafiaItem from "@/assets/images/mafia_item.png";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainpage/main.module.css";
@@ -11,7 +8,6 @@ import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -26,7 +22,6 @@ const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [rooms, setRooms] = useState([] as Tables<"room_table">[]);
-  const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const router = useRouter();
@@ -159,7 +154,7 @@ const Mainpage = () => {
     }
   };
 
-  //NOTE - Game Start
+  //NOTE - Game Start button
   const gameStartHandler = async () => {
     try {
       const isLogin = await checkUserLogIn();
@@ -170,7 +165,7 @@ const Mainpage = () => {
       }
       if (!isGoInClick.current) {
         isGoInClick.current = true;
-        socket.emit("fastJoinRoom", userId, nickname);
+        socket.emit("fasJoinRoom", userId, nickname);
       }
     } catch (error) {
       console.log("error", error);
@@ -199,7 +194,7 @@ const Mainpage = () => {
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
-              <RoomSearch />
+              <RoomSearch searchHandler={searchHandler} />
               <div className={S.gameGoButton}>
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장

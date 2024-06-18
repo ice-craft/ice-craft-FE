@@ -195,6 +195,10 @@ export interface MainVisualProps {
   gameStartHandler: () => void;
 }
 
+export interface RoomSearchProps {
+  searchHandler: () => void;
+}
+
 // export interface TimerState {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
