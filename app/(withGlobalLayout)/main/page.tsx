@@ -96,7 +96,7 @@ const Mainpage = () => {
     }
   };
 
-  //NOTE - 방 목록 렌더링
+  //NOTE - 방 목록 리스트 없을때 불러오는 로딩 모션
   if (!rooms) return <MainSkeleton />;
 
   return (
