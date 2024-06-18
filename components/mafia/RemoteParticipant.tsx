@@ -5,7 +5,7 @@ import { TrackLoop, TrackReferenceOrPlaceholder, useLocalParticipant } from "@li
 import React, { useState } from "react";
 import RemoteParticipantTile from "./RemoteParticipantTile";
 
-const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
+const RemoteParticipant = ({ tracks }: Participants) => {
   const isStart = useIsStart();
   const [remoteTracks, setRemoteTracks] = useState<TrackReferenceOrPlaceholder[]>([]);
   const { localParticipant } = useLocalParticipant();

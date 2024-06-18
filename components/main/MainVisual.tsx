@@ -14,7 +14,7 @@ import "swiper/css/navigation";
 import "@/style/mainpage/swiper.css";
 import { MainVisualProps } from "@/types";
 
-const MainVisual: React.FC<MainVisualProps> = ({ gameStartHandler }) => {
+const MainVisual = ({ gameStartHandler }: MainVisualProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   const mouseEnterHandler = () => {

@@ -22,6 +22,8 @@ const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [rooms, setRooms] = useState([] as Tables<"room_table">[]);
+  const [search, setSearch] = useState("");
+
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const router = useRouter();
@@ -194,7 +196,7 @@ const Mainpage = () => {
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
-              <RoomSearch searchHandler={searchHandler} />
+              <RoomSearch searchHandler={searchHandler} search={search} setSearch={setSearch} />
               <div className={S.gameGoButton}>
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장

@@ -196,7 +196,9 @@ export interface MainVisualProps {
 }
 
 export interface RoomSearchProps {
-  searchHandler: () => void;
+  searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  search: string;
+  setSearch: (item: string) => void;
 }
 
 // export interface TimerState {
