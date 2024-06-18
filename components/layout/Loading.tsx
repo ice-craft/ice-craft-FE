@@ -10,12 +10,11 @@ const Loading = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsExit(false);
-      console.log("Loading 컴포넌트 작동", timer);
       router.replace("/main");
     }, 3000);
 
     return () => {
+      setIsExit(false);
       clearTimeout(timer);
     };
   }, []);

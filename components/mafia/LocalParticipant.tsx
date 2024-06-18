@@ -1,27 +1,53 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
-import { useDiedPlayer, useIsReady, useIsStart } from "@/store/game-store";
-import { useActivePlayer, useIsLocalOverlay } from "@/store/overlay-store";
+import { useDiedPlayer } from "@/store/game-store";
+import { useActivePlayer, useIsLocalOverlay, useOverLayActions } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
-import { ParticipantTile, TrackLoop, useLocalParticipant } from "@livekit/components-react";
+import { socket } from "@/utils/socket/socket";
+import { ParticipantTile, TrackLoop, useLocalParticipant, useParticipants } from "@livekit/components-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
   const { localParticipant } = useLocalParticipant();
-  const activePlayerId = useActivePlayer();
+  const { clearActiveImage } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
-  const isReady = useIsReady();
-  const isStart = useIsStart();
   const { clickHandler } = useClickHandler();
+  const activePlayerId = useActivePlayer();
+  const participants = useParticipants();
   const diedPlayers = useDiedPlayer();
+
+  const [isReady, setIsReady] = useState(false);
+  const [isStartButton, setIsStartButton] = useState(true);
+
+  const playersCount = participants.length;
+  const userId = localParticipant.identity;
+  const roomId = localParticipant.metadata;
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
   const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === localParticipant.identity);
+
+  //NOTE - 게임 준비 이벤트 핸들러
+  const readyHandler = () => {
+    const newIsReady = !isReady;
+    setIsReady(newIsReady);
+
+    socket.emit("setReady", userId, newIsReady);
+  };
+
+  //NOTE - 게임 시작 이벤트 핸들러
+  const startHandler = () => {
+    socket.emit("gameStart", roomId, playersCount);
+
+    // 게임 버튼 비활성화 및 이미지 초기화
+    setIsStartButton(false);
+    setIsReady(false);
+    clearActiveImage();
+  };
 
   return (
     <div className={S.localParticipant}>
@@ -43,7 +69,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
           )}
         </div>
       </TrackLoop>
-      {!isStart && <GameStartButton />}
+      {isStartButton && <GameStartButton readyHandler={readyHandler} startHandler={startHandler} />}
     </div>
   );
 };

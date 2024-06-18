@@ -29,6 +29,8 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
 
   useSocketOn(sockets);
 
+  //NOTE - remotePlayer의 Ready 초기 상태
+
   if (!trackReference) {
     return null;
   }
