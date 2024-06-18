@@ -5,8 +5,10 @@ import { useDiedPlayer } from "@/store/game-store";
 import { useJobImageState } from "@/store/image-store";
 import { useActivePlayer, useIsRemoteOverlay, useOverLayActions, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
+import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, ParticipantTileProps, useEnsureTrackRef } from "@livekit/components-react";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const trackReference = useEnsureTrackRef(trackRef);
@@ -30,6 +32,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   useSocketOn(sockets);
 
   //NOTE - remotePlayer의 Ready 초기 상태
+  socket.on("userInfo", () => {});
 
   if (!trackReference) {
     return null;

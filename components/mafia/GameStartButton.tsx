@@ -1,10 +1,8 @@
 import useSocketOn from "@/hooks/useSocketOn";
-import { useIsReady } from "@/store/game-store";
 import { useState } from "react";
 
-const GameStartButton = ({ readyHandler, startHandler }: any) => {
+const GameStartButton = ({ isReady, readyHandler, startHandler }: any) => {
   const [isAllReady, setIsAllReady] = useState(false);
-  const isReady = useIsReady();
 
   //NOTE - 방장일 경우에만 "게임시작 버튼" 활성화 및 비활성화
   const sockets = {
@@ -19,7 +17,6 @@ const GameStartButton = ({ readyHandler, startHandler }: any) => {
       }
     }
   };
-
   useSocketOn(sockets);
 
   return (

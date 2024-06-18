@@ -18,9 +18,6 @@ const useOverlayStore = create<OverlayState>((set) => ({
     //NOTE - 클릭한 player의 정보를 update
     setActiveParticipant: (playerId: string | null) => set({ activePlayerId: playerId }),
 
-    //NOTE - 활성화된 players의 정보를 초기화 시킨다.(캠에 보여지는 이미지 비활성화)
-    clearActiveImage: () => set({ activePlayerId: null, playersReady: {} }),
-
     //NOTE - 캠 클릭 이벤트 핸들러 및 cursor 활성화 및 비활성화
     setIsOverlay: (newIsOverlay) => set({ isLocalOverlay: newIsOverlay, isRemoteOverlay: newIsOverlay }),
     setIsRemoteOverlay: (newIsOverlay) => set({ isRemoteOverlay: newIsOverlay }),

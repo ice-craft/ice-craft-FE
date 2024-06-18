@@ -59,7 +59,6 @@ export interface OverlayState {
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
-    clearActiveImage: () => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
@@ -94,14 +93,9 @@ export interface ImageState {
 }
 
 export interface GameState {
-  isStart: boolean;
-  isReady: boolean;
   diedPlayerId: string[];
   actions: {
-    setIsStart: (isStart: boolean) => void;
-    setIsReady: (isReady: boolean) => void;
     setDiedPlayer: (playerId: string) => void;
-    setGameReset: () => void;
   };
 }
 

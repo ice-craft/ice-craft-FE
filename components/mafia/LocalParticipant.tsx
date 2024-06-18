@@ -14,7 +14,7 @@ import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
   const { localParticipant } = useLocalParticipant();
-  const { clearActiveImage } = useOverLayActions();
+  const { setOverlayReset } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
   const { clickHandler } = useClickHandler();
   const activePlayerId = useActivePlayer();
@@ -43,10 +43,12 @@ const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
 
-    // 게임 버튼 비활성화 및 이미지 초기화
+    // 게임 버튼 비활성화
     setIsStartButton(false);
+
+    //local, remote 이미지 초기화
     setIsReady(false);
-    clearActiveImage();
+    setOverlayReset();
   };
 
   return (
@@ -69,7 +71,7 @@ const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
           )}
         </div>
       </TrackLoop>
-      {isStartButton && <GameStartButton readyHandler={readyHandler} startHandler={startHandler} />}
+      {isStartButton && <GameStartButton isReady={isReady} readyHandler={readyHandler} startHandler={startHandler} />}
     </div>
   );
 };
