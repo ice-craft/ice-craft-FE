@@ -52,16 +52,18 @@ export interface playerMedia {
 
 export interface OverlayState {
   activePlayerId: string | null;
+  playersReady: RemoteReadyStates;
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
 
   actions: {
-    clearActiveParticipant: () => void;
+    setReadyPlayers: (userId: string, isReady: boolean) => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
     setInSelect: (newSelect: string) => void;
+    setOverlayReset: () => void;
   };
 }
 
@@ -87,15 +89,12 @@ export interface OverlayState {
 export interface ImageState {
   imageState: StaticImageData | null;
   setImageState: (newImage: StaticImageData | null) => void;
+  setImageReset: () => void;
 }
 
 export interface GameState {
-  isStart: boolean;
-  isReady: boolean;
   diedPlayerId: string[];
   actions: {
-    setIsStart: (isStart: boolean) => void;
-    setIsReady: (isReady: boolean) => void;
     setDiedPlayer: (playerId: string) => void;
   };
 }
@@ -191,6 +190,11 @@ export interface totalTimeState {
   };
 }
 
+export interface playersInfo {
+  user_id: string;
+  user_nickname: string;
+  is_ready: boolean;
+}
 // export interface TimerState {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
