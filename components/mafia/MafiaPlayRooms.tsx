@@ -12,6 +12,7 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
+import { useEffect } from "react";
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();

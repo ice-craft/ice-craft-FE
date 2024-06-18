@@ -3,13 +3,13 @@ import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
-import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useState } from "react";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
+
   const { roomId, userId, nickname } = useConnectStore();
   BeforeUnloadHandler();
 
@@ -21,10 +21,6 @@ const JoinMafiaRoom = () => {
 
   if (isError) {
     console.log("토큰 발급중 에러 발생");
-  }
-  // 입장 시 players의 Ready 상태를 받는 socket Event
-  if (isJoin) {
-    socket.emit("usersInfo", roomId);
   }
 
   return (

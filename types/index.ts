@@ -190,6 +190,11 @@ export interface totalTimeState {
   };
 }
 
+export interface playersInfo {
+  user_id: string;
+  user_nickname: string;
+  is_ready: boolean;
+}
 // export interface TimerState {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
