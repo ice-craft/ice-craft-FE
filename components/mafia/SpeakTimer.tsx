@@ -7,7 +7,7 @@ const SpeakTimer = () => {
   const inSelect = useInSelect();
   const [count, setCount] = useState(0);
   const [isCount, setIsCount] = useState(false);
-  const { setInSelect, setIsOverlay, clearActiveParticipant } = useOverLayActions();
+  const { setInSelect, setIsOverlay, setOverlayReset } = useOverLayActions();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
@@ -22,9 +22,7 @@ const SpeakTimer = () => {
     }
     // 캠 클릭 이벤트 비활성화 및 캠 이미지 초기화
     if (count <= 0 && isCount && inSelect) {
-      setInSelect("");
-      setIsOverlay(false);
-      clearActiveParticipant();
+      setOverlayReset();
     }
   }, [count]);
 

@@ -40,31 +40,30 @@ export interface playerMedia {
 
 export interface OverlayState {
   activePlayerId: string | null;
+  playersReady: RemoteReadyStates;
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
 
   actions: {
-    clearActiveParticipant: () => void;
+    setReadyPlayers: (userId: string, isReady: boolean) => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
     setInSelect: (newSelect: string) => void;
+    setOverlayReset: () => void;
   };
 }
 
 export interface ImageState {
   imageState: StaticImageData | null;
   setImageState: (newImage: StaticImageData | null) => void;
+  setImageReset: () => void;
 }
 
 export interface GameState {
-  isStart: boolean;
-  isReady: boolean;
   diedPlayerId: string[];
   actions: {
-    setIsStart: (isStart: boolean) => void;
-    setIsReady: (isReady: boolean) => void;
     setDiedPlayer: (playerId: string) => void;
   };
 }
@@ -141,9 +140,21 @@ export interface totalTimeState {
   };
 }
 
+<<<<<<< HEAD
 export interface MainVisualProps {
   gameStartHandler: () => void;
 }
+=======
+export interface playersInfo {
+  user_id: string;
+  user_nickname: string;
+  is_ready: boolean;
+}
+// export interface TimerState {
+//   timerIds: NodeJS.Timeout[];
+//   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
+// }
+>>>>>>> 6b191f6f3f2ea50a0291d81b2d49f88d5cae15f2
 
 export interface RoomSearchProps {
   searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
