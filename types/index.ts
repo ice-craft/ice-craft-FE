@@ -1,8 +1,7 @@
-import { TrackReference, TrackReferenceOrPlaceholder } from "@livekit/components-react";
+import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
-import { LocalParticipant, Participant, RemoteParticipant, Track } from "livekit-client";
 import { StaticImageData } from "next/image";
-import { Dispatch, MutableRefObject, RefObject, SetStateAction } from "react";
+import { Tables } from "./supabase";
 
 export interface MafiaRoom {
   room: string;
@@ -22,17 +21,6 @@ export interface SocketEventHandler {
 export interface Role {
   [job: string]: string[];
 }
-
-// export interface RenderCardsProps {
-//   cards: {
-//     doctor: { src: string; alt: string };
-//     police: { src: string; alt: string };
-//     mafia: { src: string; alt: string };
-//     citizen: { src: string; alt: string };
-//   };
-//   role: Role;
-//   showAllCards: boolean;
-// }
 
 export interface VoteResult {
   user_id: string;
@@ -67,25 +55,6 @@ export interface OverlayState {
   };
 }
 
-// export type Role = "citizens" | "mafia" | "doctor" | "police" | null;
-
-// export interface MafiaGameToolTip {
-//   role: Role;
-// }
-
-// export interface MafiaModalContent {
-//   count: number;
-//   content: string;
-//   nickname?: string;
-// }
-
-// export interface CountState {
-//   isStart: boolean;
-//   timer: number;
-//   setTimer: (newCount: number) => void;
-//   setIsStart: (newToggle: boolean) => void;
-// }
-
 export interface ImageState {
   imageState: StaticImageData | null;
   setImageState: (newImage: StaticImageData | null) => void;
@@ -109,25 +78,6 @@ export interface ConnectState {
   setUserId: (id: string) => void;
   setUserNickname: (id: string) => void;
 }
-
-// export interface MessageState {
-//   messages: string[];
-//   addMessage: (newMessage: string) => void;
-//   clearMessages: () => void;
-// }
-
-// export interface CardInfo {
-//   src: string;
-//   alt: string;
-// }
-
-// export interface ModalData {
-//   title: string;
-//   message: string;
-//   nickname: string;
-//   timer: number;
-//   isOpen: boolean;
-// }
 
 export interface RemoteReadyStates {
   [key: string]: boolean;
@@ -190,6 +140,11 @@ export interface totalTimeState {
   };
 }
 
+<<<<<<< HEAD
+export interface MainVisualProps {
+  gameStartHandler: () => void;
+}
+=======
 export interface playersInfo {
   user_id: string;
   user_nickname: string;
@@ -199,40 +154,23 @@ export interface playersInfo {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
 // }
+>>>>>>> 6b191f6f3f2ea50a0291d81b2d49f88d5cae15f2
 
-// export interface TotalSocketState {
-//   userId: string;
-//   roomId: string;
-//   votedPlayer: string;
-//   voteBoard?: any;
-//   setIsOpen: (newIsOpen: boolean) => void;
-//   setTitle: (newTitle: string) => void;
-//   setMessage: (newMessage: string) => void;
-//   setTimer: (newTimer: number) => void;
-//   setIsClose: (newIsClose: boolean) => void;
-//   setIsOverlay: (newIsOverlay: boolean) => void;
-//   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
-//   clearActiveParticipant: () => void;
-// }
+export interface RoomSearchProps {
+  searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  search: string;
+  setSearch: (item: string) => void;
+}
+export interface Rooms {
+  room_id: string;
+  title: string | null;
+  game_category: string | null;
+  current_user_count: number;
+  total_user_count: number;
+  created_at: string | null;
+}
 
-// export interface VoteState {
-//   votedPlayer: string;
-//   isVoted: boolean;
-//   timerRef: MutableRefObject<boolean>;
-//   setVoteTimerClose: Dispatch<SetStateAction<NodeJS.Timeout | undefined>>;
-//   setIsOverlay: (newIsOverlay: boolean) => void;
-//   clearActiveParticipant: () => void;
-//   setVoted: (newIsVoted: boolean) => void;
-// }
-// export type SetModalState = Omit<TotalSocketState, "userId" | "roomId" | "votedPlayer" | "voteBoard" | "setTimerIds">;
-
-// export interface MediaState {
-//   tracks: TrackReferenceOrPlaceholder[];
-//   localUserId: string | undefined;
-//   participants: (RemoteParticipant | LocalParticipant)[];
-//   players: string[];
-//   userId: string;
-//   roomId: string;
-//   sources: Track.Source[];
-//   setTimerIds: Dispatch<SetStateAction<NodeJS.Timeout[]>>;
-// }
+export interface RoomListItemProps {
+  item: Rooms;
+  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+}

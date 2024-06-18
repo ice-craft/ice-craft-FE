@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
 
-const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
+const LocalParticipant = ({ tracks }: Participants) => {
   const { localParticipant } = useLocalParticipant();
   const { setOverlayReset } = useOverLayActions();
   const isLocalOverlay = useIsLocalOverlay();
