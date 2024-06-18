@@ -7,7 +7,11 @@ import Image from "next/image";
 import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
 import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 
-export default function Pagination({ data }: any) {
+interface PageNateProps {
+  data: any;
+}
+
+export default function Pagination({ data }: PageNateProps) {
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   console.log(data);
   function Items({ currentItems }: any) {
@@ -59,6 +63,7 @@ export default function Pagination({ data }: any) {
       </>
     );
   }
+
   return (
     <div>
       <PaginatedItems items={items} itemsPerPage={10} />
