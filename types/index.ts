@@ -1,6 +1,7 @@
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
+import { Tables } from "./supabase";
 
 export interface MafiaRoom {
   room: string;
@@ -148,4 +149,17 @@ export interface RoomSearchProps {
   searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   search: string;
   setSearch: (item: string) => void;
+}
+export interface Rooms {
+  room_id: string;
+  title: string | null;
+  game_category: string | null;
+  current_user_count: number;
+  total_user_count: number;
+  created_at: string | null;
+}
+
+export interface RoomListItemProps {
+  item: Rooms;
+  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
 }
