@@ -27,7 +27,7 @@ const useModalSocket = () => {
 
     //NOTE - UserRoleModal 모달창 요소
     showAllPlayerRole: (role: Role, timer: number) => {
-      setCurrentModal("userRoleModal");
+      setCurrentModal("UserRoleModal");
       setRole(role);
       setTimer(timer);
       setIsOpen(true);

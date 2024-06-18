@@ -5,10 +5,8 @@ import { useDiedPlayer } from "@/store/game-store";
 import { useJobImageState } from "@/store/image-store";
 import { useActivePlayer, useIsRemoteOverlay, useOverLayActions, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { RemoteReadyStates } from "@/types";
 import { ParticipantTile, ParticipantTileProps, useEnsureTrackRef } from "@livekit/components-react";
 import Image from "next/image";
-import { useState } from "react";
 
 const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const trackReference = useEnsureTrackRef(trackRef);
@@ -25,12 +23,9 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   //NOTE - players의 실시간 준비 상태 update
   const sockets = {
     setReady: (playerId: string, isReady: boolean) => {
-      console.log("너 작동하니?");
       setReadyPlayers(playerId, isReady);
     }
   };
-
-  console.log("remoteReadyStates", remoteReadyStates);
 
   useSocketOn(sockets);
 

@@ -23,8 +23,6 @@ const LocalParticipant: React.FC<Participants> = ({ tracks }) => {
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
   const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === localParticipant.identity);
 
-  console.log("activePlayerId", isReady);
-
   return (
     <div className={S.localParticipant}>
       <SpeakTimer />

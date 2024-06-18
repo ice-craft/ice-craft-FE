@@ -26,20 +26,29 @@ const GameStartButton = () => {
   };
 
   //NOTE - 게임 시작 이벤트 핸들러
+  //NOTE - 서버에서 게임 실행 조건을 충족 되었을 경우 "chiefStart"라는 socket Event를 전달하여 게임 시작버튼을 활성화 시키므로 유효성검사는 충족되어 별도로
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
 
     // 버튼 비활성화
-    setIsStart(false);
+    setIsStart(true);
+
     // 이미지 초기화clearActiveImage
     clearActiveImage();
+    setIsReady(false);
   };
 
-  //NOTE - 방장일 경우에만 "게임시작 버튼" 활성화
+  //NOTE - 방장일 경우에만 "게임시작 버튼" 활성화 및 비활성화
   const sockets = {
-    chiefStart: () => {
-      console.log("니가 방장이다");
-      setIsAllReady(true);
+    chiefStart: (isStart: boolean) => {
+      if (isStart) {
+        console.log("니가 방장이며, 게임 시작할 수 있다.");
+        setIsAllReady(true);
+      }
+      if (!isStart) {
+        console.log("니가 방장이지만, 게임 시작할 수 없다.");
+        setIsAllReady(false);
+      }
     }
   };
 

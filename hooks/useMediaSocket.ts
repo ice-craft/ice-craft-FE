@@ -4,10 +4,12 @@ import { useLocalParticipant, useRemoteParticipants } from "@livekit/components-
 import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
 import useSocketOn from "./useSocketOn";
+import { useExitStore } from "@/store/exit-store";
 
 const useMediaSocket = () => {
   const diedPlayerId = useDiedPlayer();
   const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus>();
+  const { setIsExit } = useExitStore();
 
   //NOTE -  로컬 player의 정보
   const localParticipant = useLocalParticipant();
@@ -50,6 +52,13 @@ const useMediaSocket = () => {
       if (localPlayerId == playerId) {
         const localCamera = localParticipant.cameraTrack?.track?.mediaStreamTrack;
         const localMike = localParticipant.microphoneTrack?.track?.mediaStreamTrack;
+
+        //NOTE - 마이크 또는 캠이 없을 시
+        if (!localCamera || !localMike) {
+          console.log("localMike", localMike);
+          console.log("localCamera", localCamera);
+          setIsExit(true);
+        }
 
         localCamera!.enabled = isMedia.camera;
         localMike!.enabled = isMedia.mike;
