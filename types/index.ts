@@ -191,6 +191,10 @@ export interface totalTimeState {
   };
 }
 
+export interface MainVisualProps {
+  gameStartHandler: () => void;
+}
+
 // export interface TimerState {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
