@@ -1,19 +1,16 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
-import { useExitStore } from "@/store/exit-store";
 import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
-import { LiveKitRoom, PreJoin, RoomAudioRenderer } from "@livekit/components-react";
+import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
+
   const { roomId, userId, nickname } = useConnectStore();
-  const { setIsExit } = useExitStore();
-  const router = useRouter();
   BeforeUnloadHandler();
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
@@ -26,20 +23,6 @@ const JoinMafiaRoom = () => {
     console.log("토큰 발급중 에러 발생");
   }
 
-  //NOTE - 방을 나갈 시에 작동되는 이벤트 헨들러
-  // supabase의 성능문제를 해결하기위해 로딩창을 띄어 텀을 주었다.
-  const disConnected = () => {
-    setIsExit(true);
-
-    const timer = setTimeout(() => {
-      router.replace("/main");
-    }, 3000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  };
-
   return (
     <main data-lk-theme="default">
       {isJoin ? (
@@ -49,11 +32,8 @@ const JoinMafiaRoom = () => {
           video={true}
           audio={true}
           connect={true}
-          onDisconnected={disConnected}
         >
           <MafiaPlayRooms />
-          {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
-          <RoomAudioRenderer muted={false} />
         </LiveKitRoom>
       ) : (
         <section className={S.settingWrapper}>
@@ -61,19 +41,14 @@ const JoinMafiaRoom = () => {
           <div className={S.settingCam}>
             <PreJoin
               onError={(err) => console.log("setting error", err)}
-              defaults={{
-                username: "",
-                videoEnabled: true,
-                audioEnabled: true
-              }}
               joinLabel="입장하기"
-              onSubmit={() => setIsJoin(true)}
-              onValidate={() => true}
+              onSubmit={() => setIsJoin(true)} // 입장하기 버튼 이벤트 헨들러
+              onValidate={() => true} // 입장하기 버튼 활성화
             ></PreJoin>
             <div className={S.settingUserButton}>
               <ul>
-                <li>오디오 설정 확인</li>
-                <li>캠 설정 확인</li>
+                <li>오디오 설정 </li>
+                <li>캠 설정 </li>
               </ul>
             </div>
             <div className={S.cover}></div>

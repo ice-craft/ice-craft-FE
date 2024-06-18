@@ -1,9 +1,8 @@
-import JSConfetti from "js-confetti";
+import { useEffect, useState } from "react";
 import { useCountDown } from "@/hooks/useCountDown";
 import { useGroupModalElement, useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
-
 import S from "@/style/modal/modal.module.css";
-import { useEffect, useState } from "react";
+import JSConfetti from "js-confetti";
 
 const VictoryModal = () => {
   const jsConfetti = new JSConfetti();

@@ -1,22 +1,27 @@
 import useMediaSocket from "@/hooks/useMediaSocket";
-import useConnectStore from "@/store/connect-store";
-import S from "@/style/livekit/livekit.module.css";
-import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
-import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
-import { socket } from "@/utils/socket/socket";
-import { DisconnectButton, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import LocalParticipant from "./LocalParticipant";
-import MafiaToolTip from "./MafiaToolTip";
-import RemoteParticipant from "./RemoteParticipant";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
+import { useExitStore } from "@/store/exit-store";
 import { useGameActions } from "@/store/game-store";
+import S from "@/style/livekit/livekit.module.css";
+import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
+import { socket } from "@/utils/socket/socket";
+import { DisconnectButton, RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
+import { Track } from "livekit-client";
+import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
+import MafiaToolTip from "./MafiaToolTip";
+import RemoteParticipant from "./RemoteParticipant";
+import { useEffect } from "react";
 
 const MafiaPlayRooms = () => {
-  const { userId, roomId } = useConnectStore();
+  const { localParticipant } = useLocalParticipant();
+  const roomId = localParticipant.metadata;
+  const userId = localParticipant.identity;
+
   const { setDiedPlayer } = useGameActions();
+  const { setIsExit } = useExitStore();
+
   useMediaSocket(); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
 
@@ -39,17 +44,18 @@ const MafiaPlayRooms = () => {
   useSocketOn(sockets);
 
   //NOTE - 방 나가기 이벤트 헨들러
+  // supabase의 성능문제를 해결하기위해 로딩창을 띄어 텀을 주었다.
   const leaveRoom = () => {
+    setIsExit(true);
     socket.emit("exitRoom", roomId, userId);
   };
-
-  //NOTE - 뒤로가기 및 새로고침(미완성)
-  BeforeUnloadHandler();
 
   return (
     <section className={S.section}>
       <LocalParticipant tracks={tracks} />
       <RemoteParticipant tracks={tracks} />
+      {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
+      <RoomAudioRenderer muted={false} />
       <div className={S.goToMainPage}>
         <button
           onClick={() => {
