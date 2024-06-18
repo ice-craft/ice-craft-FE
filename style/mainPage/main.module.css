@@ -285,16 +285,16 @@
 }
 
 .loadingTextWrapper {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   position: fixed;
-  font-size: var(--font-size-title);
-  z-index: 999;
-  max-width: 50rem;
+  inset: 0;
   width: 100%;
-  margin: 5rem auto;
+  height: 100vh;
   text-align: center;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .loading {
@@ -396,6 +396,14 @@
   justify-content: center;
   align-items: center;
   height: 700px;
+}
+
+.roomListLoading {
+  height: 350px;
+}
+
+.roomListLoading * {
+  transform: translateY(-4px);
 }
 
 /*---------------- Animation --------------*/

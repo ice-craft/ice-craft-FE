@@ -38,7 +38,7 @@ const MainSkeleton = () => {
           <section className={S.roomSection}>
             <div className={S.MainGnb}>
               <p>
-                <Skeleton width={200} />
+                <Skeleton width={200} height={40} />
               </p>
               <div className={S.roomSearchAndButton}>
                 <Skeleton width={350} height={40} />
@@ -54,7 +54,7 @@ const MainSkeleton = () => {
               {Array(3)
                 .fill(null)
                 .map((_, index) => (
-                  <li key={index}>
+                  <li key={index} className={S.roomListLoading}>
                     <Skeleton height={350} />
                   </li>
                 ))}
