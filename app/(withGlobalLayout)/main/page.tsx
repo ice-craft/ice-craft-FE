@@ -125,7 +125,7 @@ const Mainpage = () => {
           {rooms ? (
             <ul className={S.roomList}>
               {rooms.map((item) => (
-                <RoomListItem item={item} joinRoomHandler={joinRoomHandler} />
+                <RoomListItem key={item.room_id} item={item} joinRoomHandler={joinRoomHandler} />
               ))}
             </ul>
           ) : (

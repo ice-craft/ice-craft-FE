@@ -9,7 +9,7 @@ const RoomListItem = ({ item, joinRoomHandler }: RoomListItemProps) => {
   const isGoInClick = useRef(false);
 
   return (
-    <li key={item.room_id}>
+    <li>
       <Image src={MafiaItem} alt="room image" />
       <div className={S.roomTitle}>
         <h3>{item.title}</h3>
