@@ -1,13 +1,13 @@
 "use client";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import useConnectStore from "@/store/connect-store";
+import Image from "next/image";
 import S from "@/style/mainpage/main.module.css";
 import { Tables } from "@/types/supabase";
 import GoTopButton from "@/utils/GoTopButton";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -23,7 +23,6 @@ const Mainpage = () => {
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [rooms, setRooms] = useState([] as Tables<"room_table">[]);
   const [search, setSearch] = useState("");
-
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const router = useRouter();
@@ -213,7 +212,7 @@ const Mainpage = () => {
           {rooms.length > 0 ? (
             <ul className={S.roomList}>
               {rooms.map((item) => (
-                <RoomListItem />
+                <RoomListItem item={item} joinRoomHandler={joinRoomHandler} />
               ))}
             </ul>
           ) : (

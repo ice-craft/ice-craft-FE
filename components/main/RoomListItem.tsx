@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
+import S from "@/style/mainpage/main.module.css";
+import Image from "next/image";
+import { Tables } from "@/types/supabase";
 
-const RoomListItem = () => {
+interface RoomListItemProps {
+  item: Rooms;
+  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+}
+
+interface Rooms {
+  room_id: string;
+  title: string | null;
+  game_category: string | null;
+  current_user_count: number;
+  total_user_count: number;
+  created_at: string | null;
+}
+
+const RoomListItem = ({ item, joinRoomHandler }: RoomListItemProps) => {
+  const isGoInClick = useRef(false);
+
   return (
     <li key={item.room_id}>
       <Image src={MafiaItem} alt="room image" />
