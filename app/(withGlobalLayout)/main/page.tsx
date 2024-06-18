@@ -16,6 +16,7 @@ import MainVisual from "@/components/main/MainVisual";
 import RoomSearch from "@/utils/RoomSearch";
 import RoomListItem from "@/components/main/RoomListItem";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
+import MainSkeleton from "@/components/main/MainSkeleton";
 
 const Mainpage = () => {
   const { rooms, setRooms } = useGetRoomsSocket();
@@ -96,7 +97,7 @@ const Mainpage = () => {
   };
 
   //NOTE - 방 목록 렌더링
-  if (!rooms) return <div>방 목록 리스트 불러오는 중입니다.</div>;
+  if (!rooms) return <MainSkeleton />;
 
   return (
     <main className={S.main}>
