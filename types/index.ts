@@ -140,11 +140,10 @@ export interface totalTimeState {
   };
 }
 
-<<<<<<< HEAD
 export interface MainVisualProps {
   gameStartHandler: () => void;
 }
-=======
+
 export interface playersInfo {
   user_id: string;
   user_nickname: string;
@@ -154,7 +153,6 @@ export interface playersInfo {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
 // }
->>>>>>> 6b191f6f3f2ea50a0291d81b2d49f88d5cae15f2
 
 export interface RoomSearchProps {
   searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
