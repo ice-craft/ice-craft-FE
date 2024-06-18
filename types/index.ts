@@ -159,6 +159,7 @@ export interface RoomSearchProps {
   search: string;
   setSearch: (item: string) => void;
 }
+
 export interface Rooms {
   room_id: string;
   title: string | null;
