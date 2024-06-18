@@ -6,7 +6,7 @@ import S from "@/style/mainpage/main.module.css";
 import { Tables } from "@/types/supabase";
 import GoTopButton from "@/utils/GoTopButton";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -27,97 +27,97 @@ const Mainpage = () => {
   const roomId = useRef("");
   const router = useRouter();
 
-  useEffect(() => {
-    socket.connect();
-  }, []);
-
-  const sockets = {
-    enterMafia: (rooms: Tables<"room_table">[]) => {
-      setRooms(rooms);
-    },
-    joinRoom: () => {
-      if (roomId.current) {
-        router.push(`/room/${roomId.current}/`);
-      }
-    },
-    joinRoomError: (message: string) => {
-      isGoInClick.current = false;
-      toast.error(message);
-      // router.refresh();
-    },
-    fastJoinRoom: (room_id: string) => {
-      router.push(`/room/${room_id}/`);
-      setRoomId(room_id);
-    },
-    fastJoinRoomError: (message: string) => {
-      isGoInClick.current = false;
-      toast.error(message);
-    }
-  };
-
-  useSocketOn(sockets);
-
   // useEffect(() => {
-  //   //NOTE -  서버와 연결
   //   socket.connect();
+  // }, []);
 
-  //   socket.emit("enterMafia", 0, 20);
-
-  //   socket.on("enterMafia", (rooms) => {
+  // const sockets = {
+  //   enterMafia: (rooms: Tables<"room_table">[]) => {
   //     setRooms(rooms);
-  //   });
-  //   socket.on("enterMafiaError", (message) => {
-  //     toast.error(message);
-  //   });
-
-  //   socket.on("joinRoom", () => {
+  //   },
+  //   joinRoom: () => {
   //     if (roomId.current) {
   //       router.push(`/room/${roomId.current}/`);
   //     }
-  //   });
-
-  //   socket.on("joinRoomError", (message) => {
+  //   },
+  //   joinRoomError: (message: string) => {
   //     isGoInClick.current = false;
   //     toast.error(message);
   //     // router.refresh();
-  //   });
-
-  //   socket.on("fastJoinRoom", (room_id) => {
+  //   },
+  //   fastJoinRoom: (room_id: string) => {
   //     router.push(`/room/${room_id}/`);
   //     setRoomId(room_id);
-  //   });
-
-  //   socket.on("fastJoinRoomError", (message) => {
+  //   },
+  //   fastJoinRoomError: (message: string) => {
   //     isGoInClick.current = false;
   //     toast.error(message);
-  //   });
+  //   }
+  // };
 
-  //   const checkUserInfo = async () => {
-  //     const userInfo = await getUserInfo();
+  // useSocketOn(sockets);
 
-  //     // 세션 스토리지에 저장
-  //     if (userInfo) {
-  //       setUserId(crypto.randomUUID());
-  //       setUserNickname(crypto.randomUUID());
-  //       // setUserId(userInfo.id);
-  //       // setUserNickname(userInfo.user_metadata.nickname);
-  //     }
-  //   };
+  useEffect(() => {
+    //NOTE -  서버와 연결
+    socket.connect();
 
-  //   checkUserInfo();
+    socket.emit("enterMafia", 0, 20);
 
-  //   return () => {
-  //     socket.off("joinRoom");
-  //     socket.off("joinRoomError");
-  //     socket.off("fastJoinRoom");
-  //     socket.off("fastJoinRoomError");
-  //     socket.off("enterMafia");
-  //     socket.off("enterMafiaError");
-  //   };
-  // }, []);
+    socket.on("enterMafia", (rooms) => {
+      setRooms(rooms);
+    });
+    socket.on("enterMafiaError", (message) => {
+      toast.error(message);
+    });
 
-  //NOTE - 입장하기
-  const joinRoomHandler = async (item: Tables<"room_table">) => {
+    socket.on("joinRoom", () => {
+      if (roomId.current) {
+        router.push(`/room/${roomId.current}/`);
+      }
+    });
+
+    socket.on("joinRoomError", (message) => {
+      isGoInClick.current = false;
+      toast.error(message);
+      // router.refresh();
+    });
+
+    socket.on("fastJoinRoom", (room_id) => {
+      router.push(`/room/${room_id}/`);
+      setRoomId(room_id);
+    });
+
+    socket.on("fastJoinRoomError", (message) => {
+      isGoInClick.current = false;
+      toast.error(message);
+    });
+
+    const checkUserInfo = async () => {
+      const userInfo = await getUserInfo();
+
+      // 세션 스토리지에 저장
+      if (userInfo) {
+        setUserId(crypto.randomUUID());
+        setUserNickname(crypto.randomUUID());
+        // setUserId(userInfo.id);
+        // setUserNickname(userInfo.user_metadata.nickname);
+      }
+    };
+
+    checkUserInfo();
+
+    return () => {
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
+      socket.off("fastJoinRoom");
+      socket.off("fastJoinRoomError");
+      socket.off("enterMafia");
+      socket.off("enterMafiaError");
+    };
+  }, []);
+
+  //NOTE - 로그인 체크, 공통 로직 함수 정의
+  const loginErrorHandler = async (emitCallback: () => void) => {
     try {
       const isLogin = await checkUserLogIn();
 
@@ -125,60 +125,44 @@ const Mainpage = () => {
         toast.info("로그인 후 입장가능합니다.");
         return;
       }
-
       if (!isGoInClick.current) {
-        roomId.current = item.room_id;
         isGoInClick.current = true;
-        setRoomId(item.room_id);
-        socket.emit("joinRoom", userId, item.room_id, nickname);
+        emitCallback();
       }
     } catch (error) {
       console.log("error", error);
     }
+  };
+
+  //NOTE - 방 리스트 입장하기
+  const joinRoomHandler = async (item: Tables<"room_table">) => {
+    await loginErrorHandler(() => {
+      setRoomId(item.room_id);
+      socket.emit("joinRoom", userId, item.room_id, nickname);
+    });
   };
 
   //NOTE - 빠른 입장
   const fastJoinRoomHandler = async () => {
-    try {
-      const isLogin = await checkUserLogIn();
-
-      if (!isLogin) {
-        toast.info("로그인 후 입장가능합니다.");
-        return;
-      }
-      if (!isGoInClick.current) {
-        isGoInClick.current = true;
-        socket.emit("fastJoinRoom", userId, nickname);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
+    await loginErrorHandler(() => {
+      socket.emit("fastJoinRoom", userId, nickname);
+    });
   };
 
-  //NOTE - Game Start button
+  //NOTE - 메인페이지 visual Game Start button
   const gameStartHandler = async () => {
-    try {
-      const isLogin = await checkUserLogIn();
-
-      if (!isLogin) {
-        toast.info("로그인 후 입장가능합니다.");
-        return;
-      }
-      if (!isGoInClick.current) {
-        isGoInClick.current = true;
-        socket.emit("fasJoinRoom", userId, nickname);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
+    await loginErrorHandler(() => {
+      socket.emit("fasJoinRoom", userId, nickname);
+    });
   };
 
+  //NOTE - 방 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!search.trim()) return;
 
     try {
-      const rooms: Tables<"room_table">[] = await getRoomsWithKeyword(search);
+      const rooms = await getRoomsWithKeyword(search);
       setRooms(rooms);
     } catch (error) {
       toast.error("검색 중 오류가 발생했습니다.");
