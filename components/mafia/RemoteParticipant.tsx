@@ -7,13 +7,7 @@ import { useOverLayActions } from "@/store/overlay-store";
 import useSocketOn from "@/hooks/useSocketOn";
 import { socket } from "@/utils/socket/socket";
 
-<<<<<<< HEAD
 const RemoteParticipant = ({ tracks }: Participants) => {
-  const isStart = useIsStart();
-  const [remoteTracks, setRemoteTracks] = useState<TrackReferenceOrPlaceholder[]>([]);
-=======
-const RemoteParticipant: React.FC<Participants> = ({ tracks }) => {
->>>>>>> 6b191f6f3f2ea50a0291d81b2d49f88d5cae15f2
   const { localParticipant } = useLocalParticipant();
   const { setReadyPlayers } = useOverLayActions();
   const roomId = localParticipant.metadata;
