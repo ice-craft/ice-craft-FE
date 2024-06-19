@@ -47,8 +47,8 @@ const MafiaPlay = () => {
           socket.emit(eventName, userId.current, true, roomId.current);
           break;
         case "voteTo":
-          console.log(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
-          socket.emit(eventName, userId.current, "79043912-e9c4-4658-987c-6715bebb1224");
+          console.log(eventName, "22222222-f1b4-46eb-a187-2da752eed29c");
+          socket.emit(eventName, "22222222-f1b4-46eb-a187-2da752eed29c");
           break;
         case "voteYesOrNo":
           console.log(eventName, userId.current, "yes");
@@ -73,8 +73,10 @@ const MafiaPlay = () => {
     if (!socket.connected) {
       socket.connect();
       console.log("서버와 연결이 되었습니다.");
-      console.log("게임 시작"); //FIXME - 테스트용 코드
-      socket.emit("gameStart", roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드
+      // console.log("게임 시작"); //FIXME - 테스트용 코드
+      // socket.emit("gameStart", roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드
+      console.log("voteTo", "11111111-f1b4-46eb-a187-2da752eed29c");
+      socket.emit("voteTo", "11111111-f1b4-46eb-a187-2da752eed29c");
     }
   };
 
