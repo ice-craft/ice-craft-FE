@@ -190,7 +190,7 @@ const MafiaPlay = () => {
     });
 
     socket.on("updateUserReady", (userId, ready) => {
-      console.log(`${userId}가 ready를 ${ready} 함`);
+      console.log(`${userId}가 ready를 ${ready}`);
     });
 
     socket.on("gameOver", async (title, message, timer, nickname, yesOrNo) => {
