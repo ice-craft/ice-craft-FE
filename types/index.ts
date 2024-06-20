@@ -72,6 +72,7 @@ export interface GameState {
 }
 export interface GamePlayerInfo {
   playerName: string | undefined;
+  playerJoinAt: Date | undefined;
   playerNumber: number;
 }
 

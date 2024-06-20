@@ -7,19 +7,18 @@ const useGameStore = create<GameState>((set) => ({
   actions: {
     setDiedPlayer: (playerId: string) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] })),
     setGamePlayers: (participants) => {
-      // NOTE - 닉네임 정렬
-      const gamePlayerName = participants
-        .map((player) => player.name)
-        .sort((a, b) => {
-          if (!a || !b) {
-            return -1;
-          }
-          return a > b ? 1 : -1;
-        });
+      // NOTE - 입장 순서로 정렬
+      const gamePlayerName = participants.sort((a, b) => {
+        if (!a.joinedAt || !b.joinedAt) {
+          return 1; // 존재 하지 않을 시 뒤로 이동시킨다.
+        }
+        return new Date(a.joinedAt).getTime() - new Date(b.joinedAt).getTime();
+      });
 
       // NOTE - PlayerNumber 부여
-      const gamePlayers = gamePlayerName.map((playerName, index) => ({
-        playerName,
+      const gamePlayers = gamePlayerName.map((player, index) => ({
+        playerName: player.name,
+        playerJoinAt: player.joinedAt,
         playerNumber: index + 1
       }));
 

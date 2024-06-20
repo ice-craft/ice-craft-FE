@@ -1,11 +1,11 @@
+import useSocketOn from "@/hooks/useSocketOn";
+import { useOverLayActions } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants, playersInfo } from "@/types";
-import { TrackLoop, useLocalParticipant } from "@livekit/components-react";
-import React, { useEffect } from "react";
-import RemoteParticipantTile from "./RemoteParticipantTile";
-import { useOverLayActions } from "@/store/overlay-store";
-import useSocketOn from "@/hooks/useSocketOn";
 import { socket } from "@/utils/socket/socket";
+import { TrackLoop, useLocalParticipant } from "@livekit/components-react";
+import { useEffect } from "react";
+import RemoteParticipantTile from "./RemoteParticipantTile";
 
 const RemoteParticipant = ({ tracks }: Participants) => {
   const { localParticipant } = useLocalParticipant();
