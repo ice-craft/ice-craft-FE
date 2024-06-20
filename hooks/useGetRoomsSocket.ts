@@ -12,15 +12,12 @@ const useGetRoomsSocket = () => {
   const isGoInClick = useRef(false);
   const { setRoomId, roomId } = useConnectStore();
   const [rooms, setRooms] = useState<Tables<"room_table">[]>();
-  // useEffect(() => {
-  //   socket.on("joinRoom", () => {
 
-  //   });
-  // }, []);
   const mainSockets = {
     enterMafia: (rooms: Tables<"room_table">[]) => {
       setRooms(rooms);
-    },
+    }
+    /*
     joinRoom: () => {
       if (roomId) {
         router.push(`/room/${roomId}/`);
@@ -38,6 +35,7 @@ const useGetRoomsSocket = () => {
       isGoInClick.current = false;
       toast.error(message);
     }
+      */
   };
 
   useSocketOn(mainSockets);
