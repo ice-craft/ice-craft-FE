@@ -17,8 +17,11 @@ import RoomSearch from "@/utils/RoomSearch";
 import RoomListItem from "@/components/main/RoomListItem";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import MainSkeleton from "@/components/main/MainSkeleton";
+import { useRouter } from "next/navigation";
 
 const Mainpage = () => {
+  const roomId = useRef("");
+  const router = useRouter();
   const { rooms, setRooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
   const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
@@ -43,6 +46,14 @@ const Mainpage = () => {
     checkUserInfo();
   }, []);
 
+  useEffect(() => {
+    socket.on("joinRoom", () => {
+      if (roomId.current) {
+        router.push(`/room/${roomId.current}/`);
+      }
+    });
+  }, []);
+
   //NOTE - 로그인 체크, 공통 로직 함수 정의
   const loginErrorHandler = async (emitCallback: () => void) => {
     try {
@@ -64,6 +75,7 @@ const Mainpage = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
+      roomId.current = item.room_id;
       setRoomId(item.room_id);
       socket.emit("joinRoom", userId, item.room_id, nickname);
     });
