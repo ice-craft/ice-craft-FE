@@ -1,7 +1,7 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
-import { useDiedPlayer } from "@/store/game-store";
+import { useDiedPlayer, useGameActions, useGamePlayers } from "@/store/game-store";
 import { useActivePlayer, useIsLocalOverlay, useOverLayActions } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { Participants } from "@/types";
@@ -20,6 +20,8 @@ const LocalParticipant = ({ tracks }: Participants) => {
   const activePlayerId = useActivePlayer();
   const participants = useParticipants();
   const diedPlayers = useDiedPlayer();
+  const test = useGamePlayers();
+  const { setGamePlayers } = useGameActions();
 
   const [isReady, setIsReady] = useState(false);
   const [isStartButton, setIsStartButton] = useState(true);
@@ -35,28 +37,14 @@ const LocalParticipant = ({ tracks }: Participants) => {
   const readyHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
-
+    setGamePlayers(participants);
     socket.emit("setReady", userId, newIsReady);
   };
 
+  console.log("testest", test);
   //NOTE - 게임 시작 이벤트 핸들러
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
-
-    //NOTE - 닉네임 정렬
-    const gamePlayerName = participants
-      .map((player) => player.name)
-      .sort((a, b) => {
-        if (!a || !b) {
-          return -1;
-        }
-        return a > b ? 1 : -1;
-      });
-
-    //NOTE - PlayerNumber 부여
-    const gamePlayers = gamePlayerName.map((playerName, index) => {
-      return { playerName, PlayerNumber: index + 1 };
-    });
 
     // 게임 버튼 비활성화
     setIsStartButton(false);

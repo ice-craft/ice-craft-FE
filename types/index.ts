@@ -2,6 +2,7 @@ import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
 import { Tables } from "./supabase";
+import { LocalParticipant, RemoteParticipant } from "livekit-client";
 
 export interface MafiaRoom {
   room: string;
@@ -63,9 +64,15 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
+  gamePlayersInfo: GamePlayerInfo[];
   actions: {
     setDiedPlayer: (playerId: string) => void;
+    setGamePlayers: (participant: (LocalParticipant | RemoteParticipant)[]) => void;
   };
+}
+export interface GamePlayerInfo {
+  playerName: string | undefined;
+  playerNumber: number;
 }
 
 export interface ConnectState {
