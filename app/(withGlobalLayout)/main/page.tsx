@@ -18,6 +18,7 @@ import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import MainSkeleton from "@/components/main/MainSkeleton";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
+import useJoinRoom from "@/hooks/useJoinRoom";
 
 const Mainpage = () => {
   const roomId = useRef("");
@@ -25,77 +26,79 @@ const Mainpage = () => {
   const { rooms, setRooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
   const { setRoomId, setUserId, setUserNickname } = useConnectActions();
-  const userId = useUserId();
-  const nickname = useNickname();
+  // const userId = useUserId();
+  // const nickname = useNickname();
   const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
+  const { fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
 
+  console.log("메인페이지");
   useEffect(() => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
 
-    const checkUserInfo = async () => {
-      const userInfo = await getUserInfo();
+    // const checkUserInfo = async () => {
+    //   const userInfo = await getUserInfo();
 
-      // 세션 스토리지에 저장
-      if (userInfo) {
-        setUserId(crypto.randomUUID());
-        setUserNickname(crypto.randomUUID());
-        setUserId(userInfo.id);
-        setUserNickname(userInfo.user_metadata.nickname);
-      }
-    };
-    checkUserInfo();
+    //   // 세션 스토리지에 저장
+    //   if (userInfo) {
+    //     setUserId(crypto.randomUUID());
+    //     setUserNickname(crypto.randomUUID());
+    //     // setUserId(userInfo.id);
+    //     // setUserNickname(userInfo.user_metadata.nickname);
+    //   }
+    // };
+    // checkUserInfo();
   }, []);
 
-  useEffect(() => {
-    socket.on("joinRoom", () => {
-      if (roomId.current) {
-        router.push(`/room/${roomId.current}/`);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.on("joinRoom", () => {
+  //     if (roomId.current) {
+  //       router.push(`/room/${roomId.current}/`);
+  //     }
+  //   });
+  // }, []);
 
-  //NOTE - 로그인 체크, 공통 로직 함수 정의
-  const loginErrorHandler = async (emitCallback: () => void) => {
-    try {
-      const isLogin = await checkUserLogIn();
+  // //NOTE - 로그인 체크, 공통 로직 함수 정의
+  // const loginErrorHandler = async (emitCallback: () => void) => {
+  //   try {
+  //     const isLogin = await checkUserLogIn();
 
-      if (!isLogin) {
-        toast.info("로그인 후 입장가능합니다.");
-        return;
-      }
-      if (!isGoInClick.current) {
-        isGoInClick.current = true;
-        emitCallback();
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  //     if (!isLogin) {
+  //       toast.info("로그인 후 입장가능합니다.");
+  //       return;
+  //     }
+  //     if (!isGoInClick.current) {
+  //       isGoInClick.current = true;
+  //       emitCallback();
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
 
-  //NOTE - 방 리스트 입장하기
-  const joinRoomHandler = async (item: Tables<"room_table">) => {
-    await loginErrorHandler(() => {
-      roomId.current = item.room_id;
-      setRoomId(item.room_id);
-      socket.emit("joinRoom", userId, item.room_id, nickname);
-    });
-  };
+  // //NOTE - 방 리스트 입장하기
+  // const joinRoomHandler = async (item: Tables<"room_table">) => {
+  //   await loginErrorHandler(() => {
+  //     roomId.current = item.room_id;
+  //     setRoomId(item.room_id);
+  //     socket.emit("joinRoom", userId, item.room_id, nickname);
+  //   });
+  // };
 
-  //NOTE - 빠른 입장 (랜덤 방 입장)
-  const fastJoinRoomHandler = async () => {
-    await loginErrorHandler(() => {
-      socket.emit("fastJoinRoom", userId, nickname);
-    });
-  };
+  // //NOTE - 빠른 입장 (랜덤 방 입장)
+  // const fastJoinRoomHandler = async () => {
+  //   await loginErrorHandler(() => {
+  //     socket.emit("fastJoinRoom", userId, nickname);
+  //   });
+  // };
 
-  //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
-  const gameStartHandler = async () => {
-    await loginErrorHandler(() => {
-      socket.emit("fasJoinRoom", userId, nickname);
-    });
-  };
+  // //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
+  // const gameStartHandler = async () => {
+  //   await loginErrorHandler(() => {
+  //     socket.emit("fasJoinRoom", userId, nickname);
+  //   });
+  // };
 
   //NOTE - 방 목록 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -140,7 +143,7 @@ const Mainpage = () => {
           {rooms ? (
             <ul className={S.roomList}>
               {rooms.map((item) => (
-                <RoomListItem key={item.room_id} item={item} joinRoomHandler={joinRoomHandler} />
+                <RoomListItem key={item.room_id} item={item} />
               ))}
             </ul>
           ) : (

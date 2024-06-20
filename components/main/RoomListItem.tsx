@@ -4,9 +4,11 @@ import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
 import { RoomListItemProps } from "@/types";
+import useJoinRoom from "@/hooks/useJoinRoom";
 
-const RoomListItem = ({ item, joinRoomHandler }: RoomListItemProps) => {
+const RoomListItem = ({ item }: RoomListItemProps) => {
   const isGoInClick = useRef(false);
+  const { joinRoomHandler } = useJoinRoom();
 
   return (
     <li>

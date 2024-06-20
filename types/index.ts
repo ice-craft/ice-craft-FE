@@ -181,5 +181,4 @@ export interface Rooms {
 
 export interface RoomListItemProps {
   item: Rooms;
-  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
 }
