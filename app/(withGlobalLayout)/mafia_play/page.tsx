@@ -73,10 +73,8 @@ const MafiaPlay = () => {
     if (!socket.connected) {
       socket.connect();
       console.log("서버와 연결이 되었습니다.");
-      // console.log("게임 시작"); //FIXME - 테스트용 코드
-      // socket.emit("gameStart", roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드
-      console.log("voteTo", "11111111-f1b4-46eb-a187-2da752eed29c");
-      socket.emit("voteTo", "11111111-f1b4-46eb-a187-2da752eed29c");
+      console.log("게임 시작"); //FIXME - 테스트용 코드
+      socket.emit("gameStart", roomId.current, Number(totalUserCount.current)); //FIXME - 테스트용 코드;
     }
   };
 
@@ -127,8 +125,8 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("joinRoom", (usersInfo) => {
-      console.log(`[joinRoom] ${usersInfo}`);
+    socket.on("joinRoom", (usersInfo, roomId) => {
+      console.log(`[joinRoom] ${usersInfo} ${roomId}`);
       console.log("");
     });
 
@@ -137,8 +135,8 @@ const MafiaPlay = () => {
       console.log("");
     });
 
-    socket.on("fastJoinRoom", (usersInfo) => {
-      console.log(`[fastJoinRoom] ${usersInfo}`);
+    socket.on("fastJoinRoom", (usersInfo, roomId) => {
+      console.log(`[fastJoinRoom] ${usersInfo} ${roomId}`);
       console.log("");
     });
 
