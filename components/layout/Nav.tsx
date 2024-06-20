@@ -33,7 +33,7 @@ const Nav = () => {
         </li>
         {userId ? (
           <>
-            <li>{userId}님 환영합니다.</li>
+            <li>{nickname}님 환영합니다.</li>
             <li>
               <button onClick={logoutHandler}>로그아웃</button>
             </li>
