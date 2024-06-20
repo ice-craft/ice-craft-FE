@@ -43,6 +43,21 @@ const LocalParticipant = ({ tracks }: Participants) => {
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
 
+    //NOTE - 닉네임 정렬
+    const gamePlayerName = participants
+      .map((player) => player.name)
+      .sort((a, b) => {
+        if (!a || !b) {
+          return -1;
+        }
+        return a > b ? 1 : -1;
+      });
+
+    //NOTE - PlayerNumber 부여
+    const gamePlayers = gamePlayerName.map((playerName, index) => {
+      return { playerName, PlayerNumber: index + 1 };
+    });
+
     // 게임 버튼 비활성화
     setIsStartButton(false);
 
