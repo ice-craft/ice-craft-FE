@@ -2,20 +2,23 @@ import { create } from "zustand";
 import { ConnectState } from "@/types";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-const useConnectStore = create(
-  persist<ConnectState>(
-    (set) => ({
-      join: false,
-      nickname: "",
-      userId: "",
-      roomId: "",
-      setJoinStatus: (status) => set({ join: status }),
-      setRoomId: (id) => set({ roomId: id }),
-      setUserId: (id) => set({ userId: id }),
-      setUserNickname: (id) => set({ nickname: id })
-    }),
-    { name: "CreateRoomInfo", storage: createJSONStorage(() => sessionStorage) }
-  )
-);
+const useConnectStore = create<ConnectState>((set) => ({
+  join: false,
+  nickname: "",
+  userId: "",
+  roomId: "",
 
-export default useConnectStore;
+  actions: {
+    setJoinStatus: (status: boolean) => set({ join: status }),
+    setRoomId: (id: string) => set({ roomId: id }),
+    setUserId: (id: string) => set({ userId: id }),
+    setUserNickname: (nickname: string) => set({ nickname })
+  }
+}));
+
+export const useRoomId = () => useConnectStore((state) => state.roomId);
+export const useUserId = () => useConnectStore((state) => state.userId);
+export const useNickName = () => useConnectStore((state) => state.nickname);
+
+//NOTE - room actions 관리
+export const useConnectActions = () => useConnectStore((state) => state.actions);

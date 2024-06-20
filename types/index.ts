@@ -73,10 +73,12 @@ export interface ConnectState {
   nickname: string;
   userId: string;
   roomId: string;
-  setJoinStatus: (status: boolean) => void;
-  setRoomId: (id: string) => void;
-  setUserId: (id: string) => void;
-  setUserNickname: (id: string) => void;
+  actions: {
+    setJoinStatus: (status: boolean) => void;
+    setRoomId: (id: string) => void;
+    setUserId: (id: string) => void;
+    setUserNickname: (nickname: string) => void;
+  };
 }
 
 export interface RemoteReadyStates {
