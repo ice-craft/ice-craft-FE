@@ -23,6 +23,12 @@ const MainCreateRoom = () => {
   const router = useRouter();
 
   useEffect(() => {
+    socket.on("joinRoom", (roomId, userInfo) => {
+      if (roomId) {
+        router.push(`/room/${roomId}/`);
+      }
+    });
+
     socket.on("createRoom", ({ room_id }) => {
       roomId.current = room_id;
       socket.emit("joinRoom", userId, room_id, nickname);
@@ -33,27 +39,9 @@ const MainCreateRoom = () => {
       isGoInClick.current = false;
     });
 
-    socket.on("joinRoom", () => {
-      if (roomId.current) {
-        setRoomId(roomId.current);
-        setIsCreate(false);
-        if (selectedGame === "마피아") {
-          router.push(`/room/${roomId.current}/`);
-        }
-        return null;
-      }
-    });
-
-    socket.on("joinRoomError", (message) => {
-      toast.error(message);
-      isGoInClick.current = false;
-    });
-
     return () => {
       socket.off("createRoom");
       socket.off("createRoomError");
-      socket.off("joinRoom");
-      socket.off("joinRoomError");
     };
   }, []);
 

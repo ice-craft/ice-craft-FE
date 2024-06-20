@@ -1,24 +1,29 @@
 import { Tables } from "@/types/supabase";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useConnectStore from "@/store/connect-store";
 import useSocketOn from "./useSocketOn";
+import { socket } from "@/utils/socket/socket";
 
 const useGetRoomsSocket = () => {
-  const roomId = useRef("");
+  // const roomId = useRef("");
   const router = useRouter();
   const isGoInClick = useRef(false);
-  const { setRoomId } = useConnectStore();
+  const { setRoomId, roomId } = useConnectStore();
   const [rooms, setRooms] = useState<Tables<"room_table">[]>();
+  // useEffect(() => {
+  //   socket.on("joinRoom", () => {
 
+  //   });
+  // }, []);
   const mainSockets = {
     enterMafia: (rooms: Tables<"room_table">[]) => {
       setRooms(rooms);
     },
     joinRoom: () => {
-      if (roomId.current) {
-        router.push(`/room/${roomId.current}/`);
+      if (roomId) {
+        router.push(`/room/${roomId}/`);
       }
     },
     joinRoomError: (message: string) => {
