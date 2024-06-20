@@ -1,6 +1,6 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import { useGetToken } from "@/hooks/useToken";
-import useConnectStore from "@/store/connect-store";
+import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
@@ -8,9 +8,10 @@ import "@livekit/components-styles";
 import { useState } from "react";
 
 const JoinMafiaRoom = () => {
+  const roomId = useRoomId();
+  const userId = useUserId();
+  const nickname = useNickname();
   const [isJoin, setIsJoin] = useState(false);
-
-  const { roomId, userId, nickname } = useConnectStore();
   BeforeUnloadHandler();
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
