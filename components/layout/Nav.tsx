@@ -1,19 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { use } from "react";
 import S from "@/style/commons/commons.module.css";
 import { logOut } from "@/utils/supabase/authAPI";
-import useConnectStore from "@/store/connect-store";
 import { toast } from "react-toastify";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 
 const Nav = () => {
-  const { userId, nickname } = useConnectStore();
+  const { setUserId, setUserNickname } = useConnectActions();
+  const nickname = useNickname();
+  const userId = useUserId();
 
   const logoutHandler = async () => {
     try {
       await logOut();
-      useConnectStore.setState({ userId: "", nickname: "" });
+      setUserId("");
+      setUserNickname("");
       sessionStorage.clear();
       toast("로그아웃이 완료되었습니다.");
     } catch (error) {

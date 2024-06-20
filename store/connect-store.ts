@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { ConnectState } from "@/types";
-import { createJSONStorage, persist } from "zustand/middleware";
 
 const useConnectStore = create<ConnectState>((set) => ({
   join: false,
@@ -18,7 +17,7 @@ const useConnectStore = create<ConnectState>((set) => ({
 
 export const useRoomId = () => useConnectStore((state) => state.roomId);
 export const useUserId = () => useConnectStore((state) => state.userId);
-export const useNickName = () => useConnectStore((state) => state.nickname);
+export const useNickname = () => useConnectStore((state) => state.nickname);
 
 //NOTE - room actions 관리
 export const useConnectActions = () => useConnectStore((state) => state.actions);

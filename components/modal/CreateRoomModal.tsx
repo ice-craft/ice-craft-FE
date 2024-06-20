@@ -2,7 +2,6 @@ import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg"
 import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
 import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg";
-import useConnectStore from "@/store/connect-store";
 import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
@@ -11,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { useRoomId } from "@/store/connect-store";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -19,9 +19,10 @@ const MainCreateRoom = () => {
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const { setIsCreate } = useCreateStore();
-  const { userId, nickname, setRoomId } = useConnectStore();
+  const userRoomId = useRoomId();
   const router = useRouter();
 
+  console.log(userRoomId);
   useEffect(() => {
     socket.on("joinRoom", (roomId, userInfo) => {
       if (roomId) {
@@ -31,7 +32,7 @@ const MainCreateRoom = () => {
 
     socket.on("createRoom", ({ room_id }) => {
       roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
+      // socket.emit("joinRoom", userId, room_id, nickname);
     });
 
     socket.on("createRoomError", (message) => {

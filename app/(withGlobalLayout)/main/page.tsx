@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
-import useConnectStore from "@/store/connect-store";
 import S from "@/style/mainpage/main.module.css";
 import { toast } from "react-toastify";
 import { Tables } from "@/types/supabase";
@@ -21,7 +20,7 @@ import MainSkeleton from "@/components/main/MainSkeleton";
 const Mainpage = () => {
   const { rooms, setRooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
-  const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
+  // const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
   const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
 
@@ -34,8 +33,8 @@ const Mainpage = () => {
 
       // 세션 스토리지에 저장
       if (userInfo) {
-        setUserId(crypto.randomUUID());
-        setUserNickname(crypto.randomUUID());
+        // setUserId(crypto.randomUUID());
+        // setUserNickname(crypto.randomUUID());
         // setUserId(userInfo.id);
         // setUserNickname(userInfo.user_metadata.nickname);
       }
@@ -64,22 +63,22 @@ const Mainpage = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
-      setRoomId(item.room_id);
-      socket.emit("joinRoom", userId, item.room_id, nickname);
+      // setRoomId(item.room_id);
+      // socket.emit("joinRoom", userId, item.room_id, nickname);
     });
   };
 
   //NOTE - 빠른 입장 (랜덤 방 입장)
   const fastJoinRoomHandler = async () => {
     await loginErrorHandler(() => {
-      socket.emit("fastJoinRoom", userId, nickname);
+      // socket.emit("fastJoinRoom", userId, nickname);
     });
   };
 
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = async () => {
     await loginErrorHandler(() => {
-      socket.emit("fasJoinRoom", userId, nickname);
+      // socket.emit("fasJoinRoom", userId, nickname);
     });
   };
 
