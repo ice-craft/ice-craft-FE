@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
 import Image from "next/image";
@@ -12,39 +12,54 @@ interface PageNateProps {
 }
 
 export default function Pagination({ data }: PageNateProps) {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    const dataList = data;
+    setItems(dataList);
+  }, []);
   console.log(data);
+  // const test = data.find((item: any) => item.nickname === "해피");
+  // console.log(test);
+  // [{}] => find {}
+  // filter => [{}]
   function Items({ currentItems }: any) {
     return (
       <>
         {currentItems && (
           <ul className={S.userRankingList}>
-            {currentItems.map((item: any, index: number) => (
-              <li key={index}>
-                <div>
-                  <h2>{index + 1}</h2>
-                  <h3>{item.nickname}</h3>
-                  <p className={S.mafiaUserRanking}>{item.game_category}</p>
-                  <p className={S.songUserRanking}>-</p>
-                  <p className={S.totalRanking}>{item.total_score}</p>
-                </div>
-              </li>
-            ))}
+            {currentItems &&
+              currentItems.map((item: any, index: number) => (
+                <li key={index}>
+                  <div>
+                    <h2>{index + 1}</h2>
+                    <h3>{item.nickname}</h3>
+                    <p className={S.mafiaUserRanking}>{item.game_category}</p>
+                    <p className={S.songUserRanking}>-</p>
+                    <p className={S.totalRanking}>{item.total_score}</p>
+                  </div>
+                </li>
+              ))}
           </ul>
         )}
       </>
     );
   }
 
-  function PaginatedItems({ items, itemsPerPage }: any) {
-    const [itemOffset, setItemOffset] = useState(0);
+  function PaginatedItems({ itemsPerPage }: any) {
+    const [currentItems, setCurrentItems] = useState<any[]>([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [itemOffset, setItemOffset] = useState<any>(0);
 
-    const endOffset = itemOffset + itemsPerPage;
-    const currentItems = items.slice(itemOffset, endOffset);
-    const pageCount = Math.ceil(items.length / itemsPerPage);
+    useEffect(() => {
+      const endOffset = itemOffset + itemsPerPage;
+      console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+      setCurrentItems(items.slice(itemOffset, endOffset));
+      setPageCount(Math.ceil(items.length / itemsPerPage));
+    }, [itemOffset, itemsPerPage]);
 
     const handlePageClick = (event: any) => {
       const newOffset = (event.selected * itemsPerPage) % items.length;
+      console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
       setItemOffset(newOffset);
     };
 
