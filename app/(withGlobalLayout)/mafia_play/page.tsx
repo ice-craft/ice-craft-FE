@@ -250,6 +250,10 @@ const MafiaPlay = () => {
     socket.on("diedPlayer", (killedPlayer) => {
       console.log(`[diedPlayer] ${killedPlayer}`);
     });
+
+    socket.on("selectPlayerError", (message) => {
+      console.log(`[selectPlayerError] ${message}`);
+    });
   }, []);
 
   return (
