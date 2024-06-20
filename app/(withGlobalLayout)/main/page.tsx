@@ -4,10 +4,8 @@ import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import S from "@/style/mainpage/main.module.css";
 import { toast } from "react-toastify";
-import { Tables } from "@/types/supabase";
 import GoTopButton from "@/utils/GoTopButton";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "@/store/toggle-store";
@@ -16,21 +14,14 @@ import RoomSearch from "@/utils/RoomSearch";
 import RoomListItem from "@/components/main/RoomListItem";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import MainSkeleton from "@/components/main/MainSkeleton";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
-import { useRouter } from "next/navigation";
 import useJoinRoom from "@/hooks/useJoinRoom";
 
 const Mainpage = () => {
-  const roomId = useRef("");
-  const router = useRouter();
   const { rooms, setRooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
-  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
-  // const userId = useUserId();
-  // const nickname = useNickname();
   const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
-  const { fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
+  const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
 
   console.log("메인페이지");
   useEffect(() => {
@@ -50,55 +41,6 @@ const Mainpage = () => {
     // };
     // checkUserInfo();
   }, []);
-
-  // useEffect(() => {
-  //   socket.on("joinRoom", () => {
-  //     if (roomId.current) {
-  //       router.push(`/room/${roomId.current}/`);
-  //     }
-  //   });
-  // }, []);
-
-  // //NOTE - 로그인 체크, 공통 로직 함수 정의
-  // const loginErrorHandler = async (emitCallback: () => void) => {
-  //   try {
-  //     const isLogin = await checkUserLogIn();
-
-  //     if (!isLogin) {
-  //       toast.info("로그인 후 입장가능합니다.");
-  //       return;
-  //     }
-  //     if (!isGoInClick.current) {
-  //       isGoInClick.current = true;
-  //       emitCallback();
-  //     }
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   }
-  // };
-
-  // //NOTE - 방 리스트 입장하기
-  // const joinRoomHandler = async (item: Tables<"room_table">) => {
-  //   await loginErrorHandler(() => {
-  //     roomId.current = item.room_id;
-  //     setRoomId(item.room_id);
-  //     socket.emit("joinRoom", userId, item.room_id, nickname);
-  //   });
-  // };
-
-  // //NOTE - 빠른 입장 (랜덤 방 입장)
-  // const fastJoinRoomHandler = async () => {
-  //   await loginErrorHandler(() => {
-  //     socket.emit("fastJoinRoom", userId, nickname);
-  //   });
-  // };
-
-  // //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
-  // const gameStartHandler = async () => {
-  //   await loginErrorHandler(() => {
-  //     socket.emit("fasJoinRoom", userId, nickname);
-  //   });
-  // };
 
   //NOTE - 방 목록 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -143,7 +85,7 @@ const Mainpage = () => {
           {rooms ? (
             <ul className={S.roomList}>
               {rooms.map((item) => (
-                <RoomListItem key={item.room_id} item={item} />
+                <RoomListItem key={item.room_id} item={item} joinRoomHandler={joinRoomHandler} />
               ))}
             </ul>
           ) : (

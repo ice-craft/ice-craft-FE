@@ -1,17 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions } from "@/store/connect-store";
 import useSocketOn from "./useSocketOn";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
-
-interface UserInfo {
-  userId: string;
-  nickname: string;
-  isReady: boolean;
-}
+import { UserInfo } from "@/types";
 
 const useJoinRoom = () => {
   const router = useRouter();
@@ -19,8 +14,6 @@ const useJoinRoom = () => {
   const { setRoomId, setUserId, setUserNickname } = useConnectActions();
   const userId = useRef("");
   const nickname = useRef("");
-  // const userIds = useUserId();
-  // const nicknames = useNickname();
 
   useEffect(() => {
     const checkUserInfo = async () => {

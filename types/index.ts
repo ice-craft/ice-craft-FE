@@ -181,4 +181,11 @@ export interface Rooms {
 
 export interface RoomListItemProps {
   item: Rooms;
+  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+}
+
+export interface UserInfo {
+  userId: string;
+  nickname: string;
+  isReady: boolean;
 }
