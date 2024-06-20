@@ -12,6 +12,7 @@ const Nav = () => {
   const nickname = useNickname();
   const userId = useUserId();
 
+  console.log(nickname, userId);
   const logoutHandler = async () => {
     try {
       await logOut();
@@ -32,7 +33,7 @@ const Nav = () => {
         </li>
         {userId ? (
           <>
-            <li>{nickname}님 환영합니다.</li>
+            <li>{userId}님 환영합니다.</li>
             <li>
               <button onClick={logoutHandler}>로그아웃</button>
             </li>

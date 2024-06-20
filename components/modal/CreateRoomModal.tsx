@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useRoomId } from "@/store/connect-store";
+import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -20,6 +20,8 @@ const MainCreateRoom = () => {
   const roomId = useRef("");
   const { setIsCreate } = useCreateStore();
   const userRoomId = useRoomId();
+  const userId = useUserId();
+  const nickname = useNickname();
   const router = useRouter();
 
   console.log(userRoomId);
@@ -32,7 +34,7 @@ const MainCreateRoom = () => {
 
     socket.on("createRoom", ({ room_id }) => {
       roomId.current = room_id;
-      // socket.emit("joinRoom", userId, room_id, nickname);
+      socket.emit("joinRoom", userId, room_id, nickname);
     });
 
     socket.on("createRoomError", (message) => {
