@@ -16,11 +16,14 @@ import RoomSearch from "@/utils/RoomSearch";
 import RoomListItem from "@/components/main/RoomListItem";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import MainSkeleton from "@/components/main/MainSkeleton";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 
 const Mainpage = () => {
   const { rooms, setRooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
-  // const { userId, nickname, setRoomId, setUserId, setUserNickname } = useConnectStore();
+  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
+  const userId = useUserId();
+  const nickname = useNickname();
   const [search, setSearch] = useState("");
   const isGoInClick = useRef(false);
 
@@ -33,10 +36,10 @@ const Mainpage = () => {
 
       // 세션 스토리지에 저장
       if (userInfo) {
-        // setUserId(crypto.randomUUID());
-        // setUserNickname(crypto.randomUUID());
-        // setUserId(userInfo.id);
-        // setUserNickname(userInfo.user_metadata.nickname);
+        setUserId(crypto.randomUUID());
+        setUserNickname(crypto.randomUUID());
+        setUserId(userInfo.id);
+        setUserNickname(userInfo.user_metadata.nickname);
       }
     };
     checkUserInfo();
@@ -63,22 +66,22 @@ const Mainpage = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
-      // setRoomId(item.room_id);
-      // socket.emit("joinRoom", userId, item.room_id, nickname);
+      setRoomId(item.room_id);
+      socket.emit("joinRoom", userId, item.room_id, nickname);
     });
   };
 
   //NOTE - 빠른 입장 (랜덤 방 입장)
   const fastJoinRoomHandler = async () => {
     await loginErrorHandler(() => {
-      // socket.emit("fastJoinRoom", userId, nickname);
+      socket.emit("fastJoinRoom", userId, nickname);
     });
   };
 
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = async () => {
     await loginErrorHandler(() => {
-      // socket.emit("fasJoinRoom", userId, nickname);
+      socket.emit("fasJoinRoom", userId, nickname);
     });
   };
 
