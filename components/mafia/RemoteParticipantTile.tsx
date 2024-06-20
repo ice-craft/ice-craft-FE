@@ -25,12 +25,11 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
     return null;
   }
 
-  //NOTE - 게임 시작 시 PlayerNumber를 부여
+  //NOTE - 게임 시작 시 작동
   useEffect(() => {
     const remoteNumber = gamePlayers.find((player) => trackReference.participant.name === player.playerName);
 
     if (remoteNumber) {
-      console.log("RemotePlayerNumber", remoteNumber.playerNumber);
       setRemotePlayerNumber(remoteNumber.playerNumber);
     }
   }, [gamePlayers]);

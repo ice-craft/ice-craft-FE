@@ -38,13 +38,15 @@ const LocalParticipant = ({ tracks }: Participants) => {
   const readyHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
-    setGamePlayers(participants); // 게임 시작시 player Number 부여
     socket.emit("setReady", userId, newIsReady);
   };
 
   //NOTE - 게임 시작 이벤트 핸들러
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
+
+    // 게임 시작시 player Number 부여
+    setGamePlayers(participants);
 
     // 게임 버튼 비활성화
     setIsStartButton(false);
@@ -54,7 +56,7 @@ const LocalParticipant = ({ tracks }: Participants) => {
     setOverlayReset();
   };
 
-  // //NOTE - 게임 시작 시 PlayerNumber를 부여
+  //NOTE - 게임 시작 시 작동
   useEffect(() => {
     const localNumber = gamePlayers.find((player) => localParticipant.name === player.playerName);
 

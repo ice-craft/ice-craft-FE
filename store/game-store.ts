@@ -10,12 +10,12 @@ const useGameStore = create<GameState>((set) => ({
       // NOTE - 입장 순서로 정렬
       const gamePlayerName = participants.sort((a, b) => {
         if (!a.joinedAt || !b.joinedAt) {
-          return 1; // 존재 하지 않을 시 뒤로 이동시킨다.
+          return 1; // 존재 하지 않을 시 뒤로 이동
         }
         return new Date(a.joinedAt).getTime() - new Date(b.joinedAt).getTime();
       });
 
-      // NOTE - PlayerNumber 부여
+      // NOTE - gamePlayers 요소: playerName, playerJoinAt, playerNumber
       const gamePlayers = gamePlayerName.map((player, index) => ({
         playerName: player.name,
         playerJoinAt: player.joinedAt,
