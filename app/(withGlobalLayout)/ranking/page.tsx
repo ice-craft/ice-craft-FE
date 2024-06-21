@@ -12,7 +12,7 @@ import Pagination from "@/components/ranking/Pagination";
 
 const Rankingpage = async () => {
   const supabase = createClient();
-  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
+  const { data } = await supabase.from("ranking_table").select("*").order("mafia_score", { ascending: false });
 
   return (
     <section className={S.sectionWrapper}>
@@ -40,8 +40,8 @@ const Rankingpage = async () => {
                 <h2>999</h2>
                 <h3>내 닉네임</h3>
                 <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>2000</p>
+                <p className={S.songUserRanking}>2000</p>
+                <p className={S.totalRanking}>3000</p>
               </div>
             </li>
           </ul>
