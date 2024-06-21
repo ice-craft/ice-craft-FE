@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNickname, useUserId } from "@/store/connect-store";
+import useJoinRoom from "@/hooks/useJoinRoom";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -22,29 +23,34 @@ const MainCreateRoom = () => {
   const userId = useUserId();
   const nickname = useNickname();
   const router = useRouter();
+  useJoinRoom();
+  console.log("테스트입니다");
 
-  // useEffect(() => {
-  //   socket.on("joinRoom", (roomId, userInfo) => {
-  //     if (roomId) {
-  //       router.push(`/room/${roomId}/`);
-  //     }
-  //   });
+  //NOTE - 이전 코드
+  /*
+  useEffect(() => {
+    socket.on("joinRoom", (roomId, userInfo) => {
+      if (roomId) {
+        router.push(`/room/${roomId}/`);
+      }
+    });
 
-  //   socket.on("createRoom", ({ room_id }) => {
-  //     roomId.current = room_id;
-  //     socket.emit("joinRoom", userId, room_id, nickname);
-  //   });
+    socket.on("createRoom", ({ room_id }) => {
+      roomId.current = room_id;
+      socket.emit("joinRoom", userId, room_id, nickname);
+    });
 
-  //   socket.on("createRoomError", (message) => {
-  //     toast.error(message);
-  //     isGoInClick.current = false;
-  //   });
+    socket.on("createRoomError", (message) => {
+      toast.error(message);
+      isGoInClick.current = false;
+    });
 
-  //   return () => {
-  //     socket.off("createRoom");
-  //     socket.off("createRoomError");
-  //   };
-  // }, []);
+    return () => {
+      socket.off("createRoom");
+      socket.off("createRoomError");
+    };
+  }, []);
+  */
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
