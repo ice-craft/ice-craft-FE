@@ -3,15 +3,37 @@ import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
 import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
+import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
 
   const { roomId, userId, nickname } = useConnectStore();
-  BeforeUnloadHandler();
+  // BeforeUnloadHandler();
+
+  useEffect(() => {
+    const handlePopstate = (e: PopStateEvent) => {
+      e.preventDefault();
+      // e.returnValue = ""; //크로스 브라우징 체크 추가
+      console.log("e", e);
+      console.log("roomId", roomId);
+      console.log("userId", userId);
+      socket.emit("exitRoom", roomId, userId);
+      alert("뒤로가기 버튼이 클릭되었습니다!");
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener("popstate", handlePopstate);
+
+    return () => {
+      console.log("clean UP 함수 실행");
+      // 이벤트 리스너 제거
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
 
