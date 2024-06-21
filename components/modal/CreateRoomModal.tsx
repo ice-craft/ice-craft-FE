@@ -24,7 +24,6 @@ const MainCreateRoom = () => {
   const nickname = useNickname();
   const router = useRouter();
 
-  console.log(userRoomId);
   useEffect(() => {
     socket.on("joinRoom", (roomId, userInfo) => {
       if (roomId) {

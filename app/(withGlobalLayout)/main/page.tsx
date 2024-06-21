@@ -23,7 +23,6 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
 
-  console.log("메인페이지");
   useEffect(() => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
