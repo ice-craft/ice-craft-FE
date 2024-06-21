@@ -1,11 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import S from "@/style/mainpage/main.module.css";
 import { toast } from "react-toastify";
 import GoTopButton from "@/utils/GoTopButton";
-import { socket } from "@/utils/socket/socket";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import MainCreateRoom from "@/components/modal/CreateRoomModal";
 import { useCreateStore } from "@/store/toggle-store";
@@ -23,23 +22,25 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
 
+  //NOTE - 이전 코드
+  /*
   useEffect(() => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
+    const checkUserInfo = async () => {
+      const userInfo = await getUserInfo();
 
-    // const checkUserInfo = async () => {
-    //   const userInfo = await getUserInfo();
-
-    //   // 세션 스토리지에 저장
-    //   if (userInfo) {
-    //     setUserId(crypto.randomUUID());
-    //     setUserNickname(crypto.randomUUID());
-    //     // setUserId(userInfo.id);
-    //     // setUserNickname(userInfo.user_metadata.nickname);
-    //   }
-    // };
-    // checkUserInfo();
+      // 세션 스토리지에 저장
+      if (userInfo) {
+        setUserId(crypto.randomUUID());
+        setUserNickname(crypto.randomUUID());
+        // setUserId(userInfo.id);
+        // setUserNickname(userInfo.user_metadata.nickname);
+      }
+    };
+    checkUserInfo();
   }, []);
+  */
 
   //NOTE - 방 목록 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {

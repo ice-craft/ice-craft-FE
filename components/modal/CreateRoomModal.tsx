@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
+import { useNickname, useUserId } from "@/store/connect-store";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -19,33 +19,32 @@ const MainCreateRoom = () => {
   const isGoInClick = useRef(false);
   const roomId = useRef("");
   const { setIsCreate } = useCreateStore();
-  const userRoomId = useRoomId();
   const userId = useUserId();
   const nickname = useNickname();
   const router = useRouter();
 
-  useEffect(() => {
-    socket.on("joinRoom", (roomId, userInfo) => {
-      if (roomId) {
-        router.push(`/room/${roomId}/`);
-      }
-    });
+  // useEffect(() => {
+  //   socket.on("joinRoom", (roomId, userInfo) => {
+  //     if (roomId) {
+  //       router.push(`/room/${roomId}/`);
+  //     }
+  //   });
 
-    socket.on("createRoom", ({ room_id }) => {
-      roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
-    });
+  //   socket.on("createRoom", ({ room_id }) => {
+  //     roomId.current = room_id;
+  //     socket.emit("joinRoom", userId, room_id, nickname);
+  //   });
 
-    socket.on("createRoomError", (message) => {
-      toast.error(message);
-      isGoInClick.current = false;
-    });
+  //   socket.on("createRoomError", (message) => {
+  //     toast.error(message);
+  //     isGoInClick.current = false;
+  //   });
 
-    return () => {
-      socket.off("createRoom");
-      socket.off("createRoomError");
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("createRoom");
+  //     socket.off("createRoomError");
+  //   };
+  // }, []);
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
