@@ -11,6 +11,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
+import useSocketOn from "@/hooks/useSocketOn";
 
 const LocalParticipant = ({ tracks }: Participants) => {
   const { localParticipant } = useLocalParticipant();
@@ -25,6 +26,7 @@ const LocalParticipant = ({ tracks }: Participants) => {
 
   const [localPlayerNumber, setLocalPlayerNumber] = useState<number | undefined>();
   const [isReady, setIsReady] = useState(false);
+  const [isStart, setIsStart] = useState(false);
   const [isStartButton, setIsStartButton] = useState(true);
 
   const playersCount = participants.length;
@@ -38,29 +40,43 @@ const LocalParticipant = ({ tracks }: Participants) => {
   const readyHandler = () => {
     const newIsReady = !isReady;
     setIsReady(newIsReady);
+
     socket.emit("setReady", userId, newIsReady);
   };
 
-  //NOTE - 게임 시작 이벤트 핸들러
+  //NOTE - 게임 시작 이벤트 핸들러(방장 player에게만)
   const startHandler = () => {
     socket.emit("gameStart", roomId, playersCount);
-
-    // 게임 시작시 player Number 부여
-    setGamePlayers(participants);
-
-    // 게임 버튼 비활성화
-    setIsStartButton(false);
-
-    //local, remote 이미지 초기화
-    setIsReady(false);
-    setOverlayReset();
   };
 
-  //NOTE - 게임 시작 시 작동
+  //NOTE - 게임 시작
+  const gameStartSocket = {
+    gameStart: () => {
+      setIsStart(true);
+    }
+  };
+
+  useSocketOn(gameStartSocket);
+
+  useEffect(() => {
+    if (isStart) {
+      // 게임 시작시 player Number 부여
+      setGamePlayers(participants);
+
+      // 게임 버튼 비활성화
+      setIsStartButton(false);
+
+      //local, remote 이미지 초기화
+      setIsReady(false);
+      setOverlayReset();
+    }
+  }, [isStart]);
+
   useEffect(() => {
     const localNumber = gamePlayers.find((player) => localParticipant.name === player.playerName);
 
     if (localNumber) {
+      console.log("gamePlayers", gamePlayers);
       setLocalPlayerNumber(localNumber.playerNumber);
     }
   }, [gamePlayers]);
