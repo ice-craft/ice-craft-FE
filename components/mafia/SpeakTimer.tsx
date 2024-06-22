@@ -7,7 +7,7 @@ const SpeakTimer = () => {
   const inSelect = useInSelect();
   const [count, setCount] = useState(0);
   const [isCount, setIsCount] = useState(false);
-  const { setInSelect, setIsOverlay, setOverlayReset } = useOverLayActions();
+  const { setInSelect, setOverlayReset } = useOverLayActions();
 
   const minutes = Math.floor((count % 3600) / 60);
   const seconds = Math.floor(count % 60);
@@ -17,6 +17,7 @@ const SpeakTimer = () => {
 
   //NOTE - 타이머 종료 및 클릭 이벤트 비활성화
   useEffect(() => {
+    // 타이머 종료
     if (count <= 0 && isCount) {
       setIsCount(false);
     }

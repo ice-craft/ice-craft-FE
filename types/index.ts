@@ -64,10 +64,10 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
-  gamePlayersInfo: GamePlayerInfo[];
+  playersNumber: GamePlayerInfo[];
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setGamePlayers: (participant: (LocalParticipant | RemoteParticipant)[]) => void;
+    setSortPlayers: (participant: GamePlayerInfo[]) => void;
   };
 }
 export interface GamePlayerInfo {

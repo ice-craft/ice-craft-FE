@@ -1,6 +1,6 @@
 import PlayerDieImages from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
-import { useDiedPlayer, useGamePlayers } from "@/store/game-store";
+import { useDiedPlayer, usePlayersNumbers } from "@/store/game-store";
 import { useJobImageState } from "@/store/image-store";
 import { useActivePlayer, useIsRemoteOverlay, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
@@ -9,36 +9,36 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
-  const trackReference = useEnsureTrackRef(trackRef);
-  const PlayerId = useActivePlayer();
+  const remote = useEnsureTrackRef(trackRef);
+  const activePlayerId = useActivePlayer();
   const diedPlayers = useDiedPlayer();
-  const gamePlayers = useGamePlayers();
+  const playersNumber = usePlayersNumbers();
   const imageState = useJobImageState();
   const isRemoteOverlay = useIsRemoteOverlay();
   const remoteReadyStates = useReadyPlayers();
-  const { clickHandler } = useClickHandler();
   const [remotePlayerNumber, setRemotePlayerNumber] = useState<number | undefined>();
+  const { clickHandler } = useClickHandler();
 
-  const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === trackReference.participant.identity);
+  const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === remote.participant.identity);
 
-  if (!trackReference) {
+  //NOTE - 게임 시작시 players의 번호 부여
+  useEffect(() => {
+    const remotePlayer = playersNumber.find((player) => remote.participant.name === player.playerName);
+
+    if (remotePlayer) {
+      setRemotePlayerNumber(remotePlayer.playerNumber);
+    }
+  }, [playersNumber]);
+
+  if (!remote) {
     return null;
   }
-
-  //NOTE - 게임 시작 시 작동
-  useEffect(() => {
-    const remoteNumber = gamePlayers.find((player) => trackReference.participant.name === player.playerName);
-
-    if (remoteNumber) {
-      setRemotePlayerNumber(remoteNumber.playerNumber);
-    }
-  }, [gamePlayers]);
 
   return (
     <>
       <li
-        className={`${S.remoteParticipantOverlay} ${PlayerId === trackReference.participant.identity ? S.active : ""}`}
-        onClick={isRemoteOverlay ? (e) => clickHandler(e, trackReference.participant.identity) : undefined}
+        className={`${S.remoteParticipantOverlay} ${activePlayerId === remote.participant.identity ? S.active : ""}`}
+        onClick={isRemoteOverlay ? (e) => clickHandler(e, remote.participant.identity) : undefined}
       >
         {remotePlayerNumber && <p className={"text-red-600"}>{remotePlayerNumber}</p>}
         <ParticipantTile
@@ -46,14 +46,12 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
           className={`${S.remoteCam} ${isRemoteOverlay ? "cursor-pointer" : ""}`}
         />
         {!diedPlayer ? (
-          <div
-            className={`${S.remoteOverlay} ${remoteReadyStates[trackReference.participant.identity] ? S.active : ""}`}
-          >
-            <Image src={imageState!} alt={trackReference.participant.identity} />
+          <div className={`${S.remoteOverlay} ${remoteReadyStates[remote.participant.identity] ? S.active : ""}`}>
+            <Image src={imageState!} alt={remote.participant.identity} />
           </div>
         ) : (
           <div className={S.playerDieOverlay}>
-            <Image src={PlayerDieImages} alt={trackReference.participant.identity} />
+            <Image src={PlayerDieImages} alt={remote.participant.identity} />
           </div>
         )}
       </li>
