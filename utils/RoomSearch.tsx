@@ -33,7 +33,6 @@ const RoomSearch = () => {
 
   return (
     <>
-      {/* <CommonsLoading /> */}
       <form onSubmit={searchHandler}>
         <div className={S.roomSearch}>
           <label htmlFor="search">검색하기</label>
