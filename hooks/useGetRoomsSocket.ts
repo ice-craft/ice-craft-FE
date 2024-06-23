@@ -1,5 +1,5 @@
 import { Tables } from "@/types/supabase";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useSocketOn from "./useSocketOn";
 import { socket } from "@/utils/socket/socket";
 import { useConnectActions, useRoomsCurrent } from "@/store/connect-store";
