@@ -8,10 +8,11 @@ import GoTopButton from "@/utils/GoTopButton";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import SearchIcon from "@/assets/images/icon_search.svg";
+import Pagination from "@/components/ranking/Pagination";
 
 const Rankingpage = async () => {
   const supabase = createClient();
-  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
+  const { data } = await supabase.from("ranking_table").select("*").order("mafia_score", { ascending: false });
 
   return (
     <section className={S.sectionWrapper}>
@@ -39,12 +40,12 @@ const Rankingpage = async () => {
                 <h2>999</h2>
                 <h3>내 닉네임</h3>
                 <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>-</p>
-                <p className={S.totalRanking}>2000</p>
+                <p className={S.songUserRanking}>2000</p>
+                <p className={S.totalRanking}>3000</p>
               </div>
             </li>
           </ul>
-          <ul className={S.userRankingList}>
+          {/* <ul className={S.userRankingList}>
             {data.map((item: any, index: number) => (
               <li key={index}>
                 <div>
@@ -56,14 +57,14 @@ const Rankingpage = async () => {
                 </div>
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
         </div>
       )}
-      <div className={S.pagerWrapper}>
+      {/* <div className={S.pagerWrapper}>
         <button>
           <Image src={ArrowLeft} alt="left button" />
         </button>
@@ -78,7 +79,8 @@ const Rankingpage = async () => {
         <button>
           <Image src={ArrowRight} alt="right button" />
         </button>
-      </div>
+      </div> */}
+      <Pagination data={data} />
       <GoTopButton />
     </section>
   );
