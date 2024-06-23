@@ -8,7 +8,7 @@ import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNickname, useUserId } from "@/store/connect-store";
 import useJoinRoom from "@/hooks/useJoinRoom";
@@ -23,8 +23,6 @@ const MainCreateRoom = () => {
   const userId = useUserId();
   const nickname = useNickname();
   const router = useRouter();
-  useJoinRoom();
-  console.log("테스트입니다");
 
   //NOTE - 이전 코드
   /*
