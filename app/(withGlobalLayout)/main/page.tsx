@@ -41,7 +41,7 @@ const Mainpage = () => {
   }, []);
   */
 
-  //NOTE - 방 목록 리스트 없을때 불러오는 로딩 모션
+  //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
 
   return (

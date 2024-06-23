@@ -74,7 +74,7 @@
 }
 
 .MainGnb {
-  padding: 42px 0;
+  padding: 42px 0 54px;
   display: flex;
   justify-content: space-between;
   white-space: nowrap;
@@ -404,6 +404,18 @@
 
 .roomListLoading * {
   transform: translateY(-4px);
+}
+
+/*---------------- Search --------------*/
+.searchForm {
+  position: relative;
+}
+
+.searchWrap > div {
+  position: absolute;
+  left: 10px;
+  top: calc(100% + 3px);
+  color: var(--text-black);
 }
 
 /*---------------- Animation --------------*/
