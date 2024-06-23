@@ -3,7 +3,6 @@ import { useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-mod
 import S from "@/style/modal/modal.module.css";
 import { useEffect, useState } from "react";
 
-//NOTE - 추후 합칠 예정
 const ModalProgress = () => {
   const isModal = useModalIsOpen();
   const timer = useModalTimer();

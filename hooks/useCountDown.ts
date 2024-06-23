@@ -8,7 +8,6 @@ export const useCountDown = (callback: () => void, delay: number, isCount: boole
     if (!isCount || !delay) {
       return;
     }
-    console.log("타이머 실행");
 
     //현재 저장된 콜백 함수 호출
     const tick = () => {
@@ -18,7 +17,6 @@ export const useCountDown = (callback: () => void, delay: number, isCount: boole
     const timerId = setInterval(tick, delay);
 
     return () => {
-      console.log("타이머 종료", timerId);
       clearInterval(timerId);
     };
   }, [isCount]);

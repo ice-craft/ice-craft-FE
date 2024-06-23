@@ -6,7 +6,6 @@ const useModalSocket = () => {
   const { setYesOrNoVoteResult, setCurrentModal, setIsOpen, setTimer, setTitle, setRole, setVoteResult } =
     useModalActions();
 
-  // 추후 "isModalOpen" 통일될 예정
   const sockets = {
     showModal: (title: string, timer: number) => {
       //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
