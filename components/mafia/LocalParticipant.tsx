@@ -1,69 +1,87 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
-import { useDiedPlayer, useGameActions, useGamePlayers } from "@/store/game-store";
+import useSocketOn from "@/hooks/useSocketOn";
+import { useDiedPlayer, useGameActions } from "@/store/game-store";
 import { useActivePlayer, useIsLocalOverlay, useOverLayActions } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { GamePlayerInfo, Participants } from "@/types";
+import { Participants } from "@/types";
+import getPlayerNumber from "@/utils/mafiaSocket/getPlayerNumber";
 import { socket } from "@/utils/socket/socket";
 import { ParticipantTile, TrackLoop, useLocalParticipant, useParticipants } from "@livekit/components-react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant = ({ tracks }: Participants) => {
-  const { localParticipant } = useLocalParticipant();
-  const { setOverlayReset } = useOverLayActions();
-  const isLocalOverlay = useIsLocalOverlay();
-  const { clickHandler } = useClickHandler();
-  const activePlayerId = useActivePlayer();
   const participants = useParticipants();
-  const diedPlayers = useDiedPlayer();
-  const gamePlayers = useGamePlayers();
-  const { setGamePlayers } = useGameActions();
-
-  const [localPlayerNumber, setLocalPlayerNumber] = useState<number | undefined>();
+  const { localParticipant } = useLocalParticipant();
   const [isReady, setIsReady] = useState(false);
   const [isStartButton, setIsStartButton] = useState(true);
-
-  const playersCount = participants.length;
-  const userId = localParticipant.identity;
-  const roomId = localParticipant.metadata;
+  const [isPlayerNumber, setIsPlayerNumber] = useState(false);
+  const [localPlayerNumber, setLocalPlayerNumber] = useState<number | undefined>();
+  const isLocalOverlay = useIsLocalOverlay();
+  const diedPlayers = useDiedPlayer();
+  const activePlayerId = useActivePlayer();
+  const { setOverlayReset } = useOverLayActions();
+  const { clickHandler } = useClickHandler();
+  const { setSortPlayers } = useGameActions();
 
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
-  const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === localParticipant.identity);
+  const isDied = diedPlayers.find((diedPlayer) => diedPlayer === localParticipant.identity);
+
+  //NOTE - 게임 시작
+  const gameStartSocket = {
+    gameStart: () => {
+      // 게임 버튼 비활성화
+      setIsStartButton(false);
+
+      //local, remote 이미지 초기화
+      setIsReady(false);
+      setOverlayReset();
+
+      // player 번호 부여
+      setIsPlayerNumber(true);
+    }
+  };
+
+  useSocketOn(gameStartSocket);
+
+  //NOTE - 게임 시작시 players의 번호 부여
+  useEffect(() => {
+    if (isPlayerNumber) {
+      const gamePlayers = getPlayerNumber(participants);
+
+      const localPlayer = gamePlayers.find((player) => localParticipant.name === player.playerName);
+      const remotePlayers = gamePlayers.filter((player) => localParticipant.name !== player.playerName);
+
+      if (localPlayer) {
+        console.log("gamePlayers", gamePlayers);
+        console.log("remotePlayers", remotePlayers);
+        setLocalPlayerNumber(localPlayer.playerNumber);
+      }
+
+      setSortPlayers(remotePlayers);
+    }
+  }, [isPlayerNumber]);
 
   //NOTE - 게임 준비 이벤트 핸들러
   const readyHandler = () => {
+    const userId = localParticipant.identity;
     const newIsReady = !isReady;
     setIsReady(newIsReady);
+
     socket.emit("setReady", userId, newIsReady);
   };
 
-  //NOTE - 게임 시작 이벤트 핸들러
+  //NOTE - 게임 시작 이벤트 핸들러(방장 player에게만)
   const startHandler = () => {
+    const roomId = localParticipant.metadata;
+    const playersCount = participants.length;
+
     socket.emit("gameStart", roomId, playersCount);
-
-    // 게임 시작시 player Number 부여
-    setGamePlayers(participants);
-
-    // 게임 버튼 비활성화
-    setIsStartButton(false);
-
-    //local, remote 이미지 초기화
-    setIsReady(false);
-    setOverlayReset();
   };
-
-  //NOTE - 게임 시작 시 작동
-  useEffect(() => {
-    const localNumber = gamePlayers.find((player) => localParticipant.name === player.playerName);
-
-    if (localNumber) {
-      setLocalPlayerNumber(localNumber.playerNumber);
-    }
-  }, [gamePlayers]);
 
   return (
     <div className={S.localParticipant}>
@@ -76,7 +94,7 @@ const LocalParticipant = ({ tracks }: Participants) => {
         >
           <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
 
-          {!diedPlayer ? (
+          {!isDied ? (
             <div className={`${S.imageOverlay} ${isReady ? S.active : ""}`}>
               <Image src={CamCheck} alt={localParticipant.identity} />
             </div>
