@@ -20,7 +20,7 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
 
-  //NOTE - 이전 코드
+  //NOTE - 이전 코드 추후 확인 후 삭제 예정
   /*
   useEffect(() => {
     socket.connect();

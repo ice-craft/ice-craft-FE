@@ -15,7 +15,7 @@ const RoomSearch = () => {
   const [name, setName] = useState("방 이름을 입력해 주세요.");
   const debouncedValue = useDebounce(search, 300);
 
-  //NOTE - 방 목록 검색
+  //NOTE - 메인페이지 방 목록 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!debouncedValue.trim()) return;
