@@ -17,7 +17,7 @@ const useGetRoomsSocket = () => {
   useEffect(() => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
-  }, []);
+  }, [setRooms]);
 
   return { rooms, setRooms };
 };

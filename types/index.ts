@@ -164,12 +164,6 @@ export interface playersInfo {
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
 // }
 
-export interface RoomSearchProps {
-  searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  search: string;
-  setSearch: (item: string) => void;
-}
-
 export interface Rooms {
   room_id: string;
   title: string | null;
