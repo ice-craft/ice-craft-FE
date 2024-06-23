@@ -20,7 +20,6 @@ const RemoteParticipant = ({ tracks }: Participants) => {
     //NOTE - 방 입장 시 한 번만 실행 && Remote Player가 존재할 경우에만 실행
     if (roomId && remotesTrack.length !== 0) {
       socket.emit("usersInfo", roomId);
-      console.log("usersInfo socket.emit 실행");
     }
   }, [roomId]);
 
