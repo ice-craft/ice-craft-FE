@@ -6,7 +6,7 @@ import S from "@/style/mainpage/main.module.css";
 import { toast } from "react-toastify";
 import GoTopButton from "@/utils/GoTopButton";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
-import MainCreateRoom from "@/components/modal/CreateRoomModal";
+import MainCreateRoom from "@/components/main/CreateRoomModal";
 import { useCreateStore } from "@/store/toggle-store";
 import MainVisual from "@/components/main/MainVisual";
 import RoomSearch from "@/utils/RoomSearch";
