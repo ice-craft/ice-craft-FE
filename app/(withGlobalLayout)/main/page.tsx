@@ -12,13 +12,14 @@ import RoomListItem from "@/components/main/RoomListItem";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import MainSkeleton from "@/components/main/MainSkeleton";
 import useJoinRoom from "@/hooks/useJoinRoom";
+import CommonsLoading from "@/utils/CommonsLoading";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
 
   const isGoInClick = useRef(false);
-  const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
+  const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler, loading } = useJoinRoom();
 
   //NOTE - 이전 코드 추후 확인 후 삭제 예정
   /*
@@ -78,6 +79,7 @@ const Mainpage = () => {
               <Image src={VisitEmptyImage} alt="Room list empty" />
             </div>
           )}
+          {loading && <CommonsLoading />}
         </section>
       </div>
       <GoTopButton />

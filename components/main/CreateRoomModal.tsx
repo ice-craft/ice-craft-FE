@@ -5,7 +5,6 @@ import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg
 import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useRef, useState } from "react";
@@ -25,6 +24,7 @@ const MainCreateRoom = () => {
   const nickname = useNickname();
   const router = useRouter();
   const { joinRoomHandler } = useJoinRoom();
+  const [loading, setLoading] = useState(false);
 
   //NOTE - 이전 코드
   /*
@@ -66,12 +66,7 @@ const MainCreateRoom = () => {
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const isLogin = await checkUserLogIn();
-      if (!isLogin) {
-        toast.info("로그인 후 입장가능합니다.");
-        return;
-      }
-
+      setLoading(true);
       //유효성 검사
       if (!roomTitle.trim()) {
         toast.error("방 제목을 입력해 주세요.");
@@ -86,7 +81,7 @@ const MainCreateRoom = () => {
       if (!isGoInClick.current) {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers, (roomId: Tables<"room_table">) => {
-          joinRoomHandler(roomId.room_id);
+          joinRoomHandler(roomId);
         });
 
         //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
@@ -96,6 +91,8 @@ const MainCreateRoom = () => {
       }
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setLoading(false);
     }
   };
 
