@@ -5,10 +5,12 @@ import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
+import useDebounce from "@/hooks/useSearchDebounce";
 
 const RoomSearch = () => {
-  const { setRooms } = useGetRoomsSocket();
+  const { rooms, setRooms } = useGetRoomsSocket();
   const [search, setSearch] = useState("");
+  const debouncedValue = useDebounce(search);
 
   //NOTE - 방 목록 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,9 +18,9 @@ const RoomSearch = () => {
     if (!search.trim()) return;
 
     try {
-      const rooms = await getRoomsWithKeyword(search);
-      console.log("룸결과", rooms);
-      setRooms(rooms);
+      const roomKeyword = await getRoomsWithKeyword(debouncedValue);
+      console.log("룸결과", roomKeyword);
+      setRooms(roomKeyword);
     } catch (error) {
       toast.error("검색 중 오류가 발생했습니다.");
     }
