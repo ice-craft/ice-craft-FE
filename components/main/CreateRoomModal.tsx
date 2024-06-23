@@ -12,6 +12,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNickname, useUserId } from "@/store/connect-store";
 import useJoinRoom from "@/hooks/useJoinRoom";
+import { Tables } from "@/types/supabase";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -23,6 +24,7 @@ const MainCreateRoom = () => {
   const userId = useUserId();
   const nickname = useNickname();
   const router = useRouter();
+  const { joinRoomHandler } = useJoinRoom();
 
   //NOTE - 이전 코드
   /*
@@ -62,11 +64,9 @@ const MainCreateRoom = () => {
   };
 
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-
       const isLogin = await checkUserLogIn();
-
       if (!isLogin) {
         toast.info("로그인 후 입장가능합니다.");
         return;
@@ -85,7 +85,10 @@ const MainCreateRoom = () => {
 
       if (!isGoInClick.current) {
         isGoInClick.current = true;
-        socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
+        socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers, (roomId: Tables<"room_table">) => {
+          joinRoomHandler(roomId.room_id);
+        });
+
         //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
         setSelectedGame("마피아");
         setRoomTitle("");

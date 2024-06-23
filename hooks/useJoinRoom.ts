@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useConnectActions } from "@/store/connect-store";
 import useSocketOn from "./useSocketOn";
@@ -7,6 +6,7 @@ import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import { UserInfo } from "@/types";
+import { useRouter } from "next/navigation";
 
 const useJoinRoom = () => {
   const router = useRouter();
@@ -71,7 +71,7 @@ const useJoinRoom = () => {
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = async () => {
     await loginErrorHandler(() => {
-      socket.emit("fasJoinRoom", userId.current, nickname.current);
+      socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
 
