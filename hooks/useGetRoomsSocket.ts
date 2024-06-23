@@ -8,6 +8,7 @@ const useGetRoomsSocket = () => {
 
   const mainSockets = {
     enterMafia: (rooms: Tables<"room_table">[]) => {
+      console.log("소켓안에있는 룸리스트", rooms);
       setRooms(rooms);
     }
   };
@@ -18,6 +19,10 @@ const useGetRoomsSocket = () => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
   }, [setRooms]);
+
+  useEffect(() => {
+    console.log("변경된룸 소켓", rooms);
+  }, [rooms]);
 
   return { rooms, setRooms };
 };

@@ -11,6 +11,7 @@ const RoomSearch = () => {
   const { rooms, setRooms } = useGetRoomsSocket();
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("방 이름을 입력해 주세요.");
   const debouncedValue = useDebounce(search, 1000);
 
   //NOTE - 방 목록 검색
@@ -22,8 +23,8 @@ const RoomSearch = () => {
     try {
       setLoading(true);
       const roomKeyword = await getRoomsWithKeyword(debouncedValue);
-      console.log("룸결과", roomKeyword);
       setRooms(roomKeyword);
+      console.log("룸결과", roomKeyword);
     } catch (error) {
       toast.error("검색 중 오류가 발생했습니다.");
     } finally {
@@ -41,7 +42,7 @@ const RoomSearch = () => {
             id="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="방 이름을 입력해 주세요."
+            placeholder={name}
           />
           <button type="submit" disabled={loading}>
             <Image src={SearchIcon} alt="search Icon" />

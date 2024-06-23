@@ -14,13 +14,16 @@ import MainSkeleton from "@/components/main/MainSkeleton";
 import useJoinRoom from "@/hooks/useJoinRoom";
 
 const Mainpage = () => {
-  const { rooms } = useGetRoomsSocket();
+  const { rooms, setRooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
 
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
 
-  console.log("메인페이지 룸리스트", rooms);
+  useEffect(() => {
+    console.log("메인페이지 룸리스트", rooms);
+  }, [rooms]);
+
   //NOTE - 이전 코드
   /*
   useEffect(() => {
