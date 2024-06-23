@@ -406,16 +406,8 @@
   transform: translateY(-4px);
 }
 
-/*---------------- Search --------------*/
-.searchForm {
-  position: relative;
-}
-
-.searchWrap > div {
-  position: absolute;
-  left: 10px;
-  top: calc(100% + 3px);
-  color: var(--text-black);
+.loadingCommonWrapper > .loading {
+  text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
 }
 
 /*---------------- Animation --------------*/

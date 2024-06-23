@@ -2,14 +2,15 @@ import { Tables } from "@/types/supabase";
 import { useEffect, useState } from "react";
 import useSocketOn from "./useSocketOn";
 import { socket } from "@/utils/socket/socket";
+import { useConnectActions, useRoomsCurrent } from "@/store/connect-store";
 
 const useGetRoomsSocket = () => {
-  const [rooms, setRooms] = useState<Tables<"room_table">[]>();
+  const rooms = useRoomsCurrent();
+  const { setRooms } = useConnectActions();
 
   const mainSockets = {
-    enterMafia: (rooms: Tables<"room_table">[]) => {
-      console.log("소켓안에있는 룸리스트", rooms);
-      setRooms(rooms);
+    enterMafia: (item: Tables<"room_table">[]) => {
+      setRooms(item);
     }
   };
 
@@ -19,10 +20,6 @@ const useGetRoomsSocket = () => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
   }, [setRooms]);
-
-  useEffect(() => {
-    console.log("변경된룸 소켓", rooms);
-  }, [rooms]);
 
   return { rooms, setRooms };
 };

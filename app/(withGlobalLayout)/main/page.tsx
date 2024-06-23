@@ -14,15 +14,11 @@ import MainSkeleton from "@/components/main/MainSkeleton";
 import useJoinRoom from "@/hooks/useJoinRoom";
 
 const Mainpage = () => {
-  const { rooms, setRooms } = useGetRoomsSocket();
+  const { rooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
 
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom();
-
-  useEffect(() => {
-    console.log("메인페이지 룸리스트", rooms);
-  }, [rooms]);
 
   //NOTE - 이전 코드
   /*
@@ -71,7 +67,7 @@ const Mainpage = () => {
               </div>
             </div>
           </div>
-          {rooms ? (
+          {rooms.length > 0 ? (
             <ul className={S.roomList}>
               {rooms.map((item) => (
                 <RoomListItem key={item.room_id} item={item} joinRoomHandler={joinRoomHandler} />

@@ -80,11 +80,13 @@ export interface ConnectState {
   nickname: string;
   userId: string;
   roomId: string;
+  rooms: Tables<"room_table">[];
   actions: {
     setJoinStatus: (status: boolean) => void;
     setRoomId: (id: string) => void;
     setUserId: (id: string) => void;
     setUserNickname: (nickname: string) => void;
+    setRooms: (status: Tables<"room_table">[]) => void;
   };
 }
 
