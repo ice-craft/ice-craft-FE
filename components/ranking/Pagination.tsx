@@ -14,7 +14,6 @@ export default function Pagination({ data }: PageNateProps) {
     const dataList = data;
     setItems(dataList);
   }, []);
-  console.log(data);
 
   function Items({ currentItems }: any) {
     return (
