@@ -10,10 +10,10 @@ import CommonsLoading from "./CommonsLoading";
 
 const RoomSearch = () => {
   const { setRooms } = useGetRoomsSocket();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("방 이름을 입력해 주세요.");
-  const debouncedValue = useDebounce(search, 300);
+  const debouncedValue = useDebounce(value, 500);
 
   //NOTE - 메인페이지 방 목록 검색
   const searchHandler = async (e: React.FormEvent<HTMLFormElement>) => {
