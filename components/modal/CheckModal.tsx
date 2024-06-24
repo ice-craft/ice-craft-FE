@@ -24,7 +24,7 @@ const CheckModal = () => {
   //NOTE - 최후의 투표 클릭 이벤트
   const chooseVoteHandler = (vote: boolean) => {
     setIsVote(true);
-    socket.emit("VoteYesOrNo", vote);
+    socket.emit("voteYesOrNo", vote);
   };
 
   return (
