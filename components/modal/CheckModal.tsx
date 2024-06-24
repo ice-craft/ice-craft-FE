@@ -4,7 +4,7 @@ import S from "@/style/modal/modal.module.css";
 import ModalProgress from "@/utils/ModalProgress";
 import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant } from "@livekit/components-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CheckModal = () => {
   const title = useGroupModalElement();
@@ -15,16 +15,23 @@ const CheckModal = () => {
   const { localParticipant } = useLocalParticipant();
   const localPlayerId = localParticipant.identity;
 
-  //NOTE - 죽은 playerId
-  const isDiedPlayer = diedPlayerId.find((playerId) => localPlayerId === playerId);
-
   //NOTE - 가장 많은 투표 수를 받는 player
   const votePlayer = voteResults[0];
+
+  //NOTE - 가장 많은 투표를 받은 player가 자신일 경우
+  useEffect(() => {
+    if (votePlayer.user_id === localPlayerId) {
+      setIsVote(true);
+    }
+  }, [votePlayer]);
+
+  //NOTE - 죽은 playerId
+  const isDiedPlayer = diedPlayerId.find((playerId) => localPlayerId === playerId);
 
   //NOTE - 최후의 투표 클릭 이벤트
   const chooseVoteHandler = (vote: boolean) => {
     setIsVote(true);
-    socket.emit("VoteYesOrNo", vote);
+    socket.emit("voteYesOrNo", vote);
   };
 
   return (
