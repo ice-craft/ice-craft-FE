@@ -18,6 +18,7 @@ const useJoinRoom = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    socket.connect();
     const checkUserInfo = async () => {
       const userInfo = await getUserInfo();
 
