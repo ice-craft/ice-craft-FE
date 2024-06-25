@@ -21,7 +21,6 @@ const useJoinRoom = () => {
     socket.connect();
     const checkUserInfo = async () => {
       const userInfo = await getUserInfo();
-
       // 세션 스토리지에 저장
       if (userInfo) {
         userId.current = userInfo.id;
@@ -45,8 +44,8 @@ const useJoinRoom = () => {
       toast.error(message);
     },
     fastJoinRoom: (roomId: string) => {
-      console.log(`[fastJoinRoom] 수신된 roomId : ${roomId}`);
-      router.push(`/room/${roomId}/`);
+      const stringRoomId = String(roomId);
+      router.push(`/room/${stringRoomId}/`);
       setRoomId(roomId);
     },
     fastJoinRoomError: (message: string) => {
@@ -59,9 +58,16 @@ const useJoinRoom = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
-      roomId.current = item.room_id;
-      setRoomId(item.room_id);
-      socket.emit("joinRoom", userId.current, item.room_id, nickname.current);
+      if (typeof item.room_id === "string") {
+        roomId.current = item.room_id;
+        setRoomId(item.room_id);
+        console.log(
+          `Joining room with userId: ${userId.current}, roomId: ${item.room_id}, nickname: ${nickname.current}`
+        );
+        socket.emit("joinRoom", item.room_id, { userId: userId.current, nickname: nickname.current });
+      } else {
+        toast.error("방 ID가 올바르지 않습니다.");
+      }
     });
   };
 
