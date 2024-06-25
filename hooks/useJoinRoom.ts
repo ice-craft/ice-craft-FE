@@ -45,6 +45,7 @@ const useJoinRoom = () => {
       toast.error(message);
     },
     fastJoinRoom: (roomId: string) => {
+      console.log(`[fastJoinRoom] 수신된 roomId : ${roomId}`);
       router.push(`/room/${roomId}/`);
       setRoomId(roomId);
     },
