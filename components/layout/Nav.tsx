@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React, { use } from "react";
+import React, { use, useEffect, useRef } from "react";
 import S from "@/style/commons/commons.module.css";
-import { logOut } from "@/utils/supabase/authAPI";
+import { getUserInfo, logOut } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 
@@ -12,7 +12,6 @@ const Nav = () => {
   const nickname = useNickname();
   const userId = useUserId();
 
-  console.log(nickname, userId);
   const logoutHandler = async () => {
     try {
       await logOut();

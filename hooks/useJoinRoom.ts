@@ -1,72 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions } from "@/store/connect-store";
-import useSocketOn from "./useSocketOn";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
-import { UserInfo } from "@/types";
 import { useRouter } from "next/navigation";
 
 const useJoinRoom = () => {
   const router = useRouter();
   const isGoInClick = useRef(false);
-  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
+  const { setRoomId, setUserNickname, setUserId } = useConnectActions();
   const userId = useRef("");
   const nickname = useRef("");
   const roomId = useRef("");
   const [loading, setLoading] = useState(false);
 
+  //NOTE - 로그인 정보
   useEffect(() => {
-    socket.connect();
     const checkUserInfo = async () => {
       const userInfo = await getUserInfo();
       // 세션 스토리지에 저장
       if (userInfo) {
         userId.current = userInfo.id;
         nickname.current = userInfo.user_metadata.nickname;
+        setUserId(userId.current);
+        setUserNickname(nickname.current);
       }
     };
     checkUserInfo();
   }, []);
-
-  const joinSockets = {
-    joinRoom: (item: Tables<"room_table">, userInfo: UserInfo) => {
-      console.log("joinroom", item.room_id);
-      if (item.room_id) {
-        console.log(item.room_id);
-        setRoomId(item.room_id);
-        setUserId(userInfo.userId);
-        setUserNickname(userInfo.nickname);
-        // router.push(`/room/${item.room_id}/`);
-      }
-    },
-    joinRoomError: (message: string) => {
-      isGoInClick.current = false;
-      toast.error(message);
-    },
-    fastJoinRoom: (item: Tables<"room_table">) => {
-      joinSockets.joinRoom;
-      setRoomId(item.room_id);
-      router.push(`/room/${item.room_id}/`);
-    },
-    fastJoinRoomError: (message: string) => {
-      isGoInClick.current = false;
-      toast.error(message);
-    }
-  };
-  useSocketOn(joinSockets);
 
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
       roomId.current = item.room_id;
       setRoomId(item.room_id);
-      console.log(
-        `Joining room with userId: ${userId.current}, roomId: ${item.room_id}, nickname: ${nickname.current}`
-      );
       router.push(`/room/${item.room_id}/`);
-      socket.emit("joinRoom", item.room_id, userId.current, nickname.current);
+      socket.emit("joinRoom", userId.current, item.room_id, nickname.current);
     });
   };
 
@@ -81,9 +51,8 @@ const useJoinRoom = () => {
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
-      // const result = joinSockets.joinRoom(item.room_id);
-      // console.log("빠른방입장", result);
-      // router.push(`/room/${item.room_id}/`);
+      console.log("메인페이지 방입장", item);
+      router.push(`/room/${item.room_id}/`);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };

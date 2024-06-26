@@ -19,7 +19,7 @@ const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
 
   const isGoInClick = useRef(false);
-  const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler, loading } = useJoinRoom();
+  const { joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
 
   //NOTE - 이전 코드 추후 확인 후 삭제 예정
   /*
@@ -47,7 +47,7 @@ const Mainpage = () => {
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
-        <MainVisual gameStartHandler={gameStartHandler} />
+        <MainVisual />
       </section>
       <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>
@@ -56,9 +56,7 @@ const Mainpage = () => {
             <div className={S.roomSearchAndButton}>
               <RoomSearch />
               <div className={S.gameGoButton}>
-                <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
-                  빠른입장
-                </button>
+                <button disabled={isGoInClick.current}>빠른입장</button>
                 <div className={S.makeRoomButton}>
                   <button onClick={() => setIsCreate(true)} className={S.makeRoom}>
                     방 만들기

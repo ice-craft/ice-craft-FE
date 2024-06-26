@@ -11,7 +11,7 @@ const useConnectStore = create<ConnectState>((set) => ({
 
   actions: {
     setJoinStatus: (status: boolean) => set({ join: status }),
-    setRoomId: (id: string) => set({ roomId: id }),
+    setRoomId: (room: string) => set({ roomId: room }),
     setUserId: (id: string) => set({ userId: id }),
     setUserNickname: (nickname: string) => set({ nickname }),
     setRooms: (status: Tables<"room_table">[]) => set({ rooms: status })
