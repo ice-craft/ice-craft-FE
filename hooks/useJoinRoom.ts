@@ -31,22 +31,24 @@ const useJoinRoom = () => {
   }, []);
 
   const joinSockets = {
-    joinRoom: (roomId: string, userInfo: UserInfo) => {
-      if (roomId) {
-        setRoomId(roomId);
+    joinRoom: (item: Tables<"room_table">, userInfo: UserInfo) => {
+      console.log("joinroom", item.room_id);
+      if (item.room_id) {
+        console.log(item.room_id);
+        setRoomId(item.room_id);
         setUserId(userInfo.userId);
         setUserNickname(userInfo.nickname);
-        router.push(`/room/${roomId}/`);
+        // router.push(`/room/${item.room_id}/`);
       }
     },
     joinRoomError: (message: string) => {
       isGoInClick.current = false;
       toast.error(message);
     },
-    fastJoinRoom: (roomId: string) => {
-      const stringRoomId = String(roomId);
-      router.push(`/room/${stringRoomId}/`);
-      setRoomId(roomId);
+    fastJoinRoom: (item: Tables<"room_table">) => {
+      joinSockets.joinRoom;
+      setRoomId(item.room_id);
+      router.push(`/room/${item.room_id}/`);
     },
     fastJoinRoomError: (message: string) => {
       isGoInClick.current = false;
@@ -58,29 +60,30 @@ const useJoinRoom = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
-      if (typeof item.room_id === "string") {
-        roomId.current = item.room_id;
-        setRoomId(item.room_id);
-        console.log(
-          `Joining room with userId: ${userId.current}, roomId: ${item.room_id}, nickname: ${nickname.current}`
-        );
-        socket.emit("joinRoom", item.room_id, { userId: userId.current, nickname: nickname.current });
-      } else {
-        toast.error("방 ID가 올바르지 않습니다.");
-      }
+      roomId.current = item.room_id;
+      setRoomId(item.room_id);
+      console.log(
+        `Joining room with userId: ${userId.current}, roomId: ${item.room_id}, nickname: ${nickname.current}`
+      );
+      router.push(`/room/${item.room_id}/`);
+      socket.emit("joinRoom", item.room_id, userId.current, nickname.current);
     });
   };
 
   //NOTE - 빠른 입장 (랜덤 방 입장)
-  const fastJoinRoomHandler = async () => {
+  const fastJoinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
+      // router.push(`/room/${item.room_id}/`);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
 
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
-  const gameStartHandler = async () => {
+  const gameStartHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
+      // const result = joinSockets.joinRoom(item.room_id);
+      // console.log("빠른방입장", result);
+      // router.push(`/room/${item.room_id}/`);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
