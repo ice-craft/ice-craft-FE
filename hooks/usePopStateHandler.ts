@@ -9,7 +9,6 @@ const usePopStateHandler = () => {
 
     const handlePopstate = (e: PopStateEvent) => {
       setIsBack(true);
-      alert("너. 실행");
     };
 
     // 이벤트 리스너 등록

@@ -17,6 +17,8 @@ const JoinMafiaRoom = () => {
   const { roomId, userId, nickname } = useConnectStore();
   // BeforeUnloadHandler();
 
+  console.log("JoinRoom 작동");
+
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {
     if (isBack) {
