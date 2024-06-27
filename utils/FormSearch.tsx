@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { getRoomsWithKeyword, getRooms } from "@/utils/supabase/roomAPI";
 import SearchIcon from "@/assets/images/icon_search.svg";
@@ -7,10 +9,13 @@ import { toast } from "react-toastify";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import useDebounce from "@/hooks/useSearchDebounce";
 
-const RoomSearch = () => {
+interface FormSearchProps {
+  placeholder: string;
+}
+
+const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useGetRoomsSocket();
   const [search, setSearch] = useState<string>("");
-  const [name, setName] = useState("방 이름을 입력해 주세요.");
   const debouncedValue = useDebounce(search, 500);
 
   //NOTE - 메인페이지 방 목록 검색
@@ -41,7 +46,7 @@ const RoomSearch = () => {
     <>
       <div className={S.roomSearch}>
         <label htmlFor="search">검색하기</label>
-        <input type="text" id="search" value={search} onChange={searchHandler} placeholder={name} />
+        <input type="text" id="search" value={search} onChange={searchHandler} placeholder={placeholder} />
         <button type="button">
           <Image src={SearchIcon} alt="search Icon" />
         </button>
@@ -50,4 +55,4 @@ const RoomSearch = () => {
   );
 };
 
-export default RoomSearch;
+export default FormSearch;

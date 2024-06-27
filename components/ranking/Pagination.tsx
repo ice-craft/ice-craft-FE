@@ -25,17 +25,24 @@ export default function Pagination({ data }: PageNateProps) {
       <>
         {currentItems && (
           <ul className={S.userRankingList}>
-            {currentItems.map((item: any) => (
-              <li key={item.ranking}>
-                <div>
-                  <h2>{item.ranking}</h2>
-                  <h3>{item.nickname}</h3>
-                  <p className={S.mafiaUserRanking}>{item.mafia_score}</p>
-                  <p className={S.songUserRanking}>{item.music_score}</p>
-                  <p className={S.totalRanking}>{item.total_score}</p>
-                </div>
-              </li>
-            ))}
+            {currentItems.map((item: any) => {
+              let rankClass = "";
+              if (item.ranking === 1) rankClass = S.firstPlace;
+              else if (item.ranking === 2) rankClass = S.secondPlace;
+              else if (item.ranking === 3) rankClass = S.thirdPlace;
+
+              return (
+                <li key={item.ranking}>
+                  <div>
+                    <h2 className={rankClass}>{item.ranking}</h2>
+                    <h3>{item.nickname}</h3>
+                    <p className={S.mafiaUserRanking}>{item.mafia_score}</p>
+                    <p className={S.songUserRanking}>{item.music_score}</p>
+                    <p className={S.totalRanking}>{item.total_score}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </>

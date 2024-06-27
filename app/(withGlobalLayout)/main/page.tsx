@@ -7,7 +7,7 @@ import GoTopButton from "@/utils/GoTopButton";
 import MainCreateRoom from "@/components/main/CreateRoomModal";
 import { useCreateStore } from "@/store/toggle-store";
 import MainVisual from "@/components/main/MainVisual";
-import RoomSearch from "@/utils/RoomSearch";
+import FormSearch from "@/utils/FormSearch";
 import RoomListItem from "@/components/main/RoomListItem";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import MainSkeleton from "@/components/main/MainSkeleton";
@@ -34,7 +34,7 @@ const Mainpage = () => {
           <div className={S.MainGnb}>
             <p>현재 활성화 되어있는 방</p>
             <div className={S.roomSearchAndButton}>
-              <RoomSearch />
+              <FormSearch placeholder="방 이름을 입력해 주세요." />
               <div className={S.gameGoButton}>
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장

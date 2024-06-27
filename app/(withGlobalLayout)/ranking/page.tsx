@@ -7,6 +7,8 @@ import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import SearchIcon from "@/assets/images/icon_search.svg";
 import Pagination from "@/components/ranking/Pagination";
+import MyLanking from "@/components/ranking/MyRanking";
+import FormSearch from "@/utils/FormSearch";
 
 const Rankingpage = async () => {
   const supabase = createClient();
@@ -16,12 +18,7 @@ const Rankingpage = async () => {
     <section className={S.sectionWrapper}>
       <div className={S.userRanking}>
         <h2>랭킹 순위</h2>
-        <form>
-          <input type="text" placeholder="검색어를 입력해 주세요" />
-        </form>
-        <button>
-          <Image src={SearchIcon} alt="search Icon" />
-        </button>
+        <FormSearch placeholder="닉네임을 입력해 주세요." />
       </div>
       <ul className={S.userRankingTitle}>
         <li>랭킹</li>
@@ -31,32 +28,7 @@ const Rankingpage = async () => {
         <li>총점</li>
       </ul>
       {data ? (
-        <div>
-          <ul className={S.myRankingList}>
-            <li>
-              <div>
-                <h2>999</h2>
-                <h3>내 닉네임</h3>
-                <p className={S.mafiaUserRanking}>1000</p>
-                <p className={S.songUserRanking}>2000</p>
-                <p className={S.totalRanking}>3000</p>
-              </div>
-            </li>
-          </ul>
-          {/* <ul className={S.userRankingList}>
-            {data.map((item: any, index: number) => (
-              <li key={index}>
-                <div>
-                  <h2>{index + 1}</h2>
-                  <h3>{item.nickname}</h3>
-                  <p className={S.mafiaUserRanking}>{item.game_category}</p>
-                  <p className={S.songUserRanking}>-</p>
-                  <p className={S.totalRanking}>{item.total_score}</p>
-                </div>
-              </li>
-            ))}
-          </ul> */}
-        </div>
+        <MyLanking />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />

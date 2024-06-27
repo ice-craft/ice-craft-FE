@@ -17,32 +17,6 @@
   font-weight: var(--font-bold);
 }
 
-.userRanking input[type="text"] {
-  padding: 10px 40px 10px 25px;
-  border: 1px solid #d3d3d3;
-  border-radius: var(--border-radius);
-  width: 357px;
-}
-
-.userRanking > button {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-55%);
-  width: 25px;
-  height: 25px;
-  z-index: 1;
-}
-
-.userRanking input[type="text"]:placeholder {
-  color: var(--silver-gray);
-}
-
-.userRanking input[type="text"]:focus {
-  outline: 1px solid var(--primary-color);
-  opacity: 0.5;
-}
-
 .userRankingTitle {
   display: flex;
   background-color: #f9f9fb;
@@ -112,17 +86,17 @@
   background-color: rgba(190, 189, 222, 0.3);
 }
 
-.userRankingList li:nth-child(1) h2 {
+.userRankingList li .firstPlace {
   background: url("../../assets/images/ranking_1.svg") center center no-repeat;
   color: #4285f4;
 }
 
-.userRankingList li:nth-child(2) h2 {
+.userRankingList li .secondPlace {
   background: url("../../assets/images/ranking_2.svg") center center no-repeat;
   color: #4285f4;
 }
 
-.userRankingList li:nth-child(3) h2 {
+.userRankingList li .thirdPlace {
   background: url("../../assets/images/ranking_3.svg") center center no-repeat;
   color: #4285f4;
 }
@@ -171,15 +145,7 @@
     width: 100%;
   }
 
-  .userRanking input[type="text"] {
+  .userRanking > * {
     width: 100%;
-  }
-
-  .userRanking > button {
-    top: 80%;
-  }
-
-  .pager {
-    margin: 0 24px;
   }
 }
