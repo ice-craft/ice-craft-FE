@@ -4,6 +4,7 @@ import { useConnectActions } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
+import { useRouter } from "next/navigation";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
@@ -12,6 +13,7 @@ const useJoinRoom = () => {
   const nickname = useRef("");
   const roomId = useRef("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   //NOTE - 로그인 정보
   useEffect(() => {
@@ -33,15 +35,16 @@ const useJoinRoom = () => {
     await loginErrorHandler(() => {
       roomId.current = item.room_id;
       setRoomId(item.room_id);
-      // router.push(`/room/${item.room_id}/`);
+      router.push(`/room/${item.room_id}/`);
       socket.emit("joinRoom", userId.current, item.room_id, nickname.current);
     });
   };
 
   //NOTE - 빠른 입장 (랜덤 방 입장)
-  const fastJoinRoomHandler = async () => {
+  const fastJoinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
-      console.log("클릭했음", userId.current, nickname.current);
+      console.log("빠른입장 클릭했음", item.room_id, userId.current, nickname.current);
+      router.push(`/room/${item.room_id}/`);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
