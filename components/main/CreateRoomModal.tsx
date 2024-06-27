@@ -6,12 +6,9 @@ import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import useJoinRoom from "@/hooks/useJoinRoom";
-import { Tables } from "@/types/supabase";
-import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
-import CommonsLoading from "@/utils/CommonsLoading";
+import { useNickname, useUserId } from "@/store/connect-store";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -19,9 +16,26 @@ const MainCreateRoom = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const { setIsCreate } = useCreateStore();
-  const { joinRoomHandler } = useJoinRoom();
-  const [loading, setLoading] = useState(false);
-  useJoinRoomSocket();
+  const roomId = useRef("");
+  const userId = useUserId();
+  const nickname = useNickname();
+
+  useEffect(() => {
+    socket.on("createRoom", ({ room_id }) => {
+      roomId.current = room_id;
+      socket.emit("joinRoom", userId, room_id, nickname);
+    });
+
+    socket.on("createRoomError", (message) => {
+      toast.error(message);
+      isGoInClick.current = false;
+    });
+
+    return () => {
+      socket.off("createRoom");
+      socket.off("createRoomError");
+    };
+  }, []);
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
@@ -34,10 +48,10 @@ const MainCreateRoom = () => {
     }
   };
 
+  //NOTE - 방 만들기 핸들러
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setLoading(true);
       //유효성 검사
       if (!roomTitle.trim()) {
         toast.error("방 제목을 입력해 주세요.");
@@ -51,19 +65,14 @@ const MainCreateRoom = () => {
 
       if (!isGoInClick.current) {
         isGoInClick.current = true;
-        socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers, (roomId: Tables<"room_table">) => {
-          joinRoomHandler(roomId);
-        });
+        socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
 
-        //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
         setSelectedGame("마피아");
         setRoomTitle("");
         setNumberOfPlayers(5);
       }
     } catch (error) {
       console.log("error", error);
-    } finally {
-      setLoading(false);
     }
   };
 

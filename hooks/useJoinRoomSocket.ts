@@ -1,7 +1,5 @@
-import { Tables } from "@/types/supabase";
 import { UserInfo } from "@/types";
 import { useConnectActions } from "@/store/connect-store";
-import { useRef } from "react";
 import { toast } from "react-toastify";
 import useSocketOn from "./useSocketOn";
 import { useRouter } from "next/navigation";
@@ -12,7 +10,6 @@ const useJoinRoomSocket = () => {
 
   const joinSockets = {
     joinRoom: (userInfo: UserInfo, roomId: string) => {
-      console.log("joinRoom event received", userInfo, roomId);
       if (roomId) {
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);
@@ -22,7 +19,6 @@ const useJoinRoomSocket = () => {
       toast.error(message);
     },
     fastJoinRoom: (userInfo: UserInfo, roomId: string) => {
-      console.log("fastJoinRoom", roomId);
       setRoomId(roomId);
       router.push(`/room/${roomId}/`);
     },
