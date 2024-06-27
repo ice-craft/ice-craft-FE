@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
+import { getRoomsWithKeyword, getRooms } from "@/utils/supabase/roomAPI";
 import SearchIcon from "@/assets/images/icon_search.svg";
 import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
@@ -21,7 +21,11 @@ const RoomSearch = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        if (!debouncedValue.trim()) return;
+        if (!debouncedValue.trim()) {
+          const allRooms = await getRooms(0, 20);
+          setRooms(allRooms);
+          return;
+        }
 
         const roomKeyword = await getRoomsWithKeyword(debouncedValue);
         setRooms(roomKeyword);
