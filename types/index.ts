@@ -92,7 +92,11 @@ export interface RemoteReadyStates {
 
 export interface ExitState {
   isExit: boolean;
-  setIsExit: (newToggle: boolean) => void;
+  isBack: boolean;
+  actions: {
+    setIsExit: (newToggle: boolean) => void;
+    setIsBack: (newToggle: boolean) => void;
+  };
 }
 
 export interface ReadyState {

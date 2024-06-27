@@ -1,36 +1,30 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
+import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { useGetToken } from "@/hooks/useToken";
 import useConnectStore from "@/store/connect-store";
-import { useExitStore } from "@/store/exit-store";
+import { useExitAction } from "@/store/exit-store";
 import S from "@/style/livekit/livekit.module.css";
-import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
-  const { setIsExit } = useExitStore();
+  const { setIsExit, setIsBack } = useExitAction();
+  const isBack = usePopStateHandler();
 
   const { roomId, userId, nickname } = useConnectStore();
   // BeforeUnloadHandler();
 
+  //NOTE - 뒤로가기 시 작동
   useEffect(() => {
-    history.pushState(null, "", "");
-
-    const handlePopstate = (e: PopStateEvent) => {
+    if (isBack) {
       socket.emit("exitRoom", roomId, userId);
       setIsExit(true);
-    };
-
-    // 이벤트 리스너 등록
-    window.addEventListener("popstate", handlePopstate);
-    // 이벤트 리스너 제거
-    return () => window.removeEventListener("popstate", handlePopstate);
-  }, []);
+      setIsBack(true);
+    }
+  }, [isBack]);
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
 

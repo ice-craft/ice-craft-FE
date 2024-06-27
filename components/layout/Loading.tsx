@@ -1,18 +1,28 @@
+import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { designer } from "@/public/fonts/fonts";
-import { useExitStore } from "@/store/exit-store";
+import { useExitAction, useIsBack } from "@/store/exit-store";
 import S from "@/style/commons/commons.module.css";
 import { useEffect } from "react";
 
 const Loading = () => {
-  const { setIsExit } = useExitStore();
+  const { setIsExit, setIsBack } = useExitAction();
+  const isBack = useIsBack();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const back = (history.length - 2) * -1;
+      //뒤로가기
+      if (isBack) {
+        const back = (history.length - 2) * -1;
+        history.go(back);
+      }
+      // 방나가기
+      const back = (history.length - 1) * -1;
       history.go(back);
     }, 3000);
 
     return () => {
+      // 초기화
+      setIsBack(false);
       setIsExit(false);
       clearTimeout(timer);
     };

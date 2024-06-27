@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { socket } from "@/utils/socket/socket";
-import { useExitStore } from "@/store/exit-store";
+import { useExitAction } from "@/store/exit-store";
 
 const useHandleBack = (roomId: string, userId: string) => {
   const router = useRouter();
-  const { setIsExit } = useExitStore();
+  const { setIsExit } = useExitAction();
 
   useEffect(() => {
     const disConnected = () => {
