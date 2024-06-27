@@ -125,6 +125,7 @@ const MainCreateRoom = () => {
               value={roomTitle}
               placeholder="방 제목을 입력해 주세요."
               onChange={(e) => setRoomTitle(e.target.value)}
+              maxLength={16}
             />
           </div>
           {selectedGame === "마피아" ? (
