@@ -18,8 +18,7 @@ export default function Pagination({ data }: PageNateProps) {
     data.forEach((item: any, index: any) => {
       item["ranking"] = index + 1;
     });
-    console.log(data);
-  }, [data]); // data가 변경될 때마다 실행
+  }, [data]);
 
   function Items({ currentItems }: any) {
     return (
@@ -50,14 +49,12 @@ export default function Pagination({ data }: PageNateProps) {
 
     useEffect(() => {
       const endOffset = itemOffset + itemsPerPage;
-      console.log(`Loading items from ${itemOffset} to ${endOffset}`);
       setCurrentItems(items.slice(itemOffset, endOffset));
       setPageCount(Math.ceil(items.length / itemsPerPage));
     }, [itemOffset, itemsPerPage]);
 
     const handlePageClick = (event: { selected: number }) => {
       const newOffset = event.selected * itemsPerPage;
-      console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
       setItemOffset(newOffset);
     };
 
