@@ -1,16 +1,15 @@
 import { designer } from "@/public/fonts/fonts";
 import { useExitStore } from "@/store/exit-store";
 import S from "@/style/commons/commons.module.css";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Loading = () => {
-  const router = useRouter();
   const { setIsExit } = useExitStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/main");
+      const back = (history.length - 2) * -1;
+      history.go(back);
     }, 3000);
 
     return () => {

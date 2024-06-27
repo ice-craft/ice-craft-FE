@@ -45,12 +45,15 @@ const useModalSocket = () => {
       setTimer(timer);
       setIsOpen(true);
     },
-    //NOTE - 승리한 팀 모달창 요소
+    //NOTE - 승리한 팀 모달창 요소 및 게임 초기화
     victoryPlayer: (victoryTeam: string, timer: number) => {
+      //승리 모달창 요소
       setCurrentModal("VictoryModal");
       setTitle(victoryTeam);
       setTimer(timer);
       setIsOpen(true);
+
+      //게임 종료 후 초기화
     }
   };
 

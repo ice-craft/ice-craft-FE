@@ -31,6 +31,7 @@ const Mainpage = () => {
   useEffect(() => {
     socket.connect();
     socket.emit("enterMafia", 0, 20);
+    history.pushState(null, "", "");
 
     const checkUserInfo = async () => {
       const userInfo = await getUserInfo();
