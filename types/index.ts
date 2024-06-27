@@ -151,9 +151,9 @@ export interface totalTimeState {
   };
 }
 
-export interface MainVisualProps {
-  gameStartHandler: () => void;
-}
+// export interface MainVisualProps {
+//   gameStartHandler: () => void;
+// }
 
 export interface playersInfo {
   user_id: string;

@@ -4,7 +4,7 @@ import { useConnectActions } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
-import { useRouter } from "next/navigation";
+import useJoinRoomSocket from "./useJoinRoomSocket";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
@@ -13,9 +13,9 @@ const useJoinRoom = () => {
   const nickname = useRef("");
   const roomId = useRef("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  useJoinRoomSocket();
 
-  //NOTE - 로그인 정보
+  //NOTE - 로그인 정보 없애야함
   useEffect(() => {
     const checkUserInfo = async () => {
       const userInfo = await getUserInfo();
@@ -35,29 +35,27 @@ const useJoinRoom = () => {
     await loginErrorHandler(() => {
       roomId.current = item.room_id;
       setRoomId(item.room_id);
-      router.push(`/room/${item.room_id}/`);
-      socket.emit("joinRoom", userId.current, item.room_id, nickname.current);
-    });
-  };
-
-  //NOTE - 빠른 입장 (랜덤 방 입장)
-  const fastJoinRoomHandler = async (item: Tables<"room_table">) => {
-    await loginErrorHandler(() => {
-      console.log("빠른입장 클릭했음", item.room_id, userId.current, nickname.current);
-      router.push(`/room/${item.room_id}/`);
-      socket.emit("fastJoinRoom", userId.current, nickname.current);
+      socket.emit("joinRoom", userId.current, roomId.current, nickname.current);
     });
   };
 
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
-  const gameStartHandler = async () => {
-    await loginErrorHandler(() => {
-      console.log("클릭했음", userId.current, nickname.current);
+  const gameStartHandler = () => {
+    loginErrorHandler(() => {
+      console.log("마피아 게임 클릭했음", userId.current, nickname.current);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
 
-  //NOTE - 로그인 체크, 공통 로직 함수 정의
+  //NOTE - 빠른 입장 (랜덤 방 입장)
+  const fastJoinRoomHandler = () => {
+    loginErrorHandler(() => {
+      console.log("빠른입장 클릭했음", userId.current, nickname.current);
+      socket.emit("fastJoinRoom", userId.current, nickname.current);
+    });
+  };
+
+  //NOTE - 로그인 체크, 공통 로직 함수 정의 -> boolean 값 말고 실제 userId nickname 리턴해줘야함
   const loginErrorHandler = async (emitCallback: () => void) => {
     try {
       setLoading(true);

@@ -8,31 +8,25 @@ import { useRouter } from "next/navigation";
 
 const useJoinRoomSocket = () => {
   const router = useRouter();
-  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
-  const isGoInClick = useRef(false);
+  const { setRoomId } = useConnectActions();
 
   const joinSockets = {
-    joinRoom: (item: Tables<"room_table">, userInfo: UserInfo) => {
-      if (item.room_id) {
-        setUserId(userInfo.userId);
-        setRoomId(item.room_id);
-        setUserNickname(userInfo.nickname);
-        // router.push(`/room/${item.room_id}/`);
+    joinRoom: (userInfo: UserInfo, roomId: string) => {
+      console.log("joinRoom event received", userInfo, roomId);
+      if (roomId) {
+        setRoomId(roomId);
+        router.push(`/room/${roomId}/`);
       }
     },
     joinRoomError: (message: string) => {
-      isGoInClick.current = false;
       toast.error(message);
     },
-    fastJoinRoom: (item: Tables<"room_table">, userInfo: UserInfo) => {
-      console.log("fastJoinRoom", item.room_id);
-      setUserId(userInfo.userId);
-      setRoomId(item.room_id);
-      setUserNickname(userInfo.nickname);
-      router.push(`/room/${item.room_id}/`);
+    fastJoinRoom: (userInfo: UserInfo, roomId: string) => {
+      console.log("fastJoinRoom", roomId);
+      setRoomId(roomId);
+      router.push(`/room/${roomId}/`);
     },
     fastJoinRoomError: (message: string) => {
-      isGoInClick.current = false;
       toast.error(message);
     }
   };

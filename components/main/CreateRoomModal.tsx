@@ -6,51 +6,22 @@ import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useNickname, useUserId } from "@/store/connect-store";
 import useJoinRoom from "@/hooks/useJoinRoom";
 import { Tables } from "@/types/supabase";
+import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
+import CommonsLoading from "@/utils/CommonsLoading";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
   const [selectedGame, setSelectedGame] = useState("마피아");
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
-  const roomId = useRef("");
   const { setIsCreate } = useCreateStore();
-  const userId = useUserId();
-  const nickname = useNickname();
-  const router = useRouter();
   const { joinRoomHandler } = useJoinRoom();
   const [loading, setLoading] = useState(false);
-
-  //NOTE - 이전 코드
-  /*
-  useEffect(() => {
-    socket.on("joinRoom", (roomId, userInfo) => {
-      if (roomId) {
-        router.push(`/room/${roomId}/`);
-      }
-    });
-
-    socket.on("createRoom", ({ room_id }) => {
-      roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
-    });
-
-    socket.on("createRoomError", (message) => {
-      toast.error(message);
-      isGoInClick.current = false;
-    });
-
-    return () => {
-      socket.off("createRoom");
-      socket.off("createRoomError");
-    };
-  }, []);
-  */
+  useJoinRoomSocket();
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
