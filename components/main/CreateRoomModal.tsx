@@ -8,7 +8,8 @@ import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useRouter } from "next/navigation";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -19,6 +20,8 @@ const MainCreateRoom = () => {
   const roomId = useRef("");
   const userId = useUserId();
   const nickname = useNickname();
+  const router = useRouter();
+  const { setRoomId } = useConnectActions();
 
   useEffect(() => {
     socket.on("createRoom", ({ room_id }) => {
@@ -31,9 +34,27 @@ const MainCreateRoom = () => {
       isGoInClick.current = false;
     });
 
+    socket.on("joinRoom", () => {
+      if (roomId.current) {
+        setRoomId(roomId.current);
+        setIsCreate(false);
+        if (selectedGame === "마피아") {
+          router.push(`/room/${roomId.current}/`);
+        }
+        return null;
+      }
+    });
+
+    socket.on("joinRoomError", (message) => {
+      toast.error(message);
+      isGoInClick.current = false;
+    });
+
     return () => {
       socket.off("createRoom");
       socket.off("createRoomError");
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
     };
   }, []);
 
