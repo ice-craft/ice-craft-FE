@@ -1,7 +1,5 @@
 export const revalidate = 1800;
 
-import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
-import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
@@ -64,22 +62,6 @@ const Rankingpage = async () => {
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
         </div>
       )}
-      {/* <div className={S.pagerWrapper}>
-        <button>
-          <Image src={ArrowLeft} alt="left button" />
-        </button>
-        <ol className={S.pager}>
-          <li className={S.active}>1</li>
-          <li>2</li>
-          <li>3</li>
-          <li>4</li>
-          <li>5</li>
-          <li>6</li>
-        </ol>
-        <button>
-          <Image src={ArrowRight} alt="right button" />
-        </button>
-      </div> */}
       <Pagination data={data} />
       <GoTopButton />
     </section>

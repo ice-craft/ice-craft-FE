@@ -134,25 +134,17 @@
   justify-content: center;
 }
 
-.pager {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.pagerWrapper li {
+  cursor: pointer;
+  text-align: center;
+  margin: 0 5px;
+  line-height: 25px;
   color: #747474;
-  margin: 0 48px;
   font-size: var(--font-size-small);
 }
 
-.pager li {
-  cursor: pointer;
-  text-align: center;
+.pagerWrapper li.active {
   width: 25px;
-  height: 25px;
-  margin: 0 5px;
-  line-height: 25px;
-}
-
-.pager li.active {
   background-color: #1c232f;
   font-weight: var(--font-bold);
   color: var(--white);

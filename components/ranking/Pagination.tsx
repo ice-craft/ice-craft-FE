@@ -1,8 +1,11 @@
 "use client";
 
+import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
+import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
+import Image from "next/image";
 
 interface PageNateProps {
   data: any;
@@ -63,13 +66,13 @@ export default function Pagination({ data }: PageNateProps) {
         <Items currentItems={currentItems} />
         <ReactPaginate
           breakLabel="..."
-          nextLabel=">"
+          previousLabel={<Image src={ArrowLeft} alt="prev button" />}
+          nextLabel={<Image src={ArrowRight} alt="next button" />}
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           pageCount={pageCount}
-          previousLabel="<"
           renderOnZeroPageCount={null}
-          containerClassName={S.pagination}
+          containerClassName={S.pagerWrapper}
           activeClassName={S.active}
         />
       </>
