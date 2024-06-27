@@ -1,13 +1,11 @@
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
-import { useRouter } from "next/navigation";
 
 const useJoinRoom = () => {
-  const router = useRouter();
   const isGoInClick = useRef(false);
   const { setRoomId, setUserNickname, setUserId } = useConnectActions();
   const userId = useRef("");
@@ -35,24 +33,23 @@ const useJoinRoom = () => {
     await loginErrorHandler(() => {
       roomId.current = item.room_id;
       setRoomId(item.room_id);
-      router.push(`/room/${item.room_id}/`);
+      // router.push(`/room/${item.room_id}/`);
       socket.emit("joinRoom", userId.current, item.room_id, nickname.current);
     });
   };
 
   //NOTE - 빠른 입장 (랜덤 방 입장)
-  const fastJoinRoomHandler = async (item: Tables<"room_table">) => {
+  const fastJoinRoomHandler = async () => {
     await loginErrorHandler(() => {
-      // router.push(`/room/${item.room_id}/`);
+      console.log("클릭했음", userId.current, nickname.current);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
 
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
-  const gameStartHandler = async (item: Tables<"room_table">) => {
+  const gameStartHandler = async () => {
     await loginErrorHandler(() => {
-      console.log("메인페이지 방입장", item);
-      router.push(`/room/${item.room_id}/`);
+      console.log("클릭했음", userId.current, nickname.current);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
@@ -75,6 +72,7 @@ const useJoinRoom = () => {
       console.log("error", error);
     } finally {
       setLoading(false);
+      isGoInClick.current = false;
     }
   };
 

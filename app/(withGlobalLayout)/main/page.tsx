@@ -19,27 +19,7 @@ const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
 
   const isGoInClick = useRef(false);
-  const { joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
-
-  //NOTE - 이전 코드 추후 확인 후 삭제 예정
-  /*
-  useEffect(() => {
-    socket.connect();
-    socket.emit("enterMafia", 0, 20);
-    const checkUserInfo = async () => {
-      const userInfo = await getUserInfo();
-
-      // 세션 스토리지에 저장
-      if (userInfo) {
-        setUserId(crypto.randomUUID());
-        setUserNickname(crypto.randomUUID());
-        // setUserId(userInfo.id);
-        // setUserNickname(userInfo.user_metadata.nickname);
-      }
-    };
-    checkUserInfo();
-  }, []);
-  */
+  const { gameStartHandler, joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
@@ -47,7 +27,7 @@ const Mainpage = () => {
   return (
     <main className={S.main}>
       <section className={S.visualSection}>
-        <MainVisual />
+        <MainVisual gameStartHandler={gameStartHandler} />
       </section>
       <div className={S.roomSectionWrap}>
         <section className={S.roomSection}>

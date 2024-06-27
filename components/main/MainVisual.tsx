@@ -12,10 +12,9 @@ import "swiper/css/bundle";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "@/style/mainpage/swiper.css";
-import useJoinRoom from "@/hooks/useJoinRoom";
+import { MainVisualProps } from "@/types";
 
-const MainVisual = () => {
-  const { gameStartHandler } = useJoinRoom();
+const MainVisual = ({ gameStartHandler }: MainVisualProps) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   const mouseEnterHandler = () => {
@@ -66,7 +65,7 @@ const MainVisual = () => {
             <Image src={MafiaGameTitle} alt="mafia game title" priority />
           </h2>
           <div className={S.gameButton}>
-            <button>Game Start</button>
+            <button onClick={gameStartHandler}>Game Start</button>
             <Link href="/mafiainfo" className={S.gameInfo}>
               More Info
             </Link>
