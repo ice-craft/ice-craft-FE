@@ -11,27 +11,29 @@ interface PageNateProps {
 export default function Pagination({ data }: PageNateProps) {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    const dataList = data;
-    setItems(dataList);
-  }, []);
+    setItems(data);
+    data.forEach((item: any, index: any) => {
+      item["ranking"] = index + 1;
+    });
+    console.log(data);
+  }, [data]); // data가 변경될 때마다 실행
 
   function Items({ currentItems }: any) {
     return (
       <>
         {currentItems && (
           <ul className={S.userRankingList}>
-            {currentItems &&
-              currentItems.map((item: any, index: number) => (
-                <li key={index}>
-                  <div>
-                    <h2>{index + 1}</h2>
-                    <h3>{item.nickname}</h3>
-                    <p className={S.mafiaUserRanking}>{item.mafia_score}</p>
-                    <p className={S.songUserRanking}>{item.music_score}</p>
-                    <p className={S.totalRanking}>{item.total_score}</p>
-                  </div>
-                </li>
-              ))}
+            {currentItems.map((item: any) => (
+              <li key={item.ranking}>
+                <div>
+                  <h2>{item.ranking}</h2>
+                  <h3>{item.nickname}</h3>
+                  <p className={S.mafiaUserRanking}>{item.mafia_score}</p>
+                  <p className={S.songUserRanking}>{item.music_score}</p>
+                  <p className={S.totalRanking}>{item.total_score}</p>
+                </div>
+              </li>
+            ))}
           </ul>
         )}
       </>
@@ -50,8 +52,8 @@ export default function Pagination({ data }: PageNateProps) {
       setPageCount(Math.ceil(items.length / itemsPerPage));
     }, [itemOffset, itemsPerPage]);
 
-    const handlePageClick = (event: any) => {
-      const newOffset = (event.selected * itemsPerPage) % items.length;
+    const handlePageClick = (event: { selected: number }) => {
+      const newOffset = event.selected * itemsPerPage;
       console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
       setItemOffset(newOffset);
     };
@@ -67,6 +69,8 @@ export default function Pagination({ data }: PageNateProps) {
           pageCount={pageCount}
           previousLabel="<"
           renderOnZeroPageCount={null}
+          containerClassName={S.pagination}
+          activeClassName={S.active}
         />
       </>
     );
