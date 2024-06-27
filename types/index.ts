@@ -184,3 +184,7 @@ export interface UserInfo {
   nickname: string;
   isReady: boolean;
 }
+
+export interface FormSearchProps {
+  placeholder: string;
+}

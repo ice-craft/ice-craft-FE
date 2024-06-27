@@ -5,14 +5,13 @@ import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
-import SearchIcon from "@/assets/images/icon_search.svg";
 import Pagination from "@/components/ranking/Pagination";
 import MyLanking from "@/components/ranking/MyRanking";
 import FormSearch from "@/utils/FormSearch";
 
 const Rankingpage = async () => {
   const supabase = createClient();
-  const { data } = await supabase.from("ranking_table").select("*").order("mafia_score", { ascending: false });
+  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
 
   return (
     <section className={S.sectionWrapper}>
@@ -28,7 +27,7 @@ const Rankingpage = async () => {
         <li>총점</li>
       </ul>
       {data ? (
-        <MyLanking />
+        <MyLanking data={data} />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />

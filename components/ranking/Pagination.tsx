@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
 import Image from "next/image";
 
+//FIXME - 타입 찾아서 수정해주시구 타입 폴더 index.ts에 넣어주세요~!
 interface PageNateProps {
   data: any;
 }

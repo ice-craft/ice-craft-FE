@@ -8,10 +8,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import useDebounce from "@/hooks/useSearchDebounce";
-
-interface FormSearchProps {
-  placeholder: string;
-}
+import { FormSearchProps } from "@/types";
 
 const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useGetRoomsSocket();
