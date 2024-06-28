@@ -80,10 +80,14 @@ export interface ConnectState {
   nickname: string;
   userId: string;
   roomId: string;
-  setJoinStatus: (status: boolean) => void;
-  setRoomId: (id: string) => void;
-  setUserId: (id: string) => void;
-  setUserNickname: (id: string) => void;
+  rooms: Tables<"room_table">[];
+  actions: {
+    setJoinStatus: (status: boolean) => void;
+    setRoomId: (id: string) => void;
+    setUserId: (id: string) => void;
+    setUserNickname: (nickname: string) => void;
+    setRooms: (status: Tables<"room_table">[]) => void;
+  };
 }
 
 export interface RemoteReadyStates {
@@ -151,24 +155,10 @@ export interface totalTimeState {
   };
 }
 
-export interface MainVisualProps {
-  gameStartHandler: () => void;
-}
-
 export interface playersInfo {
   user_id: string;
   user_nickname: string;
   is_ready: boolean;
-}
-// export interface TimerState {
-//   timerIds: NodeJS.Timeout[];
-//   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
-// }
-
-export interface RoomSearchProps {
-  searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  search: string;
-  setSearch: (item: string) => void;
 }
 
 export interface Rooms {
@@ -183,4 +173,14 @@ export interface Rooms {
 export interface RoomListItemProps {
   item: Rooms;
   joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+}
+
+export interface UserInfo {
+  userId: string;
+  nickname: string;
+  isReady: boolean;
+}
+
+export interface FormSearchProps {
+  placeholder: string;
 }
