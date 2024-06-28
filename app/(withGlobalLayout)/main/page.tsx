@@ -21,6 +21,11 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
 
+  //NOTE - 메인 페이지 history 추가
+  useEffect(() => {
+    history.pushState(null, "", "");
+  }, []);
+
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
 
