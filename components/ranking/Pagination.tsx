@@ -1,9 +1,13 @@
 "use client";
 
+import ArrowLeft from "@/assets/images/ranking_arrow_left.svg";
+import ArrowRight from "@/assets/images/ranking_arrow_right.svg";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
+import Image from "next/image";
 
+//FIXME - 타입 찾아서 수정해주시구 타입 폴더 index.ts에 넣어주세요~!
 interface PageNateProps {
   data: any;
 }
@@ -11,27 +15,35 @@ interface PageNateProps {
 export default function Pagination({ data }: PageNateProps) {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    const dataList = data;
-    setItems(dataList);
-  }, []);
+    setItems(data);
+    data.forEach((item: any, index: any) => {
+      item["ranking"] = index + 1;
+    });
+  }, [data]);
 
   function Items({ currentItems }: any) {
     return (
       <>
         {currentItems && (
           <ul className={S.userRankingList}>
-            {currentItems &&
-              currentItems.map((item: any, index: number) => (
-                <li key={index}>
+            {currentItems.map((item: any) => {
+              let rankClass = "";
+              if (item.ranking === 1) rankClass = S.firstPlace;
+              else if (item.ranking === 2) rankClass = S.secondPlace;
+              else if (item.ranking === 3) rankClass = S.thirdPlace;
+
+              return (
+                <li key={item.ranking}>
                   <div>
-                    <h2>{index + 1}</h2>
+                    <h2 className={rankClass}>{item.ranking}</h2>
                     <h3>{item.nickname}</h3>
                     <p className={S.mafiaUserRanking}>{item.mafia_score}</p>
                     <p className={S.songUserRanking}>{item.music_score}</p>
                     <p className={S.totalRanking}>{item.total_score}</p>
                   </div>
                 </li>
-              ))}
+              );
+            })}
           </ul>
         )}
       </>
@@ -45,14 +57,12 @@ export default function Pagination({ data }: PageNateProps) {
 
     useEffect(() => {
       const endOffset = itemOffset + itemsPerPage;
-      console.log(`Loading items from ${itemOffset} to ${endOffset}`);
       setCurrentItems(items.slice(itemOffset, endOffset));
       setPageCount(Math.ceil(items.length / itemsPerPage));
     }, [itemOffset, itemsPerPage]);
 
-    const handlePageClick = (event: any) => {
-      const newOffset = (event.selected * itemsPerPage) % items.length;
-      console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+    const handlePageClick = (event: { selected: number }) => {
+      const newOffset = event.selected * itemsPerPage;
       setItemOffset(newOffset);
     };
 
@@ -61,12 +71,14 @@ export default function Pagination({ data }: PageNateProps) {
         <Items currentItems={currentItems} />
         <ReactPaginate
           breakLabel="..."
-          nextLabel=">"
+          previousLabel={<Image src={ArrowLeft} alt="prev button" />}
+          nextLabel={<Image src={ArrowRight} alt="next button" />}
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           pageCount={pageCount}
-          previousLabel="<"
           renderOnZeroPageCount={null}
+          containerClassName={S.pagerWrapper}
+          activeClassName={S.active}
         />
       </>
     );

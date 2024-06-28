@@ -7,6 +7,7 @@ import { RoomListItemProps } from "@/types";
 
 const RoomListItem = ({ item, joinRoomHandler }: RoomListItemProps) => {
   const isGoInClick = useRef(false);
+  const isRoomFull = item.current_user_count >= item.total_user_count;
 
   return (
     <li>
@@ -23,9 +24,22 @@ const RoomListItem = ({ item, joinRoomHandler }: RoomListItemProps) => {
           </p>
         </div>
       </div>
-      <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
-        입장하기
-      </button>
+      {isRoomFull ? (
+        <div className={S.gamePlaying}>
+          <p>
+            playing
+            <span className={S.dot1}>.</span>
+            <span className={S.dot2}>.</span>
+            <span className={S.dot3}>.</span>
+          </p>
+        </div>
+      ) : (
+        <div className={S.roomListWrap}>
+          <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+            입장하기
+          </button>
+        </div>
+      )}
     </li>
   );
 };

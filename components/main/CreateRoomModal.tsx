@@ -2,25 +2,26 @@ import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg"
 import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
 import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg";
-import useConnectStore from "@/store/connect-store";
 import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useRouter } from "next/navigation";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
   const [selectedGame, setSelectedGame] = useState("마피아");
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
-  const roomId = useRef("");
   const { setIsCreate } = useCreateStore();
-  const { userId, nickname, setRoomId } = useConnectStore();
+  const roomId = useRef("");
+  const userId = useUserId();
+  const nickname = useNickname();
   const router = useRouter();
+  const { setRoomId } = useConnectActions();
 
   useEffect(() => {
     socket.on("createRoom", ({ room_id }) => {
@@ -68,17 +69,10 @@ const MainCreateRoom = () => {
     }
   };
 
+  //NOTE - 방 만들기 핸들러
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-
-      const isLogin = await checkUserLogIn();
-
-      if (!isLogin) {
-        toast.info("로그인 후 입장가능합니다.");
-        return;
-      }
-
       //유효성 검사
       if (!roomTitle.trim()) {
         toast.error("방 제목을 입력해 주세요.");
@@ -93,7 +87,7 @@ const MainCreateRoom = () => {
       if (!isGoInClick.current) {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
-        //NOTE - 게임 카테고리, 방 제목, 인원수 초기화
+
         setSelectedGame("마피아");
         setRoomTitle("");
         setNumberOfPlayers(5);
@@ -132,6 +126,7 @@ const MainCreateRoom = () => {
               value={roomTitle}
               placeholder="방 제목을 입력해 주세요."
               onChange={(e) => setRoomTitle(e.target.value)}
+              maxLength={16}
             />
           </div>
           {selectedGame === "마피아" ? (
