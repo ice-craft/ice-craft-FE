@@ -68,14 +68,15 @@ const LocalParticipant = ({ tracks }: Participants) => {
 
   //NOTE - 게임 준비 이벤트 핸들러
   const readyHandler = () => {
-    const userId = localParticipant.identity;
+    const playerId = localParticipant.identity;
     const newIsReady = !isReady;
+
     setIsReady(newIsReady);
 
-    socket.emit("setReady", userId, newIsReady);
+    socket.emit("setReady", playerId, newIsReady);
   };
 
-  //NOTE - 게임 시작 이벤트 핸들러(방장 player에게만)
+  //NOTE - 게임 시작 이벤트 핸들러(방장 player에게만 권한 부여)
   const startHandler = () => {
     const roomId = localParticipant.metadata;
     const playersCount = participants.length;
