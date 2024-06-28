@@ -1,18 +1,32 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
+import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { useGetToken } from "@/hooks/useToken";
+import { useExitAction } from "@/store/exit-store";
 import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import S from "@/style/livekit/livekit.module.css";
-import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
+import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const JoinMafiaRoom = () => {
   const roomId = useRoomId();
   const userId = useUserId();
   const nickname = useNickname();
   const [isJoin, setIsJoin] = useState(false);
-  BeforeUnloadHandler();
+  const { setIsExit, setIsBack } = useExitAction();
+  const isBack = usePopStateHandler();
+
+  // BeforeUnloadHandler();
+
+  //NOTE - 뒤로가기 시 작동
+  useEffect(() => {
+    if (isBack) {
+      socket.emit("exitRoom", roomId, userId);
+      setIsExit(true);
+      setIsBack(true);
+    }
+  }, [isBack]);
 
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
 

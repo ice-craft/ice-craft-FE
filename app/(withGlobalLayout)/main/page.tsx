@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import S from "@/style/mainpage/main.module.css";
@@ -20,6 +20,11 @@ const Mainpage = () => {
 
   const isGoInClick = useRef(false);
   const { joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
+
+  //NOTE - 메인 페이지 history 추가
+  useEffect(() => {
+    history.pushState(null, "", "");
+  }, []);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;

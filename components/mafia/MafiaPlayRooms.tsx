@@ -1,7 +1,7 @@
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
-import { useExitStore } from "@/store/exit-store";
+import { useExitAction } from "@/store/exit-store";
 import { useGameActions } from "@/store/game-store";
 import S from "@/style/livekit/livekit.module.css";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
@@ -12,7 +12,6 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useEffect } from "react";
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
@@ -20,7 +19,7 @@ const MafiaPlayRooms = () => {
   const userId = localParticipant.identity;
 
   const { setDiedPlayer } = useGameActions();
-  const { setIsExit } = useExitStore();
+  const { setIsExit } = useExitAction();
 
   useMediaSocket(); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
