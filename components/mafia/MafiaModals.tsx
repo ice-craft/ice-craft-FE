@@ -1,17 +1,71 @@
-import React from "react";
-import GroupMafiaModal from "../modal/GroupMafiaModal";
-import UserRoleModal from "../modal/UserRoleModal";
+import useSocketOn from "@/hooks/useSocketOn";
+import { useCurrentModal, useModalActions, useModalIsOpen } from "@/store/show-modal-store";
+import { Role, VoteResult, YesOrNoResults } from "@/types";
 import CheckModal from "../modal/CheckModal";
-import VoteResultModal from "../modal/VoteResultModal";
+import GroupMafiaModal from "../modal/GroupMafiaModal";
 import LastVoteResultModal from "../modal/LastVoteResultModal";
+import UserRoleModal from "../modal/UserRoleModal";
 import VictoryModal from "../modal/VictoryModal";
-import { useCurrentModal, useModalIsOpen } from "@/store/show-modal-store";
-import useModalSocket from "@/hooks/useModalSocket";
+import VoteResultModal from "../modal/VoteResultModal";
 
 const MafiaModals = () => {
-  useModalSocket();
   const isOpen = useModalIsOpen();
   const currentModal = useCurrentModal();
+
+  const { setYesOrNoVoteResult, setCurrentModal, setIsOpen, setTimer, setTitle, setRole, setVoteResult } =
+    useModalActions();
+
+  const sockets = {
+    showModal: (title: string, timer: number) => {
+      //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
+      if (title.includes("찬성/반대 투표")) {
+        setCurrentModal("CheckModal");
+        setIsOpen(true);
+        setTitle(title);
+        setTimer(timer);
+        return;
+      }
+
+      //NOTE - GroupModal 모달창 요소
+      setCurrentModal("GroupMafiaModal");
+      setTitle(title);
+      setTimer(timer);
+      setIsOpen(true);
+    },
+
+    //NOTE - UserRoleModal 모달창 요소
+    showAllPlayerRole: (role: Role, timer: number) => {
+      setCurrentModal("UserRoleModal");
+      setRole(role);
+      setTimer(timer);
+      setIsOpen(true);
+    },
+    //NOTE - 투표 결과 모달창 요소
+    showVoteResult: (voteResult: VoteResult[], timer: number) => {
+      setCurrentModal("VoteResultModal");
+      setVoteResult(voteResult);
+      setTimer(timer);
+      setIsOpen(true);
+    },
+    //NOTE - 찬성/반대 투표 결과 모달창 요소
+    showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
+      setCurrentModal("LastVoteResultModal");
+      setYesOrNoVoteResult(voteResult);
+      setTimer(timer);
+      setIsOpen(true);
+    },
+    //NOTE - 승리한 팀 모달창 요소 및 게임 초기화
+    victoryPlayer: (victoryTeam: string, timer: number) => {
+      //승리 모달창 요소
+      setCurrentModal("VictoryModal");
+      setTitle(victoryTeam);
+      setTimer(timer);
+      setIsOpen(true);
+    }
+  };
+
+  //NOTE - socket On, Off 담당
+  useSocketOn(sockets);
 
   if (!isOpen) return null;
 
