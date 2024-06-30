@@ -6,7 +6,8 @@ const useGameStore = create<GameState>((set) => ({
   playersNumber: [],
   actions: {
     setDiedPlayer: (playerId) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] })),
-    setSortPlayers: (players) => set({ playersNumber: players })
+    setPlayersNumbers: (players) => set({ playersNumber: players }),
+    setPlayerReset: () => set({ diedPlayerId: [], playersNumber: [] })
   }
 }));
 
