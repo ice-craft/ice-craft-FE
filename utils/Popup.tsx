@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from "react";
 import S from "@/style/commons/commons.module.css";
 import { useCookies } from "react-cookie";
+import Link from "next/link";
 
 const Popup = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [cookies, setCookie] = useCookies(["IceCraft_Cookie"]);
 
   //닫기
@@ -27,6 +28,7 @@ const Popup = () => {
   };
 
   useEffect(() => {
+    setOpen(true);
     if (cookies["IceCraft_Cookie"]) {
       setOpen(false);
     }
@@ -44,6 +46,7 @@ const Popup = () => {
             현재 마피아 게임은 <span>&quot;캠&quot;</span>과 <span>&quot;마이크&quot;</span>가 있으신 분들만 게임이
             가능합니다. 이용에 참고해 주시기 바랍니다.
           </p>
+          <Link href="">오류 및 버그 문의하기 &#40;클릭&#41;</Link>
         </div>
       </div>
       <div className={S.closeButton}>

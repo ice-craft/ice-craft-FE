@@ -101,6 +101,12 @@
   background-color: var(--silver-gray);
 }
 
+.popupContent a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--primary-color);
+}
+
 /*-------------- Loading ----------------*/
 .loadingWrapper {
   width: 100%;
