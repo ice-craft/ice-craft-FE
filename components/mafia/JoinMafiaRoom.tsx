@@ -1,8 +1,8 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { useGetToken } from "@/hooks/useToken";
-import { useExitAction } from "@/store/exit-store";
 import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
+import { useExitAction } from "@/store/exit-store";
 import S from "@/style/livekit/livekit.module.css";
 import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
@@ -13,6 +13,7 @@ const JoinMafiaRoom = () => {
   const roomId = useRoomId();
   const userId = useUserId();
   const nickname = useNickname();
+  const [isJoinError, setIsJoinError] = useState(true);
   const [isJoin, setIsJoin] = useState(false);
   const { setIsExit, setIsBack } = useExitAction();
   const isBack = usePopStateHandler();
@@ -28,26 +29,37 @@ const JoinMafiaRoom = () => {
     }
   }, [isBack]);
 
-  const joinErrorHandler = () => {
-    socket.emit("exitRoom", roomId, userId);
-    setIsExit(true);
+  const joinError = (error: Error | string) => {
+    setIsJoinError(false);
+    console.log("joinError", error);
   };
 
-  const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
+  const { data: token, isPending, isError, error } = useGetToken(roomId, userId, nickname);
 
-  if (isPending || !isSuccess) {
-    console.log("로딩중입니다.");
-    return <div>로딩 중</div>;
+  if (isPending) {
+    console.log("로딩중");
   }
 
   if (isError) {
+    joinError(error);
+  }
+
+  //NOTE - 디바이스 비활성화 및 토큰 발급 error시 실행
+  if (!isJoinError) {
     return (
       <div>
         <p>
           게임 접속에 불편을 드려서 죄송합니다. 현재 원활한 게임이 진행되지 않고 있으니, 나갔다 다시 접속해 주시기
           바랍니다.
         </p>
-        <button onClick={joinErrorHandler}>나가기</button>
+        <button
+          onClick={() => {
+            socket.emit("exitRoom", roomId, userId);
+            setIsExit(true);
+          }}
+        >
+          나가기
+        </button>
       </div>
     );
   }
@@ -60,6 +72,7 @@ const JoinMafiaRoom = () => {
           serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
           video={true}
           audio={true}
+          onError={joinError}
           connect={true}
         >
           <MafiaPlayRooms />
@@ -69,10 +82,10 @@ const JoinMafiaRoom = () => {
           <h2>오디오 & 캠 설정 창 입니다.</h2>
           <div className={S.settingCam}>
             <PreJoin
-              onError={(err) => console.log("setting error", err)}
+              onError={joinError}
               joinLabel="입장하기"
               onSubmit={() => setIsJoin(true)} // 입장하기 버튼 이벤트 헨들러
-              onValidate={() => true} // 입장하기 버튼 활성화
+              onValidate={() => isJoinError} // 입장하기 버튼 활성화
             ></PreJoin>
             <div className={S.settingUserButton}>
               <ul>
