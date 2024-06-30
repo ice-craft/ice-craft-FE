@@ -28,39 +28,39 @@ const MafiaModals = () => {
 
       //NOTE - GroupModal 모달창 요소
       setCurrentModal("GroupMafiaModal");
+      setIsOpen(true);
       setTitle(title);
       setTimer(timer);
-      setIsOpen(true);
     },
 
     //NOTE - UserRoleModal 모달창 요소
     showAllPlayerRole: (role: Role, timer: number) => {
       setCurrentModal("UserRoleModal");
+      setIsOpen(true);
       setRole(role);
       setTimer(timer);
-      setIsOpen(true);
     },
     //NOTE - 투표 결과 모달창 요소
     showVoteResult: (voteResult: VoteResult[], timer: number) => {
       setCurrentModal("VoteResultModal");
+      setIsOpen(true);
       setVoteResult(voteResult);
       setTimer(timer);
-      setIsOpen(true);
     },
     //NOTE - 찬성/반대 투표 결과 모달창 요소
     showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
       setCurrentModal("LastVoteResultModal");
+      setIsOpen(true);
       setYesOrNoVoteResult(voteResult);
       setTimer(timer);
-      setIsOpen(true);
     },
-    //NOTE - 승리한 팀 모달창 요소 및 게임 초기화
+    //NOTE - 승리한 팀 모달창 요소
     victoryPlayer: (victoryTeam: string, timer: number) => {
       //승리 모달창 요소
       setCurrentModal("VictoryModal");
+      setIsOpen(true);
       setTitle(victoryTeam);
       setTimer(timer);
-      setIsOpen(true);
     }
   };
 
