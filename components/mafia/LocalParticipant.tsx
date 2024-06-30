@@ -13,10 +13,8 @@ import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant = ({ tracks, isGameState }: LocalParticipantState) => {
   const activePlayerId = useActivePlayer();
-
   const isLocalOverlay = useIsLocalOverlay();
   const { localParticipant } = useLocalParticipant();
-
   const playerNumber = usePlayerNumber(localParticipant.identity);
   const localReadyState = useReadyPlayers();
   const { clickHandler } = useClickHandler();

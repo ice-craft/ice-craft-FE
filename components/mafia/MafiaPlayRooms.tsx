@@ -1,10 +1,10 @@
-import useGameStateSocket from "@/hooks/useGameStateSocket";
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useExitAction } from "@/store/exit-store";
 import { useGameActions } from "@/store/game-store";
 import { useOverLayActions } from "@/store/overlay-store";
+import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
 import getPlayerNumber from "@/utils/mafiaSocket/getPlayerNumber";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
@@ -17,7 +17,7 @@ import {
   useTracks
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
@@ -25,12 +25,13 @@ import RemoteParticipant from "./RemoteParticipant";
 
 const MafiaPlayRooms = () => {
   const participants = useParticipants();
+  const [isGameState, setIsGame] = useState(false);
   const { localParticipant } = useLocalParticipant();
   const roomId = localParticipant.metadata;
   const userId = localParticipant.identity;
-  const isGameState = useGameStateSocket();
-  const { setDiedPlayer, setPlayersNumbers } = useGameActions();
-  const { setReadyPlayers } = useOverLayActions();
+  const { setDiedPlayer, setPlayersNumbers, setPlayerReset } = useGameActions();
+  const { setReadyPlayers, setOverlayReset } = useOverLayActions();
+  const { setModalReset } = useModalActions();
   const { setIsExit } = useExitAction();
 
   useMediaSocket(); // 카메라 및 오디오 처리
@@ -46,12 +47,31 @@ const MafiaPlayRooms = () => {
   );
 
   const sockets = {
-    //전체 players의 실시간 Ready 상태
+    //NOTE - 전체 players의 실시간 Ready 상태
     setReady: (playerId: string, isReady: boolean) => {
       setReadyPlayers(playerId, isReady);
     },
+    //NOTE - 게임 시작
+    gameStart: () => {
+      setIsGame(true);
+      //local, remote "Ready" 이미지 초기화
+      setOverlayReset();
 
-    //죽은 playerId 관리
+      console.log("게임 시작");
+    },
+    //NOTE - 게임 종료
+    gameEnd: () => {
+      setIsGame(false);
+      //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setOverlayReset();
+      //전체 모달 요소 초기화
+      setModalReset();
+      // 죽은 players, playersNumber 초기화
+      setPlayerReset();
+
+      console.log("게임 종료");
+    },
+    //NOTE - 죽은 playerId 관리
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
     }
@@ -63,7 +83,6 @@ const MafiaPlayRooms = () => {
   useEffect(() => {
     if (isGameState) {
       const gamePlayers = getPlayerNumber(participants);
-
       setPlayersNumbers(gamePlayers);
     }
   }, [isGameState]);

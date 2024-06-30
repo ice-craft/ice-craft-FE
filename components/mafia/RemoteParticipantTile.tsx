@@ -19,7 +19,6 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
 
   const diedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === remote.participant.identity);
 
-  console.log("remoteReadyStates", remoteReadyStates);
   return (
     <>
       <li
