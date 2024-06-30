@@ -54,24 +54,16 @@ const MafiaPlayRooms = () => {
     //NOTE - 게임 시작
     gameStart: () => {
       setIsGame(true);
-      //local, remote "Ready" 이미지 초기화
-      setOverlayReset();
-
-      console.log("게임 시작");
+      setOverlayReset(); //local, remote "Ready" 이미지 초기화
     },
     //NOTE - 게임 종료
     gameEnd: () => {
       setIsGame(false);
-      //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
-      setOverlayReset();
-      //전체 모달 요소 초기화
-      setModalReset();
-      // 죽은 players, playersNumber 초기화
-      setPlayerReset();
-
-      console.log("게임 종료");
+      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setModalReset(); //전체 모달 요소 초기화
+      setPlayerReset(); // 죽은 players, playersNumber 초기화
     },
-    //NOTE - 죽은 playerId 관리
+    //NOTE - 죽은 player 관리
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
     }
