@@ -52,8 +52,6 @@ const useModalSocket = () => {
       setTitle(victoryTeam);
       setTimer(timer);
       setIsOpen(true);
-
-      //게임 종료 후 초기화
     }
   };
 

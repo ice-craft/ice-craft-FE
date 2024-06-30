@@ -1,13 +1,13 @@
 import useSocketOn from "@/hooks/useSocketOn";
 import { useOverLayActions } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { Participants, playersInfo } from "@/types";
+import { playersInfo } from "@/types";
 import { socket } from "@/utils/socket/socket";
-import { TrackLoop, useLocalParticipant } from "@livekit/components-react";
+import { TrackLoop, TrackReferenceOrPlaceholder, useLocalParticipant } from "@livekit/components-react";
 import { useEffect } from "react";
 import RemoteParticipantTile from "./RemoteParticipantTile";
 
-const RemoteParticipant = ({ tracks }: Participants) => {
+const RemoteParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }) => {
   const { localParticipant } = useLocalParticipant();
   const { setReadyPlayers } = useOverLayActions();
   const roomId = localParticipant.metadata;
@@ -17,18 +17,14 @@ const RemoteParticipant = ({ tracks }: Participants) => {
   );
 
   useEffect(() => {
-    //NOTE - 방 입장 시 한 번만 실행 && Remote Player가 존재할 경우에만 실행
-    if (roomId && remotesTrack.length !== 0) {
+    //NOTE - 방 입장 시 한 번만 실행: players의 초기 Ready 상태
+    if (roomId) {
       socket.emit("usersInfo", roomId);
     }
   }, [roomId]);
 
   const sockets = {
-    //NOTE - players의 실시간 준비 상태 update
-    setReady: (playerId: string, isReady: boolean) => {
-      setReadyPlayers(playerId, isReady);
-    },
-    //NOTE - players의 Ready 초기 상태
+    //NOTE - players의 초기 Ready 상태
     usersInfo: (players: playersInfo[]) => {
       players.forEach((player) => {
         if (player.is_ready) {

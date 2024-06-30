@@ -28,8 +28,9 @@ export interface VoteResult {
   voted_count: number;
 }
 
-export interface Participants {
+export interface LocalParticipantState {
   tracks: TrackReferenceOrPlaceholder[];
+  isGameState: boolean;
 }
 
 export interface playerMedia {
@@ -44,12 +45,14 @@ export interface OverlayState {
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
+  imageState: StaticImageData | null;
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
+    setImageState: (newImage: StaticImageData | null) => void;
     setInSelect: (newSelect: string) => void;
     setOverlayReset: () => void;
   };
@@ -66,13 +69,15 @@ export interface GameState {
   playersNumber: GamePlayerInfo[];
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setSortPlayers: (participant: GamePlayerInfo[]) => void;
+    setPlayersNumbers: (participant: GamePlayerInfo[]) => void;
+    setPlayerReset: () => void;
   };
 }
 export interface GamePlayerInfo {
+  playerId: string;
   playerName: string | undefined;
   playerJoinAt: Date | undefined;
-  playerNumber: number;
+  number: number;
 }
 
 export interface ConnectState {
@@ -129,6 +134,7 @@ export interface ShowModalState {
     setRole: (newRole: Role) => void;
     setVoteResult: (newVote: VoteResult[]) => void;
     setYesOrNoVoteResult: (newVote: YesOrNoResults) => void;
+    setModalReset: () => void;
   };
 }
 

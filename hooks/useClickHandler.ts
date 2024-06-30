@@ -2,7 +2,6 @@ import CamCheck from "@/assets/images/cam_check.svg";
 import Citizen from "@/assets/images/cam_citizen.svg";
 import Doctor from "@/assets/images/cam_doctor.svg";
 import Mafia from "@/assets/images/cam_mafia.svg";
-import { useJobImageAction } from "@/store/image-store";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useRoleModalElement } from "@/store/show-modal-store";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
@@ -13,8 +12,7 @@ const useClickHandler = () => {
   const inSelect = useInSelect();
   const role = useRoleModalElement();
 
-  const setImageState = useJobImageAction();
-  const { setActiveParticipant, setIsOverlay } = useOverLayActions();
+  const { setActiveParticipant, setIsOverlay, setImageState } = useOverLayActions();
 
   const clickHandler = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
