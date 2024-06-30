@@ -33,6 +33,19 @@
   font-size: var(--font-size-small);
 }
 
+.addressInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-style: normal;
+}
+
+.addressInfo a {
+  color: var(--primary-color);
+  display: inline-block;
+  margin-top: 3px;
+}
+
 /*-------------- NotFoundPage ----------------*/
 .mainSection {
   height: 100vh;
