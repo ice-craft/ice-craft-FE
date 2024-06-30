@@ -10,7 +10,10 @@ const Footer = () => {
     <div className={S.footerWrap}>
       <footer className={S.footer}>
         <Image src={FooterLogo} alt="Logo" />
-        <p>copyright &copy; 2024 by IceCraft. all rights reserved.</p>
+        <address className={S.addressInfo}>
+          <p>copyright &copy;2024 by IceCraft Team. all rights reserved.</p>
+          <Link href="/inquiry">버그 제보 및 문의사항 바로가기</Link>
+        </address>
         <Link href="https://github.com/TeamSparta-Project/ice-craft" target="_blank" rel="noopener noreferrer">
           <Image src={GithubIcon} alt="github logo" />
         </Link>
