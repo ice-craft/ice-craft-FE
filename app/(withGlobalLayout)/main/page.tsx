@@ -59,7 +59,7 @@ const Mainpage = () => {
             {rooms.length > 0 ? (
               <ul className={S.roomList}>
                 {rooms.map((item) => (
-                  <RoomListItem key={item.room_id} item={item} joinRoomHandler={joinRoomHandler} />
+                  <RoomListItem key={item.room_id} item={item}/>
                 ))}
               </ul>
             ) : (

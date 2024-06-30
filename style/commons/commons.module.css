@@ -151,6 +151,8 @@
   z-index: 999;
   background-color: var(--white);
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .popupContent {

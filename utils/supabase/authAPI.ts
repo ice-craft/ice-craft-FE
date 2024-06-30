@@ -78,6 +78,7 @@ export const setUserNickname = async (nickname: string) => {
   return data;
 };
 
+//checkUserLogIn와 같아 삭제 예정코드
 export const getUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
   return data.user;
