@@ -15,7 +15,7 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
   const [search, setSearch] = useState<string>("");
   const debouncedValue = useDebounce(search, 500);
 
-  //NOTE - 메인페이지 방 목록 검색
+  //NOTE - 메인페이지 방 목록 검색 - 코드 파악 후 무엇을 넣을지(설명)
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };

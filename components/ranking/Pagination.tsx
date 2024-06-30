@@ -27,6 +27,7 @@ export default function Pagination({ data }: PageNateProps) {
         {currentItems && (
           <ul className={S.userRankingList}>
             {currentItems.map((item: any) => {
+              //왜 let을 썻는지
               let rankClass = "";
               if (item.ranking === 1) rankClass = S.firstPlace;
               else if (item.ranking === 2) rankClass = S.secondPlace;
