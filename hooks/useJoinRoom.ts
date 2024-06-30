@@ -42,7 +42,6 @@ const useJoinRoom = () => {
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = () => {
     loginErrorHandler(() => {
-      console.log("마피아 게임 클릭했음", userId.current, nickname.current);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
@@ -50,7 +49,6 @@ const useJoinRoom = () => {
   //NOTE - 빠른 입장 (랜덤 방 입장)
   const fastJoinRoomHandler = () => {
     loginErrorHandler(() => {
-      console.log("빠른입장 클릭했음", userId.current, nickname.current);
       socket.emit("fastJoinRoom", userId.current, nickname.current);
     });
   };
@@ -60,6 +58,7 @@ const useJoinRoom = () => {
     try {
       setLoading(true);
       const isLogin = await checkUserLogIn();
+      console.log(isLogin);
 
       if (!isLogin) {
         toast.info("로그인 후 입장가능합니다.");
