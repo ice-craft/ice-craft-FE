@@ -33,7 +33,6 @@ const useMediaSocket = () => {
     if (isDiedPlayer) {
       localParticipant.localParticipant.setCameraEnabled(false);
       localParticipant.localParticipant.setMicrophoneEnabled(false);
-      return;
     }
 
     //NOTE - Type 좁히기: "playersMediaStatus": MediaStatus | undefined
