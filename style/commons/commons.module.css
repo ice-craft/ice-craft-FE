@@ -66,6 +66,11 @@
   color: var(--primary-color);
 }
 
+/*-------------- InquiryPage ----------------*/
+.inquiryWrap {
+  height: 100vh;
+}
+
 /*-------------- GoTopButton ----------------*/
 .goTopButton {
   position: fixed;
