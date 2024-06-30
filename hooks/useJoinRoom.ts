@@ -21,10 +21,8 @@ const useJoinRoom = () => {
       const userInfo = await getUserInfo();
       // 세션 스토리지에 저장
       if (userInfo) {
-        // userId.current = userInfo.id;
-        // nickname.current = userInfo.user_metadata.nickname;
-        userId.current = crypto.randomUUID();
-        nickname.current = crypto.randomUUID();
+        userId.current = userInfo.id;
+        nickname.current = userInfo.user_metadata.nickname;
         setUserId(userId.current);
         setUserNickname(nickname.current);
       }
