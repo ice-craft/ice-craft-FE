@@ -80,10 +80,6 @@
   margin-bottom: 40px;
 }
 
-.sendInner {
-  /* background-color: red; */
-}
-
 .sendInner > div {
   display: flex;
   flex-direction: column;
