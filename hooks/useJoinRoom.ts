@@ -16,29 +16,23 @@ const useJoinRoom = () => {
 
   useJoinRoomSocket();
 
-  // //NOTE - 유효성 검사
+  //NOTE - 유효성 검사
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
-        setLoading(true);
         const userInfo = await checkUserLogIn();
         if (userInfo) {
           setUserId(userInfo.id);
           setUserNickname(userInfo.user_metadata.nickname);
-        } else {
-          toast.info("로그인 후 입장 가능합니다.");
-        }
-        if (!isGoInClick.current) {
-          isGoInClick.current = true;
         }
       } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
+        console.error("error:", error);
       }
     };
     checkUserInfo();
   }, []);
+
+  
 
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = (item: Tables<"room_table">) => {

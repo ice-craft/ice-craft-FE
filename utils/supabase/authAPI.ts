@@ -5,11 +5,7 @@ const supabase = createClient();
 
 export const checkUserLogIn = async () => {
   const { data } = await supabase.auth.getUser();
-  if (data.user) {
-    return data.user;
-  } else {
-    return null;
-  }
+  return data.user;
 };
 
 export const emailLogIn = async (email: string, password: string) => {
