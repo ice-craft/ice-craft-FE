@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import useSocketOn from "@/hooks/useSocketOn";
 import { Tables } from "@/types/supabase";
 import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
+import { UserInfo } from "@livekit/components-react";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -20,11 +21,10 @@ const MainCreateRoom = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const { setIsCreate } = useCreateStore();
-  const roomId = useRef("");
   const userId = useRoomId();
   const nickname = useNickname();
   const router = useRouter();
-  const { setRoomId } = useConnectActions();
+  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
 
   const createsocket = {
     createRoom: (item: string) => {
@@ -34,13 +34,12 @@ const MainCreateRoom = () => {
     createRoomError: (message: string) => {
       toast.error(message);
     },
-    joinRoom: (item: string) => {
-      if (item) {
-        setRoomId(item);
+    joinRoom: (userInfo: UserInfo, roomId: string) => {
+      if (roomId && selectedGame === "마피아") {
+        setRoomId(roomId);
         setIsCreate(false);
-        if (selectedGame === "마피아") {
-          router.push(`/room/${item}/`);
-        }
+        router.push(`/room/${roomId}/`);
+
         return null;
       }
     },
