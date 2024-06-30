@@ -15,12 +15,12 @@ const ModalProgress = () => {
 
   // 모달창 종료
   useEffect(() => {
-    if (count === 0 && isModal) {
+    if (count <= 1 && isModal) {
       setIsOpen(false);
     }
   }, [count]);
 
-  return <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={100}></progress>;
+  return <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={85}></progress>;
 };
 
 export default ModalProgress;

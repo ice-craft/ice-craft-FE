@@ -28,11 +28,6 @@ export interface VoteResult {
   voted_count: number;
 }
 
-export interface LocalParticipantState {
-  tracks: TrackReferenceOrPlaceholder[];
-  isGameState: boolean;
-}
-
 export interface playerMedia {
   userId: string;
   camera: boolean;
@@ -66,10 +61,10 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
-  playersNumber: GamePlayerInfo[];
+  isGameState: boolean;
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setPlayersNumbers: (participant: GamePlayerInfo[]) => void;
+    setIsGameState: (isGame: boolean) => void;
     setPlayerReset: () => void;
   };
 }
