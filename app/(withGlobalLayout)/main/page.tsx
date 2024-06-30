@@ -21,7 +21,7 @@ const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
 
   const isGoInClick = useRef(false);
-  const { joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
+  const { fastJoinRoomHandler, loading } = useJoinRoom();
 
   //NOTE - 메인 페이지 history 추가
   useEffect(() => {
@@ -59,7 +59,7 @@ const Mainpage = () => {
             {rooms.length > 0 ? (
               <ul className={S.roomList}>
                 {rooms.map((item) => (
-                  <RoomListItem key={item.room_id} item={item}/>
+                  <RoomListItem key={item.room_id} item={item} />
                 ))}
               </ul>
             ) : (

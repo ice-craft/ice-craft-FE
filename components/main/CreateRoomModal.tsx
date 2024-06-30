@@ -8,8 +8,11 @@ import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
+import useSocketOn from "@/hooks/useSocketOn";
+import { Tables } from "@/types/supabase";
+import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -18,45 +21,59 @@ const MainCreateRoom = () => {
   const isGoInClick = useRef(false);
   const { setIsCreate } = useCreateStore();
   const roomId = useRef("");
-  const userId = useUserId();
+  const userId = useRoomId();
   const nickname = useNickname();
   const router = useRouter();
   const { setRoomId } = useConnectActions();
 
-  useEffect(() => {
-    socket.on("createRoom", ({ room_id }) => {
-      roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
-    });
-
-    socket.on("createRoomError", (message) => {
+  const createsocket = {
+    createRoom: (item: string) => {
+      setRoomId(item);
+      socket.emit("joinRoom", userId, item, nickname);
+    },
+    createRoomError: (message: string) => {
       toast.error(message);
-      isGoInClick.current = false;
-    });
-
-    socket.on("joinRoom", () => {
-      if (roomId.current) {
-        setRoomId(roomId.current);
+    },
+    joinRoom: (item: string) => {
+      if (item) {
+        setRoomId(item);
         setIsCreate(false);
         if (selectedGame === "마피아") {
-          router.push(`/room/${roomId.current}/`);
+          router.push(`/room/${item}/`);
         }
         return null;
       }
-    });
-
-    socket.on("joinRoomError", (message) => {
+    },
+    joinRoomError: (message: string) => {
       toast.error(message);
-      isGoInClick.current = false;
-    });
+    }
+  };
+  useSocketOn(createsocket);
 
-    return () => {
-      socket.off("createRoom");
-      socket.off("createRoomError");
-      socket.off("joinRoom");
-      socket.off("joinRoomError");
-    };
-  }, []);
+  // useEffect(() => {
+  //   socket.on("joinRoom", () => {
+  //     if (roomId.current) {
+  //       setRoomId(roomId.current);
+  //       setIsCreate(false);
+  //       if (selectedGame === "마피아") {
+  //         router.push(`/room/${roomId.current}/`);
+  //       }
+  //       return null;
+  //     }
+  //   });
+
+  //   socket.on("joinRoomError", (message) => {
+  //     toast.error(message);
+  //     isGoInClick.current = false;
+  //   });
+
+  //   return () => {
+  //     socket.off("createRoom");
+  //     socket.off("createRoomError");
+  //     socket.off("joinRoom");
+  //     socket.off("joinRoomError");
+  //   };
+  // }, []);
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
