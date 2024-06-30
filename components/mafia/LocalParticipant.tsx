@@ -2,20 +2,25 @@ import CamCheck from "@/assets/images/cam_check.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
 import usePlayerNumber from "@/hooks/usePlayerNumber";
-import { useDiedPlayer } from "@/store/game-store";
+import { useDiedPlayer, useIsGameState } from "@/store/game-store";
 import { useActivePlayer, useIsLocalOverlay, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { LocalParticipantState } from "@/types";
-import { ParticipantTile, TrackLoop, useLocalParticipant } from "@livekit/components-react";
+import {
+  ParticipantTile,
+  TrackLoop,
+  TrackReferenceOrPlaceholder,
+  useLocalParticipant
+} from "@livekit/components-react";
 import Image from "next/image";
 import GameStartButton from "./GameStartButton";
 import SpeakTimer from "./SpeakTimer";
 
-const LocalParticipant = ({ tracks, isGameState }: LocalParticipantState) => {
+const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }) => {
   const activePlayerId = useActivePlayer();
   const isLocalOverlay = useIsLocalOverlay();
   const { localParticipant } = useLocalParticipant();
-  const playerNumber = usePlayerNumber(localParticipant.identity);
+  const isGameState = useIsGameState();
+  const playerNumber = usePlayerNumber(localParticipant.identity, isGameState);
   const localReadyState = useReadyPlayers();
   const { clickHandler } = useClickHandler();
 
