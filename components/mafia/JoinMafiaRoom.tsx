@@ -28,14 +28,28 @@ const JoinMafiaRoom = () => {
     }
   }, [isBack]);
 
+  const joinErrorHandler = () => {
+    socket.emit("exitRoom", roomId, userId);
+    setIsExit(true);
+  };
+
   const { data: token, isPending, isSuccess, isError } = useGetToken(roomId, userId, nickname);
 
   if (isPending || !isSuccess) {
     console.log("로딩중입니다.");
+    return <div>로딩 중</div>;
   }
 
   if (isError) {
-    console.log("토큰 발급중 에러 발생");
+    return (
+      <div>
+        <p>
+          게임 접속에 불편을 드려서 죄송합니다. 현재 원활한 게임이 진행되지 않고 있으니, 나갔다 다시 접속해 주시기
+          바랍니다.
+        </p>
+        <button onClick={joinErrorHandler}>나가기</button>
+      </div>
+    );
   }
 
   return (
