@@ -1,10 +1,15 @@
 import useSocketOn from "@/hooks/useSocketOn";
+import { socket } from "@/utils/socket/socket";
+import { useLocalParticipant, useParticipants } from "@livekit/components-react";
 import { useState } from "react";
 
-const GameStartButton = ({ isReady, readyHandler, startHandler }: any) => {
+const GameStartButton = () => {
+  const participants = useParticipants();
+  const [isReady, setIsReady] = useState(false);
   const [isAllReady, setIsAllReady] = useState(false);
+  const { localParticipant } = useLocalParticipant();
 
-  //NOTE - 방장일 경우에만 "게임시작 버튼" 활성화 및 비활성화
+  //NOTE - 모든 players가 Ready 상태일 경우 "게임시작 버튼" 활성화 및 비활성화 (방장일 경우에만)
   const sockets = {
     chiefStart: (isStart: boolean) => {
       if (isStart) {
@@ -18,6 +23,25 @@ const GameStartButton = ({ isReady, readyHandler, startHandler }: any) => {
     }
   };
   useSocketOn(sockets);
+
+  //NOTE - 게임 준비 이벤트 핸들러
+  const readyHandler = () => {
+    const playerId = localParticipant.identity;
+    const newIsReady = !isReady;
+    setIsReady(newIsReady);
+    socket.emit("setReady", playerId, newIsReady);
+  };
+
+  //NOTE - 게임 시작 이벤트 핸들러(방장 player에게만 권한 부여)
+  const startHandler = () => {
+    const roomId = localParticipant.metadata;
+    const playersCount = participants.length;
+
+    socket.emit("gameStart", roomId, playersCount);
+
+    // 초기화
+    setIsReady(false);
+  };
 
   return (
     <>

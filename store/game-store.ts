@@ -3,13 +3,14 @@ import { create } from "zustand";
 
 const useGameStore = create<GameState>((set) => ({
   diedPlayerId: [],
-  playersNumber: [],
+  isGameState: false,
   actions: {
     setDiedPlayer: (playerId) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] })),
-    setSortPlayers: (players) => set({ playersNumber: players })
+    setIsGameState: (isGame) => set({ isGameState: isGame }),
+    setPlayerReset: () => set({ diedPlayerId: [] })
   }
 }));
 
-export const usePlayersNumbers = () => useGameStore((state) => state.playersNumber);
 export const useDiedPlayer = () => useGameStore((state) => state.diedPlayerId);
+export const useIsGameState = () => useGameStore((state) => state.isGameState);
 export const useGameActions = () => useGameStore((state) => state.actions);

@@ -1,17 +1,106 @@
-import React from "react";
-import GroupMafiaModal from "../modal/GroupMafiaModal";
-import UserRoleModal from "../modal/UserRoleModal";
+import useSocketOn from "@/hooks/useSocketOn";
+import {
+  useCurrentModal,
+  useGroupModalElement,
+  useModalActions,
+  useModalIsOpen,
+  useRoleModalElement
+} from "@/store/show-modal-store";
+import { Role, VoteResult, YesOrNoResults } from "@/types";
 import CheckModal from "../modal/CheckModal";
-import VoteResultModal from "../modal/VoteResultModal";
+import GroupMafiaModal from "../modal/GroupMafiaModal";
 import LastVoteResultModal from "../modal/LastVoteResultModal";
+import UserRoleModal from "../modal/UserRoleModal";
 import VictoryModal from "../modal/VictoryModal";
-import { useCurrentModal, useModalIsOpen } from "@/store/show-modal-store";
-import useModalSocket from "@/hooks/useModalSocket";
+import VoteResultModal from "../modal/VoteResultModal";
+import { useParticipants } from "@livekit/components-react";
+import { useEffect, useState } from "react";
+import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 
 const MafiaModals = () => {
-  useModalSocket();
   const isOpen = useModalIsOpen();
+  const role = useRoleModalElement();
+  const title = useGroupModalElement();
+  const participant = useParticipants();
   const currentModal = useCurrentModal();
+  const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([""]);
+
+  const { setYesOrNoVoteResult, setCurrentModal, setIsOpen, setTimer, setTitle, setRole, setVoteResult } =
+    useModalActions();
+
+  const sockets = {
+    showModal: (title: string, timer: number) => {
+      //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
+      if (title.includes("찬성/반대 투표")) {
+        setCurrentModal("CheckModal");
+        setIsOpen(true);
+        setTitle(title);
+        setTimer(timer);
+        return;
+      }
+
+      //NOTE - GroupModal 모달창 요소
+      setCurrentModal("GroupMafiaModal");
+      setIsOpen(true);
+      setTitle(title);
+      setTimer(timer);
+    },
+
+    //NOTE - UserRoleModal 모달창 요소
+    showAllPlayerRole: (role: Role, timer: number) => {
+      setCurrentModal("UserRoleModal");
+      setIsOpen(true);
+      setRole(role);
+      setTimer(timer);
+    },
+    //NOTE - 투표 결과 모달창 요소
+    showVoteResult: (voteResult: VoteResult[], timer: number) => {
+      setCurrentModal("VoteResultModal");
+      setIsOpen(true);
+      setVoteResult(voteResult);
+      setTimer(timer);
+    },
+    //NOTE - 찬성/반대 투표 결과 모달창 요소
+    showVoteDeadOrLive: (voteResult: YesOrNoResults, timer: number) => {
+      setCurrentModal("LastVoteResultModal");
+      setIsOpen(true);
+      setYesOrNoVoteResult(voteResult);
+      setTimer(timer);
+    },
+    //NOTE - 승리한 팀 모달창 요소
+    victoryPlayer: (victoryTeam: string, timer: number) => {
+      //승리 모달창 요소
+      setCurrentModal("VictoryModal");
+      setIsOpen(true);
+      setTitle(victoryTeam);
+      setTimer(timer);
+    }
+  };
+
+  //NOTE - socket On, Off 담당
+  useSocketOn(sockets);
+
+  //NOTE - 승리한 팀의 players nickname
+  useEffect(() => {
+    if (currentModal === "VictoryModal") {
+      participant.forEach((playerInfo) => {
+        const playerJob = getPlayerJob(role, playerInfo.identity);
+
+        //시민, 의사, 경찰 승리일 경우
+        if (title === "citizen" && (playerJob === "citizen" || playerJob === "police" || playerJob === "doctor")) {
+          // playerInfo.name이 undefined가 아닌지 확인
+          setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerInfo.name!]);
+          return;
+        }
+
+        //마피아일 경우
+        if (title === "mafia" && playerJob === "mafia") {
+          // playerInfo.name이 undefined가 아닌지 확인
+          setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerInfo.name!]);
+        }
+      });
+    }
+  }, [currentModal]);
 
   if (!isOpen) return null;
 
@@ -37,7 +126,7 @@ const MafiaModals = () => {
     case "LastVoteResultModal":
       return <LastVoteResultModal />;
     case "VictoryModal":
-      return <VictoryModal />;
+      return <VictoryModal victoryPlayerNickname={victoryPlayerNickname} />;
     default:
       return null;
   }

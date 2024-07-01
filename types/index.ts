@@ -28,10 +28,6 @@ export interface VoteResult {
   voted_count: number;
 }
 
-export interface Participants {
-  tracks: TrackReferenceOrPlaceholder[];
-}
-
 export interface playerMedia {
   userId: string;
   camera: boolean;
@@ -44,12 +40,14 @@ export interface OverlayState {
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
+  imageState: StaticImageData | null;
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
+    setImageState: (newImage: StaticImageData | null) => void;
     setInSelect: (newSelect: string) => void;
     setOverlayReset: () => void;
   };
@@ -63,16 +61,18 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
-  playersNumber: GamePlayerInfo[];
+  isGameState: boolean;
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setSortPlayers: (participant: GamePlayerInfo[]) => void;
+    setIsGameState: (isGame: boolean) => void;
+    setPlayerReset: () => void;
   };
 }
 export interface GamePlayerInfo {
+  playerId: string;
   playerName: string | undefined;
   playerJoinAt: Date | undefined;
-  playerNumber: number;
+  number: number;
 }
 
 export interface ConnectState {
@@ -129,6 +129,7 @@ export interface ShowModalState {
     setRole: (newRole: Role) => void;
     setVoteResult: (newVote: VoteResult[]) => void;
     setYesOrNoVoteResult: (newVote: YesOrNoResults) => void;
+    setModalReset: () => void;
   };
 }
 
@@ -172,7 +173,7 @@ export interface Rooms {
 
 export interface RoomListItemProps {
   item: Rooms;
-  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+  // joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
 }
 
 export interface UserInfo {

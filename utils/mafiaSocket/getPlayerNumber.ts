@@ -11,9 +11,10 @@ const getPlayerNumber = (participants: (LocalParticipant | RemoteParticipant)[])
 
   // NOTE - gamePlayers: {playerName, playerJoinAt, playerNumber}
   const gamePlayers = gamePlayerName.map((player, index) => ({
+    playerId: player.identity,
     playerName: player.name,
     playerJoinAt: player.joinedAt,
-    playerNumber: index + 1
+    number: index + 1
   }));
 
   return gamePlayers;

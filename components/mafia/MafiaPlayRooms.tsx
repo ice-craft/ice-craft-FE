@@ -3,11 +3,15 @@ import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useExitAction } from "@/store/exit-store";
 import { useGameActions } from "@/store/game-store";
+import { useOverLayActions } from "@/store/overlay-store";
+import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
+import { MediaStatus } from "@/types";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
+import { useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
@@ -17,11 +21,13 @@ const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
   const roomId = localParticipant.metadata;
   const userId = localParticipant.identity;
-
-  const { setDiedPlayer } = useGameActions();
+  const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus | null>(null);
+  const { setDiedPlayer, setIsGameState, setPlayerReset } = useGameActions();
+  const { setReadyPlayers, setOverlayReset } = useOverLayActions();
+  const { setModalReset } = useModalActions();
   const { setIsExit } = useExitAction();
 
-  useMediaSocket(); // 카메라 및 오디오 처리
+  useMediaSocket(playersMediaStatus); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
 
   //NOTE -  전체 데이터
@@ -33,17 +39,36 @@ const MafiaPlayRooms = () => {
     { onlySubscribed: false } // 구독 여부 상관없이 실행
   );
 
-  //NOTE - 죽은 playerId 관리
   const sockets = {
+    //NOTE - 전체 players의 실시간 Ready 상태
+    setReady: (playerId: string, isReady: boolean) => {
+      setReadyPlayers(playerId, isReady);
+    },
+    //NOTE - 게임 시작
+    gameStart: () => {
+      setIsGameState(true);
+      setOverlayReset(); //local, remote "Ready" 이미지 초기화
+    },
+    //NOTE - 게임 종료
+    gameEnd: () => {
+      setIsGameState(false);
+      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setModalReset(); //전체 모달 요소 초기화
+      setPlayerReset(); // 죽은 players 초기화
+    },
+    //NOTE - players 미디어 관리
+    playerMediaStatus: (playersMedias: MediaStatus) => {
+      setPlayersMediaStatus(playersMedias);
+    },
+    //NOTE - 죽은 player 관리
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
     }
   };
-  // NOTE - socket On 담당
+
   useSocketOn(sockets);
 
   //NOTE - 방 나가기 이벤트 헨들러
-  // supabase의 성능문제를 해결하기위해 로딩창을 띄어 텀을 주었다.
   const leaveRoom = () => {
     setIsExit(true);
     socket.emit("exitRoom", roomId, userId);
