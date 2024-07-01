@@ -4,7 +4,7 @@ import { useGroupModalElement, useModalActions, useModalIsOpen, useModalTimer } 
 import S from "@/style/modal/modal.module.css";
 import JSConfetti from "js-confetti";
 
-const VictoryModal = () => {
+const VictoryModal = ({ victoryPlayerNickname }: { victoryPlayerNickname: string[] }) => {
   const jsConfetti = new JSConfetti();
 
   const isModal = useModalIsOpen();
@@ -35,6 +35,9 @@ const VictoryModal = () => {
         <div className={`${S.modal} ${S.victoryModal}`}>
           <div>
             <p>{title} 승리!</p>
+            {victoryPlayerNickname.map((player, index) => (
+              <p key={index}>{player}</p>
+            ))}
           </div>
         </div>
       </div>

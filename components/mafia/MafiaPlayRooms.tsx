@@ -6,20 +6,19 @@ import { useGameActions } from "@/store/game-store";
 import { useOverLayActions } from "@/store/overlay-store";
 import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
+import { MediaStatus } from "@/types";
 import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
+import { useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useState } from "react";
-import { MediaStatus } from "@/types";
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
-  const localParticipants = useLocalParticipant();
   const roomId = localParticipant.metadata;
   const userId = localParticipant.identity;
   const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus | null>(null);
