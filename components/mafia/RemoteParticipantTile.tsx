@@ -6,6 +6,7 @@ import { useActivePlayer, useIsRemoteOverlay, useJobImageState, useReadyPlayers 
 import S from "@/style/livekit/livekit.module.css";
 import { ParticipantTile, ParticipantTileProps, useEnsureTrackRef } from "@livekit/components-react";
 import Image from "next/image";
+import CamCheck from "@/assets/images/cam_check.svg";
 
 const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const remote = useEnsureTrackRef(trackRef);
@@ -34,7 +35,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
         />
         {!diedPlayer ? (
           <div className={`${S.remoteOverlay} ${remoteReadyStates[remote.participant.identity] ? S.active : ""}`}>
-            <Image src={imageState!} alt={remote.participant.identity} />
+            <Image src={imageState || CamCheck} alt={remote.participant.identity} />
           </div>
         ) : (
           <div className={S.playerDieOverlay}>
