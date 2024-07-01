@@ -23,11 +23,8 @@ const useJoinRoom = () => {
         setLoading(true);
         const userInfo = await checkUserLogIn();
         if (userInfo) {
-          setUserId(crypto.randomUUID());
-          setUserNickname(crypto.randomUUID());
-
-          // setUserId(userInfo.id);
-          // setUserNickname(userInfo.user_metadata.nickname);
+          setUserId(userInfo.id);
+          setUserNickname(userInfo.user_metadata.nickname);
         } else {
           toast.info("로그인 후 입장 가능합니다.");
         }
