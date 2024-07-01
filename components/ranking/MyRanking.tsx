@@ -5,11 +5,11 @@ import S from "@/style/ranking/ranking.module.css";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 
 //FIXME - 나중에 타입 수정하시구 타입 폴더 index.ts에 넣어주세요
-interface MyLankingProps {
+interface MyRankingProps {
   data: any[];
 }
 
-const MyLanking = ({ data }: MyLankingProps) => {
+const MyRanking = ({ data }: MyRankingProps) => {
   console.log(data);
 
   /*
@@ -46,4 +46,4 @@ const MyLanking = ({ data }: MyLankingProps) => {
   );
 };
 
-export default MyLanking;
+export default MyRanking;
