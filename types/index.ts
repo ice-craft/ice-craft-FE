@@ -2,6 +2,7 @@ import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
 import { Tables } from "./supabase";
+import { LocalParticipant, RemoteParticipant } from "livekit-client";
 
 export interface MafiaRoom {
   room: string;
@@ -28,6 +29,10 @@ export interface VoteResult {
   voted_count: number;
 }
 
+export interface Participants {
+  tracks: TrackReferenceOrPlaceholder[];
+}
+
 export interface playerMedia {
   userId: string;
   camera: boolean;
@@ -40,14 +45,12 @@ export interface OverlayState {
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
-  imageState: StaticImageData | null;
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
-    setImageState: (newImage: StaticImageData | null) => void;
     setInSelect: (newSelect: string) => void;
     setOverlayReset: () => void;
   };
@@ -61,18 +64,16 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
-  isGameState: boolean;
+  gamePlayersInfo: GamePlayerInfo[];
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setIsGameState: (isGame: boolean) => void;
-    setPlayerReset: () => void;
+    setGamePlayers: (participant: (LocalParticipant | RemoteParticipant)[]) => void;
   };
 }
 export interface GamePlayerInfo {
-  playerId: string;
   playerName: string | undefined;
   playerJoinAt: Date | undefined;
-  number: number;
+  playerNumber: number;
 }
 
 export interface ConnectState {
@@ -80,13 +81,11 @@ export interface ConnectState {
   nickname: string;
   userId: string;
   roomId: string;
-  rooms: Tables<"room_table">[];
   actions: {
     setJoinStatus: (status: boolean) => void;
     setRoomId: (id: string) => void;
     setUserId: (id: string) => void;
     setUserNickname: (nickname: string) => void;
-    setRooms: (status: Tables<"room_table">[]) => void;
   };
 }
 
@@ -96,11 +95,7 @@ export interface RemoteReadyStates {
 
 export interface ExitState {
   isExit: boolean;
-  isBack: boolean;
-  actions: {
-    setIsExit: (newToggle: boolean) => void;
-    setIsBack: (newToggle: boolean) => void;
-  };
+  setIsExit: (newToggle: boolean) => void;
 }
 
 export interface ReadyState {
@@ -129,7 +124,6 @@ export interface ShowModalState {
     setRole: (newRole: Role) => void;
     setVoteResult: (newVote: VoteResult[]) => void;
     setYesOrNoVoteResult: (newVote: YesOrNoResults) => void;
-    setModalReset: () => void;
   };
 }
 
@@ -156,10 +150,24 @@ export interface totalTimeState {
   };
 }
 
+export interface MainVisualProps {
+  gameStartHandler: () => void;
+}
+
 export interface playersInfo {
   user_id: string;
   user_nickname: string;
   is_ready: boolean;
+}
+// export interface TimerState {
+//   timerIds: NodeJS.Timeout[];
+//   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
+// }
+
+export interface RoomSearchProps {
+  searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  search: string;
+  setSearch: (item: string) => void;
 }
 
 export interface Rooms {
@@ -173,15 +181,11 @@ export interface Rooms {
 
 export interface RoomListItemProps {
   item: Rooms;
-  // joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
 }
 
 export interface UserInfo {
   userId: string;
   nickname: string;
   isReady: boolean;
-}
-
-export interface FormSearchProps {
-  placeholder: string;
 }

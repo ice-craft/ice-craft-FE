@@ -11,6 +11,11 @@ const useGetRoomsSocket = () => {
   const mainSockets = {
     enterMafia: (item: Tables<"room_table">[]) => {
       setRooms(item);
+      console.log("enterMafia", item);
+    },
+    updateRoomInfo: (roomInfo: Tables<"room_table">) => {
+      console.log("updateRoomInfo", roomInfo);
+      setRooms((prevRooms) => prevRooms.map((room) => (room.room_id === roomInfo.room_id ? roomInfo : room)));
     }
   };
 
@@ -19,7 +24,7 @@ const useGetRoomsSocket = () => {
   useEffect(() => {
     socket.connect();
     socket.emit("enterMafia");
-  }, [setRooms]);
+  }, []);
 
   return { rooms, setRooms };
 };

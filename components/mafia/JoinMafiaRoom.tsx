@@ -1,7 +1,7 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { useGetToken } from "@/hooks/useToken";
-import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useRoomId, useRoomsCurrent, useUserId } from "@/store/connect-store";
 import { useExitAction } from "@/store/exit-store";
 import S from "@/style/livekit/livekit.module.css";
 import { socket } from "@/utils/socket/socket";
@@ -17,6 +17,8 @@ const JoinMafiaRoom = () => {
   const [isJoin, setIsJoin] = useState(false);
   const { setIsExit, setIsBack } = useExitAction();
   const isBack = usePopStateHandler();
+  const { setRooms } = useConnectActions();
+  const rooms = useRoomsCurrent();
 
   // BeforeUnloadHandler();
 
@@ -28,6 +30,13 @@ const JoinMafiaRoom = () => {
       setIsBack(true);
     }
   }, [isBack]);
+
+  // // exitRoom 이벤트 처리
+  // useEffect(() => {
+  //   socket.on("exitRoom", (rooms) => {
+  //     setRooms(rooms); // 방 정보 업데이트
+  //   });
+  // }, [setRooms]);
 
   const joinError = (error: Error | string) => {
     // setIsJoinError(false);
@@ -49,13 +58,13 @@ const JoinMafiaRoom = () => {
     return (
       <div>
         <p>
-          게임 접속에 불편을 드려서 죄송합니다. 현재 원활한 게임이 진행되지 않고 있으니, 나갔다 다시 접속해 주시기
-          바랍니다.
+          게임 접속에 불편을 드려서 죄송합니다. 현재 원활한 게임이 진행되지 않고 있으니, 다시 접속해 주시기 바랍니다.
         </p>
         <button
           onClick={() => {
             socket.emit("exitRoom", roomId, userId);
             setIsExit(true);
+            // setRooms(rooms);
           }}
         >
           나가기
