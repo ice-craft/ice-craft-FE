@@ -58,7 +58,7 @@ const useJoinRoom = () => {
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
       setRoomId(item.room_id);
-      socket.emit("joinRoom", userId, roomId, nickname);
+      socket.emit("joinRoom", userId, item.room_id, nickname);
     });
   };
 
