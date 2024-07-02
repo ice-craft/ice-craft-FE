@@ -8,7 +8,7 @@ const getPlayerNumber = (participants: (LocalParticipant | RemoteParticipant)[])
       return 0;
     }
 
-    if (a.joinedAt === b.joinedAt) {
+    if (new Date(a.joinedAt).getTime() === new Date(b.joinedAt).getTime()) {
       return a.identity.localeCompare(b.identity);
     }
 

@@ -12,11 +12,8 @@ import { FormSearchProps } from "@/types";
 
 const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useGetRoomsSocket();
-  //소켓에 있는 마피아 룸을 가져와서
   const [search, setSearch] = useState<string>("");
-  //셋서치 부분을 유즈스테이트로 계속 변경을 해준다
   const debouncedValue = useDebounce(search, 500);
-  //이건 뭐 500초 마다 랜더링해주는 거고
 
   //NOTE - 메인페이지 방 목록 검색 - 코드 파악 후 무엇을 넣을지(설명)
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +38,6 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
 
     fetchRooms();
   }, [debouncedValue]);
-  // 이건 검색했을 때 오류 토스트 굽는거
   return (
     <>
       <div className={S.roomSearch}>
