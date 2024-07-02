@@ -86,6 +86,7 @@ export interface ConnectState {
     setRoomId: (id: string) => void;
     setUserId: (id: string) => void;
     setUserNickname: (nickname: string) => void;
+    setRooms: (rooms: Tables<"room_table">[] | ((prevRooms: Tables<"room_table">[]) => Tables<"room_table">[])) => void;
   };
 }
 
