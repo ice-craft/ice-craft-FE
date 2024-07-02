@@ -16,6 +16,7 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 import CommonsLoading from "@/utils/CommonsLoading";
 import Popup from "@/utils/Popup";
 import { useConnectActions } from "@/store/connect-store";
+import { Tables } from "@/types/supabase";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
@@ -64,7 +65,7 @@ const Mainpage = () => {
             </div>
             {rooms.length > 0 ? (
               <ul className={S.roomList}>
-                {rooms.map((item) => (
+                {rooms.map((item: Tables<"room_table">) => (
                   <RoomListItem key={item.room_id} item={item} />
                 ))}
               </ul>

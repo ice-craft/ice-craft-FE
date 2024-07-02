@@ -171,18 +171,9 @@ export interface RoomSearchProps {
   setSearch: (item: string) => void;
 }
 
-export interface Rooms {
-  room_id: string;
-  title: string | null;
-  game_category: string | null;
-  current_user_count: number;
-  total_user_count: number;
-  created_at: string | null;
-}
-
 export interface RoomListItemProps {
-  item: Rooms;
-  joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+  item: Tables<"room_table">;
+  // joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
 }
 
 export interface UserInfo {
