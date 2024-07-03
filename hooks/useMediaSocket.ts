@@ -68,16 +68,18 @@ const useMediaSocket = (playersMediaStatus: MediaStatus | null) => {
   //NOTE - 게임 종료 시 모든 player 캠 및 오디오 on
   useEffect(() => {
     if (!isGameState) {
+      console.log("게임 종료 후 실행", localParticipant);
       localParticipant.localParticipant.setCameraEnabled(true);
       localParticipant.localParticipant.setMicrophoneEnabled(true);
-    }
-    remoteTracks.forEach((remotePlayerTrack) => {
-      const camera = remotePlayerTrack.getTrackPublication(Track.Source.Camera);
-      const mike = remotePlayerTrack.getTrackPublication(Track.Source.Microphone);
 
-      camera?.setSubscribed(true);
-      mike?.setSubscribed(true);
-    });
+      remoteTracks.forEach((remotePlayerTrack) => {
+        const camera = remotePlayerTrack.getTrackPublication(Track.Source.Camera);
+        const mike = remotePlayerTrack.getTrackPublication(Track.Source.Microphone);
+
+        camera?.setSubscribed(true);
+        mike?.setSubscribed(true);
+      });
+    }
   }, [isGameState]);
 };
 
