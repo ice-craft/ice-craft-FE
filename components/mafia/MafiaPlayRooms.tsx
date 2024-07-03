@@ -67,8 +67,11 @@ const MafiaPlayRooms = () => {
     playError: (roomName: any, error: string) => {
       console.log("roomName", roomName);
       console.log("roomError", error);
-      setIsEntry(false);
-      socket.emit("exitRoom", roomId, userId);
+
+      setIsGameState(false);
+      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setModalReset(); //전체 모달 요소 초기화
+      setPlayerReset(); // 죽은 players 초기화
     }
   };
 
