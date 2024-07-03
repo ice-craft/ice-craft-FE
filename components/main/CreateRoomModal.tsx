@@ -8,12 +8,8 @@ import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useRoomId, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
-import useSocketOn from "@/hooks/useSocketOn";
-import { Tables } from "@/types/supabase";
-import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
-import { UserInfo } from "@livekit/components-react";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -21,58 +17,44 @@ const MainCreateRoom = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const { setIsCreate } = useCreateStore();
-  const userId = useRoomId();
+  const userId = useUserId();
   const nickname = useNickname();
+  const roomId = useRef("");
+  const { setRoomId } = useConnectActions();
   const router = useRouter();
-  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
 
-  const createsocket = {
-    createRoom: (item: string) => {
-      setRoomId(item);
-      socket.emit("joinRoom", userId, item, nickname);
-    },
-    createRoomError: (message: string) => {
+  useEffect(() => {
+    socket.on("createRoom", ({ room_id }) => {
+      roomId.current = room_id;
+      socket.emit("joinRoom", userId, room_id, nickname);
+    });
+
+    socket.on("createRoomError", (message) => {
       toast.error(message);
-    },
-    joinRoom: (userInfo: UserInfo, roomId: string) => {
-      if (roomId && selectedGame === "마피아") {
-        setRoomId(roomId);
-        setIsCreate(false);
-        router.push(`/room/${roomId}/`);
+      isGoInClick.current = false;
+    });
 
+    socket.on("joinRoom", () => {
+      if (roomId.current) {
+        setRoomId(roomId.current);
+        setIsCreate(false);
+        router.push(`/room/${roomId.current}/`);
         return null;
       }
-    },
-    joinRoomError: (message: string) => {
+    });
+
+    socket.on("joinRoomError", (message) => {
       toast.error(message);
-    }
-  };
-  useSocketOn(createsocket);
+      isGoInClick.current = false;
+    });
 
-  // useEffect(() => {
-  //   socket.on("joinRoom", () => {
-  //     if (roomId.current) {
-  //       setRoomId(roomId.current);
-  //       setIsCreate(false);
-  //       if (selectedGame === "마피아") {
-  //         router.push(`/room/${roomId.current}/`);
-  //       }
-  //       return null;
-  //     }
-  //   });
-
-  //   socket.on("joinRoomError", (message) => {
-  //     toast.error(message);
-  //     isGoInClick.current = false;
-  //   });
-
-  //   return () => {
-  //     socket.off("createRoom");
-  //     socket.off("createRoomError");
-  //     socket.off("joinRoom");
-  //     socket.off("joinRoomError");
-  //   };
-  // }, []);
+    return () => {
+      socket.off("createRoom");
+      socket.off("createRoomError");
+      socket.off("joinRoom");
+      socket.off("joinRoomError");
+    };
+  }, []);
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
@@ -89,24 +71,20 @@ const MainCreateRoom = () => {
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      //유효성 검사
       if (!roomTitle.trim()) {
         toast.error("방 제목을 입력해 주세요.");
         return;
       }
-
-      if (selectedGame === "노래맞추기") {
-        toast("노래 맞추기 게임은 준비중입니다.");
-        return;
-      }
-
-      if (!isGoInClick.current) {
+      if (!isGoInClick.current && selectedGame === "마피아") {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
-
         setSelectedGame("마피아");
         setRoomTitle("");
         setNumberOfPlayers(5);
+        return;
+      } else if (!isGoInClick.current && selectedGame === "노래맞추기") {
+        toast("노래 맞추기 게임은 준비중입니다.");
+        return;
       }
     } catch (error) {
       console.log("error", error);
