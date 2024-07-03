@@ -31,6 +31,7 @@ const MainCreateRoom = () => {
     createRoom: ({ room_id }: CreateRooms) => {
       roomIdRef.current = room_id;
       socket.emit("joinRoom", userId, roomIdRef.current, nickname);
+      
     },
     createRoomError: (message: string) => {
       toast.error(message);

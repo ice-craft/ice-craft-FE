@@ -71,6 +71,13 @@ const useMediaSocket = (playersMediaStatus: MediaStatus | null) => {
       localParticipant.localParticipant.setCameraEnabled(true);
       localParticipant.localParticipant.setMicrophoneEnabled(true);
     }
+    remoteTracks.forEach((remotePlayerTrack) => {
+      const camera = remotePlayerTrack.getTrackPublication(Track.Source.Camera);
+      const mike = remotePlayerTrack.getTrackPublication(Track.Source.Microphone);
+
+      camera?.setSubscribed(true);
+      mike?.setSubscribed(true);
+    });
   }, [isGameState]);
 };
 
