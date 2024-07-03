@@ -1,15 +1,15 @@
 import { ExitState } from "@/types";
 import { create } from "zustand";
 
-const useExitStore = create<ExitState>((set) => ({
-  isExit: false,
+const useRoomStore = create<ExitState>((set) => ({
+  isEntry: false,
   isBack: false,
   actions: {
-    setIsExit: (newIsExit: boolean) => set({ isExit: newIsExit }),
+    setIsEntry: (newIsJoin: boolean) => set({ isEntry: newIsJoin }),
     setIsBack: (newIsBack: boolean) => set({ isBack: newIsBack })
   }
 }));
 
-export const useIsExit = () => useExitStore((state) => state.isExit);
-export const useIsBack = () => useExitStore((state) => state.isBack);
-export const useExitAction = () => useExitStore((state) => state.actions);
+export const useIsEntry = () => useRoomStore((state) => state.isEntry);
+export const useIsBack = () => useRoomStore((state) => state.isBack);
+export const useRoomAction = () => useRoomStore((state) => state.actions);

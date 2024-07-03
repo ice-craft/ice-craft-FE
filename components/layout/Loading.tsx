@@ -1,11 +1,11 @@
 import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { designer } from "@/public/fonts/fonts";
-import { useExitAction, useIsBack } from "@/store/exit-store";
+import { useIsBack, useRoomAction } from "@/store/room-store";
 import S from "@/style/commons/commons.module.css";
 import { useEffect } from "react";
 
 const Loading = () => {
-  const { setIsExit, setIsBack } = useExitAction();
+  const { setIsBack, setIsEntry } = useRoomAction();
   const isBack = useIsBack();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const Loading = () => {
     return () => {
       // 초기화
       setIsBack(false);
-      setIsExit(false);
+      setIsEntry(false);
       clearTimeout(timer);
     };
   }, []);

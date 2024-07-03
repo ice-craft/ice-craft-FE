@@ -5,10 +5,12 @@ import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import useJoinRoomSocket from "./useJoinRoomSocket";
+import { useRoomAction } from "@/store/room-store";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
   const { setRoomId, setUserNickname, setUserId } = useConnectActions();
+  const { setIsEntry } = useRoomAction();
   const userId = useUserId();
   const nickname = useNickname();
   const roomId = useRoomId();
@@ -58,6 +60,7 @@ const useJoinRoom = () => {
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler(() => {
       setRoomId(item.room_id);
+      setIsEntry(true);
       socket.emit("joinRoom", userId, item.room_id, nickname);
     });
   };
@@ -65,6 +68,7 @@ const useJoinRoom = () => {
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = () => {
     loginErrorHandler(() => {
+      setIsEntry(true);
       socket.emit("fastJoinRoom", userId, nickname);
     });
   };
@@ -72,6 +76,7 @@ const useJoinRoom = () => {
   //NOTE - 빠른 입장 (랜덤 방 입장)
   const fastJoinRoomHandler = () => {
     loginErrorHandler(() => {
+      setIsEntry(true);
       socket.emit("fastJoinRoom", userId, nickname);
     });
   };

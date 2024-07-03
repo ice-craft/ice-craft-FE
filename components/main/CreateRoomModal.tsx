@@ -10,10 +10,12 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
+import { useRoomAction } from "@/store/room-store";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
   const [selectedGame, setSelectedGame] = useState("마피아");
+  const { setIsEntry } = useRoomAction();
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const { setIsCreate } = useCreateStore();
@@ -39,6 +41,7 @@ const MainCreateRoom = () => {
         setRoomId(roomId.current);
         setIsCreate(false);
         if (selectedGame === "마피아") {
+          setIsEntry(true);
           router.push(`/room/${roomId.current}/`);
         }
         return null;
