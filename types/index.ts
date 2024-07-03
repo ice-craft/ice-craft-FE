@@ -165,11 +165,6 @@ export interface playersInfo {
   is_ready: boolean;
 }
 
-// export interface TimerState {
-//   timerIds: NodeJS.Timeout[];
-//   setTimerIds: (newTimerId: NodeJS.Timeout) => void;
-// }
-
 export interface RoomSearchProps {
   searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   search: string;
@@ -178,11 +173,14 @@ export interface RoomSearchProps {
 
 export interface RoomListItemProps {
   item: Tables<"room_table">;
-  // joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
 }
 
 export interface UserInfo {
   userId: string;
   nickname: string;
   isReady: boolean;
+}
+
+export interface CreateRooms {
+  room_id: string;
 }

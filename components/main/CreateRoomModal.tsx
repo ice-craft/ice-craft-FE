@@ -10,6 +10,8 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
+import useSocketOn from "@/hooks/useSocketOn";
+import { CreateRooms } from "@/types";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -19,42 +21,32 @@ const MainCreateRoom = () => {
   const { setIsCreate } = useCreateStore();
   const userId = useUserId();
   const nickname = useNickname();
-  const roomId = useRef("");
   const { setRoomId } = useConnectActions();
   const router = useRouter();
+  const roomIdRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    socket.on("createRoom", ({ room_id }) => {
-      roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
-    });
-
-    socket.on("createRoomError", (message) => {
+  const createSocket = {
+    createRoom: ({ room_id }: CreateRooms) => {
+      roomIdRef.current = room_id;
+      socket.emit("joinRoom", userId, roomIdRef.current, nickname);
+    },
+    createRoomError: (message: string) => {
       toast.error(message);
       isGoInClick.current = false;
-    });
-
-    socket.on("joinRoom", () => {
-      if (roomId.current) {
-        setRoomId(roomId.current);
+    },
+    joinRoom: () => {
+      if (roomIdRef.current) {
+        setRoomId(roomIdRef.current);
         setIsCreate(false);
-        router.push(`/room/${roomId.current}/`);
-        return null;
+        router.push(`/room/${roomIdRef.current}/`);
       }
-    });
-
-    socket.on("joinRoomError", (message) => {
+    },
+    joinRoomError: (message: string) => {
       toast.error(message);
       isGoInClick.current = false;
-    });
-
-    return () => {
-      socket.off("createRoom");
-      socket.off("createRoomError");
-      socket.off("joinRoom");
-      socket.off("joinRoomError");
-    };
-  }, []);
+    }
+  };
+  useSocketOn(createSocket);
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
