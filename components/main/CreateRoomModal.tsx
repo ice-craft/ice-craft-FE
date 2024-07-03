@@ -23,7 +23,7 @@ const MainCreateRoom = () => {
   const nickname = useNickname();
   const { setRoomId } = useConnectActions();
   const router = useRouter();
-  const roomIdRef = useRef<string | null>(null);
+  const roomIdRef = useRef<string>("");
 
   const createSocket = {
     createRoom: ({ room_id }: CreateRooms) => {
