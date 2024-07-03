@@ -98,8 +98,17 @@ export interface RemoteReadyStates {
 }
 
 export interface ExitState {
+<<<<<<< HEAD
   isExit: boolean;
   setIsExit: (newToggle: boolean) => void;
+=======
+  isEntry: boolean;
+  isBack: boolean;
+  actions: {
+    setIsEntry: (newToggle: boolean) => void;
+    setIsBack: (newToggle: boolean) => void;
+  };
+>>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
 }
 
 export interface ReadyState {

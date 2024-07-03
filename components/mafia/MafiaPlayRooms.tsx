@@ -1,7 +1,6 @@
 import useMediaSocket from "@/hooks/useMediaSocket";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
-import { useExitAction } from "@/store/exit-store";
 import { useGameActions } from "@/store/game-store";
 import { useOverLayActions } from "@/store/overlay-store";
 import { useModalActions } from "@/store/show-modal-store";
@@ -16,8 +15,12 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
+<<<<<<< HEAD
 import { useConnectActions } from "@/store/connect-store";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
+=======
+import { useRoomAction } from "@/store/room-store";
+>>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
@@ -27,9 +30,13 @@ const MafiaPlayRooms = () => {
   const { setDiedPlayer, setIsGameState, setPlayerReset } = useGameActions();
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
   const { setModalReset } = useModalActions();
+<<<<<<< HEAD
   const { setIsExit } = useExitAction();
   const { setRooms } = useConnectActions();
   const { rooms } = useGetRoomsSocket();
+=======
+  const { setIsEntry } = useRoomAction();
+>>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
 
   useMediaSocket(playersMediaStatus); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
@@ -67,6 +74,15 @@ const MafiaPlayRooms = () => {
     //NOTE - 죽은 player 관리
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
+    },
+    playError: (roomName: any, error: string) => {
+      console.log("roomName", roomName);
+      console.log("roomError", error);
+
+      setIsGameState(false);
+      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setModalReset(); //전체 모달 요소 초기화
+      setPlayerReset(); // 죽은 players 초기화
     }
   };
 
@@ -74,7 +90,7 @@ const MafiaPlayRooms = () => {
 
   //NOTE - 방 나가기 이벤트 헨들러
   const leaveRoom = () => {
-    setIsExit(true);
+    setIsEntry(false);
     socket.emit("exitRoom", roomId, userId);
     const updatedRooms = rooms.filter((room) => room.room_id !== roomId);
     setRooms(updatedRooms);

@@ -30,6 +30,10 @@ const MafiaModals = () => {
 
   const sockets = {
     showModal: (title: string, timer: number) => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+
       //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
       if (title.includes("찬성/반대 투표")) {
         setCurrentModal("CheckModal");
@@ -39,6 +43,7 @@ const MafiaModals = () => {
         return;
       }
 
+      console.log("isModal", isOpen);
       //NOTE - GroupModal 모달창 요소
       setCurrentModal("GroupMafiaModal");
       setIsOpen(true);
@@ -69,6 +74,10 @@ const MafiaModals = () => {
     },
     //NOTE - 승리한 팀 모달창 요소
     victoryPlayer: (victoryTeam: string, timer: number) => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+
       //승리 모달창 요소
       setCurrentModal("VictoryModal");
       setIsOpen(true);
