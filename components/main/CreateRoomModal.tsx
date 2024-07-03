@@ -26,6 +26,7 @@ const MainCreateRoom = () => {
   const { setRoomId } = useConnectActions();
   const router = useRouter();
   const roomIdRef = useRef<string>("");
+  const { setRooms } = useConnectActions();
 
   const createSocket = {
     createRoom: ({ room_id }: CreateRooms) => {
@@ -43,7 +44,8 @@ const MainCreateRoom = () => {
         if (selectedGame === "마피아") {
           setIsEntry(true);
           router.push(`/room/${roomIdRef.current}/`);
-          setRoomId(roomIdRef.current);
+          const roomId = roomIdRef.current;
+          // setRooms(roomId);
         }
         return null;
       }
