@@ -20,12 +20,6 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
       if (roomInfo.room_id === item.room_id) {
         setCurrentItem(roomInfo);
       }
-    },
-    exitRoom: (roomInfo: Tables<"room_table">) => {
-      console.log("exitRoom", roomInfo);
-      if (roomInfo.room_id === item.room_id) {
-        setCurrentItem(roomInfo);
-      }
     }
   };
   useSocketOn(updateSocket);

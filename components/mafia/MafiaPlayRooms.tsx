@@ -78,7 +78,6 @@ const MafiaPlayRooms = () => {
     socket.emit("exitRoom", roomId, userId);
     const updatedRooms = rooms.filter((room) => room.room_id !== roomId);
     setRooms(updatedRooms);
-    console.log(updatedRooms);
   };
 
   return (
