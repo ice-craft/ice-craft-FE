@@ -15,12 +15,9 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-<<<<<<< HEAD
+import { useRoomAction } from "@/store/room-store";
 import { useConnectActions } from "@/store/connect-store";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
-=======
-import { useRoomAction } from "@/store/room-store";
->>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
@@ -30,13 +27,9 @@ const MafiaPlayRooms = () => {
   const { setDiedPlayer, setIsGameState, setPlayerReset } = useGameActions();
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
   const { setModalReset } = useModalActions();
-<<<<<<< HEAD
-  const { setIsExit } = useExitAction();
+  const { setIsEntry } = useRoomAction();
   const { setRooms } = useConnectActions();
   const { rooms } = useGetRoomsSocket();
-=======
-  const { setIsEntry } = useRoomAction();
->>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
 
   useMediaSocket(playersMediaStatus); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
