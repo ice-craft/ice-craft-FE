@@ -63,6 +63,12 @@ const MafiaPlayRooms = () => {
     //NOTE - 죽은 player 관리
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
+    },
+    playError: (roomName: any, error: string) => {
+      console.log("roomName", roomName);
+      console.log("roomError", error);
+      setIsEntry(false);
+      socket.emit("exitRoom", roomId, userId);
     }
   };
 
