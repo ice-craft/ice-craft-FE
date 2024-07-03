@@ -2,12 +2,12 @@
 
 import JoinMafiaRoom from "@/components/mafia/JoinMafiaRoom";
 import Loading from "@/components/layout/Loading";
-import { useIsExit } from "@/store/exit-store";
+import { useIsEntry } from "@/store/room-store";
 
 const RoomPage = () => {
-  const isExit = useIsExit();
+  const isEntry = useIsEntry();
 
-  return <>{isExit ? <Loading /> : <JoinMafiaRoom />}</>;
+  return <>{isEntry ? <JoinMafiaRoom /> : <Loading />}</>;
 };
 
 export default RoomPage;

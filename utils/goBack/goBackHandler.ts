@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { socket } from "@/utils/socket/socket";
-import { useExitAction } from "@/store/exit-store";
+import { useRoomAction } from "@/store/room-store";
 
 const useHandleBack = (roomId: string, userId: string) => {
   const router = useRouter();
-  const { setIsExit } = useExitAction();
+  const { setIsEntry } = useRoomAction();
 
   useEffect(() => {
     const disConnected = () => {
-      setIsExit(true);
+      setIsEntry(false);
       socket.emit("exitRoom", roomId, userId);
       console.log("나갈거임", roomId, userId);
 
@@ -31,7 +31,7 @@ const useHandleBack = (roomId: string, userId: string) => {
     return () => {
       window.onpopstate = null;
     };
-  }, [roomId, userId, setIsExit, router]);
+  }, [roomId, userId, setIsEntry, router]);
 
   useEffect(() => {
     socket.on("exitRoomError", (message) => {
