@@ -16,7 +16,6 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
 
   const updateSocket = {
     updateRoomInfo: (roomInfo: Tables<"room_table">) => {
-      console.log("updateRoomInfo", roomInfo);
       if (roomInfo.room_id === item.room_id) {
         setCurrentItem(roomInfo);
       }
