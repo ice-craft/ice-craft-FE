@@ -68,22 +68,8 @@ const useMediaSocket = (playersMediaStatus: MediaStatus | null) => {
   //NOTE - 게임 종료 시 모든 player 캠 및 오디오 on
   useEffect(() => {
     if (!isGameState) {
-      //NOTE - 로컬 사용자의 미디어
-      if (localPlayerId) {
-        const localCamera = localParticipant.cameraTrack?.track?.mediaStreamTrack;
-        const localMike = localParticipant.microphoneTrack?.track?.mediaStreamTrack;
-
-        localCamera!.enabled = true;
-        localMike!.enabled = true;
-      }
-
-      remoteTracks.forEach((remotePlayerTrack) => {
-        const camera = remotePlayerTrack.getTrackPublication(Track.Source.Camera);
-        const mike = remotePlayerTrack.getTrackPublication(Track.Source.Microphone);
-
-        camera?.setSubscribed(true);
-        mike?.setSubscribed(true);
-      });
+      localParticipant.localParticipant.setCameraEnabled(true);
+      localParticipant.localParticipant.setMicrophoneEnabled(true);
     }
   }, [isGameState]);
 };
