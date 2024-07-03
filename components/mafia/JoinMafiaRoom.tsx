@@ -4,6 +4,7 @@ import { useGetToken } from "@/hooks/useToken";
 import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import { useExitAction } from "@/store/exit-store";
 import S from "@/style/livekit/livekit.module.css";
+import BeforeUnloadHandler from "@/utils/reload/beforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
@@ -13,12 +14,13 @@ const JoinMafiaRoom = () => {
   const roomId = useRoomId();
   const userId = useUserId();
   const nickname = useNickname();
+
   const [isJoinError, setIsJoinError] = useState(true);
   const [isJoin, setIsJoin] = useState(false);
   const { setIsExit, setIsBack } = useExitAction();
   const isBack = usePopStateHandler();
 
-  // BeforeUnloadHandler();
+  BeforeUnloadHandler();
 
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {
@@ -29,8 +31,17 @@ const JoinMafiaRoom = () => {
     }
   }, [isBack]);
 
+  // useEffect(() => {
+  //   console.log("joinStatus", joinStatus);
+  //   if (!joinStatus) {
+  //     console.log("방 나가기");
+  //     socket.emit("exitRoom", roomId, userId);
+  //     setIsExit(true);
+  //   }
+  // }, []);
+
   const joinError = (error: Error | string) => {
-    setIsJoinError(false);
+    // setIsJoinError(false);
     console.log("joinError", error);
   };
 
@@ -43,6 +54,25 @@ const JoinMafiaRoom = () => {
   if (isError) {
     joinError(error);
   }
+
+  // if (!joinStatus) {
+  //   return (
+  //     <div>
+  //       <p>
+  //         게임 접속에 불편을 드려서 죄송합니다. 현재 원활한 게임이 진행되지 않고 있으니, 나갔다 다시 접속해 주시기
+  //         바랍니다.
+  //       </p>
+  //       <button
+  //         onClick={() => {
+  //           socket.emit("exitRoom", roomId, userId);
+  //           setIsExit(true);
+  //         }}
+  //       >
+  //         나가기
+  //       </button>
+  //     </div>
+  //   );
+  // }
 
   //NOTE - 디바이스 비활성화 및 토큰 발급 error시 실행
   if (!isJoinError) {
