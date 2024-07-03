@@ -10,12 +10,9 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
 import useSocketOn from "@/hooks/useSocketOn";
 import { CreateRooms } from "@/types";
-=======
 import { useRoomAction } from "@/store/room-store";
->>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -43,15 +40,11 @@ const MainCreateRoom = () => {
       if (roomIdRef.current) {
         setRoomId(roomIdRef.current);
         setIsCreate(false);
-<<<<<<< HEAD
-        router.push(`/room/${roomIdRef.current}/`);
-=======
         if (selectedGame === "마피아") {
           setIsEntry(true);
-          router.push(`/room/${roomId.current}/`);
+          router.push(`/room/${roomIdRef.current}/`);
         }
         return null;
->>>>>>> dc1d3a925cd64844345df35a242a5de6648c55d1
       }
     },
     joinRoomError: (message: string) => {
