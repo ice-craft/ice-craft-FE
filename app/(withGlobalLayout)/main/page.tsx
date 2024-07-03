@@ -15,13 +15,11 @@ import MainSkeleton from "@/components/main/MainSkeleton";
 import useJoinRoom from "@/hooks/useJoinRoom";
 import CommonsLoading from "@/utils/CommonsLoading";
 import Popup from "@/utils/Popup";
-import { useConnectActions } from "@/store/connect-store";
 import { Tables } from "@/types/supabase";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
-  const { setRooms } = useConnectActions();
 
   const isGoInClick = useRef(false);
   const { fastJoinRoomHandler, loading } = useJoinRoom();
