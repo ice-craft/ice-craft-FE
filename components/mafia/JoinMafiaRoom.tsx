@@ -30,8 +30,15 @@ const JoinMafiaRoom = () => {
     }
   }, [isPopState]);
 
+  //NOTE - 방입장 이벤트
+  const joinRoomHandler = () => {
+    setIsReLoad(true); //새로고침 팝업창 on, off
+    setIsJoin(true); //방 입장
+  };
+
+  //NOTE - 방에러 이벤트
   const joinError = (error: Error | string) => {
-    // setIsJoinError(false);
+    // setIsJoinError(false);  // 미디어 비활성화 및 토큰 발급 error시 실행
     console.log("joinError", error);
   };
 
@@ -45,7 +52,7 @@ const JoinMafiaRoom = () => {
     joinError(error);
   }
 
-  //NOTE - 디바이스 비활성화 및 토큰 발급 error시 실행
+  //NOTE - 방 에러 UI
   if (!isJoinError) {
     return (
       <div>
@@ -85,10 +92,7 @@ const JoinMafiaRoom = () => {
             <PreJoin
               onError={joinError}
               joinLabel="입장하기"
-              onSubmit={() => {
-                setIsReLoad(true);
-                setIsJoin(true);
-              }} // 입장하기 버튼 이벤트 헨들러
+              onSubmit={joinRoomHandler} // 입장하기 버튼 이벤트 헨들러
               onValidate={() => isJoinError} // 입장하기 버튼 활성화
             ></PreJoin>
             <div className={S.settingUserButton}>

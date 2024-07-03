@@ -5,7 +5,8 @@ const useBeforeUnloadHandler = () => {
 
   useEffect(() => {
     const beforeUnload = (e: BeforeUnloadEvent) => {
-      if (isReLoad) {
+      console.log("isReLoad", isReLoad);
+      if (!isReLoad) {
         e.preventDefault();
         e.returnValue = ""; //크로스 브라우징 체크 추가
       }
@@ -16,7 +17,7 @@ const useBeforeUnloadHandler = () => {
     return () => {
       window.removeEventListener("beforeunload", beforeUnload);
     };
-  }, []);
+  }, [isReLoad]);
 
   return { setIsReLoad };
 };
