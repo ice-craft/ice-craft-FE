@@ -31,7 +31,6 @@ const MainCreateRoom = () => {
     createRoom: ({ room_id }: CreateRooms) => {
       roomIdRef.current = room_id;
       socket.emit("joinRoom", userId, roomIdRef.current, nickname);
-      
     },
     createRoomError: (message: string) => {
       toast.error(message);
@@ -44,6 +43,7 @@ const MainCreateRoom = () => {
         if (selectedGame === "마피아") {
           setIsEntry(true);
           router.push(`/room/${roomIdRef.current}/`);
+          setRoomId(roomIdRef.current);
         }
         return null;
       }

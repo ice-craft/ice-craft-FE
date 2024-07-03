@@ -13,7 +13,6 @@ const useJoinRoom = () => {
   const { setIsEntry } = useRoomAction();
   const userId = useUserId();
   const nickname = useNickname();
-  const roomId = useRoomId();
   const [loading, setLoading] = useState(false);
 
   useJoinRoomSocket();

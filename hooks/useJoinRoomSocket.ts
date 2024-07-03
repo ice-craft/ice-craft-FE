@@ -3,9 +3,6 @@ import { useConnectActions, useNickname, useUserId } from "@/store/connect-store
 import { toast } from "react-toastify";
 import useSocketOn from "./useSocketOn";
 import { useRouter } from "next/navigation";
-import { socket } from "@/utils/socket/socket";
-import { useCreateStore } from "@/store/toggle-store";
-import { useRef } from "react";
 
 const useJoinRoomSocket = () => {
   const router = useRouter();
