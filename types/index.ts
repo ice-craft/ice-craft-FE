@@ -64,12 +64,14 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
-  gamePlayersInfo: GamePlayerInfo[];
+  isGameState: boolean;
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setGamePlayers: (participant: (LocalParticipant | RemoteParticipant)[]) => void;
+    setIsGameState: (isGame: boolean) => void;
+    setPlayerReset: () => void;
   };
 }
+
 export interface GamePlayerInfo {
   playerName: string | undefined;
   playerJoinAt: Date | undefined;
@@ -81,12 +83,13 @@ export interface ConnectState {
   nickname: string;
   userId: string;
   roomId: string;
+  rooms: Tables<"room_table">[];
   actions: {
     setJoinStatus: (status: boolean) => void;
     setRoomId: (id: string) => void;
     setUserId: (id: string) => void;
     setUserNickname: (nickname: string) => void;
-    setRooms: (rooms: Tables<"room_table">[] | ((prevRooms: Tables<"room_table">[]) => Tables<"room_table">[])) => void;
+    setRooms: (status: Tables<"room_table">[]) => void;
   };
 }
 
@@ -125,6 +128,7 @@ export interface ShowModalState {
     setRole: (newRole: Role) => void;
     setVoteResult: (newVote: VoteResult[]) => void;
     setYesOrNoVoteResult: (newVote: YesOrNoResults) => void;
+    setModalReset: () => void;
   };
 }
 
@@ -160,6 +164,7 @@ export interface playersInfo {
   user_nickname: string;
   is_ready: boolean;
 }
+
 // export interface TimerState {
 //   timerIds: NodeJS.Timeout[];
 //   setTimerIds: (newTimerId: NodeJS.Timeout) => void;

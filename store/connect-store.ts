@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { ConnectState } from "@/types";
+import { Tables } from "@/types/supabase";
 
 const useConnectStore = create<ConnectState>((set) => ({
   join: false,
@@ -13,10 +14,7 @@ const useConnectStore = create<ConnectState>((set) => ({
     setRoomId: (room: string) => set({ roomId: room }),
     setUserId: (id: string) => set({ userId: id }),
     setUserNickname: (nickname: string) => set({ nickname }),
-    setRooms: (rooms) =>
-      set((state) => ({
-        rooms: typeof rooms === "function" ? rooms(state.rooms) : rooms
-      }))
+    setRooms: (status: Tables<"room_table">[]) => set({ rooms: status })
   }
 }));
 
