@@ -2,8 +2,9 @@ import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { useGetToken } from "@/hooks/useToken";
 import { useNickname, useRoomId, useUserId } from "@/store/connect-store";
-import { useExitAction } from "@/store/exit-store";
+import { useRoomAction } from "@/store/room-store";
 import S from "@/style/livekit/livekit.module.css";
+import useBeforeUnloadHandler from "@/utils/reload/useBeforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
@@ -13,24 +14,31 @@ const JoinMafiaRoom = () => {
   const roomId = useRoomId();
   const userId = useUserId();
   const nickname = useNickname();
+
   const [isJoinError, setIsJoinError] = useState(true);
   const [isJoin, setIsJoin] = useState(false);
-  const { setIsExit, setIsBack } = useExitAction();
-  const isBack = usePopStateHandler();
-
-  // BeforeUnloadHandler();
+  const { setIsEntry, setIsBack } = useRoomAction();
+  const isPopState = usePopStateHandler();
+  const { setIsReLoad } = useBeforeUnloadHandler();
 
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {
-    if (isBack) {
+    if (isPopState) {
       socket.emit("exitRoom", roomId, userId);
-      setIsExit(true);
+      setIsEntry(false);
       setIsBack(true);
     }
-  }, [isBack]);
+  }, [isPopState]);
 
+  //NOTE - 방입장 이벤트
+  const joinRoomHandler = () => {
+    setIsReLoad(true); //새로고침 팝업창 on, off
+    setIsJoin(true); //방 입장
+  };
+
+  //NOTE - 방에러 이벤트
   const joinError = (error: Error | string) => {
-    setIsJoinError(false);
+    // setIsJoinError(false);  // 미디어 비활성화 및 토큰 발급 error시 실행
     console.log("joinError", error);
   };
 
@@ -44,7 +52,7 @@ const JoinMafiaRoom = () => {
     joinError(error);
   }
 
-  //NOTE - 디바이스 비활성화 및 토큰 발급 error시 실행
+  //NOTE - 방 에러 UI
   if (!isJoinError) {
     return (
       <div>
@@ -55,7 +63,7 @@ const JoinMafiaRoom = () => {
         <button
           onClick={() => {
             socket.emit("exitRoom", roomId, userId);
-            setIsExit(true);
+            setIsEntry(false);
           }}
         >
           나가기
@@ -84,7 +92,7 @@ const JoinMafiaRoom = () => {
             <PreJoin
               onError={joinError}
               joinLabel="입장하기"
-              onSubmit={() => setIsJoin(true)} // 입장하기 버튼 이벤트 헨들러
+              onSubmit={joinRoomHandler} // 입장하기 버튼 이벤트 헨들러
               onValidate={() => isJoinError} // 입장하기 버튼 활성화
             ></PreJoin>
             <div className={S.settingUserButton}>
