@@ -20,14 +20,7 @@ const useClickHandler = () => {
     setActiveParticipant(playerId); // : 캠 클릭시 클릭한 위치에 이미지 띄우기
 
     //NOTE - 투표 및 마피아 시간
-    if (inSelect.includes("vote")) {
-      console.log(inSelect, playerId);
-      socket.emit("voteTo", playerId);
-      setImageState(CamCheck);
-      return;
-    }
-
-    if (inSelect.includes("mafia")) {
+    if (inSelect.includes("vote") || inSelect.includes("mafia")) {
       console.log(inSelect, playerId);
       socket.emit("voteTo", playerId);
       setImageState(CamCheck);

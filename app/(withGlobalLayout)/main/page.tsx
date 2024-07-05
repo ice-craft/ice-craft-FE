@@ -15,13 +15,13 @@ import MainSkeleton from "@/components/main/MainSkeleton";
 import useJoinRoom from "@/hooks/useJoinRoom";
 import CommonsLoading from "@/utils/CommonsLoading";
 import Popup from "@/utils/Popup";
+import { Tables } from "@/types/supabase";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
-
   const isGoInClick = useRef(false);
-  const { joinRoomHandler, fastJoinRoomHandler, loading } = useJoinRoom();
+  const { fastJoinRoomHandler, loading } = useJoinRoom();
 
   //NOTE - 메인 페이지 history 추가
   useEffect(() => {
@@ -58,8 +58,8 @@ const Mainpage = () => {
             </div>
             {rooms.length > 0 ? (
               <ul className={S.roomList}>
-                {rooms.map((item) => (
-                  <RoomListItem key={item.room_id} item={item}/>
+                {rooms.map((item: Tables<"room_table">) => (
+                  <RoomListItem key={item.room_id} item={item} />
                 ))}
               </ul>
             ) : (

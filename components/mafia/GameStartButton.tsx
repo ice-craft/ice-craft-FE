@@ -1,9 +1,9 @@
 import useSocketOn from "@/hooks/useSocketOn";
 import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant, useParticipants } from "@livekit/components-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const GameStartButton = () => {
+const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   const participants = useParticipants();
   const [isReady, setIsReady] = useState(false);
   const [isAllReady, setIsAllReady] = useState(false);
@@ -24,6 +24,16 @@ const GameStartButton = () => {
   };
   useSocketOn(sockets);
 
+  //NOTE - 게임 입장 및 종료시 초기화
+  useEffect(() => {
+    if (isGameState === "gameReady") {
+      console.log("🚀 GameButton 게임 입장 및 종료 시 초기화 isGameState", isGameState);
+
+      setIsReady(false);
+      setIsAllReady(false);
+    }
+  }, [isGameState]);
+
   //NOTE - 게임 준비 이벤트 핸들러
   const readyHandler = () => {
     const playerId = localParticipant.identity;
@@ -38,9 +48,6 @@ const GameStartButton = () => {
     const playersCount = participants.length;
 
     socket.emit("gameStart", roomId, playersCount);
-
-    // 초기화
-    setIsReady(false);
   };
 
   return (

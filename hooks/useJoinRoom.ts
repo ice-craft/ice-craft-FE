@@ -6,6 +6,7 @@ import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import useJoinRoomSocket from "./useJoinRoomSocket";
 import { useRoomAction } from "@/store/room-store";
+import { useUserInfo } from "./useUserInfo";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
@@ -15,6 +16,10 @@ const useJoinRoom = () => {
   const nickname = useNickname();
   const roomId = useRoomId();
   const [loading, setLoading] = useState(false);
+
+  //FIXME - 수정중
+  // const { isPending, isError, data } = useUserInfo();
+  // console.log(data);
 
   useJoinRoomSocket();
 
