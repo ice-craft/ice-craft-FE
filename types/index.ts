@@ -2,6 +2,7 @@ import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
 import { Tables } from "./supabase";
+import { LocalParticipant, RemoteParticipant } from "livekit-client";
 
 export interface MafiaRoom {
   room: string;
@@ -26,6 +27,10 @@ export interface VoteResult {
   user_id: string;
   user_nickname: string;
   voted_count: number;
+}
+
+export interface Participants {
+  tracks: TrackReferenceOrPlaceholder[];
 }
 
 export interface playerMedia {
@@ -68,11 +73,11 @@ export interface GameState {
     setGameReset: () => void;
   };
 }
+
 export interface GamePlayerInfo {
-  playerId: string;
   playerName: string | undefined;
   playerJoinAt: Date | undefined;
-  number: number;
+  playerNumber: number;
 }
 
 export interface ConnectState {
@@ -156,24 +161,22 @@ export interface totalTimeState {
   };
 }
 
+export interface MainVisualProps {
+  gameStartHandler: () => void;
+}
+
 export interface playersInfo {
   user_id: string;
   user_nickname: string;
   is_ready: boolean;
 }
 
-export interface Rooms {
-  room_id: string;
-  title: string | null;
-  game_category: string | null;
-  current_user_count: number;
-  total_user_count: number;
-  created_at: string | null;
+export interface FormSearchProps {
+  placeholder: string;
 }
 
 export interface RoomListItemProps {
-  item: Rooms;
-  // joinRoomHandler: (item: Tables<"room_table">) => Promise<void>;
+  item: Tables<"room_table">;
 }
 
 export interface UserInfo {
@@ -182,6 +185,6 @@ export interface UserInfo {
   isReady: boolean;
 }
 
-export interface FormSearchProps {
-  placeholder: string;
+export interface CreateRooms {
+  room_id: string;
 }

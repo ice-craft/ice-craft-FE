@@ -11,7 +11,6 @@ const useHandleBack = (roomId: string, userId: string) => {
     const disConnected = () => {
       setIsEntry(false);
       socket.emit("exitRoom", roomId, userId);
-      console.log("나갈거임", roomId, userId);
 
       const timer = setTimeout(() => {
         router.replace("/main");

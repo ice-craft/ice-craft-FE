@@ -6,11 +6,14 @@ import { useCreateStore } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useRoomsCurrent, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
+import useSocketOn from "@/hooks/useSocketOn";
+import { CreateRooms } from "@/types";
 import { useRoomAction } from "@/store/room-store";
+import { Tables } from "@/types/supabase";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -19,47 +22,40 @@ const MainCreateRoom = () => {
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
   const { setIsCreate } = useCreateStore();
-  const roomId = useRef("");
   const userId = useUserId();
   const nickname = useNickname();
-  const router = useRouter();
   const { setRoomId } = useConnectActions();
+  const router = useRouter();
+  const roomIdRef = useRef<string>("");
+  const { setRooms } = useConnectActions();
+  const [createRoom, setCreateRoom] = useState<Tables<"room_table">[]>();
+  const rooms = useRoomsCurrent();
 
-  useEffect(() => {
-    socket.on("createRoom", ({ room_id }) => {
-      roomId.current = room_id;
-      socket.emit("joinRoom", userId, room_id, nickname);
-    });
-
-    socket.on("createRoomError", (message) => {
+  const createSocket = {
+    createRoom: ({ room_id }: CreateRooms) => {
+      roomIdRef.current = room_id;
+      socket.emit("joinRoom", userId, roomIdRef.current, nickname);
+      // setRooms((prevRooms: Tables<"room_table">[]) => [...prevRooms, ...rooms]);
+    },
+    createRoomError: (message: string) => {
       toast.error(message);
       isGoInClick.current = false;
-    });
-
-    socket.on("joinRoom", () => {
-      if (roomId.current) {
-        setRoomId(roomId.current);
+    },
+    joinRoom: () => {
+      if (roomIdRef.current && selectedGame === "마피아") {
+        setRoomId(roomIdRef.current);
         setIsCreate(false);
-        if (selectedGame === "마피아") {
-          setIsEntry(true);
-          router.push(`/room/${roomId.current}/`);
-        }
-        return null;
+        setIsEntry(true);
+        router.push(`/room/${roomIdRef.current}/`);
       }
-    });
-
-    socket.on("joinRoomError", (message) => {
+    },
+    joinRoomError: (message: string) => {
       toast.error(message);
       isGoInClick.current = false;
-    });
-
-    return () => {
-      socket.off("createRoom");
-      socket.off("createRoomError");
-      socket.off("joinRoom");
-      socket.off("joinRoomError");
-    };
-  }, []);
+    }
+    // updateRoomInfo: (roomInfo: Tables<"room_table">[]) => {}
+  };
+  useSocketOn(createSocket);
 
   const gameSelectHandler = (game: string) => {
     setSelectedGame(game);
@@ -76,24 +72,20 @@ const MainCreateRoom = () => {
   const createRoomSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      //유효성 검사
       if (!roomTitle.trim()) {
         toast.error("방 제목을 입력해 주세요.");
         return;
       }
-
-      if (selectedGame === "노래맞추기") {
-        toast("노래 맞추기 게임은 준비중입니다.");
-        return;
-      }
-
-      if (!isGoInClick.current) {
+      if (!isGoInClick.current && selectedGame === "마피아") {
         isGoInClick.current = true;
         socket.emit("createRoom", roomTitle, selectedGame, numberOfPlayers);
-
         setSelectedGame("마피아");
         setRoomTitle("");
         setNumberOfPlayers(5);
+        return;
+      } else if (!isGoInClick.current && selectedGame === "노래맞추기") {
+        toast("노래 맞추기 게임은 준비중입니다.");
+        return;
       }
     } catch (error) {
       console.log("error", error);
@@ -135,7 +127,7 @@ const MainCreateRoom = () => {
           {selectedGame === "마피아" ? (
             <div className={S.playerPeopleChoice}>
               <h3 className={S.gameTitle}>인원수</h3>
-              <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
+              <select value={numberOfPlayers} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
                 {playerOptions.map((number) => (
                   <option key={number} value={number}>
                     {number}명
