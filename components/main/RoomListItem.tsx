@@ -24,7 +24,7 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
   useSocketOn(updateSocket);
 
   return (
-    <li>
+    <li key={currentItem.room_id}>
       <Image src={MafiaItem} alt="room image" />
       <div className={S.roomTitle}>
         <h3>{currentItem.title}</h3>

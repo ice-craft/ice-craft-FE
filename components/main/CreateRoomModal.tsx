@@ -8,11 +8,12 @@ import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
 import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useRoomsCurrent, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
 import useSocketOn from "@/hooks/useSocketOn";
 import { CreateRooms } from "@/types";
 import { useRoomAction } from "@/store/room-store";
+import { Tables } from "@/types/supabase";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -27,33 +28,32 @@ const MainCreateRoom = () => {
   const router = useRouter();
   const roomIdRef = useRef<string>("");
   const { setRooms } = useConnectActions();
+  const [createRoom, setCreateRoom] = useState<Tables<"room_table">[]>();
+  const rooms = useRoomsCurrent();
 
   const createSocket = {
     createRoom: ({ room_id }: CreateRooms) => {
       roomIdRef.current = room_id;
       socket.emit("joinRoom", userId, roomIdRef.current, nickname);
+      // setRooms((prevRooms: Tables<"room_table">[]) => [...prevRooms, ...rooms]);
     },
     createRoomError: (message: string) => {
       toast.error(message);
       isGoInClick.current = false;
     },
     joinRoom: () => {
-      if (roomIdRef.current) {
+      if (roomIdRef.current && selectedGame === "마피아") {
         setRoomId(roomIdRef.current);
         setIsCreate(false);
-        if (selectedGame === "마피아") {
-          setIsEntry(true);
-          router.push(`/room/${roomIdRef.current}/`);
-          const roomId = roomIdRef.current;
-          // setRooms(roomId);
-        }
-        return null;
+        setIsEntry(true);
+        router.push(`/room/${roomIdRef.current}/`);
       }
     },
     joinRoomError: (message: string) => {
       toast.error(message);
       isGoInClick.current = false;
     }
+    // updateRoomInfo: (roomInfo: Tables<"room_table">[]) => {}
   };
   useSocketOn(createSocket);
 
@@ -127,7 +127,7 @@ const MainCreateRoom = () => {
           {selectedGame === "마피아" ? (
             <div className={S.playerPeopleChoice}>
               <h3 className={S.gameTitle}>인원수</h3>
-              <select value={numberOfPlayers || ""} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
+              <select value={numberOfPlayers} onChange={(e) => setNumberOfPlayers(Number(e.target.value))}>
                 {playerOptions.map((number) => (
                   <option key={number} value={number}>
                     {number}명

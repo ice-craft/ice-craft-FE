@@ -3,9 +3,14 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
+//삭제예정코드(임시)
 export const checkUserLogIn = async () => {
   const { data } = await supabase.auth.getUser();
-  return data.user;
+  if (data.user) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export const emailLogIn = async (email: string, password: string) => {
@@ -74,7 +79,6 @@ export const setUserNickname = async (nickname: string) => {
   return data;
 };
 
-//checkUserLogIn와 같아 삭제 예정코드
 export const getUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
   return data.user;

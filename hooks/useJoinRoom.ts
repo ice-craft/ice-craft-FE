@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import useJoinRoomSocket from "./useJoinRoomSocket";
 import { useRoomAction } from "@/store/room-store";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { useUserInfo } from "./useUserInfo";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
@@ -14,23 +16,32 @@ const useJoinRoom = () => {
   const userId = useUserId();
   const nickname = useNickname();
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useJoinRoomSocket();
 
-  //NOTE - 사용자 로그인 여부
+  // const { data, isPending, error } = useUserInfo();
+
+  // console.log(data);
+
+  // NOTE - 사용자 로그인 여부
+  //FIXME - 수정예정
   useEffect(() => {
-    const checkUserInfo = async () => {
+    const fetchUserInfo = async () => {
       try {
-        const userInfo = await checkUserLogIn();
-        if (userInfo) {
-          setUserId(userInfo.id);
-          setUserNickname(userInfo.user_metadata.nickname);
+        const loggedIn = await checkUserLogIn();
+        setIsLoggedIn(true);
+
+        if (loggedIn) {
+          const userInfo = await getUserInfo();
+          setUserId(userInfo!.id);
+          setUserNickname(userInfo!.user_metadata.nickname);
         }
       } catch (error) {
         console.error("error:", error);
       }
     };
-    checkUserInfo();
+    fetchUserInfo();
   }, []);
 
   //NOTE - 클릭시 로그인 안한 유저 처리

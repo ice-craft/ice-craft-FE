@@ -1,5 +1,5 @@
 import { UserInfo } from "@/types";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions } from "@/store/connect-store";
 import { toast } from "react-toastify";
 import useSocketOn from "./useSocketOn";
 import { useRouter } from "next/navigation";

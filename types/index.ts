@@ -45,12 +45,14 @@ export interface OverlayState {
   isLocalOverlay: boolean;
   isRemoteOverlay: boolean;
   inSelect: string;
+  imageState: StaticImageData | null;
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
     setActiveParticipant: (playerId: string | null) => void;
     setIsOverlay: (newIsOverlay: boolean) => void;
     setIsRemoteOverlay: (newIsOverlay: boolean) => void;
+    setImageState: (newImage: StaticImageData | null) => void;
     setInSelect: (newSelect: string) => void;
     setOverlayReset: () => void;
   };
@@ -169,10 +171,8 @@ export interface playersInfo {
   is_ready: boolean;
 }
 
-export interface RoomSearchProps {
-  searchHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  search: string;
-  setSearch: (item: string) => void;
+export interface FormSearchProps {
+  placeholder: string;
 }
 
 export interface RoomListItemProps {
