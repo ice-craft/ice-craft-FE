@@ -26,6 +26,7 @@ const useJoinRoomSocket = () => {
       toast.error(message);
     }
   };
+
   useSocketOn(joinSockets);
 };
 

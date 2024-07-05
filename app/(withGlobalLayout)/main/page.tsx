@@ -21,6 +21,8 @@ const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
 
+  console.log(rooms);
+
   const isGoInClick = useRef(false);
   const { fastJoinRoomHandler, loading } = useJoinRoom();
 
