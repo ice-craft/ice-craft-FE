@@ -50,7 +50,7 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
           )}
         </div>
       </TrackLoop>
-      {isGameState === "gameReady" && <GameStartButton />}
+      {isGameState === "gameReady" && <GameStartButton isGameState={isGameState} />}
     </div>
   );
 };

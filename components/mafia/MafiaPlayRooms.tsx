@@ -10,7 +10,7 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
@@ -38,6 +38,13 @@ const MafiaPlayRooms = () => {
     ],
     { onlySubscribed: false } // 구독 여부 상관없이 실행
   );
+
+  // //NOTE - 방 입장 시 초기화
+  useEffect(() => {
+    setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+    setModalReset(); //전체 모달 요소 초기화
+    setGameReset(); // 죽은 players 및 게임 state 초기화
+  }, []);
 
   const sockets = {
     //NOTE - 전체 players의 실시간 Ready 상태
