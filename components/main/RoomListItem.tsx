@@ -1,27 +1,39 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
 import { RoomListItemProps } from "@/types";
 import useJoinRoom from "@/hooks/useJoinRoom";
+import useSocketOn from "@/hooks/useSocketOn";
+import { Tables } from "@/types/supabase";
 
 const RoomListItem = ({ item }: RoomListItemProps) => {
+  const [currentItem, setCurrentItem] = useState(item);
   const isGoInClick = useRef(false);
-  const isRoomFull = item.current_user_count >= item.total_user_count;
+  const isRoomFull = currentItem.current_user_count >= currentItem.total_user_count;
   const { joinRoomHandler } = useJoinRoom();
 
+  const updateSocket = {
+    updateRoomInfo: (roomInfo: Tables<"room_table">) => {
+      if (roomInfo.room_id === item.room_id) {
+        setCurrentItem(roomInfo);
+      }
+    }
+  };
+  useSocketOn(updateSocket);
+
   return (
-    <li>
+    <li key={currentItem.room_id}>
       <Image src={MafiaItem} alt="room image" />
       <div className={S.roomTitle}>
-        <h3>{item.title}</h3>
+        <h3>{currentItem.title}</h3>
         <div className={S.gameName}>
-          <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
+          <p className={S.mafiaHashtag}>#&nbsp;{currentItem.game_category}</p>
           <p className={S.currentPeople}>
             <Image src={PeopleIcon} alt="people icon" />
             <span>
-              {item.current_user_count}/{item.total_user_count}
+              {currentItem.current_user_count}/{currentItem.total_user_count}
             </span>
           </p>
         </div>
