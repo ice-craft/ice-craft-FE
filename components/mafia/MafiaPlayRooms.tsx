@@ -39,6 +39,7 @@ const MafiaPlayRooms = () => {
 
   // //NOTE - 방 입장 시 초기화
   useEffect(() => {
+    console.log("🚀 MafiaPlayRooms: 방 입장 시 초기화");
     setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
     setModalReset(); //전체 모달 요소 초기화
     setGameReset(); // 죽은 players 및 게임 state 초기화
@@ -53,9 +54,12 @@ const MafiaPlayRooms = () => {
     gameStart: () => {
       setIsGameState("gameStart");
       setOverlayReset(); //local, remote "Ready" 이미지 초기화
+      setIsMediaReset(false); // 캠 및 오디오 초기화
     },
     //NOTE - 게임 종료
     gameEnd: () => {
+      console.log("🚀 ~ MafiaPlayRooms ~ gameEnd: On");
+
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화

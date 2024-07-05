@@ -43,7 +43,7 @@ const MafiaModals = () => {
         return;
       }
 
-      console.log("isModal", isOpen);
+      // console.log("isModal", isOpen);
       //NOTE - GroupModal 모달창 요소
       setCurrentModal("GroupMafiaModal");
       setIsOpen(true);
