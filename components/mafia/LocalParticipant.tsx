@@ -2,7 +2,7 @@ import CamCheck from "@/assets/images/cam_check.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
 import usePlayerNumber from "@/hooks/usePlayerNumber";
-import { useDiedPlayer, useIsGameState } from "@/store/game-store";
+import { useDiedPlayer, useGameState } from "@/store/game-store";
 import { useActivePlayer, useIsLocalOverlay, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import {
@@ -19,7 +19,7 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
   const activePlayerId = useActivePlayer();
   const isLocalOverlay = useIsLocalOverlay();
   const { localParticipant } = useLocalParticipant();
-  const isGameState = useIsGameState();
+  const isGameState = useGameState();
   const playerNumber = usePlayerNumber(localParticipant.identity, isGameState);
   const localReadyState = useReadyPlayers();
   const { clickHandler } = useClickHandler();
@@ -31,7 +31,7 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
   return (
     <div className={S.localParticipant}>
       <SpeakTimer />
-      {isGameState && <p className={"text-red-600"}>{playerNumber}</p>}
+      {isGameState === "gameStart" && <p className={"text-red-600"}>{playerNumber}</p>}
       <TrackLoop tracks={localTracks}>
         <div
           className={`${S.participantOverlay} ${activePlayerId === localParticipant.identity ? S.active : ""}`}
@@ -50,7 +50,7 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
           )}
         </div>
       </TrackLoop>
-      {!isGameState && <GameStartButton />}
+      {isGameState === "gameReady" && <GameStartButton isGameState={isGameState} />}
     </div>
   );
 };

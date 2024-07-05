@@ -61,11 +61,11 @@ export interface ImageState {
 
 export interface GameState {
   diedPlayerId: string[];
-  isGameState: boolean;
+  isGameState: string;
   actions: {
     setDiedPlayer: (playerId: string) => void;
-    setIsGameState: (isGame: boolean) => void;
-    setPlayerReset: () => void;
+    setIsGameState: (isGame: string) => void;
+    setGameReset: () => void;
   };
 }
 export interface GamePlayerInfo {
