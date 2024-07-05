@@ -22,7 +22,7 @@ const MafiaPlayRooms = () => {
   const roomId = localParticipant.metadata;
   const userId = localParticipant.identity;
   const [playersMediaStatus, setPlayersMediaStatus] = useState<MediaStatus | null>(null);
-  const { setDiedPlayer, setIsGameState, setPlayerReset } = useGameActions();
+  const { setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
   const { setModalReset } = useModalActions();
   const { setIsEntry } = useRoomAction();
@@ -46,15 +46,14 @@ const MafiaPlayRooms = () => {
     },
     //NOTE - 게임 시작
     gameStart: () => {
-      setIsGameState(true);
+      setIsGameState("gameStart");
       setOverlayReset(); //local, remote "Ready" 이미지 초기화
     },
     //NOTE - 게임 종료
     gameEnd: () => {
-      setIsGameState(false);
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
-      setPlayerReset(); // 죽은 players 초기화
+      setGameReset(); // 죽은 players 및 게임 state 초기화
     },
     //NOTE - players 미디어 관리
     playerMediaStatus: (playersMedias: MediaStatus) => {
@@ -64,14 +63,14 @@ const MafiaPlayRooms = () => {
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
     },
+    //NOTE - Error 처리
     playError: (roomName: any, error: string) => {
       console.log("roomName", roomName);
       console.log("roomError", error);
 
-      setIsGameState(false);
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
-      setPlayerReset(); // 죽은 players 초기화
+      setGameReset(); // 죽은 players 및 게임 state 초기화
     }
   };
 
