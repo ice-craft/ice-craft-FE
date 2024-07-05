@@ -1,7 +1,7 @@
 import PlayerDieImages from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
 import usePlayerNumber from "@/hooks/usePlayerNumber";
-import { useDiedPlayer, useIsGameState } from "@/store/game-store";
+import { useDiedPlayer, useGameState } from "@/store/game-store";
 import { useActivePlayer, useIsRemoteOverlay, useJobImageState, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
 import { ParticipantTile, ParticipantTileProps, useEnsureTrackRef } from "@livekit/components-react";
@@ -13,7 +13,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   const activePlayerId = useActivePlayer();
   const diedPlayers = useDiedPlayer();
   const imageState = useJobImageState();
-  const isGameState = useIsGameState();
+  const isGameState = useGameState();
   const playerNumber = usePlayerNumber(remote.participant.identity, isGameState);
   const isRemoteOverlay = useIsRemoteOverlay();
 
@@ -28,7 +28,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
         className={`${S.remoteParticipantOverlay} ${activePlayerId === remote.participant.identity ? S.active : ""}`}
         onClick={isRemoteOverlay && !diedPlayer ? (e) => clickHandler(e, remote.participant.identity) : undefined}
       >
-        {isGameState && <p className={"text-red-600"}>{playerNumber}</p>}
+        {isGameState === "gameStart" && <p className={"text-red-600"}>{playerNumber}</p>}
         <ParticipantTile
           disableSpeakingIndicator={true}
           className={`${S.remoteCam} ${isRemoteOverlay && !diedPlayer ? "cursor-pointer" : ""}`}
