@@ -1,5 +1,5 @@
 import { MediaStatus } from "@/types";
-import { useLocalParticipant, useRemoteParticipants, useTracks } from "@livekit/components-react";
+import { useLocalParticipant, useRemoteParticipants } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import { useEffect, useState } from "react";
 
@@ -57,6 +57,8 @@ const useMediaDevice = () => {
 
   //NOTE - 게임 종료 시 모든 player 캠 및 오디오 on
   useEffect(() => {
+    console.log("🚀 ~ useEffect ~ isMediaReset:", isMediaReset);
+
     if (isMediaReset) {
       console.log("🚀게임 종료 시 AllPlayer 미디어 On:", isMediaReset);
 
@@ -76,6 +78,9 @@ const useMediaDevice = () => {
         camera?.setSubscribed(true);
         mike?.setSubscribed(true);
       });
+
+      //초기화
+      setIsMediaReset(false);
     }
   }, [isMediaReset]);
 
