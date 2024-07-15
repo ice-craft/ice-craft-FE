@@ -76,6 +76,9 @@ const useMediaDevice = () => {
         camera?.setSubscribed(true);
         mike?.setSubscribed(true);
       });
+
+      //NOTE - 초기화
+      setIsMediaReset(false);
     }
   }, [isMediaReset]);
 

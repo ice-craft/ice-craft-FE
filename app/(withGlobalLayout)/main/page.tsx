@@ -23,6 +23,8 @@ const Mainpage = () => {
   const isGoInClick = useRef(false);
   const { fastJoinRoomHandler, loading } = useJoinRoom();
 
+  console.log(rooms);
+
   //NOTE - 메인 페이지 history 추가
   useEffect(() => {
     history.pushState(null, "", "");

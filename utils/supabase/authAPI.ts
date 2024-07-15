@@ -7,9 +7,9 @@ const supabase = createClient();
 export const checkUserLogIn = async () => {
   const { data } = await supabase.auth.getUser();
   if (data.user) {
-    return data.user;
+    return true;
   } else {
-    return null;
+    return false;
   }
 };
 

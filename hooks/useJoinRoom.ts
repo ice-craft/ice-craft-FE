@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, getUserInfo } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import useJoinRoomSocket from "./useJoinRoomSocket";
 import { useRoomAction } from "@/store/room-store";
@@ -17,20 +17,17 @@ const useJoinRoom = () => {
   const roomId = useRoomId();
   const [loading, setLoading] = useState(false);
 
-  //FIXME - 수정중
-  // const { isPending, isError, data } = useUserInfo();
-  // console.log(data);
-
   useJoinRoomSocket();
 
   //NOTE - 사용자 로그인 여부
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
-        const userInfo = await checkUserLogIn();
-        if (userInfo) {
-          setUserId(userInfo.id);
-          setUserNickname(userInfo.user_metadata.nickname);
+        const userCheckLogin = await checkUserLogIn();
+        if (userCheckLogin) {
+          const userInfo = await getUserInfo();
+          setUserId(userInfo!.id);
+          setUserNickname(userInfo!.user_metadata.nickname);
         }
       } catch (error) {
         console.error("error:", error);

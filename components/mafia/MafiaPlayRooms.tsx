@@ -16,8 +16,6 @@ import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import { useRoomAction } from "@/store/room-store";
 import useMediaDevice from "@/hooks/useMediaDevice";
-import { useConnectActions } from "@/store/connect-store";
-import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
@@ -25,8 +23,6 @@ const MafiaPlayRooms = () => {
   const userId = localParticipant.identity;
   const { setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
-  const { setRooms } = useConnectActions();
-  const { rooms } = useGetRoomsSocket();
   const { setModalReset } = useModalActions();
   const { setIsEntry } = useRoomAction();
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
@@ -58,7 +54,6 @@ const MafiaPlayRooms = () => {
     gameStart: () => {
       setIsGameState("gameStart");
       setOverlayReset(); //local, remote "Ready" 이미지 초기화
-      setIsMediaReset(false); // 캠 및 오디오 초기화
     },
     //NOTE - 게임 종료
     gameEnd: () => {
@@ -85,6 +80,7 @@ const MafiaPlayRooms = () => {
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
+      setIsMediaReset(true); // 캠 및 오디오 초기화
     }
   };
 
@@ -93,9 +89,8 @@ const MafiaPlayRooms = () => {
   //NOTE - 방 나가기 이벤트 헨들러
   const leaveRoom = () => {
     setIsEntry(false);
+    console.log("방 나가기", userId);
     socket.emit("exitRoom", roomId, userId);
-    const updatedRooms = rooms.filter((room) => room.room_id !== roomId);
-    setRooms(updatedRooms);
   };
 
   return (
