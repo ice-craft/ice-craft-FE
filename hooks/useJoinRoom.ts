@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useRoomId, useUserId } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
@@ -14,9 +14,7 @@ const useJoinRoom = () => {
   const { setIsEntry } = useRoomAction();
   const userId = useUserId();
   const nickname = useNickname();
-  const roomId = useRoomId();
   const [loading, setLoading] = useState(false);
-
   useJoinRoomSocket();
 
   //NOTE - 사용자 로그인 여부
@@ -25,9 +23,8 @@ const useJoinRoom = () => {
       try {
         const userCheckLogin = await checkUserLogIn();
         if (userCheckLogin) {
-          const userInfo = await getUserInfo();
-          setUserId(userInfo!.id);
-          setUserNickname(userInfo!.user_metadata.nickname);
+          setUserId(userCheckLogin.id);
+          setUserNickname(userCheckLogin.user_metadata.nickname);
         }
       } catch (error) {
         console.error("error:", error);

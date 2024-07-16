@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import S from "@/style/mainpage/main.module.css";
@@ -18,17 +18,22 @@ import Popup from "@/utils/Popup";
 import { Tables } from "@/types/supabase";
 
 const Mainpage = () => {
-  const { rooms } = useGetRoomsSocket();
+  const { rooms, loading } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
   const isGoInClick = useRef(false);
-  const { fastJoinRoomHandler, loading } = useJoinRoom();
-
-  console.log(rooms);
+  // const { fastJoinRoomHandler, loading } = useJoinRoom();
 
   //NOTE - 메인 페이지 history 추가
   useEffect(() => {
     history.pushState(null, "", "");
   }, []);
+
+  useEffect(() => {
+    if (!loading && rooms.length > 0) {
+      // 로딩이 완료되고 데이터가 있을 때만 출력
+      console.log(rooms);
+    }
+  }, [rooms, loading]);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
@@ -46,9 +51,9 @@ const Mainpage = () => {
               <div className={S.roomSearchAndButton}>
                 <FormSearch placeholder="방 이름을 입력해 주세요." />
                 <div className={S.gameGoButton}>
-                  <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
+                  {/* <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                     빠른입장
-                  </button>
+                  </button> */}
                   <div className={S.makeRoomButton}>
                     <button onClick={() => setIsCreate(true)} className={S.makeRoom}>
                       방 만들기
@@ -69,7 +74,7 @@ const Mainpage = () => {
                 <Image src={VisitEmptyImage} alt="Room list empty" />
               </div>
             )}
-            {loading && <CommonsLoading />}
+            {/* {loading && <CommonsLoading />} */}
           </section>
         </div>
         <GoTopButton />

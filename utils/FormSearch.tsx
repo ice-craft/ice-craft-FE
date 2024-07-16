@@ -6,12 +6,12 @@ import SearchIcon from "@/assets/images/icon_search.svg";
 import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
+// import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import useDebounce from "@/hooks/useSearchDebounce";
 import { FormSearchProps } from "@/types";
 
 const FormSearch = ({ placeholder }: FormSearchProps) => {
-  const { setRooms } = useGetRoomsSocket();
+  // const { setRooms } = useGetRoomsSocket();
   const [search, setSearch] = useState<string>("");
   const debouncedValue = useDebounce(search, 500);
 
@@ -25,12 +25,12 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
       try {
         if (!debouncedValue.trim()) {
           const allRooms = await getRooms(0, 20);
-          setRooms(allRooms);
+          // setRooms(allRooms);
           return;
         }
 
         const roomKeyword = await getRoomsWithKeyword(debouncedValue);
-        setRooms(roomKeyword);
+        // setRooms(roomKeyword);
       } catch (error) {
         toast.error("검색 중 오류가 발생했습니다.");
       }

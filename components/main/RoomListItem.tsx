@@ -4,7 +4,7 @@ import MafiaItem from "@/assets/images/mafia_item.png";
 import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
 import { RoomListItemProps } from "@/types";
-import useJoinRoom from "@/hooks/useJoinRoom";
+// import useJoinRoom from "@/hooks/useJoinRoom";
 import useSocketOn from "@/hooks/useSocketOn";
 import { Tables } from "@/types/supabase";
 
@@ -12,7 +12,7 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
   const [currentItem, setCurrentItem] = useState(item);
   const isGoInClick = useRef(false);
   const isRoomFull = currentItem.current_user_count >= currentItem.total_user_count;
-  const { joinRoomHandler } = useJoinRoom();
+  // const { joinRoomHandler } = useJoinRoom();
 
   const updateSocket = {
     updateRoomInfo: (roomInfo: Tables<"room_table">) => {
@@ -49,9 +49,9 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
         </div>
       ) : (
         <div className={S.roomListWrap}>
-          <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+          {/* <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
             입장하기
-          </button>
+          </button> */}
         </div>
       )}
     </li>
