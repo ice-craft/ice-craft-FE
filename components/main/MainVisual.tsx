@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import S from "@/style/mainpage/main.module.css";
@@ -12,10 +12,13 @@ import "swiper/css/bundle";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "@/style/mainpage/swiper.css";
-// import useJoinRoom from "@/hooks/useJoinRoom";
+import useJoinRoom from "@/hooks/useJoinRoom";
+import useLoading from "@/hooks/useLoading";
+import { useRoomsCurrent } from "@/store/connect-store";
 
 const MainVisual = () => {
   // const { gameStartHandler } = useJoinRoom();
+  // const { loading } = useLoading();
   const swiperRef = useRef<SwiperType | null>(null);
 
   const mouseEnterHandler = () => {
@@ -34,6 +37,12 @@ const MainVisual = () => {
   const songHandler = () => {
     toast("서비스 준비 중 입니다.");
   };
+
+  // useEffect(() => {
+  //   if (!loading) {
+  //     gameStartHandler();
+  //   }
+  // }, [loading]);
 
   return (
     <Swiper
