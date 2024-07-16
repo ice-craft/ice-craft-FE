@@ -1,6 +1,6 @@
 import { LocalParticipant, RemoteParticipant } from "livekit-client";
 
-const getPlayerNumber = (participants: (LocalParticipant | RemoteParticipant)[]) => {
+const getPlayersNumber = (participants: (LocalParticipant | RemoteParticipant)[]) => {
   // NOTE - 입장 시간 및 id 순서로 정렬
   const gamePlayerName = participants.sort((a, b) => {
     // 존재 하지 않을 시 제자리
@@ -26,4 +26,4 @@ const getPlayerNumber = (participants: (LocalParticipant | RemoteParticipant)[])
   return gamePlayers;
 };
 
-export default getPlayerNumber;
+export default getPlayersNumber;
