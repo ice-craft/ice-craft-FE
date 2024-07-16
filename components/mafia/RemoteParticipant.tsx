@@ -27,9 +27,7 @@ const RemoteParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }
     //NOTE - players의 초기 Ready 상태
     usersInfo: (players: playersInfo[]) => {
       players.forEach((player) => {
-        if (player.is_ready) {
-          setReadyPlayers(player.user_id, player.is_ready);
-        }
+        setReadyPlayers(player.user_id, player.is_ready);
       });
     }
   };
