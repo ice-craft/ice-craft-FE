@@ -44,8 +44,8 @@ const Mainpage = () => {
     }
   }, [rooms, loading]);
 
-  //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
-  if (loading || !rooms) return <MainSkeleton />;
+  // //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
+  // if (loading || !rooms) return <MainSkeleton />;
 
   return (
     <>
