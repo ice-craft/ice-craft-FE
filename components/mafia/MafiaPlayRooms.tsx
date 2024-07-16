@@ -98,6 +98,8 @@ const MafiaPlayRooms = () => {
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
       setIsMediaReset(true); // 캠 및 오디오 초기화
+
+      setIsGameEnd(false); // 초기화
     }, 5000);
 
     return () => clearTimeout(gameEndTimerId);

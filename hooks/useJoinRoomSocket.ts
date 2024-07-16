@@ -1,4 +1,3 @@
-import { UserInfo } from "@/types";
 import { useConnectActions } from "@/store/connect-store";
 import { toast } from "react-toastify";
 import useSocketOn from "./useSocketOn";
@@ -9,7 +8,7 @@ const useJoinRoomSocket = () => {
   const { setRoomId } = useConnectActions();
 
   const joinSockets = {
-    joinRoom: (userInfo: UserInfo, roomId: string) => {
+    joinRoom: (roomId: string) => {
       if (roomId) {
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);
@@ -18,7 +17,7 @@ const useJoinRoomSocket = () => {
     joinRoomError: (message: string) => {
       toast.error(message);
     },
-    fastJoinRoom: (userInfo: UserInfo, roomId: string) => {
+    fastJoinRoom: (roomId: string) => {
       setRoomId(roomId);
       router.push(`/room/${roomId}/`);
     },
