@@ -231,7 +231,7 @@
 /*------------ victory modal ------------*/
 .modal.victoryModal {
   position: absolute;
-  animation: victoryModal 1s 0.4s 1 ease forwards;
+  animation: victoryModal 1s 1 ease forwards;
 }
 
 /*------------ animation ------------*/
