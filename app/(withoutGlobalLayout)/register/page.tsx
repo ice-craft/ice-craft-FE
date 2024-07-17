@@ -131,17 +131,16 @@ const Register = () => {
       return;
     }
 
-    if (inputPassword !== checkPassword) {
-      isPassed.current = { ...isPassed.current, checkPassword: false };
-      setPasswordMessage("");
-      setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
-      return;
-    } else {
-      setCheckPasswordMessage("");
-    }
-
     isPassed.current = { ...isPassed.current, password: true };
     setPasswordMessage("");
+
+    if (inputPassword !== checkPassword) {
+      isPassed.current = { ...isPassed.current, checkPassword: false };
+      setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
+    } else {
+      isPassed.current = { ...isPassed.current, checkPassword: true };
+      setCheckPasswordMessage("");
+    }
   };
 
   const checkPasswordChangeHandler = (inputCheckPassword: string) => {
@@ -229,8 +228,18 @@ const Register = () => {
     const isPasswordPassed = isPassed.current.password;
     const isCheckPasswordPassed = isPassed.current.checkPassword;
 
+    console.log(
+      "email",
+      isPassed.current.email,
+      "nickname",
+      isPassed.current.nickname,
+      "password",
+      isPassed.current.password,
+      "checkPassword",
+      isPassed.current.checkPassword
+    );
+
     setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
-    console.log(canRegister); //NOTE - 테스트 코드, 출력 안됨, 렌더링이 꼬여서 그럼, 리액트 폼 훅으로 리펙토링해야 함
   }, [isPassed.current]);
 
   return (
