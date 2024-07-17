@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  checkUserEmailRegistered,
-  checkUserNicknameRegistered,
-  registerAccount
-} from "../../../utils/supabase/accountAPI";
+import { checkUserEmailRegistered, registerAccount } from "../../../utils/supabase/accountAPI";
 import { InputMessage } from "../../../components/register/InputMessage";
 import { oAuthLogIn, oAuthRegister } from "../../../utils/supabase/authAPI";
 import KakaoLoginIcon from "@/assets/images/join_kakaotalk.svg";
@@ -34,7 +30,6 @@ const Register = () => {
   const isPassed = useRef({
     inputEmail: false,
     email: false,
-    inputNickname: false,
     nickname: false,
     password: false,
     checkPassword: false
@@ -83,27 +78,17 @@ const Register = () => {
 
   const nicknameChangeHandler = (inputNickname: string) => {
     setNickname(inputNickname);
-    isPassed.current.nickname = false;
 
     if (inputNickname.length === 0) {
-      isPassed.current.inputNickname = false;
+      isPassed.current.nickname = false;
       return setNicknameMessage("닉네임을 입력해주세요.");
     }
 
     if (inputNickname.length < 2 || 6 < inputNickname.length) {
-      isPassed.current.inputNickname = false;
+      isPassed.current.nickname = false;
       return setNicknameMessage("닉네임의 길이가 올바르지 않습니다.");
     }
 
-    isPassed.current.inputNickname = true;
-    setNicknameMessage("");
-  };
-
-  const checkNicknameExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const isNicknameRegistered = await checkUserNicknameRegistered(nickname);
-    if (isNicknameRegistered || !isPassed.current.inputNickname) {
-      return setNicknameMessage("이미 존재하는 닉네임입니다.");
-    }
     isPassed.current.nickname = true;
     setNicknameMessage("사용 가능한 닉네임입니다.");
   };
@@ -264,9 +249,6 @@ const Register = () => {
                   onChange={(e) => nicknameChangeHandler(e.target.value)}
                   required
                 />
-                <button type="button" onClick={checkNicknameExistedHandler}>
-                  중복확인
-                </button>
               </div>
               {<InputMessage text={nicknameMessage} />}
             </div>

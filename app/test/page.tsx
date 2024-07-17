@@ -1,11 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { getUserEmail, getUserNickname, getUserUid, setUserNickname } from "../../utils/supabase/authAPI";
-import {
-  checkUserEmailRegistered,
-  checkUserNicknameRegistered,
-  registerAccount
-} from "../../utils/supabase/accountAPI";
+import { checkUserEmailRegistered, registerAccount } from "../../utils/supabase/accountAPI";
 import { useRouter } from "next/navigation";
 
 const Test = () => {
@@ -20,7 +16,7 @@ const Test = () => {
       while (true) {
         let inputNickname = window.prompt("닉네임을 입력하세요.");
         if (inputNickname && 2 <= inputNickname.length && inputNickname.length <= 6) {
-          const isExistedNickname = await checkUserNicknameRegistered(inputNickname);
+          const isExistedNickname = true; // await checkUserNicknameRegistered(inputNickname);
           if (!isExistedNickname) {
             const email = await getUserEmail();
             const nickname = inputNickname;
