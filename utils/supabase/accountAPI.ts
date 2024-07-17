@@ -5,7 +5,7 @@ const supabase = createClient();
 export const checkUserEmailRegistered = async (email: string) => {
   let { data, error } = await supabase.from("account_table").select("email").eq("email", email);
   if (error) {
-    throw new Error(error.message);
+    throw new Error("이메일 중복 검사에 실패했습니다.");
   }
 
   if (data) {
