@@ -19,21 +19,12 @@ import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 
 const MafiaModals = () => {
   const isOpen = useModalIsOpen();
-  const role = useRoleModalElement();
-  const title = useGroupModalElement();
-  const participant = useParticipants();
   const currentModal = useCurrentModal();
-  const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([""]);
-
   const { setYesOrNoVoteResult, setCurrentModal, setIsOpen, setTimer, setTitle, setRole, setVoteResult } =
     useModalActions();
 
   const sockets = {
     showModal: (title: string, timer: number) => {
-      if (isOpen) {
-        setIsOpen(false);
-      }
-
       //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
       if (title.includes("찬성/반대 투표")) {
         setCurrentModal("CheckModal");
@@ -74,11 +65,6 @@ const MafiaModals = () => {
     },
     //NOTE - 승리한 팀 모달창 요소
     victoryPlayer: (victoryTeam: string, timer: number) => {
-      if (isOpen) {
-        setIsOpen(false);
-      }
-
-      //승리 모달창 요소
       setCurrentModal("VictoryModal");
       setIsOpen(true);
       setTitle(victoryTeam);
@@ -88,28 +74,6 @@ const MafiaModals = () => {
 
   //NOTE - socket On, Off 담당
   useSocketOn(sockets);
-
-  //NOTE - 승리한 팀의 players nickname
-  useEffect(() => {
-    if (currentModal === "VictoryModal") {
-      participant.forEach((playerInfo) => {
-        const playerJob = getPlayerJob(role, playerInfo.identity);
-
-        //시민, 의사, 경찰 승리일 경우
-        if (title === "citizen" && (playerJob === "citizen" || playerJob === "police" || playerJob === "doctor")) {
-          // playerInfo.name이 undefined가 아닌지 확인
-          setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerInfo.name!]);
-          return;
-        }
-
-        //마피아일 경우
-        if (title === "mafia" && playerJob === "mafia") {
-          // playerInfo.name이 undefined가 아닌지 확인
-          setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerInfo.name!]);
-        }
-      });
-    }
-  }, [currentModal]);
 
   if (!isOpen) return null;
 
@@ -135,7 +99,7 @@ const MafiaModals = () => {
     case "LastVoteResultModal":
       return <LastVoteResultModal />;
     case "VictoryModal":
-      return <VictoryModal victoryPlayerNickname={victoryPlayerNickname} />;
+      return <VictoryModal />;
     default:
       return null;
   }
