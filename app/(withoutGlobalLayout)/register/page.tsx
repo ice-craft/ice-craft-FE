@@ -66,6 +66,7 @@ const Register = () => {
 
   const checkEmailExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!isPassed.current.inputEmail) {
+      isPassed.current.email = false;
       return;
     }
 
