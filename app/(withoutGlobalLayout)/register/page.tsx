@@ -73,7 +73,7 @@ const Register = () => {
       isEmailRegistered = await checkUserEmailRegistered(email);
     } catch (error) {
       isPassed.current = { ...isPassed.current, email: false };
-      console.log((error as Error).message); //FIXME - toast를 통해 에러 창 띄우기
+      setEmailMessage((error as Error).message);
       return;
     }
 
