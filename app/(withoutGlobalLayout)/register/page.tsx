@@ -65,10 +65,14 @@ const Register = () => {
   };
 
   const checkEmailExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    isPassed.current.email = false;
+    if (!isPassed.current.inputEmail) {
+      return;
+    }
+
     const isEmailRegistered = await checkUserEmailRegistered(email);
 
-    if (isEmailRegistered || !isPassed.current.inputEmail) {
+    if (isEmailRegistered) {
+      isPassed.current.email = false;
       return setEmailMessage("이미 존재하는 이메일입니다.");
     }
 
