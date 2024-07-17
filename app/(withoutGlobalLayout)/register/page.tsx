@@ -131,6 +131,15 @@ const Register = () => {
       return;
     }
 
+    if (inputPassword !== checkPassword) {
+      isPassed.current = { ...isPassed.current, checkPassword: false };
+      setPasswordMessage("");
+      setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
+      return;
+    } else {
+      setCheckPasswordMessage("");
+    }
+
     isPassed.current = { ...isPassed.current, password: true };
     setPasswordMessage("");
   };
@@ -156,14 +165,8 @@ const Register = () => {
 
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isEmailPassed = isPassed.current.email;
-    const isNicknamePassed = isPassed.current.nickname;
-    const isPasswordPassed = isPassed.current.password;
-    const isCheckPasswordPassed = isPassed.current.checkPassword;
 
     setSubmitting(true);
-
-    setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
 
     if (!canRegister) {
       setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
