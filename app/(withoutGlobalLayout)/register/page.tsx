@@ -95,7 +95,6 @@ const Register = () => {
 
   const passwordChangeHandler = (inputPassword: string) => {
     setPassword(inputPassword);
-    isPassed.current.password = false;
 
     if (inputPassword.length === 0) {
       isPassed.current.password = false;
@@ -121,7 +120,6 @@ const Register = () => {
 
   const checkPasswordChangeHandler = (inputCheckPassword: string) => {
     setCheckPassword(inputCheckPassword);
-    isPassed.current.checkPassword = false;
 
     if (inputCheckPassword.length === 0) {
       isPassed.current.checkPassword = false;
