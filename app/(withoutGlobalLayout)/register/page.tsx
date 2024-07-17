@@ -40,39 +40,42 @@ const Register = () => {
 
   const emailChangeHandler = (inputEmail: string) => {
     setEmail(inputEmail);
-    isPassed.current.email = false;
+    isPassed.current = { ...isPassed.current, email: false };
 
     if (inputEmail.length === 0) {
-      isPassed.current.inputEmail = false;
-      return setEmailMessage("이메일을 입력해주세요.");
+      isPassed.current = { ...isPassed.current, inputEmail: false };
+      setEmailMessage("이메일을 입력해주세요.");
+      return;
     }
 
     let emailPattern = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
     const isEmail = emailPattern.test(inputEmail);
 
     if (!isEmail) {
-      isPassed.current.inputEmail = false;
-      return setEmailMessage("이메일 형식이 아닙니다.");
+      isPassed.current = { ...isPassed.current, inputEmail: false };
+      setEmailMessage("이메일 형식이 아닙니다.");
+      return;
     }
 
-    isPassed.current.inputEmail = true;
+    isPassed.current = { ...isPassed.current, inputEmail: true };
     setEmailMessage("");
   };
 
   const checkEmailExistedHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!isPassed.current.inputEmail) {
-      isPassed.current.email = false;
+      isPassed.current = { ...isPassed.current, email: false };
       return;
     }
 
     const isEmailRegistered = await checkUserEmailRegistered(email);
 
     if (isEmailRegistered) {
-      isPassed.current.email = false;
-      return setEmailMessage("이미 존재하는 이메일입니다.");
+      isPassed.current = { ...isPassed.current, email: false };
+      setEmailMessage("이미 존재하는 이메일입니다.");
+      return;
     }
 
-    isPassed.current.email = true;
+    isPassed.current = { ...isPassed.current, email: true };
     setEmailMessage("사용 가능한 이메일입니다.");
   };
 
@@ -80,16 +83,18 @@ const Register = () => {
     setNickname(inputNickname);
 
     if (inputNickname.length === 0) {
-      isPassed.current.nickname = false;
-      return setNicknameMessage("닉네임을 입력해주세요.");
+      isPassed.current = { ...isPassed.current, nickname: false };
+      setNicknameMessage("닉네임을 입력해주세요.");
+      return;
     }
 
     if (inputNickname.length < 2 || 6 < inputNickname.length) {
-      isPassed.current.nickname = false;
-      return setNicknameMessage("닉네임의 길이가 올바르지 않습니다.");
+      isPassed.current = { ...isPassed.current, nickname: false };
+      setNicknameMessage("닉네임의 길이가 올바르지 않습니다.");
+      return;
     }
 
-    isPassed.current.nickname = true;
+    isPassed.current = { ...isPassed.current, nickname: true };
     setNicknameMessage("사용 가능한 닉네임입니다.");
   };
 
@@ -97,24 +102,27 @@ const Register = () => {
     setPassword(inputPassword);
 
     if (inputPassword.length === 0) {
-      isPassed.current.password = false;
-      return setPasswordMessage("비밀번호을 입력해주세요.");
+      isPassed.current = { ...isPassed.current, password: false };
+      setPasswordMessage("비밀번호을 입력해주세요.");
+      return;
     }
 
     if (inputPassword.length < 6 || 12 < inputPassword.length) {
-      isPassed.current.password = false;
-      return setPasswordMessage("비밀번호의 길이가 올바르지 않습니다.");
+      isPassed.current = { ...isPassed.current, password: false };
+      setPasswordMessage("비밀번호의 길이가 올바르지 않습니다.");
+      return;
     }
 
     let passwordPattern = new RegExp(/(?=.*[a-z])(?=.*[A-Z])/);
     const isContained = passwordPattern.test(inputPassword);
 
     if (!isContained) {
-      isPassed.current.password = false;
-      return setPasswordMessage("비밀번호에 대문자와 소문자가 포함되어 있지 않습니다.");
+      isPassed.current = { ...isPassed.current, password: false };
+      setPasswordMessage("비밀번호에 대문자와 소문자가 포함되어 있지 않습니다.");
+      return;
     }
 
-    isPassed.current.password = true;
+    isPassed.current = { ...isPassed.current, password: true };
     setPasswordMessage("");
   };
 
@@ -122,16 +130,18 @@ const Register = () => {
     setCheckPassword(inputCheckPassword);
 
     if (inputCheckPassword.length === 0) {
-      isPassed.current.checkPassword = false;
-      return setCheckPasswordMessage("비밀번호 확인을 입력해주세요.");
+      isPassed.current = { ...isPassed.current, checkPassword: false };
+      setCheckPasswordMessage("비밀번호 확인을 입력해주세요.");
+      return;
     }
 
     if (inputCheckPassword !== password) {
-      isPassed.current.checkPassword = false;
-      return setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
+      isPassed.current = { ...isPassed.current, checkPassword: false };
+      setCheckPasswordMessage("비밀번호와 비밀번호 확인이 다릅니다.");
+      return;
     }
 
-    isPassed.current.checkPassword = true;
+    isPassed.current = { ...isPassed.current, checkPassword: true };
     setCheckPasswordMessage("");
   };
 
@@ -147,7 +157,8 @@ const Register = () => {
     setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
 
     if (!canRegister) {
-      return setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
+      setRegisterMessage("모든 항목을 올바르게 작성하고 중복확인을 해주세요.");
+      return;
     }
 
     setRegisterMessage("");
