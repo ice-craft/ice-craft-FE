@@ -176,9 +176,9 @@ const Register = () => {
     setRegisterMessage("");
 
     try {
-      const uid = await oAuthRegister(email, password, nickname);
-      if (uid) {
-        await registerAccount(uid, email, nickname);
+      const isPassed = await oAuthRegister(email, password, nickname);
+      if (isPassed) {
+        await registerAccount(email, nickname);
         //NOTE - 메인페이지 또는 로그인페이지로
         router.push("/main");
       } else {
@@ -190,6 +190,7 @@ const Register = () => {
       setSubmitting(false);
     }
   };
+
   const kakaoLogIn = async () => {
     try {
       await oAuthLogIn("kakao");

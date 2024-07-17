@@ -15,15 +15,11 @@ export const checkUserEmailRegistered = async (email: string) => {
   return false;
 };
 
-export const registerAccount = async (uid: string, email: string, nickname: string) => {
-  const { data, error } = await supabase
-    .from("account_table")
-    .insert([{ user_id: uid, email, nickname }])
-    .select();
+export const registerAccount = async (email: string, nickname: string) => {
+  const { error } = await supabase.from("account_table").insert([{ email, nickname }]).select();
 
   if (error) {
-    throw new Error(error.message);
+    console.log("에러", error.message);
+    throw new Error("일반 회원가입에 실패했습니다.");
   }
-
-  return data;
 };
