@@ -63,34 +63,27 @@ const useJoinRoom = () => {
 
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
-    if (!loading && rooms.length > 0) {
-      await loginErrorHandler(() => {
-        setRoomId(item.room_id);
-        setIsEntry(true);
-        socket.emit("joinRoom", userId, item.room_id, nickname);
-      });
-    }
+    await loginErrorHandler(() => {
+      setRoomId(item.room_id);
+      setIsEntry(true);
+      socket.emit("joinRoom", userId, item.room_id, nickname);
+    });
   };
 
   //NOTE - 메인페이지 visual에서 게임시작 버튼 클릭시(추후 마피아 & 노래맞추기 조건 추가)
   const gameStartHandler = () => {
-    if (!loading && rooms.length > 0) {
-      loginErrorHandler(() => {
-        setIsEntry(true);
-        socket.emit("fastJoinRoom", userId, nickname);
-      });
-    }
+    loginErrorHandler(() => {
+      setIsEntry(true);
+      socket.emit("fastJoinRoom", userId, nickname);
+    });
   };
 
   //NOTE - 빠른 입장 (랜덤 방 입장)
   const fastJoinRoomHandler = () => {
-    if (!loading && rooms.length > 0) {
-      console.log(rooms);
-      loginErrorHandler(() => {
-        setIsEntry(true);
-        socket.emit("fastJoinRoom", userId, nickname);
-      });
-    }
+    loginErrorHandler(() => {
+      setIsEntry(true);
+      socket.emit("fastJoinRoom", userId, nickname);
+    });
   };
 
   return { joinRoomHandler, fastJoinRoomHandler, gameStartHandler };

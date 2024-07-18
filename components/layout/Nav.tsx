@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import React, { use, useEffect, useRef } from "react";
 import S from "@/style/commons/commons.module.css";
-import { getUserInfo, logOut } from "@/utils/supabase/authAPI";
+import { logOut } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 
