@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useRoomId, useRoomsCurrent, useUserId } from "@/store/connect-store";
+import { useConnectActions } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
-import useJoinRoomSocket from "./useJoinRoomSocket";
 import { useRoomAction } from "@/store/room-store";
 import useLoading from "./useLoading";
 
@@ -13,26 +12,20 @@ const useJoinRoom = () => {
   const { setRoomId } = useConnectActions();
   const { setIsEntry } = useRoomAction();
   const { startLoading, stopLoading } = useLoading();
-  useJoinRoomSocket();
 
-  // useEffect(() => {
-  //   if (!loading && rooms.length > 0) {
-  //     console.log(rooms);
-  //   }
-  // }, [loading, rooms]);
-
-  // //NOTE - 클릭시 로그인 안한 유저 처리
+  //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
-    const userCheckLogin = await checkUserLogIn();
+    const userInfo = await checkUserLogIn();
+
     startLoading();
     try {
-      if (!userCheckLogin) {
+      if (!userInfo) {
         toast.info("로그인 후 입장 가능합니다.");
         return;
       }
       if (!isGoInClick.current) {
         isGoInClick.current = true;
-        emitCallback(userCheckLogin.id, userCheckLogin.user_metadata.nickname);
+        emitCallback(userInfo.id, userInfo.user_metadata.nickname);
       }
     } catch {
       toast.error("로그인 확인 중 오류가 발생했습니다.");

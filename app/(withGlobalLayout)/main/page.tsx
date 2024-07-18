@@ -15,30 +15,18 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 import Popup from "@/utils/Popup";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import { useRoomsCurrent } from "@/store/connect-store";
+import useLoading from "@/hooks/useLoading";
+import CommonsLoading from "@/utils/CommonsLoading";
+import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
+import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 
 const Mainpage = () => {
-  const rooms = useRoomsCurrent();
-  const { isCreate, setIsCreate } = useCreateStore();
+  const rooms = useGetRoomsSocket();
   const isGoInClick = useRef(false);
+  const { isCreate, setIsCreate } = useCreateStore();
   const { fastJoinRoomHandler } = useJoinRoom();
-
-  // //NOTE - 사용자 로그인 여부
-  // useEffect(() => {
-  //   const checkUserInfo = async () => {
-  //     try {
-  //       const userCheckLogin = await checkUserLogIn();
-  //       if (userCheckLogin) {
-  //         setUserId(userCheckLogin.id);
-  //         setUserNickname(userCheckLogin.user_metadata.nickname);
-  //       }
-  //     } catch (error) {
-  //       toast.error("로그인 여부를 확인해 주세요.");
-  //     }
-  //   };
-  //   checkUserInfo();
-  // }, []);
-  console.log(rooms);
+  const { loading } = useLoading();
+  useJoinRoomSocket();
 
   //NOTE - 소켓 연결, 메인 페이지 history 추가
   useEffect(() => {
@@ -46,6 +34,8 @@ const Mainpage = () => {
     socket.emit("enterMafia");
     history.pushState(null, "", "");
   }, []);
+
+  console.log(rooms);
 
   //fix - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI (고쳐야함)
   if (!rooms) return <MainSkeleton />;
@@ -86,7 +76,7 @@ const Mainpage = () => {
                 <Image src={VisitEmptyImage} alt="Room list empty" />
               </div>
             )}
-            {/* {loading && <CommonsLoading />} */}
+            {loading && <CommonsLoading />}
           </section>
         </div>
         <GoTopButton />
