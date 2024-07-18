@@ -48,7 +48,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/main" //NOTE - 테스트 코드, 메인 페이지로 리다이렉트할 것
+      redirectTo: "http://localhost:3000/loading?status=register" //NOTE - 테스트 코드, 메인 페이지로 리다이렉트할 것
     }
   });
 
@@ -80,7 +80,12 @@ export const setUserNickname = async (nickname: string) => {
 };
 
 export const getUserInfo = async () => {
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    throw new Error("유저 정보 가져오기에 실패했습니다.");
+  }
+
   return data.user;
 };
 
