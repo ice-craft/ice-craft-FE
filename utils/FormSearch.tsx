@@ -13,7 +13,7 @@ import { useConnectActions } from "@/store/connect-store";
 const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useConnectActions();
   const [search, setSearch] = useState<string>("");
-  const debouncedValue = useDebounce(search, 500);
+  const { debouncedValue, keyword } = useDebounce(search, 500);
 
   //NOTE - 메인페이지 방 목록 검색
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,12 +23,14 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
+        if (!keyword) {
+          return;
+        }
         if (!debouncedValue.trim()) {
           const allRooms = await getRooms(0, 20);
           setRooms(allRooms);
           return;
         }
-
         const roomKeyword = await getRoomsWithKeyword(debouncedValue);
         setRooms(roomKeyword);
       } catch (error) {
@@ -37,7 +39,7 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
     };
 
     fetchRooms();
-  }, [debouncedValue]);
+  }, [debouncedValue, setRooms]);
 
   return (
     <>
