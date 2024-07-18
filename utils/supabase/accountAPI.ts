@@ -19,7 +19,6 @@ export const registerAccount = async (email: string, nickname: string) => {
   const { error } = await supabase.from("account_table").insert([{ email, nickname }]).select();
 
   if (error) {
-    console.log("에러", error.message);
     throw new Error("일반 회원가입에 실패했습니다.");
   }
 };
