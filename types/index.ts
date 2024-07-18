@@ -85,7 +85,7 @@ export interface ConnectState {
   nickname: string;
   userId: string;
   roomId: string;
-  rooms: Tables<"room_table">[];
+  rooms: Tables<"room_table">[] | null;
   actions: {
     setJoinStatus: (status: boolean) => void;
     setRoomId: (id: string) => void;

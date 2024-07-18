@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
 import S from "@/style/mainpage/main.module.css";
@@ -15,7 +15,6 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 import Popup from "@/utils/Popup";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import useLoading from "@/hooks/useLoading";
 import CommonsLoading from "@/utils/CommonsLoading";
 import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
@@ -24,9 +23,7 @@ const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const isGoInClick = useRef(false);
   const { isCreate, setIsCreate } = useCreateStore();
-  // const { fastJoinRoomHandler } = useJoinRoom();
-  const { loading, startLoading, stopLoading } = useLoading();
-  const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom({ startLoading, stopLoading });
+  const { fastJoinRoomHandler, loading } = useJoinRoom();
   useJoinRoomSocket();
 
   //NOTE - 소켓 연결, 메인 페이지 history 추가
@@ -37,7 +34,7 @@ const Mainpage = () => {
   }, []);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
-  if (loading && !rooms) return <MainSkeleton />;
+  if (!rooms) return <MainSkeleton />;
 
   return (
     <>
