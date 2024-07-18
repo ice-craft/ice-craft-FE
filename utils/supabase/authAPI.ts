@@ -53,7 +53,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("SNS 계정 로그인에 실패했습니다.");
   }
 
   return data;
