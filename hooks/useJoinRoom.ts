@@ -29,8 +29,10 @@ const useJoinRoom = () => {
       try {
         const userInfo = await checkUserLogIn();
         if (userInfo) {
-          setUserId(userInfo.id);
-          setUserNickname(userInfo.user_metadata.nickname);
+          // setUserId(userInfo.id);
+          // setUserNickname(userInfo.user_metadata.nickname);
+          setUserId(crypto.randomUUID());
+          setUserNickname(crypto.randomUUID());
         }
       } catch (error) {
         console.error("error:", error);
