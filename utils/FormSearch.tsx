@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getRoomsWithKeyword, getRooms } from "@/utils/supabase/roomAPI";
+import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import SearchIcon from "@/assets/images/icon_search.svg";
 import S from "@/style/mainpage/main.module.css";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import useDebounce from "@/hooks/useSearchDebounce";
 import { FormSearchProps } from "@/types";
 import { useConnectActions } from "@/store/connect-store";
+import { socket } from "./socket/socket";
 
 const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useConnectActions();
@@ -27,8 +28,7 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
           return;
         }
         if (!debouncedValue.trim()) {
-          const allRooms = await getRooms(0, 20);
-          setRooms(allRooms);
+          socket.emit("enterMafia");
           return;
         }
         const roomKeyword = await getRoomsWithKeyword(debouncedValue);

@@ -16,7 +16,6 @@ const useJoinRoom = () => {
   //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
     const userInfo = await checkUserLogIn();
-
     startLoading();
     try {
       if (!userInfo) {

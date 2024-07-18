@@ -21,11 +21,12 @@ import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 
 const Mainpage = () => {
-  const rooms = useGetRoomsSocket();
+  const { rooms } = useGetRoomsSocket();
   const isGoInClick = useRef(false);
   const { isCreate, setIsCreate } = useCreateStore();
-  const { fastJoinRoomHandler } = useJoinRoom();
-  const { loading } = useLoading();
+  // const { fastJoinRoomHandler } = useJoinRoom();
+  const { loading, startLoading, stopLoading } = useLoading();
+  const { joinRoomHandler, fastJoinRoomHandler, gameStartHandler } = useJoinRoom({ startLoading, stopLoading });
   useJoinRoomSocket();
 
   //NOTE - 소켓 연결, 메인 페이지 history 추가
@@ -35,10 +36,8 @@ const Mainpage = () => {
     history.pushState(null, "", "");
   }, []);
 
-  console.log(rooms);
-
-  //fix - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI (고쳐야함)
-  if (!rooms) return <MainSkeleton />;
+  //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
+  if (loading && !rooms) return <MainSkeleton />;
 
   return (
     <>

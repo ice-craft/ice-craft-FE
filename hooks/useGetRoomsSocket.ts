@@ -1,9 +1,10 @@
 import { Tables } from "@/types/supabase";
 import useSocketOn from "./useSocketOn";
-import { useState } from "react";
+import { useConnectActions, useRoomsCurrent } from "@/store/connect-store";
 
 const useGetRoomsSocket = () => {
-  const [rooms, setRooms] = useState<Tables<"room_table">[]>();
+  const rooms = useRoomsCurrent();
+  const { setRooms } = useConnectActions();
 
   const mainSockets = {
     enterMafia: (item: Tables<"room_table">[]) => {
@@ -12,7 +13,7 @@ const useGetRoomsSocket = () => {
   };
   useSocketOn(mainSockets);
 
-  return rooms;
+  return { rooms, setRooms };
 };
 
 export default useGetRoomsSocket;
