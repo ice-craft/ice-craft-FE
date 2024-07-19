@@ -28,7 +28,6 @@ const useJoinRoom = () => {
     } catch {
       toast.error("로그인 확인 중 오류가 발생했습니다.");
     } finally {
-      // setLoading(false);
       isGoInClick.current = false;
     }
   };
