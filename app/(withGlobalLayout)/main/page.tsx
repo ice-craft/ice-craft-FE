@@ -20,6 +20,7 @@ import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import useLoadingStore from "@/store/loading-store";
 import useSocketOn from "@/hooks/useSocketOn";
+import InfoChat from "@/utils/InfoChat";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
@@ -39,7 +40,7 @@ const Mainpage = () => {
     history.pushState(null, "", "");
   }, []);
 
-  //FIXME -
+  //FIXME - 실시간 나오는 방 두번째 안뜸
   const roomList = {
     updateRoomInfo: () => {
       socket.emit("enterMafia");
@@ -88,6 +89,7 @@ const Mainpage = () => {
           {loading && <CommonsLoading />}
         </section>
       </div>
+      <InfoChat />
       <GoTopButton />
       <Popup />
     </main>
