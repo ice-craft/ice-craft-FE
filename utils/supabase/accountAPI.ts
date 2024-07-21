@@ -16,9 +16,9 @@ export const checkUserEmailRegistered = async (email: string) => {
 };
 
 export const registerAccount = async (email: string, nickname: string) => {
-  const { error } = await supabase.from("account_table").insert([{ email, nickname }]).select();
+  const { error } = await supabase.from("account_table").insert([{ email, nickname }]);
 
   if (error) {
-    throw new Error("일반 회원가입에 실패했습니다.");
+    throw new Error("계정과 닉네임 등록에 실패했습니다.");
   }
 };

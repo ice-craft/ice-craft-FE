@@ -48,7 +48,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/loading?status=register" //NOTE - 테스트 코드, 메인 페이지로 리다이렉트할 것
+      redirectTo: "http://localhost:3000/loading?status=sns-login" //FIXME - 회원가입인 겨우와 로그인인 경우 구별
     }
   });
 

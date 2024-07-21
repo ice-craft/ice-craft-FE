@@ -1,26 +1,33 @@
 "use client";
 
 import S from "@/style/mainpage/main.module.css";
-import { registerAccount } from "@/utils/supabase/accountAPI";
-import { getUserInfo } from "@/utils/supabase/authAPI";
+import { checkUserEmailRegistered, registerAccount } from "@/utils/supabase/accountAPI";
+import { getUserInfo, oAuthRegister } from "@/utils/supabase/authAPI";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const CommonsLoading = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const status = searchParams.get("status");
 
   useEffect(() => {
     const init = async (status: string | null) => {
-      if (status === "register") {
+      if (status === "sns-login") {
         try {
           const userInfo = await getUserInfo();
           const email = userInfo.email;
           const nickname = userInfo.user_metadata.name;
 
-          await registerAccount(email!, nickname);
+          const isEmailRegistered = await checkUserEmailRegistered(email!);
+          if (!isEmailRegistered) {
+            await registerAccount(email!, nickname);
+          }
+          router.push("/main");
         } catch (error) {
-          console.log((error as Error).message);
+          toast.error("SNS 로그인이 실패했습니다.");
         }
       }
     };

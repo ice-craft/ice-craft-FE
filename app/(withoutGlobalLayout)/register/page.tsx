@@ -13,7 +13,6 @@ import S from "@/style/register/register.module.css";
 import Link from "next/link";
 import { RegisterButton } from "@/components/register/RegisterButton";
 import { useRouter } from "next/navigation";
-import { Metadata } from "next";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -178,13 +177,11 @@ const Register = () => {
       const isPassed = await oAuthRegister(email, password, nickname);
       if (isPassed) {
         await registerAccount(email, nickname);
-        //NOTE - 메인페이지 또는 로그인페이지로
         router.push("/main");
       } else {
         throw new Error("회원 가입 실패");
       }
     } catch (e) {
-      console.log(e); //NOTE - 테스트 코드
       setRegisterMessage("회원가입에 실패했습니다.");
       setSubmitting(false);
     }
@@ -227,17 +224,6 @@ const Register = () => {
     const isNicknamePassed = isPassed.current.nickname;
     const isPasswordPassed = isPassed.current.password;
     const isCheckPasswordPassed = isPassed.current.checkPassword;
-
-    console.log(
-      "email",
-      isPassed.current.email,
-      "nickname",
-      isPassed.current.nickname,
-      "password",
-      isPassed.current.password,
-      "checkPassword",
-      isPassed.current.checkPassword
-    );
 
     setCanRegister(isEmailPassed && isNicknamePassed && isPasswordPassed && isCheckPasswordPassed);
   }, [isPassed.current]);
