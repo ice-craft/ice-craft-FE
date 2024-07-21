@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
-  const { setRoomId } = useConnectActions();
+  const { setRoomId, setUserId, setUserNickname } = useConnectActions();
   const { setIsEntry } = useRoomAction();
   const [loading, setLoading] = useState(false);
 
@@ -36,8 +36,16 @@ const useJoinRoom = () => {
   const joinRoomHandler = (item: Tables<"room_table">) => {
     loginErrorHandler((userId, userNickname) => {
       setRoomId(item.room_id);
+
+      //NOTE - 임시 로그인
+      const Id = crypto.randomUUID();
+      const nick = crypto.randomUUID();
+      setUserId(Id);
+      setUserNickname(nick);
+      socket.emit("joinRoom", Id, item.room_id, nick);
+
       setIsEntry(true);
-      socket.emit("joinRoom", userId, item.room_id, userNickname);
+      // socket.emit("joinRoom", userId, item.room_id, userNickname);
     });
   };
 

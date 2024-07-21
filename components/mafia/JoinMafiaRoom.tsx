@@ -1,6 +1,7 @@
 import { getToken } from "@/api/liveKitApi";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
+import { useNickname, useUserId } from "@/store/connect-store";
 import { useRoomAction } from "@/store/room-store";
 import S from "@/style/livekit/livekit.module.css";
 import useBeforeUnloadHandler from "@/utils/reload/useBeforeUnloadHandler";
@@ -24,6 +25,10 @@ const JoinMafiaRoom = () => {
   const { setIsEntry, setIsBack } = useRoomAction();
   const { setIsReLoad } = useBeforeUnloadHandler();
 
+  //NOTE - 임시 로그인
+  const userId = useUserId();
+  const nickname = useNickname();
+
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {
     if (isPopState) {
@@ -39,9 +44,7 @@ const JoinMafiaRoom = () => {
       try {
         const loginInfo = await checkUserLogIn();
         if (loginInfo) {
-          // setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
-          //NOTE - 테스트용 임시 아이디
-          setUserInfo({ userId: crypto.randomUUID(), nickname: crypto.randomUUID() });
+          setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
         }
       } catch (error) {
         joinErrorHandler(error);
@@ -55,7 +58,8 @@ const JoinMafiaRoom = () => {
   useEffect(() => {
     const userToken = async () => {
       try {
-        const token = await getToken(roomId.id, userInfo.userId, userInfo.nickname);
+        // const token = await getToken(roomId.id, userInfo.userId, userInfo.nickname);
+        const token = await getToken(roomId.id, userId, nickname); // 임시 로그인
 
         if (token) {
           setToken(token);

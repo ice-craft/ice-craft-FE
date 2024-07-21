@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { useCountDown } from "@/hooks/useCountDown";
+import { useGameActions } from "@/store/game-store";
 import {
   useGroupModalElement,
   useModalActions,
@@ -8,21 +8,24 @@ import {
   useRoleModalElement
 } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import JSConfetti from "js-confetti";
-import { useParticipants } from "@livekit/components-react";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import { useParticipants } from "@livekit/components-react";
+import JSConfetti from "js-confetti";
+import { useEffect, useState } from "react";
 
 const VictoryModal = () => {
   const title = useGroupModalElement();
   const role = useRoleModalElement();
-  const participant = useParticipants();
+  const participants = useParticipants();
+
+  const { setIsGameState } = useGameActions();
   const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([""]);
 
   const timer = useModalTimer();
   const isModal = useModalIsOpen();
   const { setIsOpen } = useModalActions();
   const [count, setCount] = useState(timer);
-  // 타이머 및 폭죽 효과
+  // // 타이머 및 폭죽 효과
   useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isModal);
 
   const jsConfetti = new JSConfetti();
@@ -37,19 +40,23 @@ const VictoryModal = () => {
   useEffect(() => {
     if (count <= 0 && isModal) {
       setIsOpen(false);
+      jsConfetti.clearCanvas();
+      setIsGameState("gameEnd");
     }
   }, [count]);
 
   //NOTE - 승리한 팀의 players nickname
   useEffect(() => {
     console.log("role", role);
-    console.log("participants", participant);
+    console.log("participants", participants);
 
     // 전체 player 정보의 배열
-    participant.forEach((playerInfo) => {
+    participants.forEach((playerInfo) => {
       //Player의 직업 찾기
       const playerJob = getPlayerJob(role, playerInfo.identity);
       const playerNickname = playerInfo.name;
+
+      console.log("🚀 ~ participant.forEach ~ playerJob:", playerJob, playerInfo.name);
 
       // playerInfo.name이 undefined가 아닌지 확인
       if (!playerNickname) {
@@ -67,7 +74,7 @@ const VictoryModal = () => {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
       }
     });
-  }, []);
+  }, [participants]);
 
   return (
     <>

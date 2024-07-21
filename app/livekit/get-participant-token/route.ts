@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const room = req.nextUrl.searchParams.get("room");
-  const userId = req.nextUrl.searchParams.get("userI");
+  const userId = req.nextUrl.searchParams.get("userId");
   const nickname = req.nextUrl.searchParams.get("userNickname");
 
   if (!room) {
