@@ -11,9 +11,9 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 const RoomListItem = ({ item }: RoomListItemProps) => {
   const [currentItem, setCurrentItem] = useState(item);
   const isGoInClick = useRef(false);
-  const isRoomFull = currentItem.current_user_count >= currentItem.total_user_count;
   const { joinRoomHandler } = useJoinRoom();
 
+  //NOTE - 실시간 서버 소켓 반영
   const updateSocket = {
     updateRoomInfo: (roomInfo: Tables<"room_table">) => {
       if (roomInfo.room_id === item.room_id) {
@@ -22,6 +22,12 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
     }
   };
   useSocketOn(updateSocket);
+
+  const updateIsPlaying = (room: Tables<"room_table">): boolean => {
+    return currentItem.current_user_count >= currentItem.total_user_count || room.is_playing;
+  };
+
+  const isPlaying = updateIsPlaying(currentItem);
 
   return (
     <li key={currentItem.room_id}>
@@ -38,7 +44,7 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
           </p>
         </div>
       </div>
-      {isRoomFull ? (
+      {isPlaying ? (
         <div className={S.gamePlaying}>
           <p>
             playing
