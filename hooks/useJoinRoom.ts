@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { useConnectActions } from "@/store/connect-store";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import { useRoomAction } from "@/store/room-store";
+import useLoadingStore from "@/store/loading-store";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
   const { setRoomId } = useConnectActions();
   const { setIsEntry } = useRoomAction();
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useLoadingStore();
 
   //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
@@ -61,7 +62,7 @@ const useJoinRoom = () => {
     });
   };
 
-  return { joinRoomHandler, fastJoinRoomHandler, gameStartHandler, loading };
+  return { joinRoomHandler, fastJoinRoomHandler, gameStartHandler };
 };
 
 export default useJoinRoom;

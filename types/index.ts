@@ -185,7 +185,5 @@ export interface CreateRooms {
 
 export interface LoadingState {
   loading: boolean;
-  actions: {
-    setLoading: (loading: boolean) => void;
-  };
+  setLoading: (loading: boolean) => void;
 }

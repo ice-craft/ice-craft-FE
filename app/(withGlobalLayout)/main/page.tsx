@@ -18,12 +18,14 @@ import { socket } from "@/utils/socket/socket";
 import CommonsLoading from "@/utils/CommonsLoading";
 import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
+import useLoadingStore from "@/store/loading-store";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const isGoInClick = useRef(false);
   const { isCreate, setIsCreate } = useCreateStore();
-  const { fastJoinRoomHandler, loading } = useJoinRoom();
+  const { fastJoinRoomHandler } = useJoinRoom();
+  const { loading } = useLoadingStore();
   useJoinRoomSocket();
 
   //NOTE - 소켓 연결, 메인 페이지 history 추가
