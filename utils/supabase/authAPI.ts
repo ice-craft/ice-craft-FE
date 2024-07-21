@@ -4,11 +4,13 @@ import { createClient } from "./client";
 const supabase = createClient();
 
 export const checkUserLogIn = async () => {
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
   if (data.user) {
     return data.user;
-  } else {
-    return null;
+  }
+
+  if (error) {
+    throw new Error(error.message);
   }
 };
 
