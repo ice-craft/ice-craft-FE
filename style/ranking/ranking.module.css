@@ -34,7 +34,7 @@
 
 .userRankingList {
   font-weight: 600;
-  min-height: 100vh;
+  min-height: 30vh;
 }
 .myRankingList li div h2,
 .userRankingList li div h2,

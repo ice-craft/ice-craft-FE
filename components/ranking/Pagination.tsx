@@ -64,6 +64,10 @@ export default function Pagination({ data }: PageNateProps) {
     const handlePageClick = (event: { selected: number }) => {
       const newOffset = event.selected * itemsPerPage;
       setItemOffset(newOffset);
+
+      window.scrollTo({
+        top: 0
+      });
     };
 
     return (
