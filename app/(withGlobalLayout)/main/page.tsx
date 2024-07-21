@@ -22,7 +22,7 @@ import useLoadingStore from "@/store/loading-store";
 import useSocketOn from "@/hooks/useSocketOn";
 
 const Mainpage = () => {
-  const { rooms, setRooms } = useGetRoomsSocket();
+  const { rooms } = useGetRoomsSocket();
   const isGoInClick = useRef(false);
   const { isCreate, setIsCreate } = useCreateStore();
   const { fastJoinRoomHandler } = useJoinRoom();
@@ -39,6 +39,7 @@ const Mainpage = () => {
     history.pushState(null, "", "");
   }, []);
 
+  //FIXME -
   const roomList = {
     updateRoomInfo: () => {
       socket.emit("enterMafia");
