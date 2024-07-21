@@ -19,6 +19,8 @@ import CommonsLoading from "@/utils/CommonsLoading";
 import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import useLoadingStore from "@/store/loading-store";
+import { useConnectActions } from "@/store/connect-store";
+import useSocketOn from "@/hooks/useSocketOn";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
@@ -26,8 +28,10 @@ const Mainpage = () => {
   const { isCreate, setIsCreate } = useCreateStore();
   const { fastJoinRoomHandler } = useJoinRoom();
   const { loading } = useLoadingStore();
+  const { setRooms } = useConnectActions();
   useJoinRoomSocket();
 
+  //FIXME - 방 2번 랜더링 중
   console.log(rooms);
 
   //NOTE - 소켓 연결, 메인 페이지 history 추가
@@ -36,6 +40,18 @@ const Mainpage = () => {
     socket.emit("enterMafia");
     history.pushState(null, "", "");
   }, []);
+
+  useEffect(() => {
+    // socket.emit("enterMafia");
+  }, [setRooms]);
+
+  const roomList = {
+    updateRoomInfo: (roomInfo: Tables<"room_table">[]) => {
+      socket.emit("enterMafia");
+    }
+  };
+
+  useSocketOn(roomList);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
