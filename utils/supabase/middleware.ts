@@ -1,4 +1,5 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 // 클라이언트 쿠키를 서버 쿠키로 전환하여 Supabase 서버 클라이언트에 제공합니다.
