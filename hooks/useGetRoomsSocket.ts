@@ -16,11 +16,6 @@ const useGetRoomsSocket = () => {
 
   useSocketOn(mainSockets);
 
-  useEffect(() => {
-    socket.connect();
-    socket.emit("enterMafia");
-  }, []);
-
   return { rooms, setRooms };
 };
 

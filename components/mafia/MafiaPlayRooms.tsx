@@ -16,8 +16,6 @@ import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
-import { useConnectActions } from "@/store/connect-store";
-import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
@@ -30,8 +28,8 @@ const MafiaPlayRooms = () => {
   const [isGameEnd, setIsGameEnd] = useState(false);
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
-  const { setRooms } = useConnectActions();
-  const { rooms } = useGetRoomsSocket();
+  // const { setRooms } = useConnectActions();
+  // const { rooms } = useGetRoomsSocket();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -99,7 +97,7 @@ const MafiaPlayRooms = () => {
       setGameReset(); // 죽은 players 및 게임 state 초기화
       setIsMediaReset(true); // 캠 및 오디오 초기화
 
-      setIsGameEnd(false); // 초기화
+      setIsGameEnd(false); // 게임 종료 조건 초기화
     }, 5000);
 
     return () => clearTimeout(gameEndTimerId);
@@ -109,8 +107,8 @@ const MafiaPlayRooms = () => {
   const leaveRoom = () => {
     setIsEntry(false);
     socket.emit("exitRoom", roomId, userId);
-    const updatedRooms = rooms.filter((room) => room.room_id !== roomId);
-    setRooms(updatedRooms);
+    // const updatedRooms = rooms.filter((room) => room.room_id !== roomId);
+    // setRooms(updatedRooms);
   };
 
   return (

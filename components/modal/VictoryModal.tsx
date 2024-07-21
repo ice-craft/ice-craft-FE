@@ -33,18 +33,18 @@ const VictoryModal = () => {
     confettiNumber: 300
   });
 
-  console.log("victoryModal 실행");
-
   //NOTE - 모달창 종료
   useEffect(() => {
     if (count <= 0 && isModal) {
-      console.log("victoryModal 종료");
       setIsOpen(false);
     }
   }, [count]);
 
   //NOTE - 승리한 팀의 players nickname
   useEffect(() => {
+    console.log("role", role);
+    console.log("participants", participant);
+
     // 전체 player 정보의 배열
     participant.forEach((playerInfo) => {
       //Player의 직업 찾기

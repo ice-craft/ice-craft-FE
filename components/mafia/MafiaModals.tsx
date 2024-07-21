@@ -1,11 +1,5 @@
 import useSocketOn from "@/hooks/useSocketOn";
-import {
-  useCurrentModal,
-  useGroupModalElement,
-  useModalActions,
-  useModalIsOpen,
-  useRoleModalElement
-} from "@/store/show-modal-store";
+import { useCurrentModal, useModalActions, useModalIsOpen } from "@/store/show-modal-store";
 import { Role, VoteResult, YesOrNoResults } from "@/types";
 import CheckModal from "../modal/CheckModal";
 import GroupMafiaModal from "../modal/GroupMafiaModal";
@@ -13,9 +7,6 @@ import LastVoteResultModal from "../modal/LastVoteResultModal";
 import UserRoleModal from "../modal/UserRoleModal";
 import VictoryModal from "../modal/VictoryModal";
 import VoteResultModal from "../modal/VoteResultModal";
-import { useParticipants } from "@livekit/components-react";
-import { useEffect, useState } from "react";
-import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 
 const MafiaModals = () => {
   const isOpen = useModalIsOpen();
@@ -34,7 +25,6 @@ const MafiaModals = () => {
         return;
       }
 
-      // console.log("isModal", isOpen);
       //NOTE - GroupModal 모달창 요소
       setCurrentModal("GroupMafiaModal");
       setIsOpen(true);

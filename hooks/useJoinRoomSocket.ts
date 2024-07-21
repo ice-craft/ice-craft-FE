@@ -8,7 +8,8 @@ const useJoinRoomSocket = () => {
   const { setRoomId } = useConnectActions();
 
   const joinSockets = {
-    joinRoom: (roomId: string) => {
+    joinRoom: (userInfo: any, roomId: string) => {
+      console.log("작동오옹");
       if (roomId) {
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);

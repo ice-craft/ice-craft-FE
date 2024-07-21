@@ -3,7 +3,6 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
-//삭제예정코드(임시)
 export const checkUserLogIn = async () => {
   const { data } = await supabase.auth.getUser();
   if (data.user) {

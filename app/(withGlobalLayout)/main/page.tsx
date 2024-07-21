@@ -16,17 +16,25 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 import CommonsLoading from "@/utils/CommonsLoading";
 import Popup from "@/utils/Popup";
 import { Tables } from "@/types/supabase";
+import { socket } from "@/utils/socket/socket";
+import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
 
 const Mainpage = () => {
   const { rooms } = useGetRoomsSocket();
   const { isCreate, setIsCreate } = useCreateStore();
   const isGoInClick = useRef(false);
   const { fastJoinRoomHandler, loading } = useJoinRoom();
+  useJoinRoomSocket();
 
   //NOTE - 메인 페이지 history 추가
   useEffect(() => {
     history.pushState(null, "", "");
+
+    socket.connect();
+    socket.emit("enterMafia");
   }, []);
+
+  console.log("rooms", rooms);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
