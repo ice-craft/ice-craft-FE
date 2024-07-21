@@ -30,11 +30,17 @@ const Mainpage = () => {
   useEffect(() => {
     history.pushState(null, "", "");
 
+    //NOTE - history stack 관리
+    if (history.length >= 5) {
+      const back = (history.length - 1) * -1;
+
+      history.go(back);
+      history.pushState(null, "", "");
+    }
+
     socket.connect();
     socket.emit("enterMafia");
   }, []);
-
-  console.log("rooms", rooms);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
