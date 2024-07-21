@@ -116,6 +116,7 @@ const MainCreateRoom = () => {
               placeholder="방 제목을 입력해 주세요."
               onChange={(e) => setRoomTitle(e.target.value)}
               maxLength={16}
+              autoFocus
             />
           </div>
           {selectedGame === "마피아" ? (
