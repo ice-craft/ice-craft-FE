@@ -4,11 +4,13 @@ import Link from "next/link";
 import S from "@/style/commons/commons.module.css";
 import { checkUserLogIn, logOut } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 
 const Nav = () => {
-  const [userNickname, setUserNickname] = useState("");
-  const [userId, setUserId] = useState("");
+  const userNickname = useNickname();
+  const userId = useUserId();
+  const { setUserId, setUserNickname } = useConnectActions();
 
   //NOTE - 사용자 로그인 여부
   useEffect(() => {

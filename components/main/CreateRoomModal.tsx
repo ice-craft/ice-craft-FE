@@ -8,12 +8,11 @@ import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
 import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useRoomsCurrent, useUserId } from "@/store/connect-store";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRouter } from "next/navigation";
 import useSocketOn from "@/hooks/useSocketOn";
 import { CreateRooms } from "@/types";
 import { useRoomAction } from "@/store/room-store";
-import { Tables } from "@/types/supabase";
 
 const MainCreateRoom = () => {
   const [roomTitle, setRoomTitle] = useState("");
@@ -27,15 +26,11 @@ const MainCreateRoom = () => {
   const { setRoomId } = useConnectActions();
   const router = useRouter();
   const roomIdRef = useRef<string>("");
-  const { setRooms } = useConnectActions();
-  const [createRoom, setCreateRoom] = useState<Tables<"room_table">[]>();
-  const rooms = useRoomsCurrent();
 
   const createSocket = {
     createRoom: ({ room_id }: CreateRooms) => {
       roomIdRef.current = room_id;
       socket.emit("joinRoom", userId, roomIdRef.current, nickname);
-      // setRooms((prevRooms: Tables<"room_table">[]) => [...prevRooms, ...rooms]);
     },
     createRoomError: (message: string) => {
       toast.error(message);
@@ -53,7 +48,6 @@ const MainCreateRoom = () => {
       toast.error(message);
       isGoInClick.current = false;
     }
-    // updateRoomInfo: (roomInfo: Tables<"room_table">[]) => {}
   };
   useSocketOn(createSocket);
 
