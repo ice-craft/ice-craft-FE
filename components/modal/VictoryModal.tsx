@@ -1,16 +1,8 @@
-import { useCountDown } from "@/hooks/useCountDown";
-import { useGameActions } from "@/store/game-store";
-import {
-  useGroupModalElement,
-  useModalActions,
-  useModalIsOpen,
-  useModalTimer,
-  useRoleModalElement
-} from "@/store/show-modal-store";
+import { useGroupModalElement, useRoleModalElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import ModalConfetti from "@/utils/ModalConfetti";
 import { useParticipants } from "@livekit/components-react";
-import JSConfetti from "js-confetti";
 import { useEffect, useState } from "react";
 
 const VictoryModal = () => {
@@ -18,32 +10,7 @@ const VictoryModal = () => {
   const role = useRoleModalElement();
   const participants = useParticipants();
 
-  const { setIsGameState } = useGameActions();
   const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([""]);
-
-  const timer = useModalTimer();
-  const isModal = useModalIsOpen();
-  const { setIsOpen } = useModalActions();
-  const [count, setCount] = useState(timer);
-  // // 타이머 및 폭죽 효과
-  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isModal);
-
-  const jsConfetti = new JSConfetti();
-
-  jsConfetti.addConfetti({
-    confettiColors: ["#5C5BAD", "#FFFFFF", "#EB7FEC", "#E72424"],
-    confettiRadius: 5,
-    confettiNumber: 300
-  });
-
-  //NOTE - 모달창 종료
-  useEffect(() => {
-    if (count <= 0 && isModal) {
-      setIsOpen(false);
-      jsConfetti.clearCanvas();
-      setIsGameState("gameEnd");
-    }
-  }, [count]);
 
   //NOTE - 승리한 팀의 players nickname
   useEffect(() => {
@@ -81,7 +48,7 @@ const VictoryModal = () => {
       <div className={S.modalWrap}>
         <div className={`${S.modal} ${S.victoryModal}`}>
           <div>
-            <p>{title} 승리!</p>
+            <ModalConfetti title={title} />
             {victoryPlayerNickname.map((player, index) => (
               <p key={index}>{player}</p>
             ))}
