@@ -138,16 +138,8 @@
 /*-------------- GoTopButton ----------------*/
 .goTopButton {
   position: fixed;
-  bottom: 50px;
+  bottom: 20px;
   right: 30px;
-}
-
-/*-------------- InfoChat ----------------*/
-.infoButton {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  z-index: 999;
 }
 
 /*-------------- Popup.tsx ----------------*/
