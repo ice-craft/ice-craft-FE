@@ -1,4 +1,5 @@
 import CamCheck from "@/assets/images/cam_check.svg";
+import ChiefImage from "@/assets/images/leader.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
 import useClickHandler from "@/hooks/useClickHandler";
 import usePlayerNumber from "@/hooks/usePlayerNumber";
@@ -13,7 +14,6 @@ import {
 } from "@livekit/components-react";
 import Image from "next/image";
 import GameStartButton from "./GameStartButton";
-import SpeakTimer from "./SpeakTimer";
 
 const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }) => {
   const activePlayerId = useActivePlayer();
@@ -30,13 +30,18 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
 
   return (
     <div className={S.localParticipant}>
-      {/* <SpeakTimer /> */}
-      {isGameState === "gameStart" && <p className={"text-red-600"}>{playerNumber}</p>}
       <TrackLoop tracks={localTracks}>
         <div
           className={`${S.participantOverlay} ${activePlayerId === localParticipant.identity ? S.active : ""}`}
           onClick={isLocalOverlay ? (e) => clickHandler(e, localParticipant.identity) : undefined}
         >
+          <div className={S.chief}>
+            <Image src={ChiefImage} alt={localParticipant.identity} />
+          </div>
+          <div className={S.playerNumber}>1번</div>
+
+          {/* {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}</p>} */}
+
           <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
 
           {!isDied ? (

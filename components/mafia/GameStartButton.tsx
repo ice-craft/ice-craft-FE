@@ -51,7 +51,11 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
 
   return (
     <>
-      {isAllReady && <button className={S.chiefGameStart} onClick={startHandler}>게임시작</button>}
+      {isAllReady && (
+        <button className={S.chiefGameStart} onClick={startHandler}>
+          게임시작
+        </button>
+      )}
 
       {!isAllReady && (
         <button className={`${S.isReadyButton} ${isReady ? S.active : ""}`} onClick={readyHandler}>

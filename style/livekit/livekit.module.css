@@ -40,14 +40,14 @@
   padding: 0 30px;
 }
 
-.localParticipant h2 {
+/* .localParticipant h2 {
   font-size: var(--font-size-content);
   border: 1px solid var(--silver-gray);
   padding: 5px 50px;
   border-radius: 100px;
   color: var(--text-black);
   white-space: nowrap;
-}
+} */
 
 .localParticipant > button {
   font-size: var(---font-size-title) !important;
@@ -61,6 +61,24 @@
 
 .participantOverlay {
   position: relative;
+}
+
+.playerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 5px;
+  top: 5px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.chief {
+  position: absolute;
+  right: -18px;
+  top: -28px;
+  z-index: 2;
 }
 
 .localCam {

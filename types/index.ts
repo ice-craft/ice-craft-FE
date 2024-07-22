@@ -46,6 +46,7 @@ export interface OverlayState {
   isRemoteOverlay: boolean;
   inSelect: string;
   imageState: StaticImageData | null;
+  chief: StaticImageData;
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;
@@ -55,6 +56,7 @@ export interface OverlayState {
     setImageState: (newImage: StaticImageData | null) => void;
     setInSelect: (newSelect: string) => void;
     setOverlayReset: () => void;
+    setChief: (chief: StaticImageData) => void;
   };
 }
 

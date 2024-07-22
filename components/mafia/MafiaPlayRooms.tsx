@@ -122,7 +122,6 @@ const MafiaPlayRooms = () => {
         <RemoteParticipant tracks={tracks} />
         {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
         <RoomAudioRenderer muted={false} />
-
         <MafiaToolTip />
         <MafiaModals />
       </div>
