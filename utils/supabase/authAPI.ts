@@ -3,10 +3,15 @@ import { createClient } from "./client";
 
 const supabase = createClient();
 
-//삭제예정코드(임시)
 export const checkUserLogIn = async () => {
-  const { data } = await supabase.auth.getUser();
-  return data.user;
+  const { data, error } = await supabase.auth.getUser();
+  if (data.user) {
+    return data.user;
+  }
+
+  if (error) {
+    throw new Error(error.message);
+  }
 };
 
 export const emailLogIn = async (email: string, password: string) => {

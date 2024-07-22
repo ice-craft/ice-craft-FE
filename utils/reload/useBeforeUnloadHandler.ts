@@ -5,7 +5,6 @@ const useBeforeUnloadHandler = () => {
 
   useEffect(() => {
     const beforeUnload = (e: BeforeUnloadEvent) => {
-      console.log("isReLoad", isReLoad);
       if (!isReLoad) {
         e.preventDefault();
         e.returnValue = ""; //크로스 브라우징 체크 추가

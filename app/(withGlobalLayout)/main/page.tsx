@@ -15,8 +15,8 @@ import useJoinRoom from "@/hooks/useJoinRoom";
 import Popup from "@/utils/Popup";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import CommonsLoading from "@/utils/CommonsLoading";
 import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
+import CommonsLoading from "@/utils/CommonsLoading";
 import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import useLoadingStore from "@/store/loading-store";
 import useSocketOn from "@/hooks/useSocketOn";
@@ -38,6 +38,14 @@ const Mainpage = () => {
     socket.connect();
     socket.emit("enterMafia");
     history.pushState(null, "", "");
+
+    //NOTE - history stack 관리
+    if (history.length >= 5) {
+      const back = (history.length - 1) * -1;
+
+      history.go(back);
+      history.pushState(null, "", "");
+    }
   }, []);
 
   //FIXME - 실시간 나오는 방 두번째 안뜸

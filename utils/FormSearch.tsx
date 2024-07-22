@@ -32,6 +32,7 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
           return;
         }
         const roomKeyword = await getRoomsWithKeyword(debouncedValue);
+        console.log("debounce 키워드 작동");
         setRooms(roomKeyword);
       } catch (error) {
         toast.error("검색 중 오류가 발생했습니다.");
