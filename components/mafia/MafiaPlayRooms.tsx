@@ -28,8 +28,6 @@ const MafiaPlayRooms = () => {
   const { setIsEntry } = useRoomAction();
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
-  // const { setRooms } = useConnectActions();
-  // const { rooms } = useGetRoomsSocket();
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -95,8 +93,6 @@ const MafiaPlayRooms = () => {
   const leaveRoom = () => {
     setIsEntry(false);
     socket.emit("exitRoom", roomId, userId);
-    // const updatedRooms = rooms.filter((room) => room.room_id !== roomId);
-    // setRooms(updatedRooms);
   };
 
   return (

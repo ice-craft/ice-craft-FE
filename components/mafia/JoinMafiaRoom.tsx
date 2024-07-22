@@ -25,10 +25,6 @@ const JoinMafiaRoom = () => {
   const { setIsEntry, setIsBack } = useRoomAction();
   const { setIsReLoad } = useBeforeUnloadHandler();
 
-  //NOTE - 임시 로그인
-  const userId = useUserId();
-  const nickname = useNickname();
-
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {
     if (isPopState) {
@@ -58,8 +54,7 @@ const JoinMafiaRoom = () => {
   useEffect(() => {
     const userToken = async () => {
       try {
-        // const token = await getToken(roomId.id, userInfo.userId, userInfo.nickname);
-        const token = await getToken(roomId.id, userId, nickname); // 임시 로그인
+        const token = await getToken(roomId.id, userInfo.userId, userInfo.nickname);
 
         if (token) {
           setToken(token);
