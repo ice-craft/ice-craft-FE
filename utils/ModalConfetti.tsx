@@ -2,9 +2,15 @@ import { useCountDown } from "@/hooks/useCountDown";
 import { useGameActions } from "@/store/game-store";
 import { useModalActions, useModalIsOpen, useModalTimer } from "@/store/show-modal-store";
 import JSConfetti from "js-confetti";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const ModalConfetti = ({ title }: { title: string }) => {
+const ModalConfetti = ({
+  title,
+  setVictoryPlayerNickname
+}: {
+  title: string;
+  setVictoryPlayerNickname: Dispatch<SetStateAction<string[]>>;
+}) => {
   const timer = useModalTimer();
   const isModal = useModalIsOpen();
   const [count, setCount] = useState(timer);
@@ -28,6 +34,7 @@ const ModalConfetti = ({ title }: { title: string }) => {
     if (count <= 0 && isModal) {
       setIsOpen(false);
       jsConfetti.clearCanvas();
+      setVictoryPlayerNickname([]);
       setIsGameState("gameEnd");
     }
   }, [count]);

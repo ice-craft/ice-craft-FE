@@ -9,21 +9,19 @@ const VictoryModal = () => {
   const title = useGroupModalElement();
   const role = useRoleModalElement();
   const participants = useParticipants();
-
-  const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([""]);
+  const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([]);
 
   //NOTE - 승리한 팀의 players nickname
   useEffect(() => {
-    console.log("role", role);
-    console.log("participants", participants);
-
+    // 초기 렌더링 필터
+    if (participants.length === 1) {
+      return;
+    }
     // 전체 player 정보의 배열
     participants.forEach((playerInfo) => {
       //Player의 직업 찾기
       const playerJob = getPlayerJob(role, playerInfo.identity);
       const playerNickname = playerInfo.name;
-
-      console.log("🚀 ~ participant.forEach ~ playerJob:", playerJob, playerInfo.name);
 
       // playerInfo.name이 undefined가 아닌지 확인
       if (!playerNickname) {
@@ -48,7 +46,7 @@ const VictoryModal = () => {
       <div className={S.modalWrap}>
         <div className={`${S.modal} ${S.victoryModal}`}>
           <div>
-            <ModalConfetti title={title} />
+            <ModalConfetti title={title} setVictoryPlayerNickname={setVictoryPlayerNickname} />
             {victoryPlayerNickname.map((player, index) => (
               <p key={index}>{player}</p>
             ))}
