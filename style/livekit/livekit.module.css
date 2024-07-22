@@ -26,7 +26,7 @@
 
 .localParticipant > button {
   font-size: var(---font-size-title) !important;
-  padding: 15px 52px;
+  padding: 12px 52px;
   border-radius: var(--border-radius);
 }
 
@@ -174,10 +174,6 @@
   width: 450px;
 }
 
-.lk-prejoin .lk-username-container {
-  display: none;
-}
-
 .settingUserButton li {
   position: absolute;
   border-radius: 8px 0 0 8px;
@@ -206,18 +202,18 @@
   user-select: none;
 }
 
-.settingJoinButton {
-  margin: 0 16px;
+/*-------------- GameStartButton ----------------*/
+.isReadyButton {
+  background-color: var(--silver-gray);
+  transition: background-color 0.3s ease;
 }
 
-.settingJoinButton > button {
-  position: absolute;
-  bottom: 16px;
-  width: 93%;
+.isReadyButton.active {
   background-color: var(--primary-color);
-  padding: 10px 0;
-  text-align: center;
-  border-radius: var(--border-radius);
+}
+
+.chiefGameStart {
+  background-color: var(--variation-error);
 }
 
 /*-------------- Respansive ----------------*/

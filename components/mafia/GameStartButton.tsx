@@ -2,6 +2,7 @@ import useSocketOn from "@/hooks/useSocketOn";
 import { socket } from "@/utils/socket/socket";
 import { useLocalParticipant, useParticipants } from "@livekit/components-react";
 import { useEffect, useState } from "react";
+import S from "@/style/livekit/livekit.module.css";
 
 const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   const participants = useParticipants();
@@ -28,7 +29,6 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   useEffect(() => {
     if (isGameState === "gameReady") {
       console.log("🚀 게임 입장 및 종료 시 초기화 isGameState", isGameState);
-
       setIsReady(false);
       setIsAllReady(false);
     }
@@ -46,17 +46,16 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   const startHandler = () => {
     const roomId = localParticipant.metadata;
     const playersCount = participants.length;
-
     socket.emit("gameStart", roomId, playersCount);
   };
 
   return (
     <>
-      {isAllReady && <button onClick={startHandler}>게임시작</button>}
+      {isAllReady && <button className={S.chiefGameStart} onClick={startHandler}>게임시작</button>}
 
       {!isAllReady && (
-        <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={readyHandler}>
-          {isReady ? "취소" : "게임 준비"}
+        <button className={`${S.isReadyButton} ${isReady ? S.active : ""}`} onClick={readyHandler}>
+          {isReady ? "취소" : "Ready"}
         </button>
       )}
     </>
