@@ -34,7 +34,7 @@ const useJoinRoom = () => {
   };
 
   useEffect(() => {
-    return setLoading(false);
+    return () => setLoading(false);
   }, []);
 
   //NOTE - 방 리스트 입장하기

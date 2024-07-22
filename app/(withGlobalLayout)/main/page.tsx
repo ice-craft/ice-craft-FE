@@ -30,9 +30,6 @@ const Mainpage = () => {
   const { loading } = useLoadingStore();
   useJoinRoomSocket();
 
-  //FIXME - 방 2번 랜더링 중
-  console.log(rooms);
-
   //NOTE - 소켓 연결, 메인 페이지 history 추가
   useEffect(() => {
     history.pushState(null, "", "");
@@ -49,7 +46,6 @@ const Mainpage = () => {
     socket.emit("enterMafia");
   }, []);
 
-  //FIXME - 실시간 나오는 방 두번째 안뜸
   const roomList = {
     updateRoomInfo: () => {
       socket.emit("enterMafia");
