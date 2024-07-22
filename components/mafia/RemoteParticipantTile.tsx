@@ -1,4 +1,5 @@
 import PlayerDieImages from "@/assets/images/player_die.svg";
+import ChiefImage from "@/assets/images/leader.svg";
 import useClickHandler from "@/hooks/useClickHandler";
 import usePlayerNumber from "@/hooks/usePlayerNumber";
 import { useDiedPlayer, useGameState } from "@/store/game-store";
@@ -32,6 +33,9 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
           disableSpeakingIndicator={true}
           className={`${S.remoteCam} ${isRemoteOverlay && !diedPlayer ? "cursor-pointer" : ""}`}
         />
+        <div className={S.chief}>
+          <Image src={ChiefImage} alt={remote.participant.identity} />
+        </div>
         {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}번</p>}
         {!diedPlayer ? (
           <div className={`${S.remoteOverlay} ${remoteReadyStates[remote.participant.identity] ? S.active : ""}`}>
