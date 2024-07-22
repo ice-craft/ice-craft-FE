@@ -11,7 +11,7 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
@@ -37,7 +37,7 @@ const MafiaPlayRooms = () => {
       { source: Track.Source.Camera, withPlaceholder: true },
       { source: Track.Source.Microphone, withPlaceholder: true }
     ],
-    { onlySubscribed: false } // 구독 여부 상관없이 실행
+    { onlySubscribed: true } // 구독됐을 경우에만 실행
   );
 
   // //NOTE - 방 입장 시 초기화
@@ -67,7 +67,7 @@ const MafiaPlayRooms = () => {
       setDiedPlayer(playerId);
     },
     //NOTE - Error 처리
-    playError: (roomName: any, error: string) => {
+    playError: (roomName: string, error: string) => {
       console.log("roomName", roomName);
       console.log("roomError", error);
 
@@ -83,7 +83,7 @@ const MafiaPlayRooms = () => {
   //NOTE - 게임 종료
   useEffect(() => {
     if (isGameState === "gameEnd") {
-      console.log("🚀 ~ useEffect ~ isGameState:", isGameState);
+      console.log("🚀 isGameState:", isGameState);
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
