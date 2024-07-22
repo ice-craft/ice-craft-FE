@@ -58,7 +58,7 @@ const CheckModal = () => {
                 </div>
               </>
             ) : (
-              "투표 중입니다."
+              <div>투표 중입니다.</div>
             )}
             <ModalProgress />
           </div>
