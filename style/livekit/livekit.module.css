@@ -1,7 +1,9 @@
+/*-------------- MafiaPlayRooms ----------------*/
 .section {
   display: flex;
   height: 100vh;
   position: relative;
+  font-family: ;
 }
 
 .localParticipant {
@@ -117,6 +119,17 @@
   left: 30px;
   top: 15px;
   font-weight: var(--font-bold);
+}
+
+.goToMainPage > button {
+  background-color: transparent;
+  display: inline-block;
+  color: var(--text-black);
+  position: relative;
+}
+
+.goToMainPage > button:hover {
+  background-color: transparent !important;
 }
 
 .playerDieOverlay {
