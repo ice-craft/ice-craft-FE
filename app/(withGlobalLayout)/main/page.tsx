@@ -35,8 +35,6 @@ const Mainpage = () => {
 
   //NOTE - 소켓 연결, 메인 페이지 history 추가
   useEffect(() => {
-    socket.connect();
-    socket.emit("enterMafia");
     history.pushState(null, "", "");
 
     //NOTE - history stack 관리
@@ -46,15 +44,18 @@ const Mainpage = () => {
       history.go(back);
       history.pushState(null, "", "");
     }
+
+    socket.connect();
+    socket.emit("enterMafia");
   }, []);
 
-  //FIXME - 실시간 나오는 방 두번째 안뜸
-  const roomList = {
-    updateRoomInfo: () => {
-      socket.emit("enterMafia");
-    }
-  };
-  useSocketOn(roomList);
+  // //FIXME - 실시간 나오는 방 두번째 안뜸
+  // const roomList = {
+  //   updateRoomInfo: () => {
+  //     socket.emit("enterMafia");
+  //   }
+  // };
+  // useSocketOn(roomList);
 
   //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
   if (!rooms) return <MainSkeleton />;
