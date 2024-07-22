@@ -80,11 +80,6 @@ export const setUserNickname = async (nickname: string) => {
   return data;
 };
 
-export const getUserInfo = async () => {
-  const { data } = await supabase.auth.getUser();
-  return data.user;
-};
-
 export const getUserNickname = async () => {
   const { data } = await supabase.auth.getUser();
   return data.user?.user_metadata.nickname;
