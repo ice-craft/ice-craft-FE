@@ -1,9 +1,33 @@
 /*-------------- MafiaPlayRooms ----------------*/
-.section {
-  display: flex;
+.mafiaPlayRoomWrapper {
+  background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
   height: 100vh;
+}
+
+.gameTimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.timer {
+  font-size: var(--font-size-content);
+  text-align: center;
+  margin: 20px;
+  padding: 5px 32px;
+  background-color: var(--text-black);
+  border-radius: var(--border-radius);
+}
+
+.mafiaPlayRoomSection {
+  display: flex;
   position: relative;
-  font-family: ;
+  height: 100%;
 }
 
 .localParticipant {
@@ -13,7 +37,6 @@
   justify-content: center;
   gap: 30px;
   align-items: center;
-  background-color: var(--white);
   padding: 0 30px;
 }
 
@@ -124,8 +147,7 @@
 .goToMainPage > button {
   background-color: transparent;
   display: inline-block;
-  color: var(--text-black);
-  position: relative;
+  color: var(--white);
 }
 
 .goToMainPage > button:hover {

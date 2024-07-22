@@ -17,6 +17,7 @@ import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
 import RemoteParticipant from "./RemoteParticipant";
 import { pretendard } from "@/public/fonts/fonts";
+import SpeakTimer from "./SpeakTimer";
 
 const MafiaPlayRooms = () => {
   const { localParticipant } = useLocalParticipant();
@@ -97,13 +98,10 @@ const MafiaPlayRooms = () => {
   };
 
   return (
-    <section className={`${S.section} ${pretendard.className}`}>
-      <LocalParticipant tracks={tracks} />
-      <RemoteParticipant tracks={tracks} />
-      {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
-      <RoomAudioRenderer muted={false} />
-      <div className={S.goToMainPage}>
-        {/* <button
+    <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
+      <div className={S.gameTimer}>
+        <div className={S.goToMainPage}>
+          {/* <button
           onClick={() => {
             allAudioSetting(tracks, false);
           }}
@@ -111,12 +109,23 @@ const MafiaPlayRooms = () => {
         >
           전체 소리 끄기
         </button> */}
-        <DisconnectButton onClick={leaveRoom}>
-          <span>＜</span> 방 나가기
-        </DisconnectButton>
+          <DisconnectButton onClick={leaveRoom}>
+            <span>＜</span> 방 나가기
+          </DisconnectButton>
+        </div>
+        <div className={S.timer}>
+          <SpeakTimer />
+        </div>
       </div>
-      <MafiaToolTip />
-      <MafiaModals />
+      <div className={S.mafiaPlayRoomSection}>
+        <LocalParticipant tracks={tracks} />
+        <RemoteParticipant tracks={tracks} />
+        {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
+        <RoomAudioRenderer muted={false} />
+
+        <MafiaToolTip />
+        <MafiaModals />
+      </div>
     </section>
   );
 };

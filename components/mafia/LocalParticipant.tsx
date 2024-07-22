@@ -30,7 +30,7 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
 
   return (
     <div className={S.localParticipant}>
-      <SpeakTimer />
+      {/* <SpeakTimer /> */}
       {isGameState === "gameStart" && <p className={"text-red-600"}>{playerNumber}</p>}
       <TrackLoop tracks={localTracks}>
         <div
