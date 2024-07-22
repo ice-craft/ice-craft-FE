@@ -4,6 +4,14 @@
   height: 100vh;
 }
 
+.day {
+  background: url("../../assets/images/mafia_room_bg_day.avif") center center/cover no-repeat;
+}
+
+.night {
+  background: url("../../assets/images/mafia_room_bg_night.avif") center center/cover no-repeat;
+}
+
 .gameTimer {
   display: flex;
   align-items: center;

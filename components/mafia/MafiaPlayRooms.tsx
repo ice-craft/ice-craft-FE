@@ -11,7 +11,7 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
@@ -30,6 +30,8 @@ const MafiaPlayRooms = () => {
   const { setIsEntry } = useRoomAction();
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
   useSelectSocket(); // 클릭 이벤트 처리
+  const [day, setDay] = useState(false);
+  const [night, setNight] = useState(false);
 
   //NOTE -  전체 데이터
   const tracks = useTracks(
@@ -40,12 +42,14 @@ const MafiaPlayRooms = () => {
     { onlySubscribed: true } // 구독됐을 경우에만 실행
   );
 
-  // //NOTE - 방 입장 시 초기화
+  //NOTE - 방 입장 시 초기화
   useEffect(() => {
     console.log("🚀 MafiaPlayRooms: 방 입장 시 초기화");
     setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
     setModalReset(); //전체 모달 요소 초기화
     setGameReset(); // 죽은 players 및 게임 state 초기화
+    setDay(false);
+    setNight(false);
   }, []);
 
   const sockets = {
@@ -75,6 +79,17 @@ const MafiaPlayRooms = () => {
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
       setIsMediaReset(true); // 캠 및 오디오 초기화
+    },
+    showModal: (title: string) => {
+      //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
+      if (title.includes("낮")) {
+        setDay(true);
+        return;
+      }
+      if (title.includes("밤")) {
+        setNight(true);
+        return;
+      }
     }
   };
 
@@ -88,6 +103,8 @@ const MafiaPlayRooms = () => {
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
       setIsMediaReset(true); // 캠 및 오디오 초기화
+      setDay(false);
+      setNight(false);
     }
   }, [isGameState]);
 
@@ -98,7 +115,9 @@ const MafiaPlayRooms = () => {
   };
 
   return (
-    <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
+    <section
+      className={`${S.mafiaPlayRoomWrapper} ${pretendard.className} ${day ? S.day : ""} ${night ? S.night : ""}`}
+    >
       <div className={S.gameTimer}>
         <div className={S.goToMainPage}>
           {/* <button
@@ -120,8 +139,7 @@ const MafiaPlayRooms = () => {
       <div className={S.mafiaPlayRoomSection}>
         <LocalParticipant tracks={tracks} />
         <RemoteParticipant tracks={tracks} />
-        {/* 원격 참가자의 오디오 트랙을 처리 및 관리 */}
-        <RoomAudioRenderer muted={false} />
+        <RoomAudioRenderer muted={false} /> {/* 원격 참가자 오디오 트랙 처리 및 관리 */}
         <MafiaToolTip />
         <MafiaModals />
       </div>
