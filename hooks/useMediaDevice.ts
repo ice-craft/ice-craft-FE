@@ -57,7 +57,7 @@ const useMediaDevice = () => {
 
   //NOTE - 게임 종료 시 모든 player 캠 및 오디오 on
   useEffect(() => {
-    console.log("🚀 ~ useEffect ~ isMediaReset:", isMediaReset);
+    console.log("🚀  isMediaReset:", isMediaReset);
 
     if (isMediaReset) {
       console.log("🚀게임 종료 시 AllPlayer 미디어 On:", isMediaReset);

@@ -30,22 +30,22 @@ const useSelectSocket = () => {
 
     //NOTE - 투표 시간이면서, 모든 player 캠 클릭 이벤트 활성화
     if (inSelect.includes("vote")) {
-      console.log("투표 중입니다!");
+      console.log("투표 중입니다.");
       setIsOverlay(true);
     }
     //NOTE - 마피아 시간이면서, 마피아인 player만 캠 클릭 이벤트 활성화
     if (inSelect.includes("mafia") && localJob === "mafia") {
-      console.log("마피아 시간입니다.!");
+      console.log("마피아 시간입니다.");
       setIsRemoteOverlay(true);
     }
     //NOTE - 의사 시간이면서, 의사인 player만 캠 클릭 이벤트 활성화
     if (inSelect.includes("doctor") && localJob === "doctor") {
-      console.log("의사 시간입니다.!");
+      console.log("의사 시간입니다.");
       setIsOverlay(true);
     }
     //NOTE - 경찰 시간이면서, 경찰인 player만 캠 클릭 이벤트 활성화
     if (inSelect.includes("police") && localJob === "police") {
-      console.log("경찰 시간입니다.!");
+      console.log("경찰 시간입니다.");
       setIsRemoteOverlay(true);
     }
   }, [inSelect, diedPlayerId]);
