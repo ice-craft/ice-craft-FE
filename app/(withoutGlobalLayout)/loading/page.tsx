@@ -2,7 +2,7 @@
 
 import S from "@/style/mainpage/main.module.css";
 import { checkUserEmailRegistered, registerAccount } from "@/utils/supabase/accountAPI";
-import { getUserInfo, oAuthRegister } from "@/utils/supabase/authAPI";
+import { getUserInfo } from "@/utils/supabase/authAPI";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

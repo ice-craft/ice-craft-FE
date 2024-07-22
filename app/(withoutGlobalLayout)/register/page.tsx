@@ -330,27 +330,4 @@ const Register = () => {
   );
 };
 
-//NOTE - 컴포넌트 분리해서 회원가입 페이지만의 메타데이터 삽입
-// export const metadata: Metadata = {
-//   title: "IceCraft 회원가입페이지",
-//   description: "IceCraft 회원가입페이지 입니다.",
-//   keywords: ["아이스브레이킹", "icebreaking", "마피아", "mafia"],
-//   creator: "IceCraft",
-//   openGraph: {
-//     title: "IceCraft",
-//     description: "Into Stunning Space, IceCraft",
-//     images: [
-//       {
-//         url: "/app/favicon.ico",
-//         width: 500,
-//         height: 400
-//       }
-//     ],
-//     //FIXME - url: '회원가입 페이지URL',
-//     siteName: "IceCraft",
-//     locale: "ko_KR",
-//     type: "website"
-//   }
-// };
-
 export default Register;
