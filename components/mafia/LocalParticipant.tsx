@@ -30,20 +30,18 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
 
   return (
     <div className={S.localParticipant}>
+      <div className={S.playerInfo}>
+        <div className={S.chief}>
+          <Image src={ChiefImage} alt={localParticipant.identity} />
+        </div>
+        {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}번</p>}
+      </div>
       <TrackLoop tracks={localTracks}>
         <div
           className={`${S.participantOverlay} ${activePlayerId === localParticipant.identity ? S.active : ""}`}
           onClick={isLocalOverlay ? (e) => clickHandler(e, localParticipant.identity) : undefined}
         >
-          <div className={S.chief}>
-            <Image src={ChiefImage} alt={localParticipant.identity} />
-          </div>
-          <div className={S.playerNumber}>1번</div>
-
-          {/* {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}</p>} */}
-
           <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
-
           {!isDied ? (
             <div className={`${S.imageOverlay} ${localReadyState[localParticipant.identity] ? S.active : ""}`}>
               <Image src={CamCheck} alt={localParticipant.identity} />

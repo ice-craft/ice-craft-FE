@@ -12,7 +12,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 3;
 }
 
 .timer {
@@ -40,15 +40,6 @@
   padding: 0 30px;
 }
 
-/* .localParticipant h2 {
-  font-size: var(--font-size-content);
-  border: 1px solid var(--silver-gray);
-  padding: 5px 50px;
-  border-radius: 100px;
-  color: var(--text-black);
-  white-space: nowrap;
-} */
-
 .localParticipant > button {
   font-size: var(---font-size-title) !important;
   padding: 12px 52px;
@@ -61,24 +52,6 @@
 
 .participantOverlay {
   position: relative;
-}
-
-.playerNumber {
-  position: absolute;
-  z-index: 1;
-  left: 5px;
-  top: 5px;
-  background-color: rgba(92, 91, 173, 0.7);
-  border-radius: 4px;
-  padding: 0 10px;
-  font-size: 14px;
-}
-
-.chief {
-  position: absolute;
-  right: -18px;
-  top: -28px;
-  z-index: 2;
 }
 
 .localCam {
@@ -154,6 +127,41 @@
   display: block;
 }
 
+.playerDieOverlay {
+  background-color: #000;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playerInfo {
+  position: relative;
+  width: 100%;
+}
+
+.playerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 5px;
+  top: 34px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.chief {
+  position: absolute;
+  right: -18px;
+  top: 0;
+  z-index: 2;
+}
+
+/*-------------- goTopButton ----------------*/
 .goToMainPage {
   position: absolute;
   color: var(--text-black);
@@ -170,16 +178,6 @@
 
 .goToMainPage > button:hover {
   background-color: transparent !important;
-}
-
-.playerDieOverlay {
-  background-color: #000;
-  position: absolute;
-  inset: 0;
-  border-radius: var(--border-radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /*-------------- ToolTipIcon ----------------*/
