@@ -131,7 +131,8 @@
 .imageOverlay.active,
 .remoteOverlay.active,
 .remoteParticipantOverlay.active .remoteOverlay,
-.participantOverlay.active .imageOverlay {
+.participantOverlay.active .imageOverlay,
+.chief.active {
   display: block;
 }
 
@@ -167,6 +168,7 @@
   right: -18px;
   top: 0;
   z-index: 2;
+  display: none;
 }
 
 /*-------------- goTopButton ----------------*/

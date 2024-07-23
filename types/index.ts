@@ -2,7 +2,6 @@ import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
 import { Tables } from "./supabase";
-import { LocalParticipant, RemoteParticipant } from "livekit-client";
 
 export interface MafiaRoom {
   room: string;
@@ -46,7 +45,7 @@ export interface OverlayState {
   isRemoteOverlay: boolean;
   inSelect: string;
   imageState: StaticImageData | null;
-  chief: StaticImageData;
+  chief: StaticImageData | null;
 
   actions: {
     setReadyPlayers: (userId: string, isReady: boolean) => void;

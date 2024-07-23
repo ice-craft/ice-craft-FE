@@ -40,10 +40,14 @@ const useOverlayStore = create<OverlayState>((set) => ({
         isLocalOverlay: false,
         isRemoteOverlay: false,
         inSelect: "",
-        imageState: CamCheck
+        imageState: CamCheck,
+        chief: ChiefImage
       })
   }
 }));
+
+//NOTE - 플레이어 중 방장이면 방장 이미지 표시
+export const useChief = () => useOverlayStore((state) => state.chief);
 
 //NOTE - Ready한 player의 캠 위치에 이미지 띄우기
 export const useReadyPlayers = () => useOverlayStore((state) => state.playersReady);

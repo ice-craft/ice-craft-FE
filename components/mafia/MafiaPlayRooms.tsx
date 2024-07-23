@@ -79,6 +79,8 @@ const MafiaPlayRooms = () => {
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
       setIsMediaReset(true); // 캠 및 오디오 초기화
+      setDay(false);
+      setNight(false);
     },
     showModal: (title: string) => {
       //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
