@@ -40,7 +40,6 @@ const MafiaPlayRooms = () => {
 
   // //NOTE - 방 입장 시 초기화
   useEffect(() => {
-    console.log("🚀 MafiaPlayRooms: 방 입장 시 초기화");
     setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
     setModalReset(); //전체 모달 요소 초기화
     setGameReset(); // 죽은 players 및 게임 state 초기화
@@ -81,7 +80,6 @@ const MafiaPlayRooms = () => {
   //NOTE - 게임 종료
   useEffect(() => {
     if (isGameState === "gameEnd") {
-      console.log("🚀 isGameState:", isGameState);
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
@@ -92,7 +90,6 @@ const MafiaPlayRooms = () => {
   //NOTE - 방 나가기 이벤트 헨들러
   const leaveRoom = () => {
     setIsEntry(false);
-    console.log("방 나가기", userId);
     socket.emit("exitRoom", roomId, userId);
   };
 
