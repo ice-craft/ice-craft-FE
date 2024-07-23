@@ -180,12 +180,11 @@ export interface RoomListItemProps {
   item: Tables<"room_table">;
 }
 
-export interface UserInfo {
-  userId: string;
-  nickname: string;
-  isReady: boolean;
-}
-
 export interface CreateRooms {
   room_id: string;
+}
+
+export interface LoadingState {
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }

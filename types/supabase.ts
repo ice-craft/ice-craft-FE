@@ -56,6 +56,7 @@ export type Database = {
           room_id: string;
           title: string | null;
           total_user_count: number;
+          is_playing: boolean;
         };
         Insert: {
           created_at?: string | null;

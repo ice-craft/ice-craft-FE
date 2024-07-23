@@ -31,6 +31,12 @@
   margin: 0;
 }
 
+/* typebot css */
+body > typebot-bubble::part(button) {
+  right: 30px;
+  bottom: 80px;
+}
+
 a {
   color: inherit;
   text-decoration: none;

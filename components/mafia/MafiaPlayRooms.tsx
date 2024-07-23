@@ -113,6 +113,7 @@ const MafiaPlayRooms = () => {
   //NOTE - 방 나가기 이벤트 헨들러
   const leaveRoom = () => {
     setIsEntry(false);
+    console.log("방 나가기", userId);
     socket.emit("exitRoom", roomId, userId);
   };
 
