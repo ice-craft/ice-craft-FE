@@ -83,21 +83,23 @@ const MafiaPlayRooms = () => {
       setNight(false);
     },
     showModal: (title: string) => {
-      //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
       if (title.includes("낮")) {
         setDay(true);
-        // setNight(false);
+        setNight(false);
         return;
       }
       if (title.includes("밤")) {
         setNight(true);
-        // setDay(false);
+        setDay(false);
         return;
       }
     }
   };
-
   useSocketOn(sockets);
+
+  const dayTime = day ? S.day : "";
+  const nightTime = night ? S.night : "";
+  const resultClassName = `${dayTime} ${nightTime}`;
 
   //NOTE - 게임 종료
   useEffect(() => {
@@ -120,7 +122,7 @@ const MafiaPlayRooms = () => {
   };
 
   return (
-    <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className} ${night ? S.night : ""}`}>
+    <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className} ${resultClassName}`}>
       <div className={S.gameTimer}>
         <div className={S.goToMainPage}>
           {/* <button

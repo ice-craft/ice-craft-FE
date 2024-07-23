@@ -1,37 +1,15 @@
 /*-------------- MafiaPlayRooms ----------------*/
-
 .mafiaPlayRoomWrapper {
-  background: url("../../assets/images/test1.avif") center center/cover no-repeat;
-  /* background: url("../../assets/images/1.jpg") center center/cover no-repeat; */
+  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
   height: 100vh;
 }
 
 .day {
-  background: url("../../assets/images/mafia_room_bg_day.avif") center center/cover no-repeat;
+  background: url("../../assets/images/mafia_day_bg.avif") center center/cover no-repeat;
 }
 
 .night {
-  background: url("../../assets/images/mafia_room_bg_day.avif") center center/cover no-repeat;
-}
-
-.gameTimer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 3;
-}
-
-.timer {
-  font-size: var(--font-size-content);
-  text-align: center;
-  margin: 20px;
-  padding: 5px 32px;
-  background-color: var(--text-black);
-  border-radius: var(--border-radius);
+  background: url("../../assets/images/mafia_night_bg.avif") center center/cover no-repeat;
 }
 
 .mafiaPlayRoomSection {
@@ -178,6 +156,40 @@
   right: -15px;
   top: -25px;
   z-index: 2;
+}
+
+/*-------------- SpeakTimer ----------------*/
+.gameTimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.timer {
+  font-size: var(--font-size-content);
+  text-align: center;
+  margin: 20px;
+  padding: 8px 28px;
+  background-color: var(--text-black);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timerCount {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dayAndNight img {
+  filter: invert(1);
+  width: 31px;
+  transform: translateY(-2px);
 }
 
 /*-------------- goTopButton ----------------*/
