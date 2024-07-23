@@ -115,10 +115,6 @@ const LogIn = () => {
               </p>
               <Link href="/register">회원가입</Link>
             </div>
-            {/* <p className={S.error}>
-              {errorMessage}
-              <span>{secondErrorMessage}</span>
-            </p> */}
             <ErrorMessage errorMessage={errorMessage} />
           </div>
           <div className={S.simpleLogin}>
