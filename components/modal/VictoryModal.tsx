@@ -1,52 +1,24 @@
-import { useEffect, useState } from "react";
-import { useCountDown } from "@/hooks/useCountDown";
-import {
-  useGroupModalElement,
-  useModalActions,
-  useModalIsOpen,
-  useModalTimer,
-  useRoleModalElement
-} from "@/store/show-modal-store";
+import { useGroupModalElement, useRoleModalElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import JSConfetti from "js-confetti";
-import { useParticipants } from "@livekit/components-react";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import ModalConfetti from "@/utils/ModalConfetti";
+import { useParticipants } from "@livekit/components-react";
+import { useEffect, useState } from "react";
 
 const VictoryModal = () => {
   const title = useGroupModalElement();
   const role = useRoleModalElement();
-  const participant = useParticipants();
-  const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([""]);
-
-  const timer = useModalTimer();
-  const isModal = useModalIsOpen();
-  const { setIsOpen } = useModalActions();
-  const [count, setCount] = useState(timer);
-  // 타이머 및 폭죽 효과
-  useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isModal);
-
-  const jsConfetti = new JSConfetti();
-
-  jsConfetti.addConfetti({
-    confettiColors: ["#5C5BAD", "#FFFFFF", "#EB7FEC", "#E72424"],
-    confettiRadius: 5,
-    confettiNumber: 300
-  });
-
-  console.log("victoryModal 실행");
-
-  //NOTE - 모달창 종료
-  useEffect(() => {
-    if (count <= 0 && isModal) {
-      console.log("victoryModal 종료");
-      setIsOpen(false);
-    }
-  }, [count]);
+  const participants = useParticipants();
+  const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([]);
 
   //NOTE - 승리한 팀의 players nickname
   useEffect(() => {
+    // 초기 렌더링 필터
+    if (participants.length === 1) {
+      return;
+    }
     // 전체 player 정보의 배열
-    participant.forEach((playerInfo) => {
+    participants.forEach((playerInfo) => {
       //Player의 직업 찾기
       const playerJob = getPlayerJob(role, playerInfo.identity);
       const playerNickname = playerInfo.name;
@@ -67,14 +39,14 @@ const VictoryModal = () => {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
       }
     });
-  }, []);
+  }, [participants]);
 
   return (
     <>
       <div className={S.modalWrap}>
         <div className={`${S.modal} ${S.victoryModal}`}>
           <div>
-            <p>{title} 승리!</p>
+            <ModalConfetti title={title} setVictoryPlayerNickname={setVictoryPlayerNickname} />
             {victoryPlayerNickname.map((player, index) => (
               <p key={index}>{player}</p>
             ))}

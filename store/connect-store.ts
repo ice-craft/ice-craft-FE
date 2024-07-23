@@ -7,7 +7,7 @@ const useConnectStore = create<ConnectState>((set) => ({
   nickname: "",
   userId: "",
   roomId: "",
-  rooms: [],
+  rooms: null,
 
   actions: {
     setJoinStatus: (status: boolean) => set({ join: status }),
