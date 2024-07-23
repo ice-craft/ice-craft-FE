@@ -25,7 +25,7 @@ const CommonsLoading = () => {
           if (!isEmailRegistered) {
             await registerAccount(email!, nickname);
           }
-          router.push("/main");
+          router.replace("/main");
         } catch (error) {
           toast.error("SNS 로그인이 실패했습니다.");
         }

@@ -49,7 +49,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/loading?status=sns-login" //FIXME - 회원가입인 겨우와 로그인인 경우 구별
+      redirectTo: "http://localhost:3000/loading?status=sns-login" //FIXME - 배포할 경우 수정
     }
   });
 
