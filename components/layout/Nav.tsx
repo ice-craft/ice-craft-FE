@@ -1,16 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import React, { use, useEffect, useRef } from "react";
 import S from "@/style/commons/commons.module.css";
-import { getUserInfo, logOut } from "@/utils/supabase/authAPI";
+import { checkUserLogIn, logOut } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 
 const Nav = () => {
-  const { setUserId, setUserNickname } = useConnectActions();
-  const nickname = useNickname();
+  const userNickname = useNickname();
   const userId = useUserId();
+  const { setUserId, setUserNickname } = useConnectActions();
+
+  //NOTE - 사용자 로그인 여부
+  useEffect(() => {
+    const checkUserInfo = async () => {
+      try {
+        const userInfo = await checkUserLogIn();
+        if (userInfo) {
+          setUserId(userInfo.id);
+          setUserNickname(userInfo.user_metadata.nickname);
+        }
+      } catch (error) {
+        toast.error("로그인 여부를 확인해 주세요.");
+      }
+    };
+    checkUserInfo();
+  }, []);
 
   const logoutHandler = async () => {
     try {
@@ -31,7 +47,7 @@ const Nav = () => {
         </li>
         {userId ? (
           <>
-            <li>{nickname}님 환영합니다.</li>
+            <li>{userNickname}님 환영합니다.</li>
             <li>
               <button onClick={logoutHandler}>로그아웃</button>
             </li>

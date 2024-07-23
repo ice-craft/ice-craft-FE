@@ -1,19 +1,20 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import SearchIcon from "@/assets/images/icon_search.svg";
-import useDebounce from "@/hooks/useSearchDebounce";
-import { useConnectActions } from "@/store/connect-store";
 import S from "@/style/mainpage/main.module.css";
-import { FormSearchProps } from "@/types";
-import { getRooms, getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import useDebounce from "@/hooks/useSearchDebounce";
+import { FormSearchProps } from "@/types";
+import { useConnectActions } from "@/store/connect-store";
+import { socket } from "./socket/socket";
 
 const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useConnectActions();
   const [search, setSearch] = useState<string>("");
-  const { debouncedValue, isSearch } = useDebounce(search, 500);
+  const { debouncedValue, keyword } = useDebounce(search, 500);
 
   //NOTE - 메인페이지 방 목록 검색
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,18 +24,13 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        if (!isSearch) {
-          // console.log("초기화");
+        if (!keyword) {
           return;
         }
-
         if (!debouncedValue.trim()) {
-          console.log("debounce 작동");
-          const allRooms = await getRooms(0, 20);
-          setRooms(allRooms);
+          socket.emit("enterMafia");
           return;
         }
-
         const roomKeyword = await getRoomsWithKeyword(debouncedValue);
         console.log("debounce 키워드 작동");
         setRooms(roomKeyword);
@@ -44,7 +40,7 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
     };
 
     fetchRooms();
-  }, [debouncedValue]);
+  }, [debouncedValue, setRooms]);
 
   return (
     <>

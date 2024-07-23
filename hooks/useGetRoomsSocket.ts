@@ -1,7 +1,5 @@
 import { Tables } from "@/types/supabase";
-import { useEffect } from "react";
 import useSocketOn from "./useSocketOn";
-import { socket } from "@/utils/socket/socket";
 import { useConnectActions, useRoomsCurrent } from "@/store/connect-store";
 
 const useGetRoomsSocket = () => {
@@ -13,7 +11,6 @@ const useGetRoomsSocket = () => {
       setRooms(item);
     }
   };
-
   useSocketOn(mainSockets);
 
   return { rooms, setRooms };
