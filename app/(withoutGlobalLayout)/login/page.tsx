@@ -24,13 +24,10 @@ const LogIn = () => {
 
     try {
       await emailLogIn(email, password);
-      router.replace("/main"); //NOTE - 메인 페이지로 이동
+      router.replace("/main");
     } catch (error) {
-      console.log(error); //NOTE - 테스트 코드
       setErrorMessage(["이메일 또는 비밀번호를 잘못 입력했습니다.", "입력하신 내용을 다시 확인해주세요."]);
-      return;
     }
-    console.log("로그인 성공"); //NOTE - 테스트 코드
   };
 
   const emailFocusHandler = () => {
@@ -46,7 +43,6 @@ const LogIn = () => {
       await oAuthLogIn("kakao");
     } catch (error) {
       setErrorMessage(["카카오 계정을 통한 로그인에 실패했습니다."]);
-      return;
     }
   };
 
@@ -55,7 +51,6 @@ const LogIn = () => {
       await oAuthLogIn("google");
     } catch (error) {
       setErrorMessage(["구글 계정을 통한 로그인에 실패했습니다."]);
-      return;
     }
   };
 
@@ -64,7 +59,6 @@ const LogIn = () => {
       await oAuthLogIn("github");
     } catch (error) {
       setErrorMessage(["깃허브 계정을 통한 로그인에 실패했습니다."]);
-      return;
     }
   };
 
@@ -73,21 +67,8 @@ const LogIn = () => {
       await oAuthLogIn("facebook");
     } catch (error) {
       setErrorMessage(["페이스북 계정을 통한 로그인에 실패했습니다."]);
-      return;
     }
   };
-
-  // useEffect(() => {
-  //   const checkUser = async () => {
-  //     const isUserLogIn = await checkUserLogIn();
-
-  //     if (isUserLogIn) {
-  //       // redirect("/");
-  //       // router.push("/"); //TODO - 이 방식은 로그인 페이지가 살짝 보임, URL 접근을 막는 방식 생각하기(ui상 로그인 버튼은 안 보여서 접근 불가능)
-  //     }
-  //   };
-  //   checkUser();
-  // }, []);
 
   return (
     <div className={S.wrapper}>
