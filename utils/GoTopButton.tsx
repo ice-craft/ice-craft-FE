@@ -41,7 +41,7 @@ export default function GoTopButton() {
   };
 
   return (
-    <div>
+    <>
       {isVisible && (
         <button
           className={S.goTopButton}
@@ -52,6 +52,6 @@ export default function GoTopButton() {
           <Image src={isHovered ? GoTopButtonIconHover : GoTopButtonIcon} alt="Scroll to Top" />
         </button>
       )}
-    </div>
+    </>
   );
 }
