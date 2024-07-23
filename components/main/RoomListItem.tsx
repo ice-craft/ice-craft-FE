@@ -1,45 +1,33 @@
-import React, { useRef, useState } from "react";
 import PeopleIcon from "@/assets/images/icon_person.svg";
 import MafiaItem from "@/assets/images/mafia_item.png";
-import S from "@/style/mainpage/main.module.css";
-import Image from "next/image";
-import { RoomListItemProps } from "@/types";
-import useSocketOn from "@/hooks/useSocketOn";
-import { Tables } from "@/types/supabase";
 import useJoinRoom from "@/hooks/useJoinRoom";
+import S from "@/style/mainpage/main.module.css";
+import { RoomListItemProps } from "@/types";
+import { Tables } from "@/types/supabase";
+import Image from "next/image";
+import { useRef } from "react";
 
 const RoomListItem = ({ item }: RoomListItemProps) => {
-  const [currentItem, setCurrentItem] = useState(item);
   const isGoInClick = useRef(false);
   const { joinRoomHandler } = useJoinRoom();
 
-  //NOTE - 실시간 서버 소켓 반영
-  const updateSocket = {
-    updateRoomInfo: (roomInfo: Tables<"room_table">) => {
-      if (roomInfo.room_id === item.room_id) {
-        setCurrentItem(roomInfo);
-      }
-    }
-  };
-  useSocketOn(updateSocket);
-
   const updateIsPlaying = (room: Tables<"room_table">): boolean => {
-    return currentItem.current_user_count >= currentItem.total_user_count || room.is_playing;
+    return item.current_user_count >= item.total_user_count || room.is_playing;
   };
 
-  const isPlaying = updateIsPlaying(currentItem);
+  const isPlaying = updateIsPlaying(item);
 
   return (
-    <li key={currentItem.room_id}>
+    <li key={item.room_id}>
       <Image src={MafiaItem} alt="room image" />
       <div className={S.roomTitle}>
-        <h3>{currentItem.title}</h3>
+        <h3>{item.title}</h3>
         <div className={S.gameName}>
-          <p className={S.mafiaHashtag}>#&nbsp;{currentItem.game_category}</p>
+          <p className={S.mafiaHashtag}>#&nbsp;{item.game_category}</p>
           <p className={S.currentPeople}>
             <Image src={PeopleIcon} alt="people icon" />
             <span>
-              {currentItem.current_user_count}/{currentItem.total_user_count}
+              {item.current_user_count}/{item.total_user_count}
             </span>
           </p>
         </div>
