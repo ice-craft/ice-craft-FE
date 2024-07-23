@@ -1,6 +1,8 @@
 /*-------------- MafiaPlayRooms ----------------*/
+
 .mafiaPlayRoomWrapper {
-  background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
+  background: url("../../assets/images/test1.avif") center center/cover no-repeat;
+  /* background: url("../../assets/images/1.jpg") center center/cover no-repeat; */
   height: 100vh;
 }
 
@@ -9,7 +11,7 @@
 }
 
 .night {
-  background: url("../../assets/images/mafia_room_bg_night.avif") center center/cover no-repeat;
+  background: url("../../assets/images/mafia_room_bg_day.avif") center center/cover no-repeat;
 }
 
 .gameTimer {
@@ -168,7 +170,14 @@
   right: -18px;
   top: 0;
   z-index: 2;
-  display: none;
+  /* display: none; */
+}
+
+.remoteChief {
+  position: absolute;
+  right: -15px;
+  top: -25px;
+  z-index: 2;
 }
 
 /*-------------- goTopButton ----------------*/

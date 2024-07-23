@@ -86,10 +86,12 @@ const MafiaPlayRooms = () => {
       //NOTE -  CheckModal(찬성/반대) 투표 모달창 요소
       if (title.includes("낮")) {
         setDay(true);
+        // setNight(false);
         return;
       }
       if (title.includes("밤")) {
         setNight(true);
+        // setDay(false);
         return;
       }
     }
@@ -118,9 +120,7 @@ const MafiaPlayRooms = () => {
   };
 
   return (
-    <section
-      className={`${S.mafiaPlayRoomWrapper} ${pretendard.className} ${day ? S.day : ""} ${night ? S.night : ""}`}
-    >
+    <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className} ${night ? S.night : ""}`}>
       <div className={S.gameTimer}>
         <div className={S.goToMainPage}>
           {/* <button

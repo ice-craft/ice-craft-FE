@@ -33,7 +33,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
           disableSpeakingIndicator={true}
           className={`${S.remoteCam} ${isRemoteOverlay && !diedPlayer ? "cursor-pointer" : ""}`}
         />
-        <div className={S.chief}>
+        <div className={S.remoteChief}>
           <Image src={ChiefImage} alt={remote.participant.identity} />
         </div>
         {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}번</p>}
