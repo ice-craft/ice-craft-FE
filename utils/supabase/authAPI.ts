@@ -10,7 +10,7 @@ export const checkUserLogIn = async () => {
   }
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("로그인 확인에 실패했습니다.");
   }
 };
 
@@ -44,7 +44,6 @@ export const oAuthRegister = async (email: string, password: string, nickname: s
   return true;
 };
 
-//NOTE - 배포 시 각 사이트에서 배포 사이트 작성할 것 (구글은 테스트버전에서 배포버전으로 변경할 것)
 export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
@@ -64,7 +63,7 @@ export const logOut = async () => {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("로그아웃에 실패했습니다.");
   }
 };
 
