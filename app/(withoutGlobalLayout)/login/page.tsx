@@ -1,8 +1,8 @@
 "use client";
 
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { checkUserLogIn, emailLogIn, oAuthLogIn } from "../../../utils/supabase/authAPI";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { emailLogIn, oAuthLogIn } from "@/utils/supabase/authAPI";
 import S from "@/style/login/login.module.css";
 import Link from "next/link";
 import Image from "next/image";

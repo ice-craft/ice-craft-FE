@@ -3,36 +3,31 @@
 import S from "@/style/mainpage/main.module.css";
 import { checkUserEmailRegistered, registerAccount } from "@/utils/supabase/accountAPI";
 import { getUserInfo } from "@/utils/supabase/authAPI";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-const CommonsLoading = () => {
-  const searchParams = useSearchParams();
+const SnsLogIn = () => {
   const router = useRouter();
-  const status = searchParams.get("status");
 
   useEffect(() => {
-    const init = async (status: string | null) => {
-      if (status === "sns-login") {
-        try {
-          const userInfo = await getUserInfo();
-          const email = userInfo.email;
-          const nickname = userInfo.user_metadata.name;
+    const register = async () => {
+      try {
+        const userInfo = await getUserInfo();
+        const email = userInfo.email;
+        const nickname = userInfo.user_metadata.name;
 
-          const isEmailRegistered = await checkUserEmailRegistered(email!);
-          if (!isEmailRegistered) {
-            await registerAccount(email!, nickname);
-          }
-          router.replace("/main");
-        } catch (error) {
-          toast.error("SNS 로그인이 실패했습니다.");
+        const isEmailRegistered = await checkUserEmailRegistered(email!);
+        if (!isEmailRegistered) {
+          await registerAccount(email!, nickname);
         }
+        router.replace("/main");
+      } catch (error) {
+        toast.error("SNS 로그인이 실패했습니다.");
       }
     };
 
-    init(status);
+    register();
   }, []);
 
   return (
@@ -54,4 +49,4 @@ const CommonsLoading = () => {
   );
 };
 
-export default CommonsLoading;
+export default SnsLogIn;

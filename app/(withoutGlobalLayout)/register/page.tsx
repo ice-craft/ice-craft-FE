@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { checkUserEmailRegistered, registerAccount } from "../../../utils/supabase/accountAPI";
-import { InputMessage } from "../../../components/register/InputMessage";
-import { oAuthLogIn, oAuthRegister } from "../../../utils/supabase/authAPI";
+import { checkUserEmailRegistered, registerAccount } from "@/utils/supabase/accountAPI";
+import { InputMessage } from "@/components/register/InputMessage";
+import { oAuthLogIn, oAuthRegister } from "@/utils/supabase/authAPI";
 import KakaoLoginIcon from "@/assets/images/join_kakaotalk.svg";
 import GoogleLoginIcon from "@/assets/images/join_google.svg";
 import GithubLoginIcon from "@/assets/images/join_github.svg";
