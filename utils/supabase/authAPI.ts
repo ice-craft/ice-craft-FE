@@ -49,7 +49,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/snsLogIn" //FIXME - 배포할 경우 수정
+      redirectTo: "http://localhost:3000/sns-login" //FIXME - 배포할 경우 수정
     }
   });
 
