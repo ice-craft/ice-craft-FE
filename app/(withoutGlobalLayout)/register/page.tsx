@@ -191,7 +191,7 @@ const Register = () => {
     try {
       await oAuthLogIn("kakao");
     } catch (error) {
-      setRegisterMessage("간편 가입에 실패했습니다.");
+      setRegisterMessage("카카오 계정을 통한 간편 가입에 실패했습니다.");
     }
   };
 
@@ -199,7 +199,7 @@ const Register = () => {
     try {
       await oAuthLogIn("google");
     } catch (error) {
-      setRegisterMessage("간편 가입에 실패했습니다.");
+      setRegisterMessage("구글 계정을 통한 간편 가입에 실패했습니다.");
     }
   };
 
@@ -207,7 +207,7 @@ const Register = () => {
     try {
       await oAuthLogIn("github");
     } catch (error) {
-      setRegisterMessage("간편 가입에 실패했습니다.");
+      setRegisterMessage("깃허브 계정을 통한 간편 가입에 실패했습니다.");
     }
   };
 
@@ -215,7 +215,7 @@ const Register = () => {
     try {
       await oAuthLogIn("facebook");
     } catch (error) {
-      setRegisterMessage("간편 가입에 실패했습니다.");
+      setRegisterMessage("페이스북 계정을 통한 간편 가입에 실패했습니다.");
     }
   };
 
