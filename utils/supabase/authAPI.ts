@@ -88,20 +88,3 @@ export const getUserInfo = async () => {
 
   return data.user;
 };
-
-export const getUserNickname = async () => {
-  const { data } = await supabase.auth.getUser();
-  return data.user?.user_metadata.nickname;
-};
-
-export const getUserUid = async () => {
-  const { data } = await supabase.auth.getUser();
-
-  return data.user?.id;
-};
-
-export const getUserEmail = async () => {
-  const { data } = await supabase.auth.getUser();
-
-  return data.user?.email;
-};
