@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { emailLogIn, oAuthLogIn } from "@/utils/supabase/authAPI";
 import S from "@/style/login/login.module.css";
@@ -12,12 +12,30 @@ import GithubLoginIcon from "@/assets/images/join_github.svg";
 import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
 import Logo from "@/assets/images/logo.svg";
 import ErrorMessage from "@/components/logIn/ErrorMessage";
+import { useCookies } from "react-cookie";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
+  const [isEmailSaved, setIsEmailSaved] = useState(false);
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["savedEmail"]);
   const router = useRouter();
+
+  useEffect(() => {
+    if (cookies.savedEmail) {
+      setEmail(cookies.savedEmail);
+      setIsEmailSaved(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isEmailSaved && email !== "") {
+      setCookie("savedEmail", email);
+    } else {
+      removeCookie("savedEmail");
+    }
+  }, [email]);
 
   const logInHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,6 +88,16 @@ const LogIn = () => {
     }
   };
 
+  const saveEmailHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsEmailSaved(e.target.checked);
+
+    if (e.target.checked) {
+      setCookie("savedEmail", email);
+    } else {
+      removeCookie("savedEmail");
+    }
+  };
+
   return (
     <div className={S.wrapper}>
       <header>
@@ -110,7 +138,7 @@ const LogIn = () => {
             </p>
             <div className={S.emailSave}>
               <p>
-                <input type="checkbox" id="saveEmail" />
+                <input type="checkbox" id="saveEmail" onChange={(e) => saveEmailHandler(e)} checked={isEmailSaved} />
                 <label htmlFor="saveEmail">이메일 저장</label>
               </p>
               <Link href="/register">회원가입</Link>
