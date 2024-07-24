@@ -21,7 +21,7 @@ export const emailLogIn = async (email: string, password: string) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("일반 로그인에 실패했습니다.");
   }
 
   return data;
