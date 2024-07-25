@@ -8,7 +8,7 @@ const useJoinRoomSocket = () => {
   const { setRoomId } = useConnectActions();
 
   const joinSockets = {
-    joinRoom: (roomId: string) => {
+    joinRoom: (roomInfo: any, roomId: string) => {
       if (roomId) {
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);

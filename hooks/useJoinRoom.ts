@@ -5,13 +5,13 @@ import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { Tables } from "@/types/supabase";
 import { useRoomAction } from "@/store/room-store";
-import useLoadingStore from "@/store/loading-store";
+import { useLoadingActions } from "@/store/loading-store";
 
 const useJoinRoom = () => {
   const isGoInClick = useRef(false);
   const { setRoomId } = useConnectActions();
   const { setIsEntry } = useRoomAction();
-  const { setLoading } = useLoadingStore();
+  const { setLoading } = useLoadingActions();
 
   //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
