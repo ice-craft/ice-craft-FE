@@ -31,7 +31,8 @@ const LogIn = () => {
 
   useEffect(() => {
     if (isEmailSaved && email !== "") {
-      setCookie("savedEmail", email);
+      const daysOf30 = 30 * 24 * 60 * 60;
+      setCookie("savedEmail", email, { maxAge: daysOf30, path: "/login" });
     } else {
       removeCookie("savedEmail");
     }
