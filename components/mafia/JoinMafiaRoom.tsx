@@ -111,6 +111,7 @@ const JoinMafiaRoom = () => {
           audio={true}
           onError={joinErrorHandler}
           connect={true}
+          simulateParticipants={5}
         >
           <MafiaPlayRooms />
         </LiveKitRoom>
