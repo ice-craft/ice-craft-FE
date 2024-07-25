@@ -5,7 +5,7 @@ import S from "@/style/mainpage/main.module.css";
 
 const MainSkeleton = () => {
   return (
-    <main className={S.main}>
+    <main className={S.mainSkeleton}>
       <div className={S.loadingTextWrapper}>
         <h1 className={S.loading}>
           Loading

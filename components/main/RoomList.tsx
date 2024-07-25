@@ -14,9 +14,9 @@ const RoomList = () => {
 
   return (
     <>
-      {rooms.length > 0 ? (
+      {rooms!.length > 0 ? (
         <ul className={S.roomList}>
-          {rooms.map((item: Tables<"room_table">) => (
+          {rooms!.map((item: Tables<"room_table">) => (
             <RoomListItem key={item.room_id} item={item} />
           ))}
         </ul>
