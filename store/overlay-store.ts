@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { OverlayState } from "../types";
 import CamCheck from "@/assets/images/cam_check.svg";
-import ChiefImage from "@/assets/images/leader.svg";
 
 const useOverlayStore = create<OverlayState>((set) => ({
   activePlayerId: "",
@@ -10,7 +9,6 @@ const useOverlayStore = create<OverlayState>((set) => ({
   isRemoteOverlay: false,
   inSelect: "",
   imageState: CamCheck,
-  chief: ChiefImage,
 
   actions: {
     setReadyPlayers: (playerId: string, isReady: boolean) =>
@@ -22,9 +20,6 @@ const useOverlayStore = create<OverlayState>((set) => ({
     //NOTE - 캠 클릭 이벤트 핸들러 및 cursor 활성화 및 비활성화
     setIsOverlay: (newIsOverlay) => set({ isLocalOverlay: newIsOverlay, isRemoteOverlay: newIsOverlay }),
     setIsRemoteOverlay: (newIsOverlay) => set({ isRemoteOverlay: newIsOverlay }),
-
-    //NOTE - 방장 이미지 표시
-    setChief: (chief) => set({ chief }),
 
     //NOTE - OO시간(투표, 마피아, 의사, 경찰) 구별
     setInSelect: (newSelect) => set({ inSelect: newSelect }),
@@ -40,14 +35,10 @@ const useOverlayStore = create<OverlayState>((set) => ({
         isLocalOverlay: false,
         isRemoteOverlay: false,
         inSelect: "",
-        imageState: CamCheck,
-        chief: ChiefImage
+        imageState: CamCheck
       })
   }
 }));
-
-//NOTE - 플레이어 중 방장이면 방장 이미지 표시
-export const useChief = () => useOverlayStore((state) => state.chief);
 
 //NOTE - Ready한 player의 캠 위치에 이미지 띄우기
 export const useReadyPlayers = () => useOverlayStore((state) => state.playersReady);

@@ -51,9 +51,9 @@ const SpeakTimer = () => {
     <>
       <h2 className={S.timerCount}>
         {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
-        <span className={S.dayAndNight}>
+        {/* <span className={S.dayAndNight}>
           <Image src={BaseIconImage} alt="icon" />
-        </span>
+        </span> */}
       </h2>
     </>
   );

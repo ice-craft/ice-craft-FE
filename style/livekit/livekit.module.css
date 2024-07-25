@@ -82,6 +82,8 @@
   position: relative;
   width: 32.5%;
   height: 30%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
 }
 
 .remoteParticipantOverlay > .remoteCam {
@@ -133,11 +135,23 @@
   width: 100%;
 }
 
-.playerNumber {
+.remotePlayerNumber {
   position: absolute;
   z-index: 1;
   left: 5px;
-  top: 34px;
+  top: 5px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.playerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 6px;
+  top: 36px;
   background-color: rgba(92, 91, 173, 0.7);
   border-radius: 4px;
   padding: 0 10px;
