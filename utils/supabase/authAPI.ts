@@ -5,12 +5,13 @@ const supabase = createClient();
 
 export const checkUserLogIn = async () => {
   const { data, error } = await supabase.auth.getUser();
-  if (data.user) {
-    return data.user;
-  }
 
   if (error) {
     throw new Error("로그인 확인에 실패했습니다.");
+  }
+
+  if (data.user) {
+    return data.user;
   }
 };
 
