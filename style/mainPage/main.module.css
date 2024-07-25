@@ -292,7 +292,7 @@
 }
 
 .roomSectionWrapSkeleton {
-  background-color: white;
+  background-color: var(--white);
 }
 
 .loadingWrapper {
