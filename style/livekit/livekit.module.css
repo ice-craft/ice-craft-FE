@@ -1,7 +1,21 @@
-.section {
-  display: flex;
+/*-------------- MafiaPlayRooms ----------------*/
+.mafiaPlayRoomWrapper {
+  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
   height: 100vh;
+}
+
+.day {
+  background: url("../../assets/images/mafia_day_bg.avif") center center/cover no-repeat;
+}
+
+.night {
+  background: url("../../assets/images/mafia_night_bg.avif") center center/cover no-repeat;
+}
+
+.mafiaPlayRoomSection {
+  display: flex;
   position: relative;
+  height: 100%;
 }
 
 .localParticipant {
@@ -11,22 +25,12 @@
   justify-content: center;
   gap: 30px;
   align-items: center;
-  background-color: var(--white);
   padding: 0 30px;
-}
-
-.localParticipant h2 {
-  font-size: var(--font-size-content);
-  border: 1px solid var(--silver-gray);
-  padding: 5px 50px;
-  border-radius: 100px;
-  color: var(--text-black);
-  white-space: nowrap;
 }
 
 .localParticipant > button {
   font-size: var(---font-size-title) !important;
-  padding: 15px 52px;
+  padding: 12px 52px;
   border-radius: var(--border-radius);
 }
 
@@ -36,6 +40,8 @@
 
 .participantOverlay {
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius);
 }
 
 .localCam {
@@ -76,6 +82,8 @@
   position: relative;
   width: 32.5%;
   height: 30%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
 }
 
 .remoteParticipantOverlay > .remoteCam {
@@ -107,16 +115,9 @@
 .imageOverlay.active,
 .remoteOverlay.active,
 .remoteParticipantOverlay.active .remoteOverlay,
-.participantOverlay.active .imageOverlay {
+.participantOverlay.active .imageOverlay,
+.chief.active {
   display: block;
-}
-
-.goToMainPage {
-  position: absolute;
-  color: var(--text-black);
-  left: 30px;
-  top: 15px;
-  font-weight: var(--font-bold);
 }
 
 .playerDieOverlay {
@@ -127,6 +128,103 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.playerInfo {
+  position: relative;
+  width: 100%;
+}
+
+.remotePlayerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 5px;
+  top: 5px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.playerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 6px;
+  top: 36px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.chief {
+  position: absolute;
+  right: -18px;
+  top: 0;
+  z-index: 2;
+  /* display: none; */
+}
+
+.remoteChief {
+  position: absolute;
+  right: -15px;
+  top: -25px;
+  z-index: 2;
+}
+
+/*-------------- SpeakTimer ----------------*/
+.gameTimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.timer {
+  font-size: var(--font-size-content);
+  text-align: center;
+  margin: 20px;
+  padding: 8px 28px;
+  background-color: var(--text-black);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timerCount {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dayAndNight img {
+  /* filter: invert(1); */
+  width: 31px;
+  transform: translateY(-2px);
+}
+
+/*-------------- goTopButton ----------------*/
+.goToMainPage {
+  position: absolute;
+  color: var(--text-black);
+  left: 30px;
+  top: 15px;
+  font-weight: var(--font-bold);
+}
+
+.goToMainPage > button {
+  background-color: transparent;
+  display: inline-block;
+  color: var(--white);
+}
+
+.goToMainPage > button:hover {
+  background-color: transparent !important;
 }
 
 /*-------------- ToolTipIcon ----------------*/
@@ -174,10 +272,6 @@
   width: 450px;
 }
 
-.lk-prejoin .lk-username-container {
-  display: none;
-}
-
 .settingUserButton li {
   position: absolute;
   border-radius: 8px 0 0 8px;
@@ -206,18 +300,18 @@
   user-select: none;
 }
 
-.settingJoinButton {
-  margin: 0 16px;
+/*-------------- GameStartButton ----------------*/
+.isReadyButton {
+  background-color: var(--silver-gray);
+  transition: background-color 0.3s ease;
 }
 
-.settingJoinButton > button {
-  position: absolute;
-  bottom: 16px;
-  width: 93%;
+.isReadyButton.active {
   background-color: var(--primary-color);
-  padding: 10px 0;
-  text-align: center;
-  border-radius: var(--border-radius);
+}
+
+.chiefGameStart {
+  background-color: var(--variation-error);
 }
 
 /*-------------- Respansive ----------------*/

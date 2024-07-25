@@ -36,7 +36,10 @@ export default function Pagination({ data }: PageNateProps) {
                 <li key={item.ranking}>
                   <div>
                     <h2 className={rankClass}>{item.ranking}</h2>
-                    <h3>{item.nickname}</h3>
+                    <h3 className={S.userNickname}>
+                      {item.nickname}
+                      <span className={S.userEmail}>{item.email}</span>
+                    </h3>
                     <p className={S.mafiaUserRanking}>{item.mafia_score}</p>
                     <p className={S.songUserRanking}>{item.music_score}</p>
                     <p className={S.totalRanking}>{item.total_score}</p>

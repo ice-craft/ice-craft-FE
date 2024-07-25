@@ -18,7 +18,7 @@ const ModalConfetti = ({
   const { setIsOpen } = useModalActions();
   const { setIsGameState } = useGameActions();
 
-  // // 타이머 및 폭죽 효과
+  // 타이머 및 폭죽 효과
   useCountDown(() => setCount((prevCount) => prevCount - 1), 1000, isModal);
 
   const jsConfetti = new JSConfetti();
@@ -39,7 +39,7 @@ const ModalConfetti = ({
     }
   }, [count]);
 
-  return <div>{title}승리</div>;
+  return <h1>{title} 승리!</h1>;
 };
 
 export default ModalConfetti;
