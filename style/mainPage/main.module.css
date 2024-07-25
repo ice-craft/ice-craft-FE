@@ -11,16 +11,11 @@
 }
 
 .gameImage {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: inherit;
   background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
-  justify-content: center;
 }
 
 .visualSection .gameImage:nth-of-type(2) {
-  background: url("../../assets/images/song_visual.avif") center center/cover no-repeat !important;
+  background: url("../../assets/images/song_visual.avif") center center/cover no-repeat;
 }
 
 .visualSection .gameImage:nth-of-type(2) .gameTitle > h2 {
@@ -90,8 +85,8 @@
   color: var(--white);
   display: flex;
   flex-direction: column;
-  top: 50%;
-  margin-top: -80px;
+  /* top: 50%;
+  margin-top: -80px; */
   padding-left: 100px;
   min-width: var(--max-width);
 }

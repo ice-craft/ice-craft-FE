@@ -32,3 +32,8 @@
 .swiper-slide-active {
   z-index: 1;
 }
+
+.swiper-fade .swiper-slide {
+  display: flex;
+  align-items: center;
+}
