@@ -6,7 +6,7 @@
   position: absolute;
   left: 30px;
   top: 21px;
-  z-index: 2;
+  z-index: 1;
 }
 
 .mainWrapper {
@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: scroll;
 }
 
 .mainWrapper form {
@@ -26,6 +27,8 @@
   gap: 60px;
   flex-direction: column;
   border-radius: 24px;
+  transform: scale(0.85);
+  z-index: 2;
 }
 
 .mainWrapper form h2 {
@@ -50,8 +53,8 @@
 }
 
 .mainWrapper form .userform > p > input:focus {
-  outline: 1px solid var(--primary-color);
-  opacity: 0.5;
+  outline: 1px solid rgba(92, 91, 173, 0.5);
+  color: #747474;
 }
 
 .emailSave {

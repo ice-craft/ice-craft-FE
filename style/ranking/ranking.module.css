@@ -34,7 +34,7 @@
 
 .userRankingList {
   font-weight: 600;
-  min-height: 30vh;
+  min-height: 100vh;
 }
 .myRankingList li div h2,
 .userRankingList li div h2,
@@ -132,6 +132,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.userNickname {
+  position: relative;
+  cursor: pointer;
+}
+
+.userNickname:hover .userEmail {
+  display: block;
+}
+
+.userEmail {
+  position: absolute;
+  display: inline-block;
+  left: 50%;
+  top: -20px;
+  padding: 0 15px;
+  height: 40px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: var(--border-radius);
+  line-height: 40px;
+  transform: translateX(-50%);
+  display: none;
+}
+
+.userEmail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  background-color: var(--primary-color);
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  z-index: -1;
 }
 
 /*---------------- Responsive --------------*/
