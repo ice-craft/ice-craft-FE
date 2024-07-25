@@ -90,7 +90,8 @@
   color: var(--white);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  top: 50%;
+  margin-top: -80px;
   padding-left: 100px;
   min-width: var(--max-width);
 }
