@@ -14,6 +14,7 @@ import {
 } from "@livekit/components-react";
 import Image from "next/image";
 import GameStartButton from "./GameStartButton";
+import { useEffect } from "react";
 
 const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }) => {
   const activePlayerId = useActivePlayer();
@@ -41,7 +42,10 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
           className={`${S.participantOverlay} ${activePlayerId === localParticipant.identity ? S.active : ""}`}
           onClick={isLocalOverlay ? (e) => clickHandler(e, localParticipant.identity) : undefined}
         >
-          <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
+          <ParticipantTile
+            // disableSpeakingIndicator={true}
+            className={isLocalOverlay ? S.localCam : undefined}
+          />
           {!isDied ? (
             <div className={`${S.imageOverlay} ${localReadyState[localParticipant.identity] ? S.active : ""}`}>
               <Image src={CamCheck} alt={localParticipant.identity} />

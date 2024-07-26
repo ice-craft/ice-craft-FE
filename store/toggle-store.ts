@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { CreateState } from "../types";
 
-export const useCreateStore = create<CreateState>((set) => ({
+const useCreateStore = create<CreateState>((set) => ({
   isCreate: false,
   actions: {
     setIsCreate: (newToggle: boolean) => set({ isCreate: newToggle })
