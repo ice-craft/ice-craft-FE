@@ -1,17 +1,15 @@
-import { useEffect, useRef } from "react";
-import { toast } from "react-toastify";
 import { useConnectActions } from "@/store/connect-store";
+import { useLoadingActions } from "@/store/loading-store";
+import { useRoomAction } from "@/store/room-store";
+import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
-import { Tables } from "@/types/supabase";
-import { useRoomAction } from "@/store/room-store";
-import { useLoadingActions } from "@/store/loading-store";
+import { toast } from "react-toastify";
 
 const useJoinRoom = () => {
-  const isGoInClick = useRef(false);
   const { setRoomId } = useConnectActions();
-  const { setIsEntry } = useRoomAction();
   const { setLoading } = useLoadingActions();
+  const { setIsEntry } = useRoomAction();
 
   //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
@@ -21,27 +19,19 @@ const useJoinRoom = () => {
         toast.info("로그인 후 입장 가능합니다.");
         return;
       }
-      if (!isGoInClick.current && userInfo) {
+      if (userInfo) {
         setLoading(true);
-        isGoInClick.current = true;
         emitCallback(userInfo.id, userInfo.user_metadata.nickname);
       }
     } catch {
       toast.error("로그인 확인 중 오류가 발생했습니다.");
-    } finally {
-      isGoInClick.current = false;
     }
   };
-
-  useEffect(() => {
-    return () => setLoading(false);
-  }, []);
 
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler((userId, userNickname) => {
       setRoomId(item.room_id);
-
       setIsEntry(true);
       socket.emit("joinRoom", userId, item.room_id, userNickname);
     });

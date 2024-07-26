@@ -5,10 +5,8 @@ import S from "@/style/mainpage/main.module.css";
 import { RoomListItemProps } from "@/types";
 import { Tables } from "@/types/supabase";
 import Image from "next/image";
-import { useRef } from "react";
 
 const RoomListItem = ({ item }: RoomListItemProps) => {
-  const isGoInClick = useRef(false);
   const { joinRoomHandler } = useJoinRoom();
 
   const updateIsPlaying = (room: Tables<"room_table">): boolean => {
@@ -43,7 +41,7 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
         </div>
       ) : (
         <div className={S.roomListWrap}>
-          <button disabled={isGoInClick.current} onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
+          <button onClick={() => joinRoomHandler(item)} className={S.gotoButton}>
             입장하기
           </button>
         </div>
