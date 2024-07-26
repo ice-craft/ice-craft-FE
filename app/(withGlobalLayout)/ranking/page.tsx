@@ -8,10 +8,11 @@ import Image from "next/image";
 import Pagination from "@/components/ranking/Pagination";
 import MyLanking from "@/components/ranking/MyRanking";
 import FormSearch from "@/utils/FormSearch";
+import { getUsersRanking } from "@/utils/supabase/rankingAPI";
 
 const Rankingpage = async () => {
-  const supabase = createClient();
-  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
+  const data = await getUsersRanking();
+  console.log(data);
 
   return (
     <section className={S.sectionWrapper}>
