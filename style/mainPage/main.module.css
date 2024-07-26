@@ -276,15 +276,23 @@
 }
 
 /*---------------- Main Skeleton --------------*/
+.headerSkeleton {
+  width: 100%;
+  background-color: #d0d0d0;
+  z-index: 1;
+  padding: 10px 20px 15px;
+}
+
 .mainSkeleton {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 999;
+}
+
+.roomSectionWrapSkeleton {
+  background-color: var(--white);
 }
 
 .loadingWrapper {

@@ -38,7 +38,7 @@ const RenderCards = () => {
       {Object.entries(cards).map(([key, { src, alt }]) =>
         showAllCards || key === playerJob ? (
           <li key={key}>
-            <Image width={100} height={100} src={src} alt={alt} />
+            <Image width={521} height={716} src={src} alt={alt} />
           </li>
         ) : null
       )}
