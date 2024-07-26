@@ -11,6 +11,7 @@ import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Style from "@/style/commons/commons.module.css";
 
 const JoinMafiaRoom = () => {
   const roomId = useParams();
@@ -85,20 +86,18 @@ const JoinMafiaRoom = () => {
   //NOTE - 방 에러 UI
   if (isJoinError) {
     return (
-      <div>
-        <p>
-          게임 접속에 불편을 드려서 죄송합니다. 현재 원활한 게임이 진행되지 않고 있으니, 나갔다 다시 접속해 주시기
-          바랍니다.
-        </p>
+      <section className={Style.mainSection}>
+        <h2>게임 접속에 불편을 드려서 죄송합니다.</h2>
+        <h3>현재 원활한 게임이 진행되지 않고 있으니, 다시 접속해 주시기 바랍니다.</h3>
         <button
           onClick={() => {
             socket.emit("exitRoom", roomId.id, userInfo.userId);
             setIsEntry(false);
           }}
         >
-          나가기
+          메인페이지로 이동하기
         </button>
-      </div>
+      </section>
     );
   }
 

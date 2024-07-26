@@ -23,7 +23,7 @@ const UserRoleModal = () => {
     <>
       <div className={S.modalWrap}>
         <div className={S.workModal}>
-          <h1 className={S.workTitle}>직업을 정하겠습니다.</h1>
+          <h1 className={S.workTitle}>직업을 정하고 있습니다.</h1>
           <ul className={S.workList}>
             <RenderCards />
           </ul>
