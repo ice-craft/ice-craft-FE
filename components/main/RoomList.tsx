@@ -1,11 +1,10 @@
-import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
-import Image from "next/image";
 import VisitEmptyImage from "@/assets/images/visit_empty.svg";
+import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
 import S from "@/style/mainpage/main.module.css";
-import React from "react";
-import RoomListItem from "./RoomListItem";
 import { Tables } from "@/types/supabase";
+import Image from "next/image";
 import MainSkeleton from "./MainSkeleton";
+import RoomListItem from "./RoomListItem";
 
 const RoomList = () => {
   const { rooms } = useGetRoomsSocket();
@@ -14,9 +13,9 @@ const RoomList = () => {
 
   return (
     <>
-      {rooms!.length > 0 ? (
+      {rooms.length > 0 ? (
         <ul className={S.roomList}>
-          {rooms!.map((item: Tables<"room_table">) => (
+          {rooms.map((item: Tables<"room_table">) => (
             <RoomListItem key={item.room_id} item={item} />
           ))}
         </ul>

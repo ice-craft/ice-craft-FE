@@ -1,26 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
-import VisitEmptyImage from "@/assets/images/visit_empty.svg";
-import S from "@/style/mainpage/main.module.css";
-import GoTopButton from "@/utils/GoTopButton";
 import MainCreateRoom from "@/components/main/CreateRoomModal";
-import { useCreate, useCreateActions, useCreateStore } from "@/store/toggle-store";
 import MainVisual from "@/components/main/MainVisual";
-import FormSearch from "@/utils/FormSearch";
-import RoomListItem from "@/components/main/RoomListItem";
-import MainSkeleton from "@/components/main/MainSkeleton";
-import useJoinRoom from "@/hooks/useJoinRoom";
-import Popup from "@/utils/Popup";
-import { Tables } from "@/types/supabase";
-import { socket } from "@/utils/socket/socket";
-import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
-import CommonsLoading from "@/utils/CommonsLoading";
-import useGetRoomsSocket from "@/hooks/useGetRoomsSocket";
-import useSocketOn from "@/hooks/useSocketOn";
-import InfoChat from "@/utils/InfoChat";
 import RoomList from "@/components/main/RoomList";
+import useJoinRoom from "@/hooks/useJoinRoom";
+import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
+import { useCreate, useCreateActions } from "@/store/toggle-store";
+import S from "@/style/mainpage/main.module.css";
+import CommonsLoading from "@/utils/CommonsLoading";
+import FormSearch from "@/utils/FormSearch";
+import GoTopButton from "@/utils/GoTopButton";
+import InfoChat from "@/utils/InfoChat";
+import Popup from "@/utils/Popup";
+import { socket } from "@/utils/socket/socket";
+import { useEffect, useRef } from "react";
 
 const Mainpage = () => {
   const isGoInClick = useRef(false);
@@ -46,16 +39,6 @@ const Mainpage = () => {
     socket.connect();
     socket.emit("enterMafia");
   }, []);
-
-  const roomList = {
-    updateRoomInfo: () => {
-      // socket.emit("enterMafia");
-    }
-  };
-  useSocketOn(roomList);
-
-  //NOTE - 방 목록 리스트 데이터 불러오기 전까지 스켈레톤 UI
-  // if (!rooms) return <MainSkeleton />;
 
   return (
     <main className={S.main}>
