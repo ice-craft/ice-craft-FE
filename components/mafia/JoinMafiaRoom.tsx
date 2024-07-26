@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import Style from "@/style/commons/commons.module.css";
 
 const JoinMafiaRoom = () => {
+  const userIds = useUserId();
+  const nicknamses = useNickname();
   const roomId = useParams();
   const [userInfo, setUserInfo] = useState({
     userId: "",
@@ -41,7 +43,8 @@ const JoinMafiaRoom = () => {
       try {
         const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
-          setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
+          // setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
+          setUserInfo({ userId: userIds, nickname: nicknamses });
         }
       } catch (error) {
         joinErrorHandler(error);

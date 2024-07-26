@@ -18,8 +18,10 @@ const Nav = () => {
       try {
         const userInfo = await checkUserLogIn();
         if (userInfo) {
-          setUserId(userInfo.id);
-          setUserNickname(userInfo.user_metadata.nickname);
+          // setUserId(userInfo.id);
+          // setUserNickname(userInfo.user_metadata.nickname);
+          setUserId(crypto.randomUUID());
+          setUserNickname(crypto.randomUUID());
         }
       } catch (error) {
         toast.error("로그인 여부를 확인해 주세요.");
