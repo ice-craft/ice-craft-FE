@@ -102,7 +102,7 @@ const LogIn = () => {
   return (
     <div className={S.wrapper}>
       <header>
-        <Link href="/">
+        <Link replace={true} href="/">
           <Image src={Logo} alt="logo" />
         </Link>
       </header>
@@ -142,7 +142,9 @@ const LogIn = () => {
                 <input type="checkbox" id="saveEmail" onChange={(e) => saveEmailHandler(e)} checked={isEmailSaved} />
                 <label htmlFor="saveEmail">이메일 저장</label>
               </p>
-              <Link href="/register">회원가입</Link>
+              <Link replace={true} href="/register">
+                회원가입
+              </Link>
             </div>
             <ErrorMessage errorMessage={errorMessage} />
           </div>

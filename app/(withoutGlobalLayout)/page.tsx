@@ -20,7 +20,7 @@ const IntroPage = async () => {
   return (
     <div className={S.introWrapper}>
       <header>
-        <Link href="/">
+        <Link replace={true} href="/">
           <Image src={Logo} alt="아이스 크래프트 홈페이지입니다." priority />
         </Link>
       </header>
@@ -38,12 +38,14 @@ const IntroPage = async () => {
           <Link replace={true} href="/main" className={S.mainButton}>
             Get Started
           </Link>
-          <Link href="/login" className={S.loginButton}>
+          <Link replace={true} href="/login" className={S.loginButton}>
             Login
           </Link>
           <div className={S.signUpButton}>
             <p>아직 IceCraft에 가입하지 않으셨나요?</p>
-            <Link href="/register">회원가입 하기</Link>
+            <Link replace={true} href="/register">
+              회원가입 하기
+            </Link>
           </div>
         </div>
       </section>
