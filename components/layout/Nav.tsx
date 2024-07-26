@@ -21,9 +21,7 @@ const Nav = () => {
           setUserId(userInfo.id);
           setUserNickname(userInfo.user_metadata.nickname);
         }
-      } catch (error) {
-        toast.error("로그인 여부를 확인해 주세요.");
-      }
+      } catch (error) {}
     };
     checkUserInfo();
   }, []);

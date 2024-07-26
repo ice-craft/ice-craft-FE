@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { getRoomsWithKeyword } from "@/utils/supabase/roomAPI";
 import SearchIcon from "@/assets/images/icon_search.svg";

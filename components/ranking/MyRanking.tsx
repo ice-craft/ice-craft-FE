@@ -29,6 +29,8 @@ const MyRanking = ({ data }: MyRankingProps) => {
     };
   }, []);
 
+  //유저 정보가 없을시(로그아웃) 대처를 삽입
+  //조건부 랜더링으로 로그아웃 시 랜더링이 되지 않게
   const fetchUser = async () => {
     const loginCheckUser = await checkUserLogIn();
     console.log(loginCheckUser);
