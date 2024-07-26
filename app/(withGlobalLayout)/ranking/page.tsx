@@ -1,18 +1,23 @@
-export const revalidate = 1800;
+"use client";
 
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
-import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Pagination from "@/components/ranking/Pagination";
 import MyLanking from "@/components/ranking/MyRanking";
 import FormSearch from "@/utils/FormSearch";
 import { getUsersRanking } from "@/utils/supabase/rankingAPI";
+import { useEffect } from "react";
 
 const Rankingpage = async () => {
-  const data = await getUsersRanking();
-  console.log(data);
+  let rankingList = await getUsersRanking();
+  console.log("목록", rankingList);
+
+  const setRanking = (rankingList: any) => {
+    let sameScoreCount = 0;
+    let ranking = 1;
+  };
 
   return (
     <section className={S.sectionWrapper}>
@@ -27,14 +32,14 @@ const Rankingpage = async () => {
         <li>노래 맞추기</li>
         <li>총점</li>
       </ul>
-      {data ? (
-        <MyLanking data={data} />
+      {rankingList ? (
+        <MyLanking data={rankingList} />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
         </div>
       )}
-      <Pagination data={data} />
+      <Pagination data={rankingList} />
       <GoTopButton />
     </section>
   );
