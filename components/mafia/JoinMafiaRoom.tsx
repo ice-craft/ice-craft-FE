@@ -6,7 +6,7 @@ import { useRoomAction } from "@/store/room-store";
 import S from "@/style/livekit/livekit.module.css";
 import useBeforeUnloadHandler from "@/utils/reload/useBeforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
+import { checkUserLoginInfo } from "@/utils/supabase/authAPI";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useParams } from "next/navigation";
@@ -39,7 +39,7 @@ const JoinMafiaRoom = () => {
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
-        const loginInfo = await checkUserLogIn();
+        const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
           setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
         }

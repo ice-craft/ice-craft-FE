@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import S from "@/style/commons/commons.module.css";
 import { checkUserLogIn, logOut } from "@/utils/supabase/authAPI";
-import { toast } from "react-toastify";
+import Link from "next/link";
 import { useEffect } from "react";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { toast } from "react-toastify";
 
 const Nav = () => {
   const userNickname = useNickname();

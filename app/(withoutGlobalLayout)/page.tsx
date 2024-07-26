@@ -35,7 +35,7 @@ const IntroPage = async () => {
         ></video>
         <div className={S.introTitle}>
           <TextTyping />
-          <Link href="/main" className={S.mainButton}>
+          <Link replace={true} href="/main" className={S.mainButton}>
             Get Started
           </Link>
           <Link href="/login" className={S.loginButton}>

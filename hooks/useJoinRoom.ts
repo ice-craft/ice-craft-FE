@@ -15,14 +15,14 @@ const useJoinRoom = () => {
 
   //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
-    setLoading(true);
     try {
       const userInfo = await checkUserLogIn();
       if (!userInfo) {
         toast.info("로그인 후 입장 가능합니다.");
         return;
       }
-      if (!isGoInClick.current) {
+      if (!isGoInClick.current && userInfo) {
+        setLoading(true);
         isGoInClick.current = true;
         emitCallback(userInfo.id, userInfo.user_metadata.nickname);
       }
