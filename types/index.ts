@@ -196,3 +196,20 @@ export interface Ranking {
   user_id: string;
   ranking?: number;
 }
+
+export interface MyLankingProps {
+  ranking: Ranking;
+}
+
+export interface PageNationProps {
+  rankingList: Ranking[];
+}
+
+export interface CurrentItemsProps {
+  currentItems: Ranking[];
+}
+
+export interface PaginatedItemsProps {
+  items: Ranking[];
+  itemsPerPage: number;
+}

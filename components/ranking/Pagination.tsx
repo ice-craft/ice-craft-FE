@@ -6,20 +6,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
 import Image from "next/image";
-import { Ranking } from "@/types";
-
-interface PageNationProps {
-  rankingList: Ranking[];
-}
-
-interface CurrentItemsProps {
-  currentItems: Ranking[];
-}
-
-interface PaginatedItemsProps {
-  items: Ranking[];
-  itemsPerPage: number;
-}
+import { CurrentItemsProps, PageNationProps, PaginatedItemsProps, Ranking } from "@/types";
 
 export default function Pagination({ rankingList }: PageNationProps) {
   const items = rankingList;

@@ -2,11 +2,7 @@
 
 import React from "react";
 import S from "@/style/ranking/ranking.module.css";
-import { Ranking } from "@/types";
-
-interface MyLankingProps {
-  ranking: Ranking;
-}
+import { MyLankingProps, Ranking } from "@/types";
 
 const MyLanking = ({ ranking }: MyLankingProps) => {
   return (
