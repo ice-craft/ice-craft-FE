@@ -186,3 +186,13 @@ export interface LoadingState {
   loading: boolean;
   setLoading: (loading: boolean) => void;
 }
+
+export interface Ranking {
+  email: string;
+  mafia_score: number;
+  music_score: number;
+  nickname: string | null;
+  total_score: number;
+  user_id: string;
+  ranking?: number;
+}
