@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import S from "@/style/ranking/ranking.module.css";
 import { MyLankingProps, Ranking } from "@/types";
