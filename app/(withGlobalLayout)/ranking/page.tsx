@@ -11,9 +11,11 @@ import FormSearch from "@/utils/FormSearch";
 import { getUsersRanking } from "@/utils/supabase/rankingAPI";
 import { useEffect } from "react";
 import { Ranking } from "@/types";
+import { getUserInfo } from "@/utils/supabase/authAPI";
 
 const Rankingpage = async () => {
   const rankingList = await getUsersRanking();
+  let myLanking = null;
   console.log("렌더링");
 
   const setRanking = async (rankingList: Ranking[]) => {
@@ -32,7 +34,22 @@ const Rankingpage = async () => {
     }
   };
 
+  const getMyLanking = async () => {
+    let userInfo = null;
+    try {
+      userInfo = await getUserInfo();
+
+      const nickname = userInfo.user_metadata.name;
+      const result = rankingList.find((ranking) => (ranking.nickname = nickname));
+
+      return result;
+    } catch (e) {
+      return null;
+    }
+  };
+
   setRanking(rankingList);
+  myLanking = getMyLanking();
 
   return (
     <section className={S.sectionWrapper}>
