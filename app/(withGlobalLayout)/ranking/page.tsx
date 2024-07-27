@@ -1,5 +1,5 @@
-// export const revalidate = 30 * 60 * 60; //NOTE - 30분
-"use client";
+export const revalidate = 30 * 60 * 60; //NOTE - 30분
+// "use client";
 
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
@@ -9,7 +9,6 @@ import Pagination from "@/components/ranking/Pagination";
 import MyLanking from "@/components/ranking/MyRanking";
 import FormSearch from "@/utils/FormSearch";
 import { getUsersRanking } from "@/utils/supabase/rankingAPI";
-import { useEffect } from "react";
 import { Ranking } from "@/types";
 import { getUserInfo } from "@/utils/supabase/authAPI";
 
@@ -35,21 +34,24 @@ const Rankingpage = async () => {
   };
 
   const getMyLanking = async () => {
-    let userInfo = null;
+    // let userInfo = null;
     try {
-      userInfo = await getUserInfo();
+      // userInfo = await getUserInfo();
 
-      const nickname = userInfo.user_metadata.name;
-      const result = rankingList.find((ranking) => (ranking.nickname = nickname));
+      // const nickname = userInfo.user_metadata.name;
+      const nickname = "김명환";
+      const result = rankingList.find((ranking) => ranking.nickname === nickname);
 
       return result;
     } catch (e) {
+      console.log((e as Error).message);
       return null;
     }
   };
 
   setRanking(rankingList);
-  myLanking = getMyLanking();
+  myLanking = await getMyLanking();
+  console.log("나의 랭킹", myLanking);
 
   return (
     <section className={S.sectionWrapper}>
@@ -64,14 +66,14 @@ const Rankingpage = async () => {
         <li>노래 맞추기</li>
         <li>총점</li>
       </ul>
+      {myLanking && <MyLanking ranking={myLanking} />}
       {rankingList ? (
-        <MyLanking data={rankingList} />
+        <Pagination data={rankingList} />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
         </div>
       )}
-      <Pagination data={rankingList} />
       <GoTopButton />
     </section>
   );
