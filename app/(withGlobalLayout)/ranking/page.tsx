@@ -1,4 +1,4 @@
-export const revalidate = 30 * 60 * 60; //NOTE - 30분
+export const revalidate = 1; //NOTE - 30분
 // "use client";
 
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
@@ -52,6 +52,7 @@ const Rankingpage = async () => {
   setRanking(rankingList);
   myLanking = await getMyLanking();
   console.log("나의 랭킹", myLanking);
+  console.log("랭킹 목록", rankingList);
 
   return (
     <section className={S.sectionWrapper}>
@@ -68,7 +69,7 @@ const Rankingpage = async () => {
       </ul>
       {myLanking && <MyLanking ranking={myLanking} />}
       {rankingList ? (
-        <Pagination data={rankingList} />
+        <Pagination rankingList={rankingList} />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
