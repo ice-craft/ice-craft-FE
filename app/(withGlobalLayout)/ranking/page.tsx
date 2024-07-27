@@ -10,10 +10,29 @@ import MyLanking from "@/components/ranking/MyRanking";
 import FormSearch from "@/utils/FormSearch";
 import { getUsersRanking } from "@/utils/supabase/rankingAPI";
 import { useEffect } from "react";
+import { Ranking } from "@/types";
 
 const Rankingpage = async () => {
   const rankingList = await getUsersRanking();
   console.log("렌더링");
+
+  const setRanking = async (rankingList: Ranking[]) => {
+    let sameScoreCount = 1;
+    let ranking = 1;
+    rankingList[0].ranking = 1;
+
+    for (let i = 1; i < rankingList.length; i++) {
+      if (rankingList[i].total_score === rankingList[i - 1].total_score) {
+        sameScoreCount++;
+      } else {
+        ranking += sameScoreCount;
+        sameScoreCount = 1;
+      }
+      rankingList[i].ranking = ranking;
+    }
+  };
+
+  setRanking(rankingList);
 
   return (
     <section className={S.sectionWrapper}>
