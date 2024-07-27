@@ -1,3 +1,4 @@
+// export const revalidate = 30 * 60 * 60; //NOTE - 30분
 "use client";
 
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
@@ -11,13 +12,24 @@ import { getUsersRanking } from "@/utils/supabase/rankingAPI";
 import { useEffect } from "react";
 
 const Rankingpage = async () => {
-  let rankingList = await getUsersRanking();
-  console.log("목록", rankingList);
+  const rankingList = await getUsersRanking();
+  // let data = await getUsersRanking();
+  // console.log("목록", rankingList);
+  console.log("렌더링");
 
-  const setRanking = (rankingList: any) => {
-    let sameScoreCount = 0;
+  const setRanking = async () => {
+    const data = await getUsersRanking();
+    let sameScoreCount = 1;
     let ranking = 1;
+    let prevItem = data[0].total_score;
+
+    // console.log("결과");
+    for (let i = 0; i < data.length; i++) {
+      // console.log(i, data[i]);
+    }
   };
+
+  setRanking();
 
   return (
     <section className={S.sectionWrapper}>
