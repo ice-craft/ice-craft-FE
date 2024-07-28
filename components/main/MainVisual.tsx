@@ -80,7 +80,7 @@ const MainVisual = () => {
           onMouseEnter={mouseEnterHandler}
           onMouseLeave={mouseLeaveHandler}
         >
-          <h2>
+          <h2 className={S.songTitle}>
             <Image src={SongGameTitle} alt="song game title" priority />
           </h2>
           <div className={S.gameButton}>
