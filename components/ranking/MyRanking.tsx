@@ -11,9 +11,10 @@ const MyLanking = ({ rankingList }: MyLankingProps) => {
   useEffect(() => {
     const setMyLanking = async () => {
       try {
-        let userInfo = await getUserInfo();
-        const nickname = userInfo.user_metadata.name;
-        const ranking = rankingList.find((ranking: Ranking) => ranking.nickname === nickname);
+        const userInfo = await getUserInfo();
+        const userId = userInfo.id;
+        const ranking = rankingList.find((ranking: Ranking) => ranking.user_id === userId);
+        console.log(userId);
 
         setMyRanking(ranking);
       } catch (e) {
