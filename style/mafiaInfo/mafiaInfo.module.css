@@ -66,3 +66,9 @@
     flex-wrap: wrap;
   }
 }
+
+@media (max-width: 768px) {
+  .infoWrapper {
+    padding: 108px 30px;
+  }
+}
