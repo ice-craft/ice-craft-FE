@@ -37,3 +37,11 @@
   display: flex;
   align-items: center;
 }
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  .swiper-pagination-fraction {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

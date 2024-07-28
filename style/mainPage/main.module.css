@@ -554,6 +554,16 @@
     padding-top: 69px;
   }
 
+  .visualSection {
+    height: 580px;
+    transition: 0.3s ease-out;
+  }
+
+  .gameList {
+    height: 500px;
+    transition: 0.3s ease-out;
+  }
+
   .gameTitle {
     align-items: center;
     padding-left: 0;
