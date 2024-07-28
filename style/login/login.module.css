@@ -103,3 +103,25 @@
 .error span {
   display: block;
 }
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  .wrapper header img {
+    max-width: 70%;
+    transition: 0.3s ease-out;
+  }
+
+  .mainWrapper form {
+    width: 100%;
+    padding: 50px 20px;
+  }
+
+  .mainWrapper form .userform > p > input {
+    width: 100%;
+  }
+
+  .mainWrapper form h2 {
+    font-size: 24px;
+    transition: 0.3s ease-out;
+  }
+}
