@@ -198,7 +198,7 @@ export interface Ranking {
 }
 
 export interface MyLankingProps {
-  ranking: Ranking;
+  rankingList: Ranking[];
 }
 
 export interface PageNationProps {
