@@ -6,10 +6,8 @@ import GoTopButton from "@/utils/GoTopButton";
 import Image from "next/image";
 import Pagination from "@/components/ranking/Pagination";
 import MyLanking from "@/components/ranking/MyRanking";
-import FormSearch from "@/utils/FormSearch";
 import { getUsersRanking } from "@/utils/supabase/rankingAPI";
 import { Ranking } from "@/types";
-import { getUserInfo } from "@/utils/supabase/authAPI";
 
 const Rankingpage = async () => {
   const rankingList = await getUsersRanking();
@@ -18,6 +16,7 @@ const Rankingpage = async () => {
   const setRanking = async (rankingList: Ranking[]) => {
     let sameScoreCount = 1;
     let ranking = 1;
+
     rankingList[0].ranking = 1;
 
     for (let i = 1; i < rankingList.length; i++) {

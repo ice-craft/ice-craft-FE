@@ -1,23 +1,44 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import S from "@/style/ranking/ranking.module.css";
 import { MyLankingProps, Ranking } from "@/types";
+import { getUserInfo } from "@/utils/supabase/authAPI";
 
-const MyLanking = ({ ranking }: MyLankingProps) => {
+const MyLanking = ({ rankingList }: MyLankingProps) => {
+  const [myRanking, setMyRanking] = useState<Ranking | null>();
+
+  useEffect(() => {
+    const setMyLanking = async () => {
+      try {
+        let userInfo = await getUserInfo();
+        const nickname = userInfo.user_metadata.name;
+        const ranking = rankingList.find((ranking: Ranking) => ranking.nickname === nickname);
+
+        setMyRanking(ranking);
+      } catch (e) {
+        setMyRanking(null);
+      }
+    };
+
+    setMyLanking();
+  }, []);
+
   return (
     <div>
-      {ranking ? (
+      {myRanking && (
         <ul className={S.myRankingList}>
           <li>
             <div>
-              <h2>{ranking.ranking}</h2>
-              <h3>{ranking.nickname}</h3>
-              <p className={S.mafiaUserRanking}>{ranking.mafia_score}</p>
-              <p className={S.songUserRanking}>{ranking.music_score}</p>
-              <p className={S.totalRanking}>{ranking.total_score}</p>
+              <h2>{myRanking.ranking}</h2>
+              <h3>{myRanking.nickname}</h3>
+              <p className={S.mafiaUserRanking}>{myRanking.mafia_score}</p>
+              <p className={S.songUserRanking}>{myRanking.music_score}</p>
+              <p className={S.totalRanking}>{myRanking.total_score}</p>
             </div>
           </li>
         </ul>
-      ) : null}
+      )}
     </div>
   );
 };
