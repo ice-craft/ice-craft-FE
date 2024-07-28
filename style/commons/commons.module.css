@@ -346,4 +346,14 @@
   .goTopButton img {
     width: 40px;
   }
+
+  /* InquiryPage */
+  .inquiryWrap {
+    padding: 108px 20px;
+  }
+
+  .article {
+    width: 90%;
+    left: 20px;
+  }
 }
