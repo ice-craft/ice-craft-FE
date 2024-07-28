@@ -9,7 +9,7 @@ export const getRoomsWithKeyword = async (keyword: string) => {
     .like("title", `%${keyword}%`)
     .order("created_at", { ascending: false });
   if (error) {
-    throw new Error(error.message);
+    throw new Error("키워드로 방 찾기에 실패했습니다.");
   }
   return data;
 };
