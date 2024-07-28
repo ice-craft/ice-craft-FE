@@ -127,7 +127,7 @@
 /*--------------- Responsive --------------*/
 @media (max-width: 768px) {
   .wrapper header img {
-    max-width: 70%;
+    width: 100px;
     transition: 0.3s ease-out;
   }
 

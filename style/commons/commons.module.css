@@ -337,4 +337,13 @@
   .addressInfo > p {
     text-align: center;
   }
+
+  /* goTopButton */
+  .goTopButton {
+    right: 20px;
+  }
+
+  .goTopButton img {
+    width: 40px;
+  }
 }

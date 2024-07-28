@@ -43,10 +43,10 @@ const MainVisual = () => {
       }}
       rewind={true}
       effect={"fade"}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false
-      }}
+      // autoplay={{
+      //   delay: 5000,
+      //   disableOnInteraction: false
+      // }}
       navigation={true}
       speed={800}
       parallax={true}
