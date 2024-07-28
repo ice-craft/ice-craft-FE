@@ -50,7 +50,7 @@ const MainVisual = () => {
       navigation={true}
       speed={800}
       parallax={true}
-      modules={[EffectFade, Parallax, Autoplay, Pagination, Navigation]}
+      modules={[EffectFade, Parallax, Pagination, Navigation]}
       onSwiper={(swiper) => {
         swiperRef.current = swiper;
       }}

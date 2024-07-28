@@ -3,7 +3,7 @@
 }
 
 .wrapper header {
-  max-width: 1920px;
+  max-width: var(--max-width);
   margin: 0 auto;
   position: relative;
 }
