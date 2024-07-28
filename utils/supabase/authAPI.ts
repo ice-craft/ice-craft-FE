@@ -29,7 +29,7 @@ export const emailLogIn = async (email: string, password: string) => {
 };
 
 export const oAuthRegister = async (email: string, password: string, nickname: string) => {
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -38,11 +38,16 @@ export const oAuthRegister = async (email: string, password: string, nickname: s
       }
     }
   });
+
   if (error) {
     throw new Error("oAuth 회원가입에 실패했습니다.");
   }
 
-  return true;
+  if (data.user) {
+    return data.user.id;
+  }
+
+  return null;
 };
 
 export const oAuthLogIn = async (provider: Provider) => {

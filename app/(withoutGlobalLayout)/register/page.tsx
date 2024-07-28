@@ -174,9 +174,10 @@ const Register = () => {
     setRegisterMessage("");
 
     try {
-      const isPassed = await oAuthRegister(email, password, nickname);
-      if (isPassed) {
-        await registerAccount(email, nickname);
+      const userId = await oAuthRegister(email, password, nickname);
+
+      if (userId) {
+        await registerAccount(userId, email, nickname);
         router.replace("/main");
       } else {
         throw new Error("회원 가입 실패");

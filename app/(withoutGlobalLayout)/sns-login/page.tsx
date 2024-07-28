@@ -16,10 +16,12 @@ const SnsLogIn = () => {
         const userInfo = await getUserInfo();
         const email = userInfo.email;
         const nickname = userInfo.user_metadata.name;
+        const userId = userInfo.id;
 
         const isEmailRegistered = await checkUserEmailRegistered(email!);
+
         if (!isEmailRegistered) {
-          await registerAccount(email!, nickname);
+          await registerAccount(userId, email!, nickname);
         }
         router.replace("/main");
       } catch (error) {
