@@ -47,7 +47,7 @@ export const oAuthRegister = async (email: string, password: string, nickname: s
     return data.user.id;
   }
 
-  return null;
+  return false;
 };
 
 export const oAuthLogIn = async (provider: Provider) => {

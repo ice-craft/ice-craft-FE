@@ -14,7 +14,6 @@ const MyLanking = ({ rankingList }: MyLankingProps) => {
         const userInfo = await getUserInfo();
         const userId = userInfo.id;
         const ranking = rankingList.find((ranking: Ranking) => ranking.user_id === userId);
-        console.log(userId);
 
         setMyRanking(ranking);
       } catch (e) {

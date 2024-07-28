@@ -1,4 +1,4 @@
-export const revalidate = 1; //NOTE - 30분
+export const revalidate = 1; //NOTE -30분
 
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
@@ -11,7 +11,6 @@ import { Ranking } from "@/types";
 
 const Rankingpage = async () => {
   const rankingList = await getUsersRanking();
-  console.log("렌더링");
 
   const setRanking = async (rankingList: Ranking[]) => {
     let sameScoreCount = 1;
