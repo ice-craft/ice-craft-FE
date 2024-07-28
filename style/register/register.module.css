@@ -73,12 +73,12 @@
   width: 357px;
 }
 
-.userEmail > div button,
-.userNickname > div button {
+.userEmail > div button {
   background-color: var(--primary-color);
   color: var(--white);
   padding: 11px 16px;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
 .registerButtonInactive {
@@ -122,4 +122,16 @@
   color: var(--primary-color);
   font-size: var(--font-size-small);
   margin: 8px 0 0 5px;
+}
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  .mainWrapper form {
+    width: 100%;
+    padding: 50px 20px;
+  }
+
+  .mainWrapper form input {
+    width: 100%;
+  }
 }
