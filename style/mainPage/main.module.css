@@ -581,4 +581,9 @@
     width: 250px;
     transition: 0.3s ease-out;
   }
+
+  .roomVisitEmpty img {
+    width: 200px;
+    transition: 0.3s ease-out;
+  }
 }
