@@ -323,6 +323,14 @@
     font-size: var(--font-size-title);
   }
 
+  .ul li:hover {
+    color: var(--primary-color);
+  }
+
+  .ul .nickname:hover {
+    color: var(--white);
+  }
+
   /* footer */
   .footer {
     flex-direction: column;

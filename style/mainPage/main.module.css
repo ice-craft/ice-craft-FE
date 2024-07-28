@@ -81,12 +81,12 @@
 }
 
 .gameTitle {
-  position: absolute;
   color: var(--white);
   display: flex;
   flex-direction: column;
   padding-left: 100px;
   min-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .gameTitle h2 {

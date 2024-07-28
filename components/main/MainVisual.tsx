@@ -43,14 +43,14 @@ const MainVisual = () => {
       }}
       rewind={true}
       effect={"fade"}
-      // autoplay={{
-      //   delay: 5000,
-      //   disableOnInteraction: false
-      // }}
+      autoplay={{
+        delay: 5000,
+        disableOnInteraction: false
+      }}
       navigation={true}
       speed={800}
       parallax={true}
-      modules={[EffectFade, Parallax, Pagination, Navigation]}
+      modules={[EffectFade, Parallax, Autoplay, Pagination, Navigation]}
       onSwiper={(swiper) => {
         swiperRef.current = swiper;
       }}

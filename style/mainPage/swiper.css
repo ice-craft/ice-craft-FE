@@ -22,6 +22,7 @@
   color: var(--primary-color);
   margin: 0 10px;
   font-weight: var(--font-bold);
+  margin: 0 auto;
 }
 
 .swiper-button-prev:hover,
