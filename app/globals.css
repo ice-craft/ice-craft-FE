@@ -35,6 +35,7 @@
 body > typebot-bubble::part(button) {
   right: 30px;
   bottom: 80px;
+  z-index: 2;
 }
 
 a {
