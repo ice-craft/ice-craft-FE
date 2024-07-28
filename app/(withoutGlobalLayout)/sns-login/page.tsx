@@ -23,9 +23,10 @@ const SnsLogIn = () => {
         if (!isEmailRegistered) {
           await registerAccount(userId, email!, nickname);
         }
-        router.replace("/main");
       } catch (error) {
         toast.error("SNS 로그인이 실패했습니다.");
+      } finally {
+        router.replace("/main");
       }
     };
 
