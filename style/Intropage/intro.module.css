@@ -4,6 +4,12 @@
 }
 
 .introWrapper header {
+  max-width: 1920px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.introWrapper header a {
   position: absolute;
   left: 30px;
   top: 21px;
@@ -102,5 +108,11 @@
   .introTitle {
     transform: scale(0.8);
     transition: 0.3s ease-out;
+  }
+}
+
+@media (max-width: 520px) {
+  .introTitle > a {
+    width: 100%;
   }
 }
