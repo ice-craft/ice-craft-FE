@@ -79,7 +79,7 @@ export const setUserNickname = async (nickname: string) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("닉네임 수정에 실패했습니다.");
   }
 
   return data;
