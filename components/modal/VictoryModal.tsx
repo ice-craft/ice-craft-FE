@@ -17,6 +17,7 @@ const VictoryModal = () => {
     if (participants.length === 1) {
       return;
     }
+
     // 전체 player 정보의 배열
     participants.forEach((playerInfo) => {
       //Player의 직업 찾기
@@ -29,13 +30,13 @@ const VictoryModal = () => {
       }
 
       //시민 승리이면서, 직업: 시민, 의사, 경찰인 경우
-      if (title === "citizen" && (playerJob === "citizen" || playerJob === "police" || playerJob === "doctor")) {
+      if (title === "Citizen" && (playerJob === "citizen" || playerJob === "police" || playerJob === "doctor")) {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
         return;
       }
 
       //마피아 승리이면서, 직업: 마피아인 경우
-      if (title === "mafia" && playerJob === "mafia") {
+      if (title === "Mafia" && playerJob === "mafia") {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
       }
     });

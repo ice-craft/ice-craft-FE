@@ -1,6 +1,7 @@
 import CamCheck from "@/assets/images/cam_check.svg";
 import ChiefImage from "@/assets/images/leader.svg";
 import PlayerDieImage from "@/assets/images/player_die.svg";
+import useChief from "@/hooks/useChief";
 import useClickHandler from "@/hooks/useClickHandler";
 import usePlayerNumber from "@/hooks/usePlayerNumber";
 import { useDiedPlayer, useGameState } from "@/store/game-store";
@@ -16,15 +17,21 @@ import Image from "next/image";
 import GameStartButton from "./GameStartButton";
 
 const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }) => {
-  const activePlayerId = useActivePlayer();
-  const isLocalOverlay = useIsLocalOverlay();
+  //NOTE - livekit Hooks
   const { localParticipant } = useLocalParticipant();
-  const isGameState = useGameState();
-  const playerNumber = usePlayerNumber(localParticipant.identity, isGameState);
-  const localReadyState = useReadyPlayers();
-  const { clickHandler } = useClickHandler();
 
+  //NOTE - 전역 state
+  const isGameState = useGameState();
   const diedPlayers = useDiedPlayer();
+  const activePlayerId = useActivePlayer();
+  const localReadyState = useReadyPlayers();
+  const isLocalOverlay = useIsLocalOverlay();
+
+  //NOTE - custom Hooks
+  const { clickHandler } = useClickHandler();
+  const playerNumber = usePlayerNumber(localParticipant.identity, isGameState);
+  const isChief = useChief(localParticipant.identity, isGameState);
+
   const isDied = diedPlayers.find((diedPlayer) => diedPlayer === localParticipant.identity);
   const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid);
 
@@ -32,7 +39,7 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
     <div className={S.localParticipant}>
       <div className={S.playerInfo}>
         <div className={S.chief}>
-          <Image src={ChiefImage} alt={localParticipant.identity} />
+          {isGameState === "gameReady" && isChief ? <Image src={ChiefImage} alt={localParticipant.identity} /> : null}
         </div>
         {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}번</p>}
       </div>
@@ -41,7 +48,10 @@ const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] })
           className={`${S.participantOverlay} ${activePlayerId === localParticipant.identity ? S.active : ""}`}
           onClick={isLocalOverlay ? (e) => clickHandler(e, localParticipant.identity) : undefined}
         >
-          <ParticipantTile disableSpeakingIndicator={true} className={isLocalOverlay ? S.localCam : undefined} />
+          <ParticipantTile
+            // disableSpeakingIndicator={true}
+            className={isLocalOverlay ? S.localCam : undefined}
+          />
           {!isDied ? (
             <div className={`${S.imageOverlay} ${localReadyState[localParticipant.identity] ? S.active : ""}`}>
               <Image src={CamCheck} alt={localParticipant.identity} />

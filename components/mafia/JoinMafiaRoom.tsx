@@ -6,14 +6,16 @@ import { useRoomAction } from "@/store/room-store";
 import S from "@/style/livekit/livekit.module.css";
 import useBeforeUnloadHandler from "@/utils/reload/useBeforeUnloadHandler";
 import { socket } from "@/utils/socket/socket";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
-import { LiveKitRoom, PreJoin } from "@livekit/components-react";
+import { checkUserLoginInfo } from "@/utils/supabase/authAPI";
+import { LiveKitRoom, PreJoin, useTracks } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Style from "@/style/commons/commons.module.css";
 
 const JoinMafiaRoom = () => {
+  const exUserIds = useUserId();
+  const exNickname = useNickname();
   const roomId = useParams();
   const [userInfo, setUserInfo] = useState({
     userId: "",
@@ -39,11 +41,14 @@ const JoinMafiaRoom = () => {
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
-        const loginInfo = await checkUserLogIn();
+        const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
           setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
+          //FIXME - 임시 로그인
+          // setUserInfo({ userId: exUserIds, nickname: exNickname });
         }
       } catch (error) {
+        console.log("error", error);
         joinErrorHandler(error);
       }
     };
@@ -104,16 +109,18 @@ const JoinMafiaRoom = () => {
   return (
     <main data-lk-theme="default">
       {isJoin ? (
-        <LiveKitRoom
-          token={token} // 필수 요소
-          serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
-          video={true}
-          audio={true}
-          onError={joinErrorHandler}
-          connect={true}
-        >
-          <MafiaPlayRooms />
-        </LiveKitRoom>
+        <>
+          <LiveKitRoom
+            token={token} // 필수 요소
+            serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
+            video={true}
+            audio={true}
+            onError={joinErrorHandler}
+            connect={true}
+          >
+            <MafiaPlayRooms />
+          </LiveKitRoom>
+        </>
       ) : (
         <section className={S.settingWrapper}>
           <h2>오디오 & 캠 설정 창 입니다.</h2>

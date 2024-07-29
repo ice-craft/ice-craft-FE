@@ -114,7 +114,9 @@ export interface ReadyState {
 
 export interface CreateState {
   isCreate: boolean;
-  setIsCreate: (newReady: boolean) => void;
+  actions: {
+    setIsCreate: (newReady: boolean) => void;
+  };
 }
 
 export interface ShowModalState {
@@ -184,7 +186,9 @@ export interface CreateRooms {
 
 export interface LoadingState {
   loading: boolean;
-  setLoading: (loading: boolean) => void;
+  actions: {
+    setLoading: (loading: boolean) => void;
+  };
 }
 
 export interface Ranking {
