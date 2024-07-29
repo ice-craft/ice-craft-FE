@@ -18,14 +18,14 @@ const Nav = () => {
       try {
         const userInfo = await checkUserLogIn();
         if (userInfo) {
-          // setUserId(userInfo.id);
-          // setUserNickname(userInfo.user_metadata.nickname);
-          setUserId(crypto.randomUUID());
-          setUserNickname(crypto.randomUUID());
+          setUserId(userInfo.id);
+          setUserNickname(userInfo.user_metadata.nickname);
+
+          //FIXME - 임시 로그인
+          // setUserId(crypto.randomUUID());
+          // setUserNickname(crypto.randomUUID());
         }
-      } catch (error) {
-        toast.error("로그인 여부를 확인해 주세요.");
-      }
+      } catch (e) {}
     };
     checkUserInfo();
   }, []);

@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 
 const usePlayerNumber = (userId: string, isGameState: string) => {
   const participants = useParticipants();
-
-  const [player, setPlayer] = useState<number | null>(null);
+  const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 
   useEffect(() => {
     //NOTE - 게임 시작시 players의 번호 부여
@@ -14,12 +13,12 @@ const usePlayerNumber = (userId: string, isGameState: string) => {
       const playerNumber = allPlayers.find((player) => player.playerId === userId);
 
       if (playerNumber) {
-        setPlayer(playerNumber.number);
+        setPlayerNumber(playerNumber.number);
       }
     }
   }, [isGameState]);
 
-  return player;
+  return playerNumber;
 };
 
 export default usePlayerNumber;

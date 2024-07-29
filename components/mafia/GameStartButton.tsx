@@ -58,7 +58,7 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
 
       {!isAllReady && (
         <button className={`${S.isReadyButton} ${isReady ? S.active : ""}`} onClick={readyHandler}>
-          {isReady ? "취소" : "Ready"}
+          {isReady ? "취소" : "게임 준비"}
         </button>
       )}
     </>
