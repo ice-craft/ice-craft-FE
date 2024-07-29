@@ -2,12 +2,13 @@ import { useGameState } from "@/store/game-store";
 import { useRoomAction } from "@/store/room-store";
 import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useLocalParticipant } from "@livekit/components-react";
+import { useGroupModalElement } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
 import React, { useEffect, useState } from "react";
 import SpeakTimer from "./SpeakTimer";
 import Image from "next/image";
-import BaseIconImage from "@/assets/images/1.gif";
-import { useGroupModalElement } from "@/store/show-modal-store";
+import MoonIcon from "@/assets/images/moon.svg";
+import SunIcon from "@/assets/images/sun.svg";
 
 const MafiaHeader = () => {
   //NOTE - Livekit Hooks
@@ -58,8 +59,8 @@ const MafiaHeader = () => {
 
   return (
     <>
-      <div className={`${resultClassName}`}>MafiaTheme</div>;
-      <div>
+      {/* <div className={`${resultClassName}`}>MafiaTheme</div> */}
+      <div className={S.goToMainPage}>
         <DisconnectButton onClick={leaveRoom}>
           <span>＜</span> 방 나가기
         </DisconnectButton>
@@ -70,8 +71,8 @@ const MafiaHeader = () => {
             <h2 className={S.timerCount}>
               <SpeakTimer />
               <span className={S.dayAndNight}>
-                {morning && <Image src={BaseIconImage} alt="icon" />}
-                {night && <Image src={BaseIconImage} alt="icon" />}
+                {morning && <Image src={SunIcon} alt="sun icon" />}
+                {night && <Image src={MoonIcon} alt="moon icon" />}
               </span>
             </h2>
           </div>

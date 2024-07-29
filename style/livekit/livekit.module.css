@@ -206,12 +206,19 @@
 }
 
 .dayAndNight img {
-  /* filter: invert(1); */
   width: 31px;
-  transform: translateY(-2px);
+  /* animation: sun 5s linear infinite; */
 }
 
-/*-------------- goTopButton ----------------*/
+.dayAndNight img:nth-of-type(1) {
+  animation: sun 5s linear infinite;
+}
+
+.dayAndNight img:nth-of-type(2) {
+  animation: moon 2s linear alternate infinite;
+}
+
+/*-------------- GoTo MainPage Button ----------------*/
 .goToMainPage {
   position: absolute;
   color: var(--text-black);
@@ -315,6 +322,25 @@
 
 .chiefGameStart {
   background-color: var(--variation-error);
+}
+
+/*---------------- Animation --------------*/
+@keyframes sun {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes moon {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-45deg);
+  }
 }
 
 /*-------------- Respansive ----------------*/
