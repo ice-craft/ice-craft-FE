@@ -11,7 +11,7 @@ import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import { useEffect } from "react";
-import MafiaHeader from "./\bMafiaHeader";
+import MafiaHeader from "./MafiaHeader";
 import LocalParticipant from "./LocalParticipant";
 import MafiaModals from "./MafiaModals";
 import MafiaToolTip from "./MafiaToolTip";
