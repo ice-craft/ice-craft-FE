@@ -2,11 +2,11 @@ import useSocketOn from "@/hooks/useSocketOn";
 import { useCurrentModal, useModalActions, useModalIsOpen } from "@/store/show-modal-store";
 import { Role, VoteResult, YesOrNoResults } from "@/types";
 import CheckModal from "../modal/CheckModal";
-import GroupMafiaModal from "../modal/GroupMafiaModal";
-import LastVoteResultModal from "../modal/LastVoteResultModal";
-import UserRoleModal from "../modal/UserRoleModal";
-import VictoryModal from "../modal/VictoryModal";
-import VoteResultModal from "../modal/VoteResultModal";
+import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
+import LastVoteResultModal from "@/components/modal/LastVoteResultModal";
+import UserRoleModal from "@/components/modal/UserRoleModal";
+import VictoryModal from "@/components/modal/VictoryModal";
+import VoteResultModal from "@/components/modal/VoteResultModal";
 
 const MafiaModals = () => {
   const isOpen = useModalIsOpen();
