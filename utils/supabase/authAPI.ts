@@ -18,18 +18,6 @@ export const checkUserLogIn = async () => {
 export const checkUserLoginInfo = async () => {
   const { data, error } = await supabase.auth.getUser();
 
-  if (error) {
-    throw new Error("로그인 확인에 실패했습니다.");
-  }
-
-  if (data.user) {
-    return data.user;
-  }
-};
-
-export const checkUserLoginInfo = async () => {
-  const { data, error } = await supabase.auth.getUser();
-
   if (data.user) {
     return data.user;
   }
