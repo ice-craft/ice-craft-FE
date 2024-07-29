@@ -207,7 +207,6 @@
 
 .dayAndNight img {
   width: 31px;
-  /* animation: sun 5s linear infinite; */
 }
 
 .dayAndNight img:nth-of-type(1) {
@@ -225,6 +224,7 @@
   left: 30px;
   top: 15px;
   font-weight: var(--font-bold);
+  z-index: 1;
 }
 
 .goToMainPage > button {
@@ -235,6 +235,7 @@
 
 .goToMainPage > button:hover {
   background-color: transparent !important;
+  color: var(--primary-color);
 }
 
 /*-------------- ToolTipIcon ----------------*/
