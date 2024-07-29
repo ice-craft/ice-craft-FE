@@ -71,8 +71,8 @@ const MafiaHeader = () => {
             <h2 className={S.timerCount}>
               <SpeakTimer />
               <span className={S.dayAndNight}>
-                {morning && <Image src={SunIcon} alt="sun icon" />}
-                {night && <Image src={MoonIcon} alt="moon icon" />}
+                {morning && <Image src={SunIcon} className={S.sun} alt="sun icon" />}
+                {night && <Image src={MoonIcon} className={S.moon} alt="moon icon" />}
               </span>
             </h2>
           </div>

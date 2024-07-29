@@ -38,30 +38,28 @@ const CheckModal = () => {
     <>
       <div className={S.modalWrap}>
         <div className={S.modal}>
-          <div>
-            <h1>{title}</h1>
-            {!isVote && !isDiedPlayer ? (
-              <>
-                <div className={S.userCheckNickName}>
-                  <p>
-                    <strong>{votePlayer.user_nickname}</strong> 님을
-                    <br /> 최종적으로 지목하시겠습니까?
-                  </p>
-                </div>
-                <div className={S.checkButton}>
-                  <button disabled={isVote} onClick={() => chooseVoteHandler(true)}>
-                    찬성
-                  </button>
-                  <button disabled={isVote} onClick={() => chooseVoteHandler(false)}>
-                    반대
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div>투표 중입니다.</div>
-            )}
-            <ModalProgress />
-          </div>
+          <h1>{title}</h1>
+          {!isVote && !isDiedPlayer ? (
+            <>
+              <div className={S.userCheckNickName}>
+                <p>
+                  <strong>{votePlayer.user_nickname}</strong> 님을
+                  <br /> 최종적으로 지목하시겠습니까?
+                </p>
+              </div>
+              <div className={S.checkButton}>
+                <button disabled={isVote} onClick={() => chooseVoteHandler(true)}>
+                  찬성
+                </button>
+                <button disabled={isVote} onClick={() => chooseVoteHandler(false)}>
+                  반대
+                </button>
+              </div>
+            </>
+          ) : (
+            <h2>투표 중입니다.</h2>
+          )}
+          <ModalProgress />
         </div>
       </div>
     </>
