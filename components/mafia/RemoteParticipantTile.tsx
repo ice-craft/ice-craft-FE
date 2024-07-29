@@ -36,7 +36,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
         <div className={S.remoteChief}>
           <Image src={ChiefImage} alt={remote.participant.identity} />
         </div>
-        {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}번</p>}
+        {isGameState === "gameStart" && <p className={S.remotePlayerNumber}>{playerNumber}번</p>}
         {!diedPlayer ? (
           <div className={`${S.remoteOverlay} ${remoteReadyStates[remote.participant.identity] ? S.active : ""}`}>
             <Image src={imageState || CamCheck} alt={remote.participant.identity} />
