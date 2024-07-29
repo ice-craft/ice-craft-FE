@@ -185,4 +185,9 @@
   .userRanking > * {
     width: 100%;
   }
+
+  .rankingEmpty img {
+    width: 200px;
+    transition: 0.3s ease-out;
+  }
 }
