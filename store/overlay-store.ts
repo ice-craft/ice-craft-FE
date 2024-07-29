@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { OverlayState } from "../types";
+import { OverlayState } from "@/types";
 import CamCheck from "@/assets/images/cam_check.svg";
 
 const useOverlayStore = create<OverlayState>((set) => ({
