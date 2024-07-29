@@ -81,14 +81,12 @@
 }
 
 .gameTitle {
-  position: absolute;
   color: var(--white);
   display: flex;
   flex-direction: column;
-  /* top: 50%;
-  margin-top: -80px; */
   padding-left: 100px;
   min-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .gameTitle h2 {
@@ -529,11 +527,6 @@
 }
 
 @media (max-width: 860px) {
-  .gameTitle {
-    align-items: center;
-    padding-left: 0;
-  }
-
   .roomList {
     justify-content: center;
   }
@@ -572,5 +565,44 @@
 
   .gameGoButton button.makeRoom {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .visualSection {
+    padding-top: 69px;
+  }
+
+  .visualSection {
+    height: 580px;
+    transition: 0.3s ease-out;
+  }
+
+  .gameList {
+    height: 500px;
+    transition: 0.3s ease-out;
+  }
+
+  .gameTitle {
+    align-items: center;
+    padding-left: 0;
+  }
+
+  .gameTitle h2 {
+    padding-left: 40px;
+  }
+
+  .gameTitle h2.songTitle {
+    padding-left: 0;
+  }
+
+  .gameTitle h2 img {
+    width: 250px;
+    transition: 0.3s ease-out;
+  }
+
+  .roomVisitEmpty img {
+    width: 200px;
+    transition: 0.3s ease-out;
   }
 }

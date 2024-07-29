@@ -110,7 +110,6 @@
 }
 
 .pagerWrapper li {
-  cursor: pointer;
   text-align: center;
   margin: 0 5px;
   line-height: 25px;
@@ -184,5 +183,10 @@
 
   .userRanking > * {
     width: 100%;
+  }
+
+  .rankingEmpty img {
+    width: 200px;
+    transition: 0.3s ease-out;
   }
 }

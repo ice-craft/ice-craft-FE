@@ -1,6 +1,6 @@
 import { useVoteResultElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import ModalProgress from "../../utils/ModalProgress";
+import ModalProgress from "@/utils/ModalProgress";
 
 const VoteResultModal = () => {
   const voteResults = useVoteResultElement();

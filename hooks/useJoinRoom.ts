@@ -23,7 +23,8 @@ const useJoinRoom = () => {
       }
       if (userInfo) {
         setLoading(true);
-        emitCallback(userInfo.id, userInfo.user_metadata.nickname);
+        const nickname = userInfo.user_metadata.nickname || userInfo.user_metadata.name;
+        emitCallback(userInfo.id, nickname);
       }
     } catch (e) {
       toast.info("로그인 후 입장 가능합니다.");

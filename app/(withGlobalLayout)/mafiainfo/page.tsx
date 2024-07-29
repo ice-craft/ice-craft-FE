@@ -17,6 +17,7 @@ import CitizenCamImage from "@/assets/images/mafia_info_citizen.svg";
 import CitizenModalVictory from "@/assets/images/citizen_victory.svg";
 import MafiaModalVictory from "@/assets/images/mafia_victory.svg";
 import MafiaGameStart from "@/assets/images/mafia_info_start.svg";
+import GoTopButton from "@/utils/GoTopButton";
 
 const MafiaInfoPage = () => {
   return (
@@ -132,6 +133,7 @@ const MafiaInfoPage = () => {
       <div className={S.mafiaGameImage}>
         <Image src={MafiaGameStart} alt="마피아 게임 시작 이미지" />
       </div>
+      <GoTopButton />
     </section>
   );
 };
