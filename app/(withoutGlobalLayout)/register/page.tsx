@@ -231,7 +231,7 @@ const Register = () => {
   return (
     <div className={S.wrapper}>
       <header>
-        <Link href="/">
+        <Link replace={true} href="/">
           <Image src={Logo} alt="logo" />
         </Link>
       </header>

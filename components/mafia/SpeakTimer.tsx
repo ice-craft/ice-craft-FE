@@ -3,8 +3,6 @@ import useSocketOn from "@/hooks/useSocketOn";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useEffect, useState } from "react";
 import S from "@/style/livekit/livekit.module.css";
-import Image from "next/image";
-import BaseIconImage from "@/assets/images/1.gif";
 
 const SpeakTimer = () => {
   const inSelect = useInSelect();
@@ -51,9 +49,6 @@ const SpeakTimer = () => {
     <>
       <h2 className={S.timerCount}>
         {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
-        {/* <span className={S.dayAndNight}>
-          <Image src={BaseIconImage} alt="icon" />
-        </span> */}
       </h2>
     </>
   );

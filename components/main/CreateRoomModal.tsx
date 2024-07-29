@@ -2,7 +2,7 @@ import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg"
 import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
 import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg";
-import { useCreateStore } from "@/store/toggle-store";
+import { useCreateActions } from "@/store/toggle-store";
 import S from "@/style/modal/modal.module.css";
 import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
@@ -20,7 +20,7 @@ const MainCreateRoom = () => {
   const { setIsEntry } = useRoomAction();
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const isGoInClick = useRef(false);
-  const { setIsCreate } = useCreateStore();
+  const { setIsCreate } = useCreateActions();
   const userId = useUserId();
   const nickname = useNickname();
   const { setRoomId } = useConnectActions();
