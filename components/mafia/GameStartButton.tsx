@@ -28,7 +28,6 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   //NOTE - 게임 입장 및 종료시 초기화
   useEffect(() => {
     if (isGameState === "gameReady") {
-      console.log("🚀 게임 입장 및 종료 시 초기화 isGameState", isGameState);
       setIsReady(false);
       setIsAllReady(false);
     }
@@ -59,7 +58,7 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
 
       {!isAllReady && (
         <button className={`${S.isReadyButton} ${isReady ? S.active : ""}`} onClick={readyHandler}>
-          {isReady ? "취소" : "Ready"}
+          {isReady ? "취소" : "게임 준비"}
         </button>
       )}
     </>
