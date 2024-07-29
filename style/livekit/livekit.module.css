@@ -73,7 +73,7 @@
 
 .remoteParticipant {
   flex: 2;
-  padding: 15px;
+  padding: 40px 15px 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

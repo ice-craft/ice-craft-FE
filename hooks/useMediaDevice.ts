@@ -49,19 +49,15 @@ const useMediaDevice = () => {
         const camera = remotePlayerTrack.getTrackPublication(Track.Source.Camera);
         const mike = remotePlayerTrack.getTrackPublication(Track.Source.Microphone);
 
-        camera?.setSubscribed(isMedia.camera);
-        mike?.setSubscribed(isMedia.mike);
+        camera!.track!.mediaStreamTrack.enabled = isMedia.camera;
+        mike!.track!.mediaStreamTrack.enabled = isMedia.mike;
       }
     });
   }, [playersMediaStatus]);
 
   //NOTE - 게임 종료 시 모든 player 캠 및 오디오 on
   useEffect(() => {
-    console.log("🚀  isMediaReset:", isMediaReset);
-
     if (isMediaReset) {
-      console.log("🚀게임 종료 시 AllPlayer 미디어 On:", isMediaReset);
-
       //로컬 사용자의 미디어
       if (localPlayerId) {
         const localCamera = localParticipant.cameraTrack?.track?.mediaStreamTrack;
@@ -75,8 +71,8 @@ const useMediaDevice = () => {
         const camera = remotePlayerTrack.getTrackPublication(Track.Source.Camera);
         const mike = remotePlayerTrack.getTrackPublication(Track.Source.Microphone);
 
-        camera?.setSubscribed(true);
-        mike?.setSubscribed(true);
+        camera!.track!.mediaStreamTrack.enabled = true;
+        mike!.track!.mediaStreamTrack.enabled = true;
       });
 
       //초기화

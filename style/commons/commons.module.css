@@ -364,4 +364,10 @@
     width: 90%;
     left: 20px;
   }
+
+  /* NotFoundPage */
+  .mainSection {
+    font-size: var(--font-size-modal-title);
+    transition: 0.3s ease-out;
+  }
 }

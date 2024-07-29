@@ -1,6 +1,7 @@
 import { Tables } from "@/types/supabase";
 import useSocketOn from "./useSocketOn";
 import { useConnectActions, useRoomsCurrent } from "@/store/connect-store";
+import { socket } from "@/utils/socket/socket";
 
 const useGetRoomsSocket = () => {
   const rooms = useRoomsCurrent();
@@ -9,6 +10,9 @@ const useGetRoomsSocket = () => {
   const mainSockets = {
     enterMafia: (item: Tables<"room_table">[]) => {
       setRooms(item);
+    },
+    updateRoomInfo: () => {
+      socket.emit("enterMafia");
     }
   };
   useSocketOn(mainSockets);

@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import S from "@/style/commons/commons.module.css";
 import { checkUserLogIn, logOut } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import Link from "next/link";
 
 const Nav = () => {
   const userNickname = useNickname();
@@ -22,8 +22,12 @@ const Nav = () => {
           setUserId(userInfo.id);
           const nickname = userInfo.user_metadata.nickname || userInfo.user_metadata.name;
           setUserNickname(nickname);
+
+          //FIXME - 임시 로그인
+          // setUserId(crypto.randomUUID());
+          // setUserNickname(crypto.randomUUID());
         }
-      } catch (error) {}
+      } catch (e) {}
     };
     checkUserInfo();
   }, []);

@@ -3,8 +3,10 @@ import { LoadingState } from "@/types";
 
 const useLoadingStore = create<LoadingState>((set) => ({
   loading: false,
-
-  setLoading: (loading: boolean) => set({ loading })
+  actions: {
+    setLoading: (loading: boolean) => set({ loading })
+  }
 }));
 
-export default useLoadingStore;
+export const useLoading = () => useLoadingStore((state) => state.loading);
+export const useLoadingActions = () => useLoadingStore((state) => state.actions);
