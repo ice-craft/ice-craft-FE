@@ -24,7 +24,8 @@ const useJoinRoom = () => {
       }
       if (!isGoInClick.current) {
         isGoInClick.current = true;
-        emitCallback(userInfo.id, userInfo.user_metadata.nickname);
+        const nickname = userInfo.user_metadata.nickname || userInfo.user_metadata.name;
+        emitCallback(userInfo.id, nickname);
       }
     } catch {
       toast.error("로그인 확인 중 오류가 발생했습니다.");

@@ -22,6 +22,7 @@
   color: var(--primary-color);
   margin: 0 10px;
   font-weight: var(--font-bold);
+  margin: 0 auto;
 }
 
 .swiper-button-prev:hover,
@@ -36,4 +37,12 @@
 .swiper-fade .swiper-slide {
   display: flex;
   align-items: center;
+}
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  .swiper-pagination-fraction {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

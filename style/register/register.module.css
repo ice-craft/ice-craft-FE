@@ -3,6 +3,12 @@
 }
 
 .wrapper header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+}
+
+.wrapper header a {
   position: absolute;
   left: 30px;
   top: 21px;
@@ -69,17 +75,16 @@
   gap: 10px;
 }
 
-.userEmail > div input,
-.userNickname > div input {
+.userEmail > div input {
   width: 357px;
 }
 
-.userEmail > div button,
-.userNickname > div button {
+.userEmail > div button {
   background-color: var(--primary-color);
   color: var(--white);
   padding: 11px 16px;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
 .registerButtonInactive {
@@ -123,4 +128,26 @@
   color: var(--primary-color);
   font-size: var(--font-size-small);
   margin: 8px 0 0 5px;
+}
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  .wrapper header img {
+    width: 100px;
+    transition: 0.3s ease-out;
+  }
+
+  .mainWrapper form {
+    width: 100%;
+    padding: 50px 20px;
+  }
+
+  .mainWrapper form input {
+    width: 100%;
+  }
+
+  .mainWrapper form h2 {
+    font-size: 24px;
+    transition: 0.3s ease-out;
+  }
 }
