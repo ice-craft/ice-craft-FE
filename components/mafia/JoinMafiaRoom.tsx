@@ -43,7 +43,8 @@ const JoinMafiaRoom = () => {
       try {
         const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
-          setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
+          const nickname = loginInfo.user_metadata.nickname || loginInfo.user_metadata.name;
+          setUserInfo({ userId: loginInfo.id, nickname });
           //FIXME - 임시 로그인
           // setUserInfo({ userId: exUserIds, nickname: exNickname });
         }

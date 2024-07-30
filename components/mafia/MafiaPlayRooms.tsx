@@ -91,7 +91,6 @@ const MafiaPlayRooms = () => {
 
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
-      <div className={S.goToMainPage}></div>
       {/* <button
           onClick={() => {
             allAudioSetting(tracks, false);

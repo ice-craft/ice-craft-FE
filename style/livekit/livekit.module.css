@@ -1,8 +1,13 @@
 /*-------------- MafiaPlayRooms ----------------*/
 .mafiaPlayRoomWrapper {
-  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
   height: 100vh;
+}
+
+.roomBackground {
+  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
   transition: 0.3s ease-out;
+  position: absolute;
+  inset: 0;
 }
 
 .day {
@@ -73,7 +78,7 @@
 
 .remoteParticipant {
   flex: 2;
-  padding: 40px 15px 15px;
+  padding: 108px 15px 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -86,7 +91,7 @@
   width: 32.5%;
   height: 30%;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
+  border-radius: 8.9px;
 }
 
 .remoteParticipantOverlay > .remoteCam {
@@ -167,7 +172,6 @@
   right: -18px;
   top: 0;
   z-index: 2;
-  /* display: none; */
 }
 
 .remoteChief {
@@ -182,21 +186,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 3;
-}
-
-.timer {
+  gap: 8px;
+  padding: 8px 20px;
   font-size: var(--font-size-content);
-  text-align: center;
-  margin: 20px;
-  padding: 8px 28px;
   background-color: var(--text-black);
   border-radius: var(--border-radius);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 
 .timerCount {
@@ -205,29 +205,47 @@
   gap: 10px;
 }
 
-.dayAndNight img {
-  /* filter: invert(1); */
-  width: 31px;
-  transform: translateY(-2px);
+.moon {
+  display: inline-flex;
+  transform: translateY(2px);
 }
 
-/*-------------- goTopButton ----------------*/
+.sun {
+  display: inline-flex;
+  transform: translateY(6px);
+}
+
+.dayAndNight .sunImage {
+  animation: sun 5s linear infinite;
+  width: 40px;
+}
+
+.dayAndNight .moonImage {
+  animation: moon 2s linear alternate infinite;
+  width: 35px;
+}
+
+/*-------------- GoTo MainPage Button ----------------*/
 .goToMainPage {
   position: absolute;
   color: var(--text-black);
   left: 30px;
   top: 15px;
   font-weight: var(--font-bold);
+  z-index: 1;
 }
 
 .goToMainPage > button {
   background-color: transparent;
   display: inline-block;
   color: var(--white);
+  text-shadow: -1px 0px var(--text-black), 0px 1px var(--text-black), 1px 0px var(--text-black),
+    0px -1px var(--text-black);
 }
 
 .goToMainPage > button:hover {
   background-color: transparent !important;
+  color: var(--secondary-color);
 }
 
 /*-------------- ToolTipIcon ----------------*/
@@ -307,6 +325,7 @@
 .isReadyButton {
   background-color: var(--silver-gray);
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .isReadyButton.active {
@@ -315,6 +334,25 @@
 
 .chiefGameStart {
   background-color: var(--variation-error);
+}
+
+/*---------------- Animation --------------*/
+@keyframes sun {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes moon {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-45deg);
+  }
 }
 
 /*-------------- Respansive ----------------*/
