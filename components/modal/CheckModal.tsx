@@ -15,18 +15,18 @@ const CheckModal = () => {
   const { localParticipant } = useLocalParticipant();
   const localPlayerId = localParticipant.identity;
 
-  //NOTE - 가장 많은 투표 수를 받는 player
+  // 가장 많은 투표 수를 받는 player
   const votePlayer = voteResults[0];
 
-  //NOTE - 가장 많은 투표를 받은 player가 자신일 경우
+  //NOTE - 투표 대상자 or 참여자인 지 여부
   useEffect(() => {
+    // 가장 많은 투표를 받은 player가 자신일 경우(투표 대상자)
     if (votePlayer.user_id === localPlayerId) {
-      console.log("투표 대상자");
       setIsVote(true);
       return;
     }
+    // 가장 많은 투표를 받은 player가 자신이 아닌 경우(투표 참여자)
     if (votePlayer.user_id !== localPlayerId) {
-      console.log("투표 선택자");
       setIsVote(false);
     }
   }, [votePlayer]);
@@ -40,8 +40,8 @@ const CheckModal = () => {
     socket.emit("voteYesOrNo", vote);
   };
 
+  //NOTE - 초기 렌더링 필터
   if (isVote === null) {
-    console.log("초기 렌더링 필터");
     return;
   }
 

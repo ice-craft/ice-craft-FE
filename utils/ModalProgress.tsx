@@ -15,7 +15,8 @@ const ModalProgress = () => {
 
   // 모달창 종료
   useEffect(() => {
-    if (count <= 6 && isModal) {
+    console.log("count", (timer * 10 - count) * (100 / (timer * 10)));
+    if (count <= 7 && isModal) {
       setIsOpen(false);
     }
   }, [count]);
@@ -23,11 +24,13 @@ const ModalProgress = () => {
   return (
     <>
       {timer === 3 && (
-        <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={70}></progress>
+        <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={63}></progress>
       )}
-
       {timer === 5 && (
-        <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={80}></progress>
+        <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={78}></progress>
+      )}
+      {timer === 10 && (
+        <progress className={S.progress} value={(timer * 10 - count) * (100 / (timer * 10))} max={89}></progress>
       )}
     </>
   );
