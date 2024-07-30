@@ -39,7 +39,6 @@ const JoinMafiaRoom = () => {
 
   //NOTE - 쿠키에 저장된 로그인 정보
   useEffect(() => {
-    console.log("안녕하세요 왜 안됨?왜 안됨?왜 안됨?왜 안됨?왜 안됨?왜 안됨?왜 안됨?");
     const checkUserInfo = async () => {
       try {
         const loginInfo = await checkUserLoginInfo();

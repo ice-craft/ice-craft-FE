@@ -58,8 +58,7 @@ const MafiaHeader = () => {
   const resultClassName = `${dayTime} ${nightTime}`;
 
   return (
-    <>
-      {/* <div className={`${resultClassName}`}>MafiaTheme</div> */}
+    <div className={`${S.roomBackground} ${resultClassName}`}>
       <div className={S.goToMainPage}>
         <DisconnectButton onClick={leaveRoom}>
           <span>＜</span> 방 나가기
@@ -67,18 +66,14 @@ const MafiaHeader = () => {
       </div>
       {isGameState === "gameStart" && (
         <div className={S.gameTimer}>
-          <div className={S.timer}>
-            <div className={S.timerCount}>
-              <SpeakTimer />
-              <span className={S.dayAndNight}>
-                {morning && <Image src={SunIcon} className={S.sun} alt="sun icon" />}
-                {night && <Image src={MoonIcon} className={S.moon} alt="moon icon" />}
-              </span>
-            </div>
-          </div>
+          <SpeakTimer />
+          <p className={S.dayAndNight}>
+            <span className={S.sun}>{morning && <Image src={SunIcon} className={S.sunImage} alt="sun icon" />}</span>
+            <span className={S.moon}>{night && <Image src={MoonIcon} className={S.moonImage} alt="moon icon" />}</span>
+          </p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

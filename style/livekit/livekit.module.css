@@ -1,8 +1,13 @@
 /*-------------- MafiaPlayRooms ----------------*/
 .mafiaPlayRoomWrapper {
-  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
   height: 100vh;
+}
+
+.roomBackground {
+  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
   transition: 0.3s ease-out;
+  position: absolute;
+  inset: 0;
 }
 
 .day {
@@ -181,21 +186,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1;
-}
-
-.timer {
+  gap: 8px;
+  padding: 8px 20px;
   font-size: var(--font-size-content);
-  text-align: center;
-  margin: 20px;
-  padding: 8px 28px;
   background-color: var(--text-black);
   border-radius: var(--border-radius);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 }
 
 .timerCount {
@@ -204,16 +205,24 @@
   gap: 10px;
 }
 
-.dayAndNight img {
-  width: 25px;
+.moon {
+  display: inline-flex;
+  transform: translateY(2px);
 }
 
-.dayAndNight .sun {
+.sun {
+  display: inline-flex;
+  transform: translateY(6px);
+}
+
+.dayAndNight .sunImage {
   animation: sun 5s linear infinite;
+  width: 40px;
 }
 
-.dayAndNight .moon {
+.dayAndNight .moonImage {
   animation: moon 2s linear alternate infinite;
+  width: 35px;
 }
 
 /*-------------- GoTo MainPage Button ----------------*/
@@ -223,18 +232,20 @@
   left: 30px;
   top: 15px;
   font-weight: var(--font-bold);
-  z-index: 2;
+  z-index: 1;
 }
 
 .goToMainPage > button {
   background-color: transparent;
   display: inline-block;
   color: var(--white);
+  text-shadow: -1px 0px var(--text-black), 0px 1px var(--text-black), 1px 0px var(--text-black),
+    0px -1px var(--text-black);
 }
 
 .goToMainPage > button:hover {
   background-color: transparent !important;
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 /*-------------- ToolTipIcon ----------------*/
@@ -314,6 +325,7 @@
 .isReadyButton {
   background-color: var(--silver-gray);
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .isReadyButton.active {
