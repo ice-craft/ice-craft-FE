@@ -73,7 +73,7 @@
 
 .remoteParticipant {
   flex: 2;
-  padding: 40px 15px 15px;
+  padding: 108px 15px 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -86,7 +86,7 @@
   width: 32.5%;
   height: 30%;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
+  border-radius: 8.9px;
 }
 
 .remoteParticipantOverlay > .remoteCam {
