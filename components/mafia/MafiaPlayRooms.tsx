@@ -92,14 +92,14 @@ const MafiaPlayRooms = () => {
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
       <div className={S.goToMainPage}></div>
-      {/* <button
-          onClick={() => {
-            allAudioSetting(tracks, false);
-          }}
-          style={{ background: "red" }}
-        >
-          전체 소리 끄기
-        </button> */}
+      <button
+        onClick={() => {
+          allAudioSetting(tracks, false);
+        }}
+        style={{ background: "red" }}
+      >
+        전체 소리 끄기
+      </button>
       <MafiaHeader />
       <div className={S.mafiaPlayRoomSection}>
         <LocalParticipant tracks={tracks} />
