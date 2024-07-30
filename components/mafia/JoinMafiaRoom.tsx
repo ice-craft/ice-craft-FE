@@ -39,11 +39,13 @@ const JoinMafiaRoom = () => {
 
   //NOTE - 쿠키에 저장된 로그인 정보
   useEffect(() => {
+    console.log("안녕하세요 왜 안됨?왜 안됨?왜 안됨?왜 안됨?왜 안됨?왜 안됨?왜 안됨?");
     const checkUserInfo = async () => {
       try {
         const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
-          setUserInfo({ userId: loginInfo.id, nickname: loginInfo.user_metadata.nickname });
+          const nickname = loginInfo.user_metadata.nickname || loginInfo.user_metadata.name;
+          setUserInfo({ userId: loginInfo.id, nickname });
           //FIXME - 임시 로그인
           // setUserInfo({ userId: exUserIds, nickname: exNickname });
         }

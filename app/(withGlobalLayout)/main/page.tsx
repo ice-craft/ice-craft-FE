@@ -38,6 +38,8 @@ const Mainpage = () => {
     socket.emit("enterMafia");
   }, []);
 
+  console.log("메인페이지입니다@@@@@@");
+
   return (
     <main className={S.main}>
       <section className={S.visualSection}>

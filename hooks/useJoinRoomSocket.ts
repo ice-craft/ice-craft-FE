@@ -12,6 +12,7 @@ const useJoinRoomSocket = () => {
   const joinSockets = {
     joinRoom: (roomId: string) => {
       if (roomId) {
+        console.log("룸아이디@@@@@@@", roomId);
         setLoading(false);
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);
@@ -19,6 +20,7 @@ const useJoinRoomSocket = () => {
     },
     joinRoomError: (message: string) => {
       setLoading(false);
+      console.log("조인룸에러####################################");
       toast.error(message);
     },
     fastJoinRoom: (roomId: string) => {

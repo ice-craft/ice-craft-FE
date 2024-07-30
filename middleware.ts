@@ -6,21 +6,22 @@ export async function middleware(request: NextRequest) {
   await updateSession(request);
 
   const loginCookie = request.cookies.get("sb-ktfrmyssyzqmoljohixh-auth-token");
+  const socialCookie = request.cookies.get("sb-ktfrmyssyzqmoljohixh-auth-token0");
   const url = request.nextUrl.pathname;
 
-  if (url == "/login" && loginCookie) {
+  if (url == "/login" && (loginCookie || socialCookie)) {
     const url = request.nextUrl.clone();
     url.pathname = "/main";
     return NextResponse.redirect(url);
   }
 
-  if (url == "/register" && loginCookie) {
+  if (url == "/register" && (loginCookie || socialCookie)) {
     const url = request.nextUrl.clone();
     url.pathname = "/main";
     return NextResponse.redirect(url);
   }
 
-  if (url.startsWith("/room") && (!url.endsWith("/") || !loginCookie)) {
+  if ((url.startsWith("/room") && !url.endsWith("/")) || !loginCookie || !socialCookie) {
     const url = request.nextUrl.clone();
     url.pathname = "/main";
     return NextResponse.redirect(url);
