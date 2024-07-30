@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const CheckModal = () => {
   const title = useGroupModalElement();
   const voteResults = useVoteResultElement();
-  const [isVote, setIsVote] = useState(false);
+  const [isVote, setIsVote] = useState<boolean | null>(null);
 
   const diedPlayerId = useDiedPlayer();
   const { localParticipant } = useLocalParticipant();
@@ -21,7 +21,13 @@ const CheckModal = () => {
   //NOTE - 가장 많은 투표를 받은 player가 자신일 경우
   useEffect(() => {
     if (votePlayer.user_id === localPlayerId) {
+      console.log("투표 대상자");
       setIsVote(true);
+      return;
+    }
+    if (votePlayer.user_id !== localPlayerId) {
+      console.log("투표 선택자");
+      setIsVote(false);
     }
   }, [votePlayer]);
 
@@ -33,6 +39,11 @@ const CheckModal = () => {
     setIsVote(true);
     socket.emit("voteYesOrNo", vote);
   };
+
+  if (isVote === null) {
+    console.log("초기 렌더링 필터");
+    return;
+  }
 
   return (
     <>
