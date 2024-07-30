@@ -68,13 +68,13 @@ const MafiaHeader = () => {
       {isGameState === "gameStart" && (
         <div className={S.gameTimer}>
           <div className={S.timer}>
-            <h2 className={S.timerCount}>
+            <div className={S.timerCount}>
               <SpeakTimer />
               <span className={S.dayAndNight}>
                 {morning && <Image src={SunIcon} className={S.sun} alt="sun icon" />}
                 {night && <Image src={MoonIcon} className={S.moon} alt="moon icon" />}
               </span>
-            </h2>
+            </div>
           </div>
         </div>
       )}
