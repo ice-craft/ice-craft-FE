@@ -40,7 +40,7 @@ const MafiaHeader = () => {
 
   //NOTE - 밤, 낮 배경
   useEffect(() => {
-    if (title.includes("낮")) {
+    if (title.includes("아침")) {
       setMorning(true);
       setNight(false);
       return;
