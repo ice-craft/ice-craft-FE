@@ -11,14 +11,25 @@ import {
   ParticipantTile,
   TrackLoop,
   TrackReferenceOrPlaceholder,
-  useLocalParticipant
+  useLocalParticipant,
+  useTracks
 } from "@livekit/components-react";
 import Image from "next/image";
 import GameStartButton from "./GameStartButton";
+import { Track } from "livekit-client";
 
-const LocalParticipant = ({ tracks }: { tracks: TrackReferenceOrPlaceholder[] }) => {
+const LocalParticipant = () => {
   //NOTE - livekit Hooks
   const { localParticipant } = useLocalParticipant();
+
+  // NOTE -  전체 데이터
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.Microphone, withPlaceholder: true }
+    ],
+    { onlySubscribed: true } // 구독됐을 경우에만 실행
+  );
 
   //NOTE - 전역 state
   const isGameState = useGameState();
