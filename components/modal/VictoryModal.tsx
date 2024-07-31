@@ -1,3 +1,4 @@
+import { useGameActions } from "@/store/game-store";
 import { useGroupModalElement, useRoleModalElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
@@ -11,6 +12,8 @@ const VictoryModal = () => {
   const participants = useParticipants();
   const isPractice = useRef(false);
   const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([]);
+
+  const { setVictoryPlayersId } = useGameActions();
 
   //NOTE - 승리한 팀의 players nickname
   useEffect(() => {
@@ -40,12 +43,14 @@ const VictoryModal = () => {
       //시민 승리이면서, 직업: 시민, 의사, 경찰인 경우
       if (title === "Citizen" && (playerJob === "citizen" || playerJob === "police" || playerJob === "doctor")) {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
+        setVictoryPlayersId(playerInfo.identity);
         return;
       }
 
       //마피아 승리이면서, 직업: 마피아인 경우
       if (title === "Mafia" && playerJob === "mafia") {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
+        setVictoryPlayersId(playerInfo.identity);
       }
     });
 

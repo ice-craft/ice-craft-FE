@@ -7,6 +7,7 @@ const useGameStore = create<GameState>((set) => ({
   diedPlayerId: [],
   isGameState: "gameReady",
   isDay: "",
+  victoryPlayersId: [],
   actions: {
     setChiefPlayerId: (newChief) =>
       set((state) => {
@@ -34,6 +35,22 @@ const useGameStore = create<GameState>((set) => ({
     setDiedPlayer: (playerId) => set((state) => ({ diedPlayerId: [...state.diedPlayerId, playerId] })),
     setIsGameState: (isGame) => set({ isGameState: isGame }),
     setIsDay: (newIsDay) => set({ isDay: newIsDay }),
+    setVictoryPlayersId: (newPlayerId) =>
+      set((state) => {
+        const victoryPlayersId = state.victoryPlayersId;
+        const isPlayer = victoryPlayersId.find((playerId) => playerId === newPlayerId);
+
+        if (isPlayer) {
+          return { victoryPlayersId };
+        }
+
+        if (!isPlayer) {
+          return { victoryPlayersId: [...state.victoryPlayersId, newPlayerId] };
+        }
+
+        return { victoryPlayersId };
+      }),
+
     setGameReset: () => set({ diedPlayerId: [], isGameState: "gameReady" })
   }
 }));
@@ -42,4 +59,5 @@ export const useIsDay = () => useGameStore((state) => state.isDay);
 export const useChiefPlayer = () => useGameStore((state) => state.updateRoomInfo);
 export const useDiedPlayer = () => useGameStore((state) => state.diedPlayerId);
 export const useGameState = () => useGameStore((state) => state.isGameState);
+export const useVictoryPlayers = () => useGameStore((state) => state.victoryPlayersId);
 export const useGameActions = () => useGameStore((state) => state.actions);

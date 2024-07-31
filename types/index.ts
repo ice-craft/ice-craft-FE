@@ -69,12 +69,14 @@ export interface GameState {
   diedPlayerId: string[];
   isGameState: string;
   isDay: string;
+  victoryPlayersId: string[];
   actions: {
     setPresentRoomId: (newRoomId: string) => void;
     setChiefPlayerId: (newChief: { chief: string; roomId: string }) => void;
     setDiedPlayer: (playerId: string) => void;
     setIsGameState: (isGame: string) => void;
     setIsDay: (newIsDay: string) => void;
+    setVictoryPlayersId: (newPlayerId: string) => void;
     setGameReset: () => void;
   };
 }
