@@ -6,12 +6,14 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
   const userNickname = useNickname();
   const userId = useUserId();
   const { setUserId, setUserNickname } = useConnectActions();
   const [isActive, setIsActive] = useState(false);
+  const router = useRouter();
 
   //NOTE - 사용자 로그인 여부
   useEffect(() => {
@@ -39,6 +41,7 @@ const Nav = () => {
       setUserNickname("");
       location.reload();
       toast("로그아웃이 완료되었습니다.");
+      router.push("/main");
     } catch (error) {
       toast.error("로그아웃이 실패했습니다.");
     }
