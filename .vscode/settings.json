@@ -7,7 +7,6 @@
     "Lanking",
     "livekit",
     "mafiainfo",
-    "Mainpage",
     "pretendard",
     "Rankingpage",
     "Roombutton",
@@ -15,8 +14,8 @@
     "swiper",
     "tanstack",
     "toastify",
+    "typebot",
     "userform",
-    "zkzkzkz",
     "zustand"
   ],
   "git.ignoreLimitWarning": true

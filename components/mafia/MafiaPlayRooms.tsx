@@ -132,6 +132,8 @@ const MafiaPlayRooms = () => {
 
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
+      <div className={S.goToMainPage}></div>
+
       <MafiaHeader />
       <div className={S.mafiaPlayRoomSection}>
         <LocalParticipant />

@@ -6,7 +6,7 @@ import GoTopButton from "@/utils/GoTopButton";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Pagination from "@/components/ranking/Pagination";
-import MyLanking from "@/components/ranking/MyRanking";
+import MyRanking from "@/components/ranking/MyRanking";
 import FormSearch from "@/utils/FormSearch";
 
 const Rankingpage = async () => {
@@ -27,7 +27,7 @@ const Rankingpage = async () => {
         <li>총점</li>
       </ul>
       {data ? (
-        <MyLanking data={data} />
+        <MyRanking data={data} />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
