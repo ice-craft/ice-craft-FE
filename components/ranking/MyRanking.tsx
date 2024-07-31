@@ -1,60 +1,44 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import S from "@/style/ranking/ranking.module.css";
-import { checkUserLogIn } from "@/utils/supabase/authAPI";
+import { MyLankingProps, Ranking } from "@/types";
+import { getUserInfo } from "@/utils/supabase/authAPI";
 
-//FIXME - 나중에 타입 수정하시구 타입 폴더 index.ts에 넣어주세요
-interface MyRankingProps {
-  data: any[];
-}
+const MyRanking = ({ rankingList }: MyLankingProps) => {
+  const [myRanking, setMyRanking] = useState<Ranking | null>();
 
-const MyRanking = ({ data }: MyRankingProps) => {
-  console.log(data);
-
-  /*
-  //TODO - 수파베이스에 있는 로그인 정보 불러왔음.
-  checkUserLogIn 함수를 사용해서 로그인 된 사용자 정보를 가져오고,
-  if문으로 현재 내가 로그인한 상태 (userId)와 같으면
-  자신의 랭킹 정보를 표시하는로직을 작성하면 됨.
-*/
   useEffect(() => {
-    const checkUserInfo = async () => {
+    const setMyLanking = async () => {
       try {
-        const userInfo = await checkUserLogIn();
-        if (userInfo) {
-          data.find((user) => userInfo.id == user.user_id);
-        }
-      } catch (error) {}
+        const userInfo = await getUserInfo();
+        const userId = userInfo.id;
+        const ranking = rankingList.find((ranking: Ranking) => ranking.user_id === userId);
+
+        setMyRanking(ranking);
+      } catch (e) {
+        setMyRanking(null);
+      }
     };
+
+    setMyLanking();
   }, []);
-
-  //유저 정보가 없을시(로그아웃) 대처를 삽입
-  //조건부 랜더링으로 로그아웃 시 랜더링이 되지 않게
-  const fetchUser = async () => {
-    const loginCheckUser = await checkUserLogIn();
-    console.log(loginCheckUser);
-  };
-  fetchUser();
-
-  //NOTE - 미리 변수이름 생성해둠. 여기다 작성하면 됨. (null 지우셈)
-  const myRanking = null;
 
   return (
     <div>
-      {myRanking ? (
+      {myRanking && (
         <ul className={S.myRankingList}>
           <li>
             <div>
-              <h2>999</h2>
-              <h3>내 닉네임</h3>
-              <p className={S.mafiaUserRanking}>1000</p>
-              <p className={S.songUserRanking}>2000</p>
-              <p className={S.totalRanking}>3000</p>
+              <h2>{myRanking.ranking}</h2>
+              <h3>{myRanking.nickname}</h3>
+              <p className={S.mafiaUserRanking}>{myRanking.mafia_score}</p>
+              <p className={S.songUserRanking}>{myRanking.music_score}</p>
+              <p className={S.totalRanking}>{myRanking.total_score}</p>
             </div>
           </li>
         </ul>
-      ) : null}
+      )}
     </div>
   );
 };

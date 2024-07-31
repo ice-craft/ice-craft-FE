@@ -1,7 +1,7 @@
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
-import { Tables } from "./supabase";
+import { Tables } from "@/types/supabase";
 
 export interface MafiaRoom {
   room: string;
@@ -191,16 +191,29 @@ export interface LoadingState {
   };
 }
 
-export interface PageNateProps {
-  data: Ranking[] | null;
+export interface Ranking {
+  email: string;
+  mafia_score: number;
+  music_score: number;
+  nickname: string | null;
+  total_score: number;
+  user_id: string;
+  ranking?: number;
 }
 
-export interface Ranking {
-  id: string;
-  nickname: string;
-  mafia_score: number | null;
-  music_score: number | null;
-  total_score: number | null;
-  user_id: string | null;
-  ranking: number;
+export interface MyLankingProps {
+  rankingList: Ranking[];
+}
+
+export interface PageNationProps {
+  rankingList: Ranking[];
+}
+
+export interface CurrentItemsProps {
+  currentItems: Ranking[];
+}
+
+export interface PaginatedItemsProps {
+  items: Ranking[];
+  itemsPerPage: number;
 }

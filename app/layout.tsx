@@ -1,5 +1,4 @@
-import "./globals.css";
-import QueryProvider from "./provider";
+import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { pretendard } from "@/public/fonts/fonts";
@@ -35,8 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={pretendard.className}>
       <body>
-        <ToastContainer position="top-left" />
-        <QueryProvider>{children}</QueryProvider>
+        <ToastContainer position="top-left" /> {children}
       </body>
     </html>
   );

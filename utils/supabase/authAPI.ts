@@ -1,13 +1,14 @@
 import { Provider } from "@supabase/supabase-js";
-import { createClient } from "./client";
+import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const checkUserLogIn = async () => {
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
-    throw new Error();
+    throw new Error("유저의 로그인 확인에 실패했습니다.");
   }
 
   if (data.user) {
@@ -41,7 +42,7 @@ export const emailLogIn = async (email: string, password: string) => {
 };
 
 export const oAuthRegister = async (email: string, password: string, nickname: string) => {
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -50,18 +51,23 @@ export const oAuthRegister = async (email: string, password: string, nickname: s
       }
     }
   });
+
   if (error) {
     throw new Error("oAuth 회원가입에 실패했습니다.");
   }
 
-  return true;
+  if (data.user) {
+    return data.user.id;
+  }
+
+  return false;
 };
 
 export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/sns-login"
+      redirectTo: `${defaultUrl}/sns-login`
     }
   });
 
@@ -86,7 +92,7 @@ export const setUserNickname = async (nickname: string) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("닉네임 수정에 실패했습니다.");
   }
 
   return data;
