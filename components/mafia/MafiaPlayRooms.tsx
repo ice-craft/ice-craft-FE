@@ -17,7 +17,7 @@ import MafiaHeader from "@/components/mafia/MafiaHeader";
 import MafiaModals from "@/components/mafia/MafiaModals";
 import MafiaToolTip from "@/components/mafia/MafiaToolTip";
 import RemoteParticipant from "@/components/mafia/RemoteParticipant";
-import useTest from "@/hooks/useTest";
+import { getRankingScore, setRankingScore } from "@/utils/supabase/rankingAPI";
 
 const MafiaPlayRooms = () => {
   const hasEmitted = useRef(false);
@@ -34,8 +34,8 @@ const MafiaPlayRooms = () => {
 
   //NOTE - custom hooks
   useSelectSocket(localParticipant);
-  useTest();
-  // const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
+
+  const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
 
   // // NOTE - 방 입장 시 초기화
   useEffect(() => {
@@ -68,7 +68,7 @@ const MafiaPlayRooms = () => {
     },
     //NOTE - players 미디어 관리
     playerMediaStatus: (playersMedias: MediaStatus) => {
-      // setPlayersMediaStatus(playersMedias);
+      setPlayersMediaStatus(playersMedias);
     },
     //NOTE - 죽은 player 관리
     diedPlayer: (playerId: string) => {
@@ -94,7 +94,7 @@ const MafiaPlayRooms = () => {
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
-      // setIsMediaReset(true); // 캠 및 오디오 초기화
+      setIsMediaReset(true); // 캠 및 오디오 초기화
     }
   };
   useSocketOn(sockets);
@@ -105,8 +105,29 @@ const MafiaPlayRooms = () => {
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
-      // setIsMediaReset(true); // 캠 및 오디오 초기화
+      setIsMediaReset(true); // 캠 및 오디오 초기화
     }
+  }, [isGameState]);
+
+  //NOTE - Ranking 점수 산정
+  useEffect(() => {
+    const updateVictoryRanking = async () => {
+      if (isGameState !== "gameEnd") return;
+
+      const localPlayerId = localParticipant.localParticipant.identity;
+      console.log("localPlayerId", localPlayerId);
+      const { mafia_score, music_score } = await getRankingScore(localPlayerId);
+
+      const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
+      const newScore = isVictoryPlayer ? 100 : 20;
+
+      const newMafia_score = mafia_score + newScore;
+      const newMusic_score = music_score;
+      const total_score = newMafia_score + newMusic_score;
+
+      await setRankingScore(localPlayerId, newMafia_score, newMusic_score, total_score);
+    };
+    updateVictoryRanking();
   }, [isGameState]);
 
   console.log("MafiaPlayerRooms");
