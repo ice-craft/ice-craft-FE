@@ -7,6 +7,8 @@ import { useOverLayActions } from "@/store/overlay-store";
 import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
 import { MediaStatus, playersInfo } from "@/types";
+
+import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
 import { RoomAudioRenderer, useLocalParticipant } from "@livekit/components-react";
 import { useEffect, useRef } from "react";
@@ -19,15 +21,20 @@ import RemoteParticipant from "@/components/mafia/RemoteParticipant";
 const MafiaPlayRooms = () => {
   const hasEmitted = useRef(false);
 
+  //NOTE - livekit Hooks
   const localParticipant = useLocalParticipant();
+
+  //NOTE - global state
   const isGameState = useGameState();
-  const { setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
+  const { setPresentRoomId, setChiefPlayerId, setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
   const { setModalReset } = useModalActions();
-  const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
-  useSelectSocket(); // 클릭 이벤트 처리
 
-  //NOTE - 방 입장 시 초기화
+  //NOTE - custom hooks
+  useSelectSocket();
+  const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
+
+  // // NOTE - 방 입장 시 초기화
   useEffect(() => {
     setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
     setModalReset(); //전체 모달 요소 초기화
@@ -39,6 +46,8 @@ const MafiaPlayRooms = () => {
     if (localParticipant.localParticipant.metadata && !hasEmitted.current) {
       const roomId = localParticipant.localParticipant.metadata;
 
+      setPresentRoomId(roomId);
+      socket.emit("updateRoomInfo", roomId);
       socket.emit("usersInfo", roomId);
       hasEmitted.current = true;
     }
@@ -62,9 +71,13 @@ const MafiaPlayRooms = () => {
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
     },
-    //NOTE - 방의 변화를 감지
-    updateRoomInfo: (roomInfo: any) => {
-      console.log("roomInfo", roomInfo);
+    //NOTE - 방에 대한 정보
+    updateRoomInfo: (roomInfo: Tables<"room_table">) => {
+      if (!roomInfo.chief) {
+        console.log("방장에 대한 정보가 없습니다.");
+        return;
+      }
+      setChiefPlayerId({ chief: roomInfo.chief, roomId: roomInfo.room_id });
     },
     //NOTE - players의 초기 Ready 상태
     usersInfo: (players: playersInfo[]) => {
@@ -96,6 +109,8 @@ const MafiaPlayRooms = () => {
       //점수 산정
     }
   }, [isGameState]);
+
+  console.log("MafiaPlayRooms 실행");
 
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
