@@ -1,32 +1,24 @@
-import { useDiedPlayer } from "@/store/game-store";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useRoleModalElement } from "@/store/show-modal-store";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
-import { useLocalParticipant } from "@livekit/components-react";
+import { LocalParticipant } from "livekit-client";
 import { useEffect } from "react";
 
-const useSelectSocket = () => {
+const useSelectSocket = ({ localParticipant }: { localParticipant: LocalParticipant }) => {
   const inSelect = useInSelect();
   const role = useRoleModalElement();
-
-  const diedPlayerId = useDiedPlayer();
   const { setIsOverlay, setIsRemoteOverlay } = useOverLayActions();
 
-  const { localParticipant } = useLocalParticipant();
-  const localPlayerId = localParticipant.identity;
-
-  //NOTE - 투표 시간, 직업별 캠 클릭 활성화
+  // NOTE - 투표, 직업 시간별 캠 클릭 활성화
   useEffect(() => {
-    const isDiedPlayer = diedPlayerId.find((playerId) => localPlayerId === playerId);
-
-    //NOTE - 죽은 player일 경우 or 특정 시간이 아닐 경우 캠클릭 비활성화
-    if (isDiedPlayer || !inSelect) {
-      setIsOverlay(false);
+    // //NOTE - 특정 시간이 아닐 경우
+    if (inSelect === "") {
+      console.log("필터링");
       return;
     }
 
     //NOTE - 해당 player의 직업
-    const localJob = getPlayerJob(role, localPlayerId);
+    const localJob = getPlayerJob(role, localParticipant.identity);
 
     //NOTE - 투표 시간이면서, 모든 player 캠 클릭 이벤트 활성화
     if (inSelect.includes("vote")) {
@@ -48,7 +40,7 @@ const useSelectSocket = () => {
       console.log("경찰 시간입니다.");
       setIsRemoteOverlay(true);
     }
-  }, [inSelect, diedPlayerId]);
+  }, [inSelect]);
 };
 
 export default useSelectSocket;

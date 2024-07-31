@@ -31,7 +31,7 @@ const MafiaPlayRooms = () => {
   const { setModalReset } = useModalActions();
 
   //NOTE - custom hooks
-  useSelectSocket();
+  useSelectSocket(localParticipant);
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
 
   // // NOTE - 방 입장 시 초기화
