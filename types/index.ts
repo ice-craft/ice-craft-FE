@@ -190,3 +190,17 @@ export interface LoadingState {
     setLoading: (loading: boolean) => void;
   };
 }
+
+export interface PageNateProps {
+  data: Ranking[] | null;
+}
+
+export interface Ranking {
+  id: string;
+  nickname: string;
+  mafia_score: number | null;
+  music_score: number | null;
+  total_score: number | null;
+  user_id: string | null;
+  ranking: number;
+}
