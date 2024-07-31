@@ -6,19 +6,17 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
 import Image from "next/image";
-
-//FIXME - 타입 찾아서 수정해주시구 타입 폴더 index.ts에 넣어주세요~!
-interface PageNateProps {
-  data: any;
-}
+import { PageNateProps, Ranking } from "@/types";
 
 export default function Pagination({ data }: PageNateProps) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Ranking[]>([]);
   useEffect(() => {
-    setItems(data);
-    data.forEach((item: any, index: any) => {
-      item["ranking"] = index + 1;
-    });
+    if (data) {
+      setItems(data);
+      data.forEach((item: Ranking, index: number) => {
+        item["ranking"] = index + 1;
+      });
+    }
   }, [data]);
 
   function Items({ currentItems }: any) {
@@ -31,7 +29,6 @@ export default function Pagination({ data }: PageNateProps) {
               if (item.ranking === 1) rankClass = S.firstPlace;
               else if (item.ranking === 2) rankClass = S.secondPlace;
               else if (item.ranking === 3) rankClass = S.thirdPlace;
-
               return (
                 <li key={item.ranking}>
                   <div>
