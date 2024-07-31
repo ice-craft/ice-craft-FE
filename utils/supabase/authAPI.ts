@@ -8,7 +8,7 @@ export const checkUserLogIn = async () => {
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
-    throw new Error();
+    throw new Error("유저의 로그인 확인에 실패했습니다.");
   }
 
   if (data.user) {
