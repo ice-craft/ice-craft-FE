@@ -1,5 +1,4 @@
 import "@/app/globals.css";
-import QueryProvider from "@/app/provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { pretendard } from "@/public/fonts/fonts";
