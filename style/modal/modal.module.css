@@ -14,28 +14,28 @@
 
 .modal {
   position: absolute;
-  background-color: var(--white);
+  background: url("../../assets/images/modal_bg.svg") center center no-repeat;
+  background-size: 80% auto;
   opacity: 1;
-  border-radius: 12px;
   z-index: 999;
-  color: var(--text-black);
   padding: 80px;
   text-align: center;
+  width: 865px;
+  height: 506px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal h1 {
-  color: #999;
-  font-size: var(--font-size-modal-title);
+  font-size: var(--font-size-title);
   margin-bottom: 30px;
 }
 
 .modal h2 {
-  font-size: 35px;
+  font-size: var(--font-size-modal-title);
 }
-
-/* .modal > p {
-  margin-top: 50px;
-} */
 
 /*------------ UserCardImage ------------*/
 .workModal {
@@ -52,7 +52,8 @@
 
 .workTitle {
   margin-bottom: 50px;
-  font-size: var(--font-size-modal-content);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-bold);
 }
 
 .workList {
@@ -88,14 +89,25 @@
 }
 
 /*------------ mainpage modal ------------*/
+.mainModal {
+  position: absolute;
+  background-color: var(--white);
+  opacity: 1;
+  z-index: 999;
+  padding: 80px;
+  text-align: center;
+  border-radius: 12px;
+}
+
 .gameForm {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  width: 302px;
 }
-.gameChoice {
+.gameForm > .gameChoice {
   font-weight: var(--font-bold);
-  font-size: var(--font-size-modal-title);
+  font-size: var(--font-size-title);
 }
 
 .gameTitle {
@@ -113,7 +125,7 @@
 }
 
 .gameNameText input[type="text"]:focus {
-  outline: 1px solid var(--main-color);
+  outline: 1px solid var(--primary-color);
   opacity: 0.5;
 }
 
@@ -148,6 +160,7 @@
   background-color: var(--white) !important;
   color: var(--text-black) !important;
 }
+
 /*------------ button modal ------------*/
 .modal .userCheckNickName {
   margin-top: 0;
@@ -155,7 +168,11 @@
   font-size: var(--font-size-modal-content);
 }
 
-.userCheckNickName > p > span {
+.userCheckNickName > p {
+  font-size: var(--font-size-modal-content);
+}
+
+.userCheckNickName > p > strong {
   font-weight: var(--font-bold);
 }
 
@@ -169,11 +186,11 @@
 .checkButton > button {
   width: 50%;
   border-radius: var(--border-radius);
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 .checkButton > button:nth-of-type(1) {
-  background-color: var(--sub-color);
+  background-color: var(--secondary-color);
   color: var(--white);
 }
 
@@ -183,7 +200,7 @@
 }
 
 .checkButton > button:nth-of-type(1):hover {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
 }
 
 .checkButton > button:nth-of-type(2):hover {
@@ -193,21 +210,29 @@
 /*------------ progress bar ------------*/
 .progress {
   appearance: none;
-  width: 100%;
+  width: 400px;
   margin-top: 50px;
 }
+
 .progress::-webkit-progress-bar {
   background: #eee;
   height: 5px;
   border-radius: 10px;
   box-shadow: inset 3px 3px 10px #ccc;
 }
+
 .progress::-webkit-progress-value {
   border-radius: 10px;
-  background: var(--main-color);
-  background: -webkit-linear-gradient(to right, var(--sub-color), var(--main-color));
-  background: linear-gradient(to right, var(--sub-color), var(--main-color));
+  background: var(--primary-color);
+  background: -webkit-linear-gradient(to right, var(--secondary-color), var(--primary-color));
+  background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
   transition: 0.3s ease-out;
+}
+
+/*------------ victory modal ------------*/
+.modal.victoryModal {
+  position: absolute;
+  animation: victoryModal 1s 1 ease forwards;
 }
 
 /*------------ animation ------------*/
@@ -256,5 +281,19 @@
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes victoryModal {
+  0% {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
   }
 }

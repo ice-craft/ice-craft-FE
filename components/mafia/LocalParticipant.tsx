@@ -1,45 +1,91 @@
-import CamCheck from "@/assets/images/cam_check.png";
-import useOverlayStore from "@/store/overlay-store";
-import { useReadyStore } from "@/store/toggle-store";
+import CamCheck from "@/assets/images/cam_check.svg";
+import ChiefImage from "@/assets/images/leader.svg";
+import PlayerDieImage from "@/assets/images/player_die.svg";
+import useClickHandler from "@/hooks/useClickHandler";
+import usePlayerNumber from "@/hooks/usePlayerNumber";
+import { useChiefPlayer, useDiedPlayer, useGameState } from "@/store/game-store";
+import { useActivePlayer, useIsLocalOverlay, useReadyPlayers } from "@/store/overlay-store";
 import S from "@/style/livekit/livekit.module.css";
-import { Participants } from "@/types";
-import { allMediaSetting } from "@/utils/participantCamSettings/camSetting";
-import { ParticipantTile, useLocalParticipant } from "@livekit/components-react";
+import { ParticipantTile, TrackLoop, useLocalParticipant, useTracks } from "@livekit/components-react";
 import Image from "next/image";
-import React from "react";
+import GameStartButton from "@/components/mafia/GameStartButton";
+import { useEffect, useState } from "react";
+import { Track } from "livekit-client";
 
-const LocalParticipant: React.FC<Participants> = ({ tracks, checkClickHandle }) => {
-  const { isReady, setIsReady } = useReadyStore();
-  const { localParticipant } = useLocalParticipant();
-  const { activeParticipantSid, isOverlay } = useOverlayStore();
+const LocalParticipant = () => {
+  const [isChief, setIsChief] = useState(false);
 
-  const localTracks = tracks.filter((track) => track.participant.sid === localParticipant.sid)!;
+  //NOTE - livekit Hooks
+  const localParticipant = useLocalParticipant();
+  const localPlayerId = localParticipant.localParticipant.identity;
+  const localTrackId = localParticipant.localParticipant.sid;
 
-  const startGameHandler = () => {
-    allMediaSetting(tracks, false);
+  // NOTE -  전체 데이터
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.Microphone, withPlaceholder: true }
+    ],
+    { onlySubscribed: true } // 구독됐을 경우에만 실행
+  );
 
-    setIsReady(isReady);
-  };
+  //NOTE - global state
+  const isGameState = useGameState();
+  const diedPlayers = useDiedPlayer();
+  const activePlayerId = useActivePlayer();
+  const localReadyState = useReadyPlayers();
+  const isLocalOverlay = useIsLocalOverlay();
+  const chiefPlayerId = useChiefPlayer();
+
+  //NOTE - custom Hooks
+  const { clickHandler } = useClickHandler();
+  const playerNumber = usePlayerNumber(localPlayerId, isGameState);
+
+  const isDiedPlayer = diedPlayers.find((diedPlayer) => diedPlayer === localPlayerId);
+  const localTracks = tracks.filter((track) => track.participant.sid === localTrackId);
+
+  //NOTE - 게임 시작 전) 실시간 방장 정보 update
+  useEffect(() => {
+    // 초기 렌더링 필터
+    if (!localParticipant.localParticipant.identity || !chiefPlayerId) {
+      return;
+    }
+
+    const localPlayerId = localParticipant.localParticipant.identity;
+
+    if (isGameState === "gameReady" && localPlayerId === chiefPlayerId.chief) {
+      setIsChief(true);
+    }
+
+    if (isGameState === "gameStart" || isGameState === "gameEnd") {
+      setIsChief(false);
+    }
+  }, [chiefPlayerId, isGameState]);
 
   return (
     <div className={S.localParticipant}>
-      <h2>시간</h2>
-      {localTracks.map((track, index) => (
+      <div className={S.playerInfo}>
+        <div className={S.chief}>{isChief && <Image src={ChiefImage} alt={localPlayerId} />}</div>
+        {isGameState === "gameStart" && <p className={S.playerNumber}>{playerNumber}번</p>}
+      </div>
+      <TrackLoop tracks={localTracks}>
         <div
-          key={`${track.participant.sid}-${index}`}
-          className={`${S.participantOverlay} ${activeParticipantSid === track.participant.sid ? S.active : ""}`}
-          onClick={isOverlay ? (e) => checkClickHandle(e, track.participant.sid, index) : undefined}
+          className={`${S.participantOverlay} ${activePlayerId === localPlayerId ? S.active : ""}`}
+          onClick={isLocalOverlay && !isDiedPlayer ? (e) => clickHandler(e, localPlayerId) : undefined}
         >
-          <ParticipantTile trackRef={track} className={isOverlay ? S.localCam : undefined} />
-
-          <div className={S.imageOverlay}>
-            <Image src={CamCheck} alt={track.participant.sid} />
-          </div>
+          <ParticipantTile className={isLocalOverlay ? S.localCam : undefined} />
+          {!isDiedPlayer ? (
+            <div className={`${S.imageOverlay} ${localReadyState[localPlayerId] ? S.active : ""}`}>
+              <Image src={CamCheck} alt={localPlayerId} />
+            </div>
+          ) : (
+            <div className={S.playerDieOverlay}>
+              <Image src={PlayerDieImage} alt={localPlayerId} />
+            </div>
+          )}
         </div>
-      ))}
-      <button style={{ backgroundColor: isReady ? "#5c5bad" : "#bfbfbf" }} onClick={startGameHandler}>
-        {isReady ? "취소" : "Ready"}
-      </button>
+      </TrackLoop>
+      {isGameState === "gameReady" && <GameStartButton isGameState={isGameState} />}
     </div>
   );
 };

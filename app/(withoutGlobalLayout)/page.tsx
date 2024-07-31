@@ -4,16 +4,28 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/images/logo.svg";
 import TextTyping from "@/utils/TextTyping";
+import IntroBg from "@/assets/images/intro_bg.avif";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
-const IntroPage = () => {
+const IntroPage = async () => {
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+
+  if (data?.user) {
+    redirect("/main");
+  }
+
   return (
     <div className={S.introWrapper}>
       <header>
-        <Link href="/">
+        <Link replace={true} href="/">
           <Image src={Logo} alt="아이스 크래프트 홈페이지입니다." priority />
         </Link>
       </header>
       <section className={S.section}>
+        <Image src={IntroBg} alt="ice craft" className={S.IntroImage} priority />
         <video
           className={S.video}
           src="https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/vedio/intro.mp4"
@@ -23,15 +35,17 @@ const IntroPage = () => {
         ></video>
         <div className={S.introTitle}>
           <TextTyping />
-          <Link href="/main" className={S.mainButton}>
+          <Link replace={true} href="/main" className={S.mainButton}>
             Get Started
           </Link>
-          <Link href="/login" className={S.loginButton}>
+          <Link replace={true} href="/login" className={S.loginButton}>
             Login
           </Link>
           <div className={S.signUpButton}>
             <p>아직 IceCraft에 가입하지 않으셨나요?</p>
-            <Link href="/register">회원가입 하기</Link>
+            <Link replace={true} href="/register">
+              회원가입 하기
+            </Link>
           </div>
         </div>
       </section>

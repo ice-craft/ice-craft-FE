@@ -4,6 +4,12 @@
 }
 
 .introWrapper header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+}
+
+.introWrapper header a {
   position: absolute;
   left: 30px;
   top: 21px;
@@ -12,9 +18,16 @@
 
 /*-------------- INTRO --------------*/
 .section {
-  position: absolute;
-  width: 100%;
+  position: relative;
+  max-width: 100%;
   height: 100vh;
+}
+
+.IntroImage {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
 }
 
 .video {
@@ -56,7 +69,7 @@
 }
 
 .mainButton {
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   color: var(--white);
 }
 
@@ -75,4 +88,31 @@
 .signUpButton a {
   text-decoration: underline;
   font-size: var(--font-size-small);
+}
+
+/*---------------- Responsive --------------*/
+@media (max-width: 850px) {
+  .h1 {
+    margin-bottom: 24px;
+    font-size: 32px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .introWrapper header img {
+    width: 100px;
+    transition: 0.3s ease-out;
+  }
+
+  .introTitle {
+    transform: scale(0.8);
+    transition: 0.3s ease-out;
+  }
+}
+
+@media (max-width: 520px) {
+  .introTitle > a {
+    width: 100%;
+  }
 }

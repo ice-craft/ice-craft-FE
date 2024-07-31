@@ -1,93 +1,239 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# 프로젝트 "IceCraft"
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+배포 도메인 : [배포 링크 이동하기](https://ice-craft-git-dev-ice-craft.vercel.app/)
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+프로젝트 명 : IceCraft
 
-## Features
+1차 개발 기간 : 2024.03.26 ~ 2024.05.01 <br>
+2차 개발 기간 : 2024.05.20 ~ 2024.07.29
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+프로젝트 소개 : 실시간 화상 게임 서비스
 
-## Demo
+<br>
+<br>
+<br>
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+### 팀원 소개
 
-## Deploy to Vercel
+|                                           박서영                                           |                                          김명환                                           |                                           이준구                                           |                                           안주원                                           |
+| :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/116704646?v=4" alt="박서영" width="100"> | <img src="https://avatars.githubusercontent.com/u/154975499?v=4" alt="김명환" width="100"> | <img src="https://avatars.githubusercontent.com/u/145527618?v=4" alt="이준구" width="100"> | <img src="https://avatars.githubusercontent.com/u/154520094?v=4" width="100" alt="안주원"> |
+|                      [@seokachu](https://github.com/seokachu)                     |                          [@baram55](https://github.com/baram55)                          |                          [@LeeJunGoo](https://github.com/145527618?v=4)                          |                             [@joo1e](https://github.com/joo1e)                             |
+|                                            리더                                            |                                            부리더                                            |                                            팀원                                            |                                            팀원                                            |
+<br>
+<br>
+<br>
 
-Vercel deployment will guide you through creating a Supabase account and project.
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+## Tools
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This%20starter%20configures%20Supabase%20Auth%20to%20use%20cookies%2C%20making%20the%20user's%20session%20available%20throughout%20the%20entire%20Next.js%20app%20-%20Client%20Components%2C%20Server%20Components%2C%20Route%20Handlers%2C%20Server%20Actions%20and%20Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png&integration-ids=oac_VqOgBHqhEoFTPzGkPd7L0iH6)
+Communication
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+<table>
+  <tr>
+    <th>Github</th>
+    <th>Slack</th>
+    <th>Figma</th>
+  </tr>
+  <tr>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://techstack-generator.vercel.app/github-icon.svg" alt="icon" width="65" height="65" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items:center; justify-content:center;">
+         &nbsp;&nbsp;&nbsp;<img src="https://github.com/seokachu/movie_project/assets/116704646/7587830d-ead0-4adb-aa60-984df1b326a5" alt="icon" width="45" height="45" style="text-align:center" />
+      </div>
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items:center; justify-content:center;">
+        &nbsp;&nbsp;
+        <img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/116704646/867feb77-319b-497f-9836-07abb6637596" alt="icon" width="45" text-align="center">
+      </div>
+    </td>
+  </tr>
+</table>
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+<br>
+<br>
+<br>
 
-## Clone and run locally
+## 개발환경
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+<table>
+  <tr>
+    <th>Next.js</th>
+    <th>Supabase</th>
+    <th>Prettier</th>
+    <th>Moudle css</th>
+    <th>Zustand</th>
+    <th>Livekit</th>
+    <th>Socket.io</th>
+    <th>Express</th>
+    <th>AWS</th>
+  </tr>
+  <tr>
+    <td width="100" height="100">
+      <div style="display: flex; align-items:center; justify-content:center;">
+        &nbsp;&nbsp;<img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/116704646/ca3b35d4-25bf-4038-9a33-2daf9e6c5ade" alt="icon" width="50" height="50" style="text-align:center" />
+      </div>
+    </td>
+     <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://github.com/sparta-advancedProject-team10/HappyMungLife/assets/121484282/81b31829-810a-4653-b54e-2fc9a3d98ad0" alt="icon" width="65" height="65" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://techstack-generator.vercel.app/prettier-icon.svg" alt="icon" width="65" height="65" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/248b37f6-b404-42fd-8e4a-2ea1ab4a53d1" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/c519f7e9-ae7a-4749-a849-97a836428a05" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/8d33be75-ce12-495c-8a19-03d4913e7578" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+     <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        &nbsp;
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/98b0fa6c-8a9d-431d-9c21-b54a34858ddb" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+    <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        <img src="https://github.com/ice-craft/ice-craft/assets/116704646/c57e63a4-2d75-4579-8ae2-4622f25d516d" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+     <td width="100" height="100">
+      <div style="display: flex; align-items: center;">
+        &nbsp;
+        <img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="60" height="60" />
+      </div>     
+    </td>
+  </tr>
+</table>
 
-2. Create a Next.js app using the Supabase Starter template npx command
 
-   ```bash
-   npx create-next-app -e with-supabase
-   ```
+<br>
+<br>
+<br>
 
-3. Use `cd` to change into the app's directory
 
-   ```bash
-   cd name-of-new-app
-   ```
+## 기능 소개
 
-4. Rename `.env.local.example` to `.env.local` and update the following:
+|                                                                                     박서영                                                                                     |                                                                                                          김명환                                                                                                           |                                                                    이준구                                                                     |                  안주원                  |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------: |
+| **Features**<br><br>메인페이지<br>Info페이지<br>마피아게임 Info 페이지 제작<br>WebRTC livekit 연결 작업<br>게임 페이지 레이아웃 작업<br>게임 페이지 socket.io 연결<br>socket.io통신 기반 UI 로직 입히기<br>모달창 작업<br>전체페이지 퍼블리싱 | <br>**Features**<br><br>supabase 전체 DB설계 및 구현<br>로그인 페이지 구현<br>회원가입 페이지 구현<br>server에서 받아오는 클라이언트 측<br>socket.io 통신 작업 구현<br>마피아 게임 알고리즘 구현<br>마피아 게임 express를 이용한 server 작업<br>게임 socket.io를 이용한<br>web socket 통신 구현<br>SWC 배포 작업<br><br> | **Features**<br><br>livekit 연결 후 socket.io와 연동<br>게임 페이지 socket.io와 UI 로직 연결<br>페이지 별 전역상태 관리, 커스텀 훅 구현<br>게임페이지 리팩토링<br> | **Features**<br><br>인트로페이지 제작<br>메인페이지 제작<br>랭킹페이지 제작<br> |
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
 
-5. You can now run the Next.js local development server:
-
-   ```bash
-   npm run dev
-   ```
-
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
-
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
-
-## Feedback and issues
-
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+<!--
+📦app
+ ┣ 📂auth
+ ┃ ┗ 📂callback
+ ┃ ┃ ┗ 📜route.ts
+ ┣ 📂community
+ ┃ ┣ 📂detail
+ ┃ ┃ ┗ 📂[id]
+ ┃ ┃ ┃ ┣ 📂edit
+ ┃ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂post
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┗ 📜page.tsx
+ ┣ 📂meal
+ ┃ ┗ 📜page.tsx
+ ┣ 📂medical
+ ┃ ┗ 📜page.tsx
+ ┣ 📂mypage
+ ┃ ┗ 📜page.tsx
+ ┣ 📂protected
+ ┃ ┗ 📜page.tsx
+ ┣ 📂sign
+ ┃ ┣ 📂signIn
+ ┃ ┃ ┣ 📜page.tsx
+ ┃ ┃ ┗ 📜submit-button.tsx
+ ┃ ┗ 📂signUp
+ ┃ ┃ ┗ 📜page.tsx
+ ┣ 📂trade
+ ┃ ┣ 📂detail
+ ┃ ┃ ┗ 📂[id]
+ ┃ ┃ ┃ ┣ 📂edit
+ ┃ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂post
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┗ 📜page.tsx
+ ┣ 📂_api
+ ┃ ┣ 📜comment-api.ts
+ ┃ ┣ 📜detailPage-api.ts
+ ┃ ┗ 📜placeInfo-api.ts
+ ┣ 📂_components
+ ┃ ┣ 📂communityPageComponents
+ ┃ ┃ ┣ 📜CommumityData.tsx
+ ┃ ┃ ┣ 📜CommunityCommentsData.tsx
+ ┃ ┃ ┣ 📜CommunityEditForm.tsx
+ ┃ ┃ ┗ 📜CommunityForm.tsx
+ ┃ ┣ 📂detailPageComponents
+ ┃ ┃ ┣ 📜CommentDeleteButton.tsx
+ ┃ ┃ ┣ 📜CommentForm.tsx
+ ┃ ┃ ┣ 📜CommentItem.tsx
+ ┃ ┃ ┣ 📜CommentList.tsx
+ ┃ ┃ ┣ 📜LikeButton.tsx
+ ┃ ┃ ┣ 📜PostEditDeleteButton.tsx
+ ┃ ┃ ┣ 📜SaveButton.tsx
+ ┃ ┃ ┗ 📜ScrapButton.tsx
+ ┃ ┣ 📂layout
+ ┃ ┃ ┣ 📜Footer.tsx
+ ┃ ┃ ┣ 📜Header.tsx
+ ┃ ┃ ┗ 📜Nav.tsx
+ ┃ ┣ 📂mainPageComponents
+ ┃ ┃ ┗ 📜test.tsx
+ ┃ ┗ 📂tradePageComponents
+ ┃ ┃ ┣ 📜TradeCommentData.tsx
+ ┃ ┃ ┣ 📜TradeData.tsx
+ ┃ ┃ ┣ 📜TradeEditForm.tsx
+ ┃ ┃ ┗ 📜TradeForm.tsx
+ ┣ 📂_hooks
+ ┃ ┣ 📜useAddCommunityCommentMutation.ts
+ ┃ ┣ 📜useAddTradeCommentMutation.ts
+ ┃ ┣ 📜useDeleteCommunityCommentMutation.ts
+ ┃ ┣ 📜useDeleteTradeCommentMutation.ts
+ ┃ ┣ 📜useFetchCommunityCommentsQuery.ts
+ ┃ ┣ 📜useFetchTradeCommentsQuery.ts
+ ┃ ┣ 📜useUpdateCommunityCommentMutation.ts
+ ┃ ┗ 📜useUpdateTradeCommentMutation.ts
+ ┣ 📂_style
+ ┃ ┗ 📜mainSwiper.css
+ ┣ 📂_types
+ ┃ ┣ 📜communityPosts.types.ts
+ ┃ ┗ 📜mainPage.type.ts
+ ┣ 📂_utils
+ ┃ ┣ 📂supabase
+ ┃ ┃ ┣ 📜api.ts
+ ┃ ┃ ┣ 📜auth.ts
+ ┃ ┃ ┣ 📜client.ts
+ ┃ ┃ ┣ 📜clientJs.ts
+ ┃ ┃ ┣ 📜createClientJs.ts
+ ┃ ┃ ┣ 📜middleware.ts
+ ┃ ┃ ┗ 📜server.ts
+ ┃ ┗ 📜date.ts
+ ┣ 📜actions.ts
+ ┣ 📜favicon.ico
+ ┣ 📜globals.css
+ ┣ 📜layout.tsx
+ ┣ 📜not-found.tsx
+ ┣ 📜page.tsx
+ ┗ 📜provider.tsx
+ -->

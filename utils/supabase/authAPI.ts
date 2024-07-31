@@ -1,14 +1,30 @@
 import { Provider } from "@supabase/supabase-js";
-import { createClient } from "./client";
+import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const checkUserLogIn = async () => {
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    throw new Error("유저의 로그인 확인에 실패했습니다.");
+  }
+
   if (data.user) {
-    return true;
-  } else {
-    return false;
+    return data.user;
+  }
+};
+
+export const checkUserLoginInfo = async () => {
+  const { data, error } = await supabase.auth.getUser();
+
+  if (data.user) {
+    return data.user;
+  }
+
+  if (error) {
+    throw new Error("로그인 확인에 실패했습니다.");
   }
 };
 
@@ -19,7 +35,7 @@ export const emailLogIn = async (email: string, password: string) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("일반 로그인에 실패했습니다.");
   }
 
   return data;
@@ -35,24 +51,28 @@ export const oAuthRegister = async (email: string, password: string, nickname: s
       }
     }
   });
+
   if (error) {
-    throw new Error(error.message);
+    throw new Error("oAuth 회원가입에 실패했습니다.");
   }
 
-  return data.user?.id;
+  if (data.user) {
+    return data.user.id;
+  }
+
+  return false;
 };
 
-//NOTE - 배포 시 각 사이트에서 배포 사이트 작성할 것 (구글은 테스트버전에서 배포버전으로 변경할 것)
 export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/test" //NOTE - 테스트 코드, 메인 페이지로 리다이렉트할 것
+      redirectTo: `${defaultUrl}/sns-login`
     }
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("SNS 계정 로그인에 실패했습니다.");
   }
 
   return data;
@@ -62,7 +82,7 @@ export const logOut = async () => {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("로그아웃에 실패했습니다.");
   }
 };
 
@@ -72,30 +92,18 @@ export const setUserNickname = async (nickname: string) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error("닉네임 수정에 실패했습니다.");
   }
 
   return data;
 };
 
 export const getUserInfo = async () => {
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    throw new Error("유저 정보 가져오기에 실패했습니다.");
+  }
+
   return data.user;
-};
-
-export const getUserNickname = async () => {
-  const { data } = await supabase.auth.getUser();
-  return data.user?.user_metadata.nickname;
-};
-
-export const getUserUid = async () => {
-  const { data } = await supabase.auth.getUser();
-
-  return data.user?.id;
-};
-
-export const getUserEmail = async () => {
-  const { data } = await supabase.auth.getUser();
-
-  return data.user?.email;
 };

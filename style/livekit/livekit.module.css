@@ -1,7 +1,29 @@
-.section {
-  display: flex;
+/*-------------- MafiaPlayRooms ----------------*/
+.mafiaPlayRoomWrapper {
   height: 100vh;
+}
+
+.roomBackground {
+  background: url("../../assets/images/mafia_room_bg.avif") center center/cover no-repeat;
+  transition: 0.3s ease-out;
+  position: absolute;
+  inset: 0;
+}
+
+.day {
+  background: url("../../assets/images/mafia_day_bg.avif") center center/cover no-repeat;
+  transition: 0.3s ease-out;
+}
+
+.night {
+  background: url("../../assets/images/mafia_night_bg.avif") center center/cover no-repeat;
+  transition: 0.3s ease-out;
+}
+
+.mafiaPlayRoomSection {
+  display: flex;
   position: relative;
+  height: 100%;
 }
 
 .localParticipant {
@@ -11,28 +33,23 @@
   justify-content: center;
   gap: 30px;
   align-items: center;
-  background-color: var(--white);
   padding: 0 30px;
 }
 
-.localParticipant h2 {
-  font-size: var(--font-size-modal-content);
-  border: 1px solid var(--silver-gray);
-  padding: 5px 50px;
-  border-radius: 100px;
-  color: var(--text-black);
-  white-space: nowrap;
+.localParticipant > button {
+  font-size: var(---font-size-title) !important;
+  padding: 12px 52px;
+  border-radius: var(--border-radius);
 }
 
-.localParticipant button {
-  font-size: var(--font-size-modal-title);
-  background-color: var(--silver-gray);
-  padding: 15px 100px;
-  border-radius: 100px;
+.localParticipant > button:hover {
+  background-color: var(--primary-color) !important;
 }
 
 .participantOverlay {
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius);
 }
 
 .localCam {
@@ -44,8 +61,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  left: 0;
-  top: 0;
+  inset: 0;
   z-index: 1;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -62,7 +78,7 @@
 
 .remoteParticipant {
   flex: 2;
-  padding: 15px;
+  padding: 108px 15px 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -74,6 +90,8 @@
   position: relative;
   width: 32.5%;
   height: 30%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8.9px;
 }
 
 .remoteParticipantOverlay > .remoteCam {
@@ -102,17 +120,132 @@
   user-select: none;
 }
 
+.imageOverlay.active,
+.remoteOverlay.active,
 .remoteParticipantOverlay.active .remoteOverlay,
-.participantOverlay.active .imageOverlay {
+.participantOverlay.active .imageOverlay,
+.chief.active {
   display: block;
 }
 
+.playerDieOverlay {
+  background-color: #000;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playerInfo {
+  position: relative;
+  width: 100%;
+}
+
+.remotePlayerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 5px;
+  top: 5px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.playerNumber {
+  position: absolute;
+  z-index: 1;
+  left: 6px;
+  top: 36px;
+  background-color: rgba(92, 91, 173, 0.7);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.chief {
+  position: absolute;
+  right: -18px;
+  top: 0;
+  z-index: 2;
+}
+
+.remoteChief {
+  position: absolute;
+  right: -15px;
+  top: -25px;
+  z-index: 2;
+}
+
+/*-------------- SpeakTimer ----------------*/
+.gameTimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 20px;
+  font-size: var(--font-size-content);
+  background-color: var(--text-black);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.timerCount {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.moon {
+  display: inline-flex;
+  transform: translateY(2px);
+}
+
+.sun {
+  display: inline-flex;
+  transform: translateY(6px);
+}
+
+.dayAndNight .sunImage {
+  animation: sun 5s linear infinite;
+  width: 40px;
+}
+
+.dayAndNight .moonImage {
+  animation: moon 2s linear alternate infinite;
+  width: 35px;
+}
+
+/*-------------- GoTo MainPage Button ----------------*/
 .goToMainPage {
   position: absolute;
   color: var(--text-black);
   left: 30px;
   top: 15px;
   font-weight: var(--font-bold);
+  z-index: 1;
+}
+
+.goToMainPage > button {
+  background-color: transparent;
+  display: inline-block;
+  color: var(--white);
+  text-shadow: -1px 0px var(--text-black), 0px 1px var(--text-black), 1px 0px var(--text-black),
+    0px -1px var(--text-black);
+}
+
+.goToMainPage > button:hover {
+  background-color: transparent !important;
+  color: var(--secondary-color);
 }
 
 /*-------------- ToolTipIcon ----------------*/
@@ -160,10 +293,6 @@
   width: 450px;
 }
 
-.lk-prejoin .lk-username-container {
-  display: none;
-}
-
 .settingUserButton li {
   position: absolute;
   border-radius: 8px 0 0 8px;
@@ -192,18 +321,38 @@
   user-select: none;
 }
 
-.settingJoinButton {
-  margin: 0 16px;
+/*-------------- GameStartButton ----------------*/
+.isReadyButton {
+  background-color: var(--silver-gray);
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
-.settingJoinButton > button {
-  position: absolute;
-  bottom: 16px;
-  width: 93%;
-  background-color: var(--main-color);
-  padding: 10px 0;
-  text-align: center;
-  border-radius: var(--border-radius);
+.isReadyButton.active {
+  background-color: var(--primary-color);
+}
+
+.chiefGameStart {
+  background-color: var(--variation-error);
+}
+
+/*---------------- Animation --------------*/
+@keyframes sun {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes moon {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-45deg);
+  }
 }
 
 /*-------------- Respansive ----------------*/

@@ -1,0 +1,608 @@
+.main {
+  width: 100%;
+}
+
+.visualSection {
+  height: 820px;
+}
+
+.gameList {
+  height: 820px;
+}
+
+.gameImage {
+  background: url("../../assets/images/mafia_visual.avif") center center/cover no-repeat;
+}
+
+.visualSection .gameImage:nth-of-type(2) {
+  background: url("../../assets/images/song_visual.avif") center center/cover no-repeat;
+}
+
+.visualSection .gameImage:nth-of-type(2) .gameTitle > h2 {
+  transform: translateY(10px);
+}
+
+.roomSectionWrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.roomSection {
+  padding: 0 30px 154px;
+}
+
+.roomSearchAndButton {
+  display: flex;
+}
+
+.roomSearch {
+  position: relative;
+}
+
+.roomSearch input {
+  padding: 10px 40px 10px 25px;
+  border: 1px solid #d3d3d3;
+  border-radius: var(--border-radius);
+  width: 357px;
+}
+
+.roomSearch > button {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-55%);
+  width: 25px;
+  height: 25px;
+}
+
+.roomSearch label {
+  display: none;
+}
+
+.roomSearch input[type="text"]:placeholder {
+  color: var(--silver-gray);
+}
+
+.roomSearch input[type="text"]:focus {
+  outline: 1px solid var(--primary-color);
+  opacity: 0.5;
+}
+
+.MainGnb {
+  padding: 42px 0 54px;
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+  align-items: center;
+}
+
+.MainGnb p {
+  font-weight: var(--font-bold);
+}
+
+.gameTitle {
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  padding-left: 100px;
+  min-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.gameTitle h2 {
+  position: relative;
+  z-index: 1;
+}
+
+.gameButton {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.gameButton button {
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  color: var(--text-black);
+  font-weight: var(--font-bold);
+}
+
+.gameButton .gameInfo {
+  display: block;
+  padding: 12px 24px;
+  text-align: center;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--white);
+  position: relative;
+  padding-left: 50px;
+  font-weight: 400;
+}
+
+.gameButton .gameInfo:before {
+  content: "";
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-51%);
+  background: url("../../assets/images/icon_point.svg") no-repeat;
+  width: 20px;
+  height: 21px;
+}
+
+.gameGoButton {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: 40px;
+}
+
+.gameGoButton button {
+  padding: 10px 15px 9px;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  color: var(--white);
+  border: 1px solid var(--primary-color);
+}
+
+.gameGoButton > button {
+  color: var(--primary-color);
+  background-color: var(--white);
+  border: 1px solid var(--primary-color);
+}
+
+.gameGoButton button.makeRoom {
+  padding-left: 35px;
+  position: relative;
+}
+
+.gameGoButton button.makeRoom:before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: url("../../assets/images/icon_plus.svg") no-repeat;
+  position: absolute;
+  left: 10px;
+  top: 45%;
+  transform: translateY(-48%);
+}
+
+.roomList {
+  display: flex;
+  gap: 125px;
+  flex-wrap: wrap;
+}
+
+.roomList li {
+  width: 370px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: var(--border-radius);
+  position: relative;
+}
+
+.roomList .gotoButton {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 48px;
+  border-radius: var(--border-radius);
+  line-height: 48px;
+  cursor: pointer;
+  background-color: var(--white);
+  z-index: 1;
+  display: none;
+}
+
+.roomList li .roomListWrap::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.roomList li:hover .gotoButton,
+.roomList li:hover .roomListWrap::after {
+  display: block;
+}
+
+.gamePlaying {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gamePlaying > p {
+  z-index: 1;
+  color: var(--white);
+  font-size: var(--font-size-title);
+  letter-spacing: 3px;
+}
+
+.roomTitle {
+  padding: 20px 15px;
+}
+
+.roomTitle h3 {
+  font-size: var(--font-size-title);
+  margin-bottom: 28px;
+  font-weight: var(--font-bold);
+}
+
+.gameName {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
+  color: var(--white);
+}
+
+.gameName p {
+  border-radius: 30px;
+  padding: 5px 12px;
+}
+
+.mafiaHashtag {
+  background-color: var(--text-black);
+}
+
+.currentPeople {
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+}
+
+/*---------------- Main Skeleton --------------*/
+.headerSkeleton {
+  width: 100%;
+  background-color: #d0d0d0;
+  z-index: 1;
+  padding: 10px 20px 15px;
+}
+
+.mainSkeleton {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.roomSectionWrapSkeleton {
+  background-color: var(--white);
+}
+
+.loadingWrapper {
+  background-color: #ddd;
+}
+
+.visualTitleLoading {
+  position: absolute;
+  left: 100px;
+  top: 50%;
+  width: 300px;
+  height: 500px;
+}
+
+.loadingButton {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.loadingPager {
+  position: absolute;
+  left: 85%;
+  top: 110px;
+}
+
+.loadingTextWrapper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loading {
+  font-size: 1.5em;
+  color: var(--text-black);
+  font-weight: var(--font-bold);
+  letter-spacing: 5px;
+}
+
+.loading span {
+  opacity: 0;
+}
+
+.dot1 {
+  animation: dot1 2s linear infinite;
+}
+
+.dot2 {
+  animation: dot2 2s linear infinite;
+}
+
+.dot3 {
+  animation: dot3 2s linear infinite;
+}
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  margin: 1.5rem auto;
+  position: relative;
+}
+
+.spinner div {
+  position: absolute;
+}
+
+.spinner div {
+  transform: rotate(135deg);
+  animation: spin 4s infinite;
+}
+
+.curvedTopLeft {
+  width: 1.5rem;
+  height: 1.5rem;
+  left: 0;
+  top: 0;
+  border-top: 0.25rem solid var(--primary-color);
+  border-left: 0.25rem solid var(--primary-color);
+  border-top-left-radius: 100%;
+  transform-origin: right bottom;
+}
+
+.curvedBottomRight {
+  width: 1.5rem;
+  height: 1.5rem;
+  right: 0;
+  bottom: 0;
+  border-right: 0.25rem solid var(--primary-color);
+  border-bottom: 0.25rem solid var(--primary-color);
+  border-bottom-right-radius: 100%;
+  transform-origin: left top;
+}
+
+.curvedTopRight {
+  width: 1rem;
+  height: 1rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  border-top: 0.25rem solid var(--primary-color);
+  border-right: 0.25rem solid var(--primary-color);
+  border-top-right-radius: 100%;
+  transform-origin: 0 100%;
+}
+
+.curvedBottomLeft {
+  width: 1rem;
+  height: 1rem;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  border-bottom: 0.25rem solid var(--primary-color);
+  border-left: 0.25rem solid var(--primary-color);
+  border-bottom-left-radius: 100%;
+  transform-origin: 100% 0;
+}
+
+.centerCircle {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--primary-color);
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s infinite;
+}
+
+.roomVisitEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+}
+
+.roomListLoading {
+  height: 350px;
+}
+
+.roomListLoading * {
+  transform: translateY(-4px);
+}
+
+.loadingCommonWrapper > .loading {
+  text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+}
+
+/*---------------- Animation --------------*/
+@keyframes dot1 {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot2 {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot3 {
+  0% {
+    opacity: 0;
+  }
+  65% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(135deg);
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  50% {
+    transform: rotate(675deg);
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: rotate(135deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*---------------- Responsive --------------*/
+@media (max-width: 1920px) {
+  .gameTitle {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 860px) {
+  .roomList {
+    justify-content: center;
+  }
+
+  .MainGnb {
+    flex-wrap: wrap;
+  }
+
+  .MainGnb p {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .roomSearchAndButton {
+    display: block;
+    width: 100%;
+  }
+
+  .roomSearch input {
+    width: 100%;
+  }
+
+  .gameGoButton {
+    margin-top: 15px;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .gameGoButton > button {
+    width: 50%;
+  }
+
+  .gameGoButton > .makeRoomButton {
+    width: 50%;
+  }
+
+  .gameGoButton button.makeRoom {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .visualSection {
+    padding-top: 69px;
+  }
+
+  .visualSection {
+    height: 580px;
+    transition: 0.3s ease-out;
+  }
+
+  .gameList {
+    height: 500px;
+    transition: 0.3s ease-out;
+  }
+
+  .gameTitle {
+    align-items: center;
+    padding-left: 0;
+  }
+
+  .gameTitle h2 {
+    padding-left: 40px;
+  }
+
+  .gameTitle h2.songTitle {
+    padding-left: 0;
+  }
+
+  .gameTitle h2 img {
+    width: 250px;
+    transition: 0.3s ease-out;
+  }
+
+  .roomVisitEmpty img {
+    width: 200px;
+    transition: 0.3s ease-out;
+  }
+}

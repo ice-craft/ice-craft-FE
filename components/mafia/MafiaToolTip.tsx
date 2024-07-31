@@ -1,67 +1,71 @@
-import React, { useEffect, useState } from "react";
+import CitizensToolTipIcon from "@/assets/images/citizens_ToolTip_Icon.svg";
+import CitizensToolTipText from "@/assets/images/citizens_ToolTip_text.svg";
+import DoctorToolTipIcon from "@/assets/images/doctor_ToolTip_Icon.svg";
+import DoctorToolTipText from "@/assets/images/doctor_ToolTip_text.svg";
+import MafiaToolTipIcon from "@/assets/images/mafia_ToolTip_Icon.svg";
+import MafiaToolTipText from "@/assets/images/mafia_ToolTip_text.svg";
+import PoliceToolTipIcon from "@/assets/images/police_ToolTip_Icon.svg";
+import PoliceToolTipText from "@/assets/images/police_ToolTip_text.svg";
+import { useRoleModalElement } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
+import getPlayerJob from "@/utils/mafia/getPlayerJob";
+import { useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
-import CitizensToolTipIcon from "@/assets/images/citizens_ToolTip_Icon.png";
-import CitizensToolTipText from "@/assets/images/citizens_ToolTip_text.png";
-import MafiaToolTipIcon from "@/assets/images/mafia_ToolTip_Icon.png";
-import MafiaToolTipText from "@/assets/images/mafia_ToolTip_text.png";
-import DoctorToolTipIcon from "@/assets/images/doctor_ToolTip_Icon.png";
-import DoctorToolTipText from "@/assets/images/doctor_ToolTip_text.png";
-import PoliceToolTipIcon from "@/assets/images/police_ToolTip_Icon.png";
-import PoliceToolTipText from "@/assets/images/police_ToolTip_Text.png";
-import { Role } from "@/types/index";
-import { socket } from "@/utils/socket/socket";
-import useConnectStore from "@/store/connect-store";
+import { useEffect, useState } from "react";
+
+const toolTipInfo: { [key: string]: { icon: string; text: string } } = {
+  citizen: {
+    icon: CitizensToolTipIcon,
+    text: CitizensToolTipText
+  },
+  mafia: {
+    icon: MafiaToolTipIcon,
+    text: MafiaToolTipText
+  },
+  doctor: {
+    icon: DoctorToolTipIcon,
+    text: DoctorToolTipText
+  },
+  police: {
+    icon: PoliceToolTipIcon,
+    text: PoliceToolTipText
+  }
+};
 
 const MafiaToolTip = () => {
-  const [role, setRole] = useState<Role | null>(null);
-  const { userId } = useConnectStore();
-
-  const toolTipInfo = {
-    citizens: {
-      icon: CitizensToolTipIcon,
-      text: CitizensToolTipText
-    },
-    mafia: {
-      icon: MafiaToolTipIcon,
-      text: MafiaToolTipText
-    },
-    doctor: {
-      icon: DoctorToolTipIcon,
-      text: DoctorToolTipText
-    },
-    police: {
-      icon: PoliceToolTipIcon,
-      text: PoliceToolTipText
-    }
-  };
+  const role = useRoleModalElement();
+  const { localParticipant } = useLocalParticipant();
+  const [playerJob, setPlayerJob] = useState<string | undefined>("");
 
   useEffect(() => {
-    socket.on("openPlayerRole", (incomingUserId, assignedRole: Role) => {
-      if (incomingUserId === userId) {
-        setRole(assignedRole); //할당된 Role을 받아옴
-      }
-    });
+    //NOTE - 초기 렌더링 처리
+    if (!role) {
+      return;
+    }
+    const job = getPlayerJob(role, localParticipant.identity);
 
-    return () => {
-      socket.off("openPlayerRole");
-    };
-  }, [userId]);
+    //NOTE - 직업 카드
+    const toolTipTimer = setTimeout(() => {
+      setPlayerJob(job);
+    }, 3000);
 
-  if (!role || !toolTipInfo[role]) {
+    return () => clearTimeout(toolTipTimer);
+  }, [role]);
+
+  //NOTE - 직업이 존재하지 않았을 경우
+  if (!role || !playerJob) {
     return null;
   }
-
-  const currentRoleInfo = toolTipInfo[role];
+  const currentRoleInfo = toolTipInfo[playerJob];
 
   return (
     <ul className={S.toolTipWrap}>
       <li>
         <h3>
-          <Image src={currentRoleInfo.icon} alt={role} />
+          <Image src={currentRoleInfo.icon} alt={playerJob} />
         </h3>
         <p>
-          <Image src={currentRoleInfo.text} alt={role} />
+          <Image src={currentRoleInfo.text} alt={playerJob} />
         </p>
       </li>
     </ul>

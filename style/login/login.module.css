@@ -3,20 +3,27 @@
 }
 
 .wrapper header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+}
+
+.wrapper header a {
   position: absolute;
   left: 30px;
   top: 21px;
-  z-index: 2;
+  z-index: 1;
 }
 
 .mainWrapper {
   position: absolute;
   width: 100%;
   height: 100vh;
-  background: url("../../assets/images/bg.png") center center/cover no-repeat;
+  background: url("../../assets/images/bg.avif") center center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: scroll;
 }
 
 .mainWrapper form {
@@ -26,6 +33,8 @@
   gap: 60px;
   flex-direction: column;
   border-radius: 24px;
+  transform: scale(0.85);
+  z-index: 2;
 }
 
 .mainWrapper form h2 {
@@ -50,8 +59,8 @@
 }
 
 .mainWrapper form .userform > p > input:focus {
-  outline: 1px solid var(--main-color);
-  opacity: 0.5;
+  outline: 1px solid rgba(92, 91, 173, 0.5);
+  color: #747474;
 }
 
 .emailSave {
@@ -87,7 +96,7 @@
   font-weight: var(--font-bold);
   padding: 16px 0;
   border-radius: var(--border-radius);
-  background-color: var(--main-color);
+  background-color: var(--primary-color);
   color: var(--white);
 }
 
@@ -99,4 +108,26 @@
 
 .error span {
   display: block;
+}
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  .wrapper header img {
+    width: 100px;
+    transition: 0.3s ease-out;
+  }
+
+  .mainWrapper form {
+    width: 100%;
+    padding: 50px 20px;
+  }
+
+  .mainWrapper form .userform > p > input {
+    width: 100%;
+  }
+
+  .mainWrapper form h2 {
+    font-size: 24px;
+    transition: 0.3s ease-out;
+  }
 }

@@ -1,47 +1,62 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       account_table: {
         Row: {
           email: string;
+          mafia_score: number;
+          music_score: number;
           nickname: string | null;
+          total_score: number;
           user_id: string;
         };
         Insert: {
           email: string;
+          mafia_score?: number;
+          music_score?: number;
           nickname?: string | null;
+          total_score?: number;
           user_id?: string;
         };
         Update: {
           email?: string;
+          mafia_score?: number;
+          music_score?: number;
           nickname?: string | null;
+          total_score?: number;
           user_id?: string;
         };
         Relationships: [];
       };
       room_table: {
         Row: {
+          chief: string | null;
           created_at: string | null;
           current_user_count: number;
           game_category: string | null;
+          is_playing: boolean;
           room_id: string;
           title: string | null;
           total_user_count: number;
         };
         Insert: {
+          chief?: string | null;
           created_at?: string | null;
           current_user_count?: number;
           game_category?: string | null;
+          is_playing?: boolean;
           room_id?: string;
           title?: string | null;
           total_user_count?: number;
         };
         Update: {
+          chief?: string | null;
           created_at?: string | null;
           current_user_count?: number;
           game_category?: string | null;
+          is_playing?: boolean;
           room_id?: string;
           title?: string | null;
           total_user_count?: number;
@@ -50,19 +65,46 @@ export interface Database {
       };
       room_user_match_table: {
         Row: {
+          is_lived: boolean;
+          is_ready: boolean;
+          is_selected: boolean;
+          join_time: string | null;
           match_id: string;
+          role: string | null;
           room_id: string | null;
           user_id: string | null;
+          user_nickname: string | null;
+          vote_time: string | null;
+          vote_yes_or_no: boolean | null;
+          voted_count: number;
         };
         Insert: {
+          is_lived?: boolean;
+          is_ready?: boolean;
+          is_selected?: boolean;
+          join_time?: string | null;
           match_id?: string;
+          role?: string | null;
           room_id?: string | null;
           user_id?: string | null;
+          user_nickname?: string | null;
+          vote_time?: string | null;
+          vote_yes_or_no?: boolean | null;
+          voted_count?: number;
         };
         Update: {
+          is_lived?: boolean;
+          is_ready?: boolean;
+          is_selected?: boolean;
+          join_time?: string | null;
           match_id?: string;
+          role?: string | null;
           room_id?: string | null;
           user_id?: string | null;
+          user_nickname?: string | null;
+          vote_time?: string | null;
+          vote_yes_or_no?: boolean | null;
+          voted_count?: number;
         };
         Relationships: [
           {
@@ -88,7 +130,7 @@ export interface Database {
       [_ in never]: never;
     };
   };
-}
+};
 
 type PublicSchema = Database[Extract<keyof Database, "public">];
 

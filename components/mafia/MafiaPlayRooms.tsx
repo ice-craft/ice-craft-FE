@@ -1,138 +1,149 @@
-import useOverlayStore from "@/store/overlay-store";
+import useMediaDevice from "@/hooks/useMediaDevice";
+import useSelectSocket from "@/hooks/useSelectSocket";
+import useSocketOn from "@/hooks/useSocketOn";
+import { pretendard } from "@/public/fonts/fonts";
+import { useGameActions, useGameState, useVictoryPlayers } from "@/store/game-store";
+import { useOverLayActions } from "@/store/overlay-store";
+import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
-import { DisconnectButton, useLocalParticipant, useParticipantTracks, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import LocalParticipant from "./LocalParticipant";
-import MafiaToolTip from "./MafiaToolTip";
-import RemoteParticipant from "./RemoteParticipant";
-import { useRouter } from "next/navigation";
-import { useCamClickImageState } from "@/store/image-store";
-import CamCheck from "@/assets/images/cam_check.png";
-import Doctor from "@/assets/images/cam_doctor.png";
-import Citizen from "@/assets/images/cam_citizen.png";
-import Mafia from "@/assets/images/cam_mafia.png";
-import { useEffect } from "react";
+import { MediaStatus, playersInfo } from "@/types";
+
+import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
-import {
-  allAudioSetting,
-  allMediaSetting,
-  specificUserAudioSetting,
-  specificUserVideoSetting
-} from "@/utils/participantCamSettings/camSetting";
+import { RoomAudioRenderer, useLocalParticipant } from "@livekit/components-react";
+import { useEffect, useRef } from "react";
+import LocalParticipant from "@/components/mafia/LocalParticipant";
+import MafiaHeader from "@/components/mafia/MafiaHeader";
+import MafiaModals from "@/components/mafia/MafiaModals";
+import MafiaToolTip from "@/components/mafia/MafiaToolTip";
+import RemoteParticipant from "@/components/mafia/RemoteParticipant";
+import { getRankingScore, setRankingScore } from "@/utils/supabase/rankingAPI";
 
-const MyVideoConference = () => {
-  const { toggleOverlay } = useOverlayStore();
-  const router = useRouter();
-  const { setImageState } = useCamClickImageState();
+const MafiaPlayRooms = () => {
+  const hasEmitted = useRef(false);
 
-  //NOTE -  전체 데이터
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.Microphone, withPlaceholder: true }
-    ],
-    { onlySubscribed: false }
-  );
-
-  const sources = tracks.map((item) => item.source);
-
-  //NOTE -  로컬 user의 정보
+  //NOTE - livekit Hooks
   const localParticipant = useLocalParticipant();
-  const localIdentity = localParticipant.localParticipant.identity;
-  /*
-    //훅 정리
-    const { localParticipant } = useLocalParticipant(); //로컬 사용자
-    const [remoteParticipant] = useRemoteParticipants(); //다른 사용자
-  */
 
+  //NOTE - global state
+  const isGameState = useGameState();
+  const victoryPlayers = useVictoryPlayers();
+  const { setPresentRoomId, setChiefPlayerId, setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
+  const { setReadyPlayers, setOverlayReset } = useOverLayActions();
+  const { setModalReset } = useModalActions();
+
+  //NOTE - custom hooks
+  useSelectSocket(localParticipant);
+
+  const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
+
+  // // NOTE - 방 입장 시 초기화
   useEffect(() => {
-    socket.on("showModal", (message) => {
-      //NOTE - 밤일 경우 모든 user의 캠 및 마이크 off
-      if (message.includes("밤")) {
-        allMediaSetting(tracks, false);
-      }
-      //NOTE - 아침일 경우 모든 user의 캠 및 마이크 on
-      if (message.includes("아침")) {
-        allMediaSetting(tracks, true);
-      }
-      //NOTE - 투표시간일 경우 모든 user의 마이크 off
-      if (message.includes("투표")) {
-        allAudioSetting(tracks, false);
-      }
-    });
-
-    // 특정 user의 캠을 활성화 및 비활성화
-    socket.on("setCamera", (userId, isOn) => {
-      //NOTE -  1) 특정 유저의 track을 받아온다.
-      const specificUser = useParticipantTracks(sources, userId);
-      //NOTE -  2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
-        //NOTE -  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
-        specificUserVideoSetting(specificUser, isOn);
-      }
-    });
-
-    // 특정 user의 마이크를 활성화 및 비활성화
-    socket.on("setMike", (userId, isOn) => {
-      //NOTE 1) 특정 유저의 track을 받아온다.
-      const specificUser = useParticipantTracks(sources, userId);
-      //NOTE 2) 현재 방의 유저 중에 특정 user인지를 파악한다.
-      if (localIdentity === userId) {
-        //NOTE  3) 해당 특정 유저일 경우 track 및 boolean값을 통해 캠 활성화 및 비활성화
-        specificUserAudioSetting(specificUser, isOn);
-      }
-    });
-
-    return () => {
-      socket.off("showModal");
-      socket.off("setCamera");
-      socket.off("setMike");
-    };
+    setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+    setModalReset(); //전체 모달 요소 초기화
+    setGameReset(); // 죽은 players 및 게임 state 초기화
   }, []);
 
-  const checkClickHandle = (event: React.MouseEvent<HTMLElement>, participantSid: string, index: number) => {
-    event.stopPropagation();
+  //NOTE - 방 입장 시 방의 정보를 불러온다.
+  useEffect(() => {
+    if (localParticipant.localParticipant.metadata && !hasEmitted.current) {
+      const roomId = localParticipant.localParticipant.metadata;
 
-    const exampleServerData: string = "마피아시간";
-    const exampleJob: string = "시민";
-
-    // 해당 시간(투표 시간 및 저녁시간의 특정 직업의 능력)에 캠 클릭 시 user의 정보(id 및 nickname)을 서버에 전달 ==> 서버에서 직업 및 특정 값을 알려준다.
-    // 클라이언트에서는 정답에 대한 이미지를 띄어준다.
-
-    // 이미지 조건부
-    //마피아 시간 or 의사시간 or 투표시간
-    if (exampleServerData === "마피아시간" || "의사시간" || "투표시간") {
-      setImageState(CamCheck);
+      setPresentRoomId(roomId);
+      socket.emit("updateRoomInfo", roomId);
+      socket.emit("usersInfo", roomId);
+      hasEmitted.current = true;
     }
+  }, [localParticipant]);
 
-    // 경찰 시간
-    if (exampleServerData === "경찰") {
-      if (exampleJob == "의사") {
-        setImageState(Doctor);
-      } else if (exampleJob == "마피아") {
-        setImageState(Mafia);
-      } else if (exampleJob == "시민") {
-        setImageState(Citizen);
+  const sockets = {
+    //NOTE - 전체 players의 실시간 Ready 상태
+    setReady: (playerId: string, isReady: boolean) => {
+      setReadyPlayers(playerId, isReady);
+    },
+    //NOTE - 게임 시작
+    gameStart: () => {
+      setIsGameState("gameStart");
+      setOverlayReset(); //local, remote "Ready" 이미지 초기화
+    },
+    //NOTE - players 미디어 관리
+    playerMediaStatus: (playersMedias: MediaStatus) => {
+      setPlayersMediaStatus(playersMedias);
+    },
+    //NOTE - 죽은 player 관리
+    diedPlayer: (playerId: string) => {
+      setDiedPlayer(playerId);
+    },
+    //NOTE - 방에 대한 정보
+    updateRoomInfo: (roomInfo: Tables<"room_table">) => {
+      if (roomInfo.chief) {
+        setChiefPlayerId({ chief: roomInfo.chief, roomId: roomInfo.room_id });
       }
+    },
+    //NOTE - players의 초기 Ready 상태
+    usersInfo: (players: playersInfo[]) => {
+      players.forEach((player) => {
+        setReadyPlayers(player.user_id, player.is_ready);
+      });
+    },
+    //NOTE - Error 처리
+    playError: (roomName: string, error: string) => {
+      console.log("roomName", roomName);
+      console.log("roomError", error);
+
+      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setModalReset(); //전체 모달 요소 초기화
+      setGameReset(); // 죽은 players 및 게임 state 초기화
+      setIsMediaReset(true); // 캠 및 오디오 초기화
     }
-
-    toggleOverlay(participantSid, index);
   };
+  useSocketOn(sockets);
 
-  const leaveRoom = () => {
-    router.replace(`/main`);
-  };
+  //NOTE - 게임 종료
+  useEffect(() => {
+    if (isGameState === "gameEnd") {
+      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+      setModalReset(); //전체 모달 요소 초기화
+      setGameReset(); // 죽은 players 및 게임 state 초기화
+      setIsMediaReset(true); // 캠 및 오디오 초기화
+    }
+  }, [isGameState]);
+
+  //NOTE - Ranking 점수 산정
+  useEffect(() => {
+    const updateVictoryRanking = async () => {
+      if (isGameState !== "gameEnd") return;
+
+      const localPlayerId = localParticipant.localParticipant.identity;
+      console.log("localPlayerId", localPlayerId);
+      const { mafia_score, music_score } = await getRankingScore(localPlayerId);
+
+      const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
+      const newScore = isVictoryPlayer ? 100 : 20;
+
+      const newMafia_score = mafia_score + newScore;
+      const newMusic_score = music_score;
+      const total_score = newMafia_score + newMusic_score;
+
+      await setRankingScore(localPlayerId, newMafia_score, newMusic_score, total_score);
+    };
+    updateVictoryRanking();
+  }, [isGameState]);
 
   return (
-    <section className={S.section}>
-      <LocalParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
-      <RemoteParticipant tracks={tracks} checkClickHandle={checkClickHandle} />
-      <div className={S.goToMainPage}>
-        <DisconnectButton onClick={leaveRoom}>나가기</DisconnectButton>
+    <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
+      <div className={S.goToMainPage}></div>
+
+      <MafiaHeader />
+      <div className={S.mafiaPlayRoomSection}>
+        <LocalParticipant />
+        <RemoteParticipant />
+        <RoomAudioRenderer muted={false} /> {/* 원격 참가자 오디오 트랙 처리 및 관리 */}
+        <MafiaToolTip />
+        <MafiaModals />
       </div>
-      <MafiaToolTip />
     </section>
   );
 };
 
-export default MyVideoConference;
+export default MafiaPlayRooms;

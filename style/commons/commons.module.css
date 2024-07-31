@@ -10,12 +10,35 @@
   align-items: center;
   justify-content: space-between;
   padding: 21px 30px;
+  white-space: nowrap;
 }
 
 .ul {
   color: var(--white);
   display: flex;
   gap: 20px;
+}
+
+.gnb {
+}
+
+.asideButton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  right: 20px;
+  top: 24px;
+  cursor: pointer;
+}
+
+.asideButton span {
+  display: inline-block;
+  width: 30px;
+  height: 2px;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  display: none;
 }
 
 /*-------------- FOOTER ----------------*/
@@ -33,13 +56,318 @@
   font-size: var(--font-size-small);
 }
 
+.addressInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-style: normal;
+}
+
+.addressInfo a {
+  color: var(--primary-color);
+  display: inline-block;
+  margin-top: 3px;
+}
+
 /*-------------- NotFoundPage ----------------*/
 .mainSection {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-modal-content);
+  font-size: var(--font-size-content);
   text-align: center;
   font-weight: var(--font-bold);
+  padding: 0 20px;
+}
+
+.mainSection > h3 {
+  margin-bottom: 50px;
+}
+
+.mainSection a:hover,
+.mainSection button:hover {
+  color: var(--primary-color);
+}
+
+/*-------------- InquiryPage ----------------*/
+.inquiryWrap {
+  padding: 95px 30px 108px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.inquiryWrap h2 {
+  margin: 0 auto;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-bold);
+  margin-bottom: 40px;
+}
+
+.sendInner > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.sendInner label {
+  color: #7a7986;
+  margin: 30px 0 8px;
+}
+
+.sendInner > div:nth-of-type(1) label {
+  margin: 0 0 8px;
+}
+
+.sendInner label span {
+  color: var(--variation-error);
+}
+
+.sendInner input {
+  border: 1px solid #d3d3d3;
+  padding: 8px 15px;
+  border-radius: var(--border-radius);
+}
+
+.sendInner input:focus {
+  outline: 1px solid var(--primary-color);
+  opacity: 0.5;
+}
+
+.sendInner input:placeholder {
+  color: #e9e9e9;
+}
+
+.sendInner textarea {
+  border: 1px solid #d3d3d3;
+  border-radius: var(--border-radius);
+  height: 350px;
+  padding: 10px 15px;
+  line-height: 24px;
+}
+
+.sendInner button {
+  width: 100%;
+  margin-top: 30px;
+  padding: 10px 0;
+  background-color: var(--silver-gray);
+  border-radius: var(--border-radius);
+  color: var(--white);
+  transition: 0.3s ease-out;
+}
+
+.sendInner button:hover {
+  background-color: var(--primary-color);
+}
+
+/*-------------- GoTopButton ----------------*/
+.goTopButton {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+}
+
+/*-------------- Popup.tsx ----------------*/
+.article {
+  width: 400px;
+  position: fixed;
+  top: 20%;
+  left: 60px;
+  z-index: 999;
+  background-color: var(--white);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.popupContent {
+  padding: 30px;
+}
+
+.article h2 {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-bold);
+  margin-bottom: 10px;
+}
+
+.article span {
+  color: var(--variation-error);
+}
+
+.closeButton button {
+  width: 50%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: red;
+  color: var(--white);
+}
+
+.closeButton button:nth-of-type(1) {
+  background-color: var(--primary-color);
+}
+
+.closeButton button:nth-of-type(2) {
+  background-color: var(--silver-gray);
+}
+
+.popupContent a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--primary-color);
+}
+
+/*-------------- Loading ----------------*/
+.loadingWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-bold);
+  gap: 20px;
+}
+
+.loadingWrapper > div {
+  opacity: 0;
+  transform: translateY(4rem);
+  animation: transform-none 0.6s cubic-bezier(0.2, 0.66, 0.54, 1.4) infinite alternate forwards;
+}
+
+.loadingWrapper div:nth-child(1) {
+  animation-delay: 0.2s;
+  font-size: var(--font-size-content);
+  color: var(--primary-color);
+}
+.loadingWrapper div:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.loadingWrapper div:nth-child(3) {
+  animation-delay: 0.6s;
+  font-weight: 400;
+}
+
+@keyframes transform-none {
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/*--------------- Responsive --------------*/
+@media (max-width: 768px) {
+  /* header */
+  .header {
+    padding: 21px 20px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 999;
+    background-color: var(--header-background-color);
+  }
+
+  .header h1 img {
+    width: 100px;
+    transition: 0.3s ease-out;
+  }
+
+  .asideButton {
+    z-index: 9999;
+  }
+
+  .asideButton span {
+    display: block;
+  }
+
+  .asideButton.active span:nth-of-type(1) {
+    transform: translateY(10px) rotate(45deg);
+    transition: 0.3s ease-out;
+  }
+
+  .asideButton.active span:nth-of-type(2) {
+    visibility: hidden;
+  }
+
+  .asideButton.active span:nth-of-type(3) {
+    transform: translateY(-10px) rotate(-45deg);
+    transition: 0.3s ease-out;
+  }
+
+  .gnb {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: right 0.3s ease-out;
+  }
+
+  .nav > .asideButton.active + .gnb {
+    right: 0;
+  }
+
+  body.active {
+    overflow: hidden;
+  }
+
+  .ul {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--font-size-title);
+  }
+
+  .ul li:hover {
+    color: var(--primary-color);
+  }
+
+  .ul .nickname:hover {
+    color: var(--white);
+  }
+
+  /* footer */
+  .footer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer > img {
+    max-width: 100px;
+    transition: 0.3s ease-out;
+  }
+
+  .addressInfo > p {
+    text-align: center;
+  }
+
+  /* goTopButton */
+  .goTopButton {
+    right: 20px;
+  }
+
+  .goTopButton img {
+    width: 40px;
+  }
+
+  /* InquiryPage */
+  .inquiryWrap {
+    padding: 108px 20px;
+  }
+
+  .article {
+    width: 90%;
+    left: 20px;
+  }
+
+  /* NotFoundPage */
+  .mainSection {
+    font-size: var(--font-size-modal-title);
+    transition: 0.3s ease-out;
+  }
 }
