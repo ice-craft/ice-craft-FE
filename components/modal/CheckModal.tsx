@@ -22,12 +22,12 @@ const CheckModal = () => {
   useEffect(() => {
     // 가장 많은 투표를 받은 player가 자신일 경우(투표 대상자)
     if (votePlayer.user_id === localPlayerId) {
-      setIsVote(true);
+      setIsVote(false);
       return;
     }
     // 가장 많은 투표를 받은 player가 자신이 아닌 경우(투표 참여자)
     if (votePlayer.user_id !== localPlayerId) {
-      setIsVote(false);
+      setIsVote(true);
     }
   }, [votePlayer]);
 
@@ -36,7 +36,7 @@ const CheckModal = () => {
 
   //NOTE - 최후의 투표 클릭 이벤트
   const chooseVoteHandler = (vote: boolean) => {
-    setIsVote(true);
+    setIsVote(false);
     socket.emit("voteYesOrNo", vote);
   };
 
@@ -51,7 +51,7 @@ const CheckModal = () => {
         <div className={S.modal}>
           <div>
             <h1>{title}</h1>
-            {!isVote && !isDiedPlayer ? (
+            {isVote && !isDiedPlayer ? (
               <>
                 <div className={S.userCheckNickName}>
                   <p>
@@ -60,10 +60,10 @@ const CheckModal = () => {
                   </p>
                 </div>
                 <div className={S.checkButton}>
-                  <button disabled={isVote} onClick={() => chooseVoteHandler(true)}>
+                  <button disabled={!isVote} onClick={() => chooseVoteHandler(true)}>
                     찬성
                   </button>
-                  <button disabled={isVote} onClick={() => chooseVoteHandler(false)}>
+                  <button disabled={!isVote} onClick={() => chooseVoteHandler(false)}>
                     반대
                   </button>
                 </div>
