@@ -1,5 +1,5 @@
 import { Provider } from "@supabase/supabase-js";
-import { createClient } from "./client";
+import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
