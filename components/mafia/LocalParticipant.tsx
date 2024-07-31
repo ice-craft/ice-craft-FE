@@ -73,10 +73,7 @@ const LocalParticipant = () => {
           className={`${S.participantOverlay} ${activePlayerId === localPlayerId ? S.active : ""}`}
           onClick={isLocalOverlay && !isDiedPlayer ? (e) => clickHandler(e, localPlayerId) : undefined}
         >
-          <ParticipantTile
-            // disableSpeakingIndicator={true}
-            className={isLocalOverlay ? S.localCam : undefined}
-          />
+          <ParticipantTile className={isLocalOverlay ? S.localCam : undefined} />
           {!isDiedPlayer ? (
             <div className={`${S.imageOverlay} ${localReadyState[localPlayerId] ? S.active : ""}`}>
               <Image src={CamCheck} alt={localPlayerId} />

@@ -48,10 +48,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
         className={`${S.remoteParticipantOverlay} ${activePlayerId === remote.participant.identity ? S.active : ""}`}
         onClick={isRemoteOverlay && !isDiedPlayer ? (e) => clickHandler(e, remote.participant.identity) : undefined}
       >
-        <ParticipantTile
-          // disableSpeakingIndicator={true}
-          className={`${S.remoteCam} ${isRemoteOverlay && !isDiedPlayer ? "cursor-pointer" : ""}`}
-        />
+        <ParticipantTile className={`${S.remoteCam} ${isRemoteOverlay && !isDiedPlayer ? "cursor-pointer" : ""}`} />
         <div className={S.remoteChief}>{isChief && <Image src={ChiefImage} alt={remote.participant.identity} />}</div>
         {isGameState === "gameStart" && <p className={S.remotePlayerNumber}>{playerNumber}번</p>}
         {!isDiedPlayer ? (

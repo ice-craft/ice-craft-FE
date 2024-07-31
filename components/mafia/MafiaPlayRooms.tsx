@@ -130,8 +130,6 @@ const MafiaPlayRooms = () => {
     updateVictoryRanking();
   }, [isGameState]);
 
-  console.log("MafiaPlayerRooms");
-
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
       <MafiaHeader />
