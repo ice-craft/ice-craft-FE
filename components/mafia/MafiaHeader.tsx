@@ -1,25 +1,26 @@
-import { useGameState } from "@/store/game-store";
-import { useRoomAction } from "@/store/room-store";
-import { socket } from "@/utils/socket/socket";
-import { DisconnectButton, useLocalParticipant } from "@livekit/components-react";
-import { useGroupModalElement } from "@/store/show-modal-store";
-import S from "@/style/livekit/livekit.module.css";
-import React, { useEffect, useState } from "react";
-import SpeakTimer from "./SpeakTimer";
-import Image from "next/image";
 import MoonIcon from "@/assets/images/moon.svg";
 import SunIcon from "@/assets/images/sun.svg";
+import { useGameState, useIsDay } from "@/store/game-store";
+import { useRoomAction } from "@/store/room-store";
+import S from "@/style/livekit/livekit.module.css";
+import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
+import { socket } from "@/utils/socket/socket";
+import { DisconnectButton, useLocalParticipant, useTracks } from "@livekit/components-react";
+import { Track } from "livekit-client";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import SpeakTimer from "./SpeakTimer";
 
 const MafiaHeader = () => {
-  //NOTE - Livekit Hooks
+  //NOTE - livekit Hooks
   const { localParticipant } = useLocalParticipant();
   const roomId = localParticipant.metadata;
   const userId = localParticipant.identity;
 
-  //NOTE - 전역 state
+  //NOTE - global state
   const isGameState = useGameState();
+  const isDay = useIsDay();
   const { setIsEntry } = useRoomAction();
-  const title = useGroupModalElement();
 
   const [morning, setMorning] = useState(false);
   const [night, setNight] = useState(false);
@@ -40,22 +41,31 @@ const MafiaHeader = () => {
 
   //NOTE - 밤, 낮 배경
   useEffect(() => {
-    if (title.includes("아침")) {
+    if (isDay === "낮") {
       setMorning(true);
       setNight(false);
       return;
     }
-    if (title.includes("밤")) {
+
+    if (isDay === "밤") {
       setNight(true);
       setMorning(false);
-      return;
     }
-  }, [title]);
+  }, [isDay]);
 
   //NOTE - 마피아 테마
   const dayTime = morning ? S.day : "";
   const nightTime = night ? S.night : "";
   const resultClassName = `${dayTime} ${nightTime}`;
+
+  //FIXME - 임시: 전체 소리 끄기
+  const tracks = useTracks(
+    [
+      { source: Track.Source.Camera, withPlaceholder: true },
+      { source: Track.Source.Microphone, withPlaceholder: true }
+    ],
+    { onlySubscribed: true } // 구독됐을 경우에만 실행
+  );
 
   return (
     <div className={`${S.roomBackground} ${resultClassName}`}>
@@ -64,6 +74,14 @@ const MafiaHeader = () => {
           <span>＜</span> 방 나가기
         </DisconnectButton>
       </div>
+      <button
+        onClick={() => {
+          allAudioSetting(tracks, false);
+        }}
+        style={{ background: "red" }}
+      >
+        전체 소리 끄기
+      </button>
       {isGameState === "gameStart" && (
         <div className={S.gameTimer}>
           <SpeakTimer />

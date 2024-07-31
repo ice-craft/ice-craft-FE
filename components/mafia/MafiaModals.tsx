@@ -1,16 +1,18 @@
 import useSocketOn from "@/hooks/useSocketOn";
 import { useCurrentModal, useModalActions, useModalIsOpen } from "@/store/show-modal-store";
 import { Role, VoteResult, YesOrNoResults } from "@/types";
-import CheckModal from "../modal/CheckModal";
+import CheckModal from "@/components/modal/CheckModal";
 import GroupMafiaModal from "@/components/modal/GroupMafiaModal";
 import LastVoteResultModal from "@/components/modal/LastVoteResultModal";
 import UserRoleModal from "@/components/modal/UserRoleModal";
 import VictoryModal from "@/components/modal/VictoryModal";
 import VoteResultModal from "@/components/modal/VoteResultModal";
+import { useGameActions } from "@/store/game-store";
 
 const MafiaModals = () => {
   const isOpen = useModalIsOpen();
   const currentModal = useCurrentModal();
+  const { setIsDay } = useGameActions();
   const { setYesOrNoVoteResult, setCurrentModal, setIsOpen, setTimer, setTitle, setRole, setVoteResult } =
     useModalActions();
 
@@ -23,6 +25,13 @@ const MafiaModals = () => {
         setTitle(title);
         setTimer(timer);
         return;
+      }
+      if (title.includes("아침")) {
+        setIsDay("낮");
+      }
+
+      if (title.includes("밤")) {
+        setIsDay("밤");
       }
 
       //NOTE - GroupModal 모달창 요소

@@ -2,45 +2,59 @@ import useMediaDevice from "@/hooks/useMediaDevice";
 import useSelectSocket from "@/hooks/useSelectSocket";
 import useSocketOn from "@/hooks/useSocketOn";
 import { pretendard } from "@/public/fonts/fonts";
-import { useGameActions, useGameState } from "@/store/game-store";
+import { useGameActions, useGameState, useVictoryPlayers } from "@/store/game-store";
 import { useOverLayActions } from "@/store/overlay-store";
 import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
-import { MediaStatus } from "@/types";
-import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
-import { RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import { useEffect } from "react";
-import MafiaHeader from "./MafiaHeader";
-import LocalParticipant from "./LocalParticipant";
-import MafiaModals from "./MafiaModals";
-import MafiaToolTip from "./MafiaToolTip";
-import RemoteParticipant from "./RemoteParticipant";
+import { MediaStatus, playersInfo } from "@/types";
+
+import { Tables } from "@/types/supabase";
+import { socket } from "@/utils/socket/socket";
+import { RoomAudioRenderer, useLocalParticipant } from "@livekit/components-react";
+import { useEffect, useRef } from "react";
+import LocalParticipant from "@/components/mafia/LocalParticipant";
+import MafiaHeader from "@/components/mafia/MafiaHeader";
+import MafiaModals from "@/components/mafia/MafiaModals";
+import MafiaToolTip from "@/components/mafia/MafiaToolTip";
+import RemoteParticipant from "@/components/mafia/RemoteParticipant";
+import { getRankingScore, setRankingScore } from "@/utils/supabase/rankingAPI";
 
 const MafiaPlayRooms = () => {
-  const { localParticipant } = useLocalParticipant();
+  const hasEmitted = useRef(false);
+
+  //NOTE - livekit Hooks
+  const localParticipant = useLocalParticipant();
+
+  //NOTE - global state
   const isGameState = useGameState();
-  const { setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
+  const victoryPlayers = useVictoryPlayers();
+  const { setPresentRoomId, setChiefPlayerId, setDiedPlayer, setIsGameState, setGameReset } = useGameActions();
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
   const { setModalReset } = useModalActions();
+
+  //NOTE - custom hooks
+  useSelectSocket(localParticipant);
+
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
-  useSelectSocket(); // 클릭 이벤트 처리
 
-  //NOTE -  전체 데이터
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.Microphone, withPlaceholder: true }
-    ],
-    { onlySubscribed: true } // 구독됐을 경우에만 실행
-  );
-
-  //NOTE - 방 입장 시 초기화
+  // // NOTE - 방 입장 시 초기화
   useEffect(() => {
     setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
     setModalReset(); //전체 모달 요소 초기화
     setGameReset(); // 죽은 players 및 게임 state 초기화
   }, []);
+
+  //NOTE - 방 입장 시 방의 정보를 불러온다.
+  useEffect(() => {
+    if (localParticipant.localParticipant.metadata && !hasEmitted.current) {
+      const roomId = localParticipant.localParticipant.metadata;
+
+      setPresentRoomId(roomId);
+      socket.emit("updateRoomInfo", roomId);
+      socket.emit("usersInfo", roomId);
+      hasEmitted.current = true;
+    }
+  }, [localParticipant]);
 
   const sockets = {
     //NOTE - 전체 players의 실시간 Ready 상태
@@ -60,9 +74,17 @@ const MafiaPlayRooms = () => {
     diedPlayer: (playerId: string) => {
       setDiedPlayer(playerId);
     },
-    //NOTE - 방의 변화를 감지
-    updateRoomInfo: (roomInfo: any) => {
-      console.log("roomInfo", roomInfo);
+    //NOTE - 방에 대한 정보
+    updateRoomInfo: (roomInfo: Tables<"room_table">) => {
+      if (roomInfo.chief) {
+        setChiefPlayerId({ chief: roomInfo.chief, roomId: roomInfo.room_id });
+      }
+    },
+    //NOTE - players의 초기 Ready 상태
+    usersInfo: (players: playersInfo[]) => {
+      players.forEach((player) => {
+        setReadyPlayers(player.user_id, player.is_ready);
+      });
     },
     //NOTE - Error 처리
     playError: (roomName: string, error: string) => {
@@ -84,25 +106,38 @@ const MafiaPlayRooms = () => {
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
       setIsMediaReset(true); // 캠 및 오디오 초기화
-
-      //점수 산정
     }
+  }, [isGameState]);
+
+  //NOTE - Ranking 점수 산정
+  useEffect(() => {
+    const updateVictoryRanking = async () => {
+      if (isGameState !== "gameEnd") return;
+
+      const localPlayerId = localParticipant.localParticipant.identity;
+      console.log("localPlayerId", localPlayerId);
+      const { mafia_score, music_score } = await getRankingScore(localPlayerId);
+
+      const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
+      const newScore = isVictoryPlayer ? 100 : 20;
+
+      const newMafia_score = mafia_score + newScore;
+      const newMusic_score = music_score;
+      const total_score = newMafia_score + newMusic_score;
+
+      await setRankingScore(localPlayerId, newMafia_score, newMusic_score, total_score);
+    };
+    updateVictoryRanking();
   }, [isGameState]);
 
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
-      {/* <button
-          onClick={() => {
-            allAudioSetting(tracks, false);
-          }}
-          style={{ background: "red" }}
-        >
-          전체 소리 끄기
-        </button> */}
+      <div className={S.goToMainPage}></div>
+
       <MafiaHeader />
       <div className={S.mafiaPlayRoomSection}>
-        <LocalParticipant tracks={tracks} />
-        <RemoteParticipant tracks={tracks} />
+        <LocalParticipant />
+        <RemoteParticipant />
         <RoomAudioRenderer muted={false} /> {/* 원격 참가자 오디오 트랙 처리 및 관리 */}
         <MafiaToolTip />
         <MafiaModals />

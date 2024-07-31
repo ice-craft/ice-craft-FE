@@ -5,7 +5,7 @@ import PoliceCard from "@/assets/images/Police_Card.avif";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocalParticipant } from "@livekit/components-react";
-import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import getPlayerJob from "@/utils/mafia/getPlayerJob";
 import { useRoleModalElement } from "@/store/show-modal-store";
 
 const RenderCards = () => {

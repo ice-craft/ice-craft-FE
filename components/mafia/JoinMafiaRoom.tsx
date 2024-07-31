@@ -1,21 +1,19 @@
-import { getToken } from "@/api/liveKitApi";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
+import useBeforeUnloadHandler from "@/hooks/useBeforeUnloadHandler";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { useNickname, useUserId } from "@/store/connect-store";
 import { useRoomAction } from "@/store/room-store";
+import Style from "@/style/commons/commons.module.css";
 import S from "@/style/livekit/livekit.module.css";
-import useBeforeUnloadHandler from "@/utils/reload/useBeforeUnloadHandler";
+import { getToken } from "@/utils/livekit/liveKitApi";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLoginInfo } from "@/utils/supabase/authAPI";
-import { LiveKitRoom, PreJoin, useTracks } from "@livekit/components-react";
+import { LiveKitRoom, PreJoin } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Style from "@/style/commons/commons.module.css";
 
 const JoinMafiaRoom = () => {
-  const exUserIds = useUserId();
-  const exNickname = useNickname();
   const roomId = useParams();
   const [userInfo, setUserInfo] = useState({
     userId: "",
@@ -27,6 +25,9 @@ const JoinMafiaRoom = () => {
   const isPopState = usePopStateHandler();
   const { setIsEntry, setIsBack } = useRoomAction();
   const { setIsReLoad } = useBeforeUnloadHandler();
+  //FIXME - 임시 로그인
+  const exUserIds = useUserId();
+  const exNickname = useNickname();
 
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {

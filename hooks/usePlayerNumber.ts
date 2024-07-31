@@ -1,4 +1,4 @@
-import getPlayersNumber from "@/utils/mafiaSocket/getPlayersNumber";
+import getPlayersNumber from "@/utils/mafia/getPlayersNumber";
 import { useParticipants } from "@livekit/components-react";
 import { useEffect, useState } from "react";
 
@@ -7,6 +7,10 @@ const usePlayerNumber = (userId: string, isGameState: string) => {
   const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 
   useEffect(() => {
+    if (!userId || !isGameState) {
+      return;
+    }
+
     //NOTE - 게임 시작시 players의 번호 부여
     if (isGameState === "gameStart") {
       const allPlayers = getPlayersNumber(participants);

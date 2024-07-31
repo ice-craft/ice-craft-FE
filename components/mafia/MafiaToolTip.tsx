@@ -8,7 +8,7 @@ import PoliceToolTipIcon from "@/assets/images/police_ToolTip_Icon.svg";
 import PoliceToolTipText from "@/assets/images/police_ToolTip_text.svg";
 import { useRoleModalElement } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
-import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import getPlayerJob from "@/utils/mafia/getPlayerJob";
 import { useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";

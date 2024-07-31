@@ -4,7 +4,7 @@ import Doctor from "@/assets/images/cam_doctor.svg";
 import Mafia from "@/assets/images/cam_mafia.svg";
 import { useInSelect, useOverLayActions } from "@/store/overlay-store";
 import { useRoleModalElement } from "@/store/show-modal-store";
-import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import getPlayerJob from "@/utils/mafia/getPlayerJob";
 import { socket } from "@/utils/socket/socket";
 import React from "react";
 
