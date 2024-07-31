@@ -27,8 +27,6 @@ const VictoryModal = () => {
       return;
     }
 
-    console.log("Victory Player 실행", participants);
-
     // 전체 player 정보의 배열
     participants.forEach((playerInfo) => {
       //Player의 직업 찾기
@@ -58,10 +56,6 @@ const VictoryModal = () => {
       isPractice.current = true;
     }
   }, [participants]);
-
-  useEffect(() => {
-    console.log("🚀 ~victoryPlayerNickname:", victoryPlayerNickname);
-  }, [victoryPlayerNickname]);
 
   return (
     <>
