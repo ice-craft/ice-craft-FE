@@ -37,6 +37,7 @@ const Nav = () => {
       await logOut();
       setUserId("");
       setUserNickname("");
+      location.reload();
       toast("로그아웃이 완료되었습니다.");
     } catch (error) {
       toast.error("로그아웃이 실패했습니다.");

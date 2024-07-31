@@ -1,4 +1,4 @@
-export const revalidate = 1; //NOTE -30분
+export const revalidate = 1800;
 
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
