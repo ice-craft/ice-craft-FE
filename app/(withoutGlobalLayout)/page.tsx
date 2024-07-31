@@ -32,6 +32,7 @@ const IntroPage = async () => {
           muted
           autoPlay
           loop
+          playsInline
         ></video>
         <div className={S.introTitle}>
           <TextTyping />
