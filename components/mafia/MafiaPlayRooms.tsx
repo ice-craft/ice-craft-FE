@@ -110,8 +110,6 @@ const MafiaPlayRooms = () => {
     }
   }, [isGameState]);
 
-  console.log("MafiaPlayRooms 실행");
-
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
       <MafiaHeader />

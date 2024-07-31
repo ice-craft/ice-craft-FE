@@ -15,21 +15,16 @@ const useGameStore = create<GameState>((set) => ({
 
         // 현재 방과 업데이트된 방의 유효성 검사
         if (presentRoomId !== newChief.roomId) {
-          console.log("현재 방:", state.presentRoomId);
-          console.log("동일하지 않는 방:", newChief.chief);
           return { updateRoomInfo };
         }
 
         // 현재 방장과 업데이트된 방장의 유효성 검사
         if (updateRoomInfo.chief === newChief.chief) {
-          console.log("현재 방장:", state.updateRoomInfo.chief);
-          console.log("업데이트된 방장:", newChief.chief);
           return { updateRoomInfo };
         }
 
         // 새로운 방장 업데이트
         if (updateRoomInfo.chief !== newChief.chief) {
-          console.log("chiefUpdate", newChief.chief);
           return { updateRoomInfo: newChief };
         }
 

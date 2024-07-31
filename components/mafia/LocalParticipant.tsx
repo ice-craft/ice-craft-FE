@@ -54,14 +54,10 @@ const LocalParticipant = () => {
     const localPlayerId = localParticipant.localParticipant.identity;
 
     if (isGameState === "gameReady" && localPlayerId === chiefPlayerId.chief) {
-      console.log("Local 게임 준비 시 방장 UI 실행 isGameState", isGameState);
-      console.log("Local 게임 준비 시 방장 UI 실행 localParticipant", localParticipant.localParticipant.identity);
-      console.log("Local 게임 준비 시 방장 UI 실행 chiefPlayerId", chiefPlayerId);
       setIsChief(true);
     }
 
     if (isGameState === "gameStart" || isGameState === "gameEnd") {
-      console.log("Local 게임 시작 및 종료 후 방장 UI 종료");
       setIsChief(false);
     }
   }, [chiefPlayerId, isGameState]);

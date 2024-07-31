@@ -34,12 +34,10 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   //NOTE - 게임 시작 전) 실시간 방장 정보 update
   useEffect(() => {
     if (isGameState === "gameReady" && remote.participant.identity === chiefPlayerId.chief) {
-      console.log("Remote 게임 준비 시 방장 UI 실행");
       setIsChief(true);
     }
 
     if (isGameState === "gameStart" || isGameState === "gameEnd") {
-      console.log("Remote 게임 시작 및 종료 후 방장 UI 종료");
       setIsChief(false);
     }
   }, [chiefPlayerId, remote, isGameState]);
