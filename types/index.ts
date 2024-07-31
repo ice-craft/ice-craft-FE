@@ -64,10 +64,14 @@ export interface ImageState {
 }
 
 export interface GameState {
+  presentRoomId: string;
+  updateRoomInfo: { chief: string; roomId: string };
   diedPlayerId: string[];
   isGameState: string;
   isDay: string;
   actions: {
+    setPresentRoomId: (newRoomId: string) => void;
+    setChiefPlayerId: (newChief: { chief: string; roomId: string }) => void;
     setDiedPlayer: (playerId: string) => void;
     setIsGameState: (isGame: string) => void;
     setIsDay: (newIsDay: string) => void;

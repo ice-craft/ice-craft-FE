@@ -57,6 +57,7 @@ export type Database = {
           title: string | null;
           total_user_count: number;
           is_playing: boolean;
+          chief: string | null;
         };
         Insert: {
           created_at?: string | null;
