@@ -26,7 +26,7 @@ const MafiaHeader = () => {
 
   //NOTE - 게임 입장 및 종료 시
   useEffect(() => {
-    if (isGameState === "gameReady" || isGameState === "gameEnd") {
+    if (isGameState === "gameReady" || "gameEnd") {
       setMorning(false);
       setNight(false);
     }
