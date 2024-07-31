@@ -12,12 +12,12 @@ import { useEffect, useState } from "react";
 import SpeakTimer from "./SpeakTimer";
 
 const MafiaHeader = () => {
-  //NOTE - Livekit Hooks
+  //NOTE - livekit Hooks
   const { localParticipant } = useLocalParticipant();
   const roomId = localParticipant.metadata;
   const userId = localParticipant.identity;
 
-  //NOTE - 전역 state
+  //NOTE - global state
   const isGameState = useGameState();
   const isDay = useIsDay();
   const { setIsEntry } = useRoomAction();
