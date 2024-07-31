@@ -2,6 +2,7 @@ import { Provider } from "@supabase/supabase-js";
 import { createClient } from "./client";
 
 const supabase = createClient();
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
 export const checkUserLogIn = async () => {
   const { data, error } = await supabase.auth.getUser();
@@ -66,7 +67,7 @@ export const oAuthLogIn = async (provider: Provider) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/sns-login"
+      redirectTo: `${defaultUrl}/sns-login`
     }
   });
 
