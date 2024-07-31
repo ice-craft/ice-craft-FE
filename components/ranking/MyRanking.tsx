@@ -43,4 +43,4 @@ const MyLanking = ({ rankingList }: MyLankingProps) => {
   );
 };
 
-export default MyLanking;
+export default MyRanking;

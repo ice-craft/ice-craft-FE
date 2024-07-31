@@ -15,12 +15,10 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useConnectActions();
   const [search, setSearch] = useState<string>("");
   const { debouncedValue, keyword } = useDebounce(search, 500);
-
   //NOTE - 메인페이지 방 목록 검색
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
-
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -38,10 +36,8 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
         toast.error("검색 중 오류가 발생했습니다.");
       }
     };
-
     fetchRooms();
   }, [debouncedValue, setRooms]);
-
   return (
     <>
       <div className={S.roomSearch}>
@@ -54,5 +50,4 @@ const FormSearch = ({ placeholder }: FormSearchProps) => {
     </>
   );
 };
-
 export default FormSearch;

@@ -21,7 +21,6 @@ export default function Pagination({ rankingList }: PageNationProps) {
               if (item.ranking === 1) rankClass = S.firstPlace;
               else if (item.ranking === 2) rankClass = S.secondPlace;
               else if (item.ranking === 3) rankClass = S.thirdPlace;
-
               return (
                 <li key={item.user_id}>
                   <div>
