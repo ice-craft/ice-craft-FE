@@ -66,9 +66,11 @@ export interface ImageState {
 export interface GameState {
   diedPlayerId: string[];
   isGameState: string;
+  isDay: string;
   actions: {
     setDiedPlayer: (playerId: string) => void;
     setIsGameState: (isGame: string) => void;
+    setIsDay: (newIsDay: string) => void;
     setGameReset: () => void;
   };
 }
