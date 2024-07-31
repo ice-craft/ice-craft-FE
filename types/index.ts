@@ -1,7 +1,7 @@
 import { TrackReferenceOrPlaceholder } from "@livekit/components-react";
 import { User } from "@supabase/supabase-js";
 import { StaticImageData } from "next/image";
-import { Tables } from "./supabase";
+import { Tables } from "@/types/supabase";
 
 export interface MafiaRoom {
   room: string;

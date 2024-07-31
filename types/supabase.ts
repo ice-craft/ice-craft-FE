@@ -122,21 +122,6 @@ export type Database = {
           },
         ]
       }
-      test: {
-        Row: {
-          id: number
-          round: number | null
-        }
-        Insert: {
-          id?: number
-          round?: number | null
-        }
-        Update: {
-          id?: number
-          round?: number | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
