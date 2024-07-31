@@ -3,21 +3,38 @@ export const revalidate = 1800;
 import RankingEmptyImage from "@/assets/images/ranking_empty.svg";
 import S from "@/style/ranking/ranking.module.css";
 import GoTopButton from "@/utils/GoTopButton";
-import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Pagination from "@/components/ranking/Pagination";
-import MyRanking from "@/components/ranking/MyRanking";
-import FormSearch from "@/utils/FormSearch";
+import MyLanking from "@/components/ranking/MyRanking";
+import { getUsersRanking } from "@/utils/supabase/rankingAPI";
+import { Ranking } from "@/types";
 
 const Rankingpage = async () => {
-  const supabase = createClient();
-  const { data } = await supabase.from("ranking_table").select("*").order("total_score", { ascending: false });
+  const rankingList = await getUsersRanking();
+
+  const setRanking = async (rankingList: Ranking[]) => {
+    let sameScoreCount = 1;
+    let ranking = 1;
+
+    rankingList[0].ranking = 1;
+
+    for (let i = 1; i < rankingList.length; i++) {
+      if (rankingList[i].total_score === rankingList[i - 1].total_score) {
+        sameScoreCount++;
+      } else {
+        ranking += sameScoreCount;
+        sameScoreCount = 1;
+      }
+      rankingList[i].ranking = ranking;
+    }
+  };
+
+  setRanking(rankingList);
 
   return (
     <section className={S.sectionWrapper}>
       <div className={S.userRanking}>
         <h2>랭킹 순위</h2>
-        <FormSearch placeholder="닉네임을 입력해 주세요." />
       </div>
       <ul className={S.userRankingTitle}>
         <li>랭킹</li>
@@ -26,14 +43,14 @@ const Rankingpage = async () => {
         <li>노래 맞추기</li>
         <li>총점</li>
       </ul>
-      {data ? (
-        <MyRanking data={data} />
+      {<MyLanking rankingList={rankingList} />}
+      {rankingList ? (
+        <Pagination rankingList={rankingList} />
       ) : (
         <div className={S.rankingEmpty}>
           <Image src={RankingEmptyImage} alt="랭킹페이지 내용이 없습니다." />
         </div>
       )}
-      <Pagination data={data} />
       <GoTopButton />
     </section>
   );

@@ -1,4 +1,4 @@
-import { createClient } from "./client";
+import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 
@@ -16,8 +16,8 @@ export const checkUserEmailRegistered = async (email: string) => {
   return false;
 };
 
-export const registerAccount = async (email: string, nickname: string) => {
-  const { error } = await supabase.from("account_table").insert([{ email, nickname }]);
+export const registerAccount = async (user_id: string, email: string, nickname: string) => {
+  const { error } = await supabase.from("account_table").insert([{ user_id, email, nickname }]);
 
   if (error) {
     throw new Error("계정과 닉네임 등록에 실패했습니다.");

@@ -102,6 +102,15 @@ const Register = () => {
       return;
     }
 
+    let nicknamePattern = new RegExp(/^[a-zA-Z0-9가-힣ㄱ-ㅎ]+$/);
+    const isNickname = nicknamePattern.test(inputNickname);
+
+    if (!isNickname) {
+      isPassed.current = { ...isPassed.current, nickname: false };
+      setNicknameMessage("영어, 한글, 숫자를 제외한 문자가 포함되어 있습니다.");
+      return;
+    }
+
     isPassed.current = { ...isPassed.current, nickname: true };
     setNicknameMessage("사용 가능한 닉네임입니다.");
   };
@@ -174,9 +183,10 @@ const Register = () => {
     setRegisterMessage("");
 
     try {
-      const isPassed = await oAuthRegister(email, password, nickname);
-      if (isPassed) {
-        await registerAccount(email, nickname);
+      const userId = await oAuthRegister(email, password, nickname);
+
+      if (userId) {
+        await registerAccount(userId, email, nickname);
         router.replace("/main");
       } else {
         throw new Error("회원 가입 실패");

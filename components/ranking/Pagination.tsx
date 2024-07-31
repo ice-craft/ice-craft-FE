@@ -6,31 +6,23 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import S from "@/style/ranking/ranking.module.css";
 import Image from "next/image";
-import { PageNateProps, Ranking } from "@/types";
+import { CurrentItemsProps, PageNationProps, PaginatedItemsProps, Ranking } from "@/types";
 
-export default function Pagination({ data }: PageNateProps) {
-  const [items, setItems] = useState<Ranking[]>([]);
-  useEffect(() => {
-    if (data) {
-      setItems(data);
-      data.forEach((item: Ranking, index: number) => {
-        item["ranking"] = index + 1;
-      });
-    }
-  }, [data]);
+export default function Pagination({ rankingList }: PageNationProps) {
+  const items = rankingList;
 
-  function Items({ currentItems }: any) {
+  function Items({ currentItems }: CurrentItemsProps) {
     return (
       <>
         {currentItems && (
           <ul className={S.userRankingList}>
-            {currentItems.map((item: any) => {
+            {currentItems.map((item: Ranking) => {
               let rankClass = "";
               if (item.ranking === 1) rankClass = S.firstPlace;
               else if (item.ranking === 2) rankClass = S.secondPlace;
               else if (item.ranking === 3) rankClass = S.thirdPlace;
               return (
-                <li key={item.ranking}>
+                <li key={item.user_id}>
                   <div>
                     <h2 className={rankClass}>{item.ranking}</h2>
                     <h3 className={S.userNickname}>
@@ -50,10 +42,10 @@ export default function Pagination({ data }: PageNateProps) {
     );
   }
 
-  function PaginatedItems({ itemsPerPage }: any) {
-    const [currentItems, setCurrentItems] = useState<any[]>([]);
+  function PaginatedItems({ itemsPerPage }: PaginatedItemsProps) {
+    const [currentItems, setCurrentItems] = useState<Ranking[]>([]);
     const [pageCount, setPageCount] = useState(0);
-    const [itemOffset, setItemOffset] = useState<any>(0);
+    const [itemOffset, setItemOffset] = useState<number>(0);
 
     useEffect(() => {
       const endOffset = itemOffset + itemsPerPage;
