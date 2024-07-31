@@ -73,11 +73,9 @@ const MafiaPlayRooms = () => {
     },
     //NOTE - 방에 대한 정보
     updateRoomInfo: (roomInfo: Tables<"room_table">) => {
-      if (!roomInfo.chief) {
-        console.log("방장에 대한 정보가 없습니다.");
-        return;
+      if (roomInfo.chief) {
+        setChiefPlayerId({ chief: roomInfo.chief, roomId: roomInfo.room_id });
       }
-      setChiefPlayerId({ chief: roomInfo.chief, roomId: roomInfo.room_id });
     },
     //NOTE - players의 초기 Ready 상태
     usersInfo: (players: playersInfo[]) => {

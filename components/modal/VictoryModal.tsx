@@ -3,12 +3,13 @@ import S from "@/style/modal/modal.module.css";
 import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
 import ModalConfetti from "@/utils/ModalConfetti";
 import { useParticipants } from "@livekit/components-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const VictoryModal = () => {
   const title = useGroupModalElement();
   const role = useRoleModalElement();
   const participants = useParticipants();
+  const isPractice = useRef(false);
   const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([]);
 
   //NOTE - 승리한 팀의 players nickname
@@ -17,6 +18,13 @@ const VictoryModal = () => {
     if (participants.length === 1) {
       return;
     }
+
+    // 한 번만 작동
+    if (isPractice.current) {
+      return;
+    }
+
+    console.log("Victory Player 실행", participants);
 
     // 전체 player 정보의 배열
     participants.forEach((playerInfo) => {
@@ -40,7 +48,15 @@ const VictoryModal = () => {
         setVictoryPlayerNickname((prevPlayers) => [...prevPlayers, playerNickname]);
       }
     });
+
+    if (!isPractice.current) {
+      isPractice.current = true;
+    }
   }, [participants]);
+
+  useEffect(() => {
+    console.log("🚀 ~victoryPlayerNickname:", victoryPlayerNickname);
+  }, [victoryPlayerNickname]);
 
   return (
     <>
