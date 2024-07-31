@@ -1,7 +1,7 @@
 import { useGameActions } from "@/store/game-store";
 import { useGroupModalElement, useRoleModalElement } from "@/store/show-modal-store";
 import S from "@/style/modal/modal.module.css";
-import getPlayerJob from "@/utils/mafiaSocket/getPlayerJob";
+import getPlayerJob from "@/utils/mafia/getPlayerJob";
 import ModalConfetti from "@/utils/ModalConfetti";
 import { useParticipants } from "@livekit/components-react";
 import { useEffect, useRef, useState } from "react";

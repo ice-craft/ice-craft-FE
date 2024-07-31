@@ -1,4 +1,4 @@
-import getPlayersNumber from "@/utils/mafiaSocket/getPlayersNumber";
+import getPlayersNumber from "@/utils/mafia/getPlayersNumber";
 import { useParticipants } from "@livekit/components-react";
 import { useEffect, useState } from "react";
 
