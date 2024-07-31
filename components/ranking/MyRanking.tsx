@@ -5,7 +5,7 @@ import S from "@/style/ranking/ranking.module.css";
 import { MyLankingProps, Ranking } from "@/types";
 import { getUserInfo } from "@/utils/supabase/authAPI";
 
-const MyLanking = ({ rankingList }: MyLankingProps) => {
+const MyRanking = ({ rankingList }: MyLankingProps) => {
   const [myRanking, setMyRanking] = useState<Ranking | null>();
 
   useEffect(() => {
