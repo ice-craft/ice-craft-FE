@@ -7,16 +7,14 @@ import { useOverLayActions } from "@/store/overlay-store";
 import { useModalActions } from "@/store/show-modal-store";
 import S from "@/style/livekit/livekit.module.css";
 import { MediaStatus, playersInfo } from "@/types";
-import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
-import { RoomAudioRenderer, useLocalParticipant, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
-import { useEffect, useRef } from "react";
-import MafiaHeader from "./MafiaHeader";
-import LocalParticipant from "./LocalParticipant";
-import MafiaModals from "./MafiaModals";
-import MafiaToolTip from "./MafiaToolTip";
-import RemoteParticipant from "./RemoteParticipant";
 import { socket } from "@/utils/socket/socket";
+import { RoomAudioRenderer, useLocalParticipant } from "@livekit/components-react";
+import { useEffect, useRef } from "react";
+import LocalParticipant from "@/components/mafia/LocalParticipant";
+import MafiaHeader from "@/components/mafia/MafiaHeader";
+import MafiaModals from "@/components/mafia/MafiaModals";
+import MafiaToolTip from "@/components/mafia/MafiaToolTip";
+import RemoteParticipant from "@/components/mafia/RemoteParticipant";
 
 const MafiaPlayRooms = () => {
   const hasEmitted = useRef(false);
@@ -101,15 +99,6 @@ const MafiaPlayRooms = () => {
 
   return (
     <section className={`${S.mafiaPlayRoomWrapper} ${pretendard.className}`}>
-      <div className={S.goToMainPage}></div>
-      {/* <button
-        onClick={() => {
-          allAudioSetting(tracks, false);
-        }}
-        style={{ background: "red" }}
-      >
-        전체 소리 끄기
-      </button> */}
       <MafiaHeader />
       <div className={S.mafiaPlayRoomSection}>
         <LocalParticipant />

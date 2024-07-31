@@ -15,7 +15,6 @@ const ModalProgress = () => {
 
   // 모달창 종료
   useEffect(() => {
-    console.log("count", (timer * 10 - count) * (100 / (timer * 10)));
     if (count <= 7 && isModal) {
       setIsOpen(false);
     }
