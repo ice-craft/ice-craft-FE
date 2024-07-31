@@ -9,7 +9,8 @@ import { toast } from "react-toastify";
 import useDebounce from "@/hooks/useSearchDebounce";
 import { FormSearchProps } from "@/types";
 import { useConnectActions } from "@/store/connect-store";
-import { socket } from "./socket/socket";
+import { socket } from "@/utils/socket/socket";
+
 const FormSearch = ({ placeholder }: FormSearchProps) => {
   const { setRooms } = useConnectActions();
   const [search, setSearch] = useState<string>("");
