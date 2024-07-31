@@ -1,4 +1,3 @@
-import { getToken } from "@/api/liveKitApi";
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import useBeforeUnloadHandler from "@/hooks/useBeforeUnloadHandler";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
@@ -6,6 +5,7 @@ import { useNickname, useUserId } from "@/store/connect-store";
 import { useRoomAction } from "@/store/room-store";
 import Style from "@/style/commons/commons.module.css";
 import S from "@/style/livekit/livekit.module.css";
+import { getToken } from "@/utils/livekit/liveKitApi";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLoginInfo } from "@/utils/supabase/authAPI";
 import { LiveKitRoom, PreJoin } from "@livekit/components-react";
