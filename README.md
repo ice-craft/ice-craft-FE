@@ -1,6 +1,6 @@
 # 프로젝트 "IceCraft"
 
-배포 도메인 : [배포 링크 이동하기](https://ice-craft-git-dev-ice-craft.vercel.app/)
+배포 도메인 : [배포 링크 이동하기](https://icecraft.co.kr)
 
 프로젝트 명 : IceCraft
 
