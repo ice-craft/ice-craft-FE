@@ -49,11 +49,6 @@ const Nav = () => {
     document.body.classList.toggle(S.active, !isActive);
   };
 
-  const rankingHandler = () => {
-    setIsActive((prev) => !prev);
-    document.body.classList.toggle(S.active, !isActive);
-  };
-
   return (
     <nav className={S.nav}>
       <div className={`${S.asideButton} ${isActive ? S.active : ""}`} onClick={isToggleHandler}>
@@ -64,7 +59,7 @@ const Nav = () => {
       <div className={S.gnb}>
         <ul className={S.ul}>
           <li>
-            <Link href="/ranking" onClick={rankingHandler}>
+            <Link href="/ranking" onClick={isToggleHandler}>
               랭킹
             </Link>
           </li>
