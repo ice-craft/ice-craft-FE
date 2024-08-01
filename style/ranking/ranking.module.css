@@ -42,6 +42,10 @@
   line-height: 100px;
 }
 
+.userRankingTitle li:nth-child(1) {
+  line-height: 24px;
+}
+
 .myRankingList li div h3,
 .userRankingList li div h3,
 .userRankingTitle li:nth-child(2) {
@@ -61,13 +65,13 @@
 }
 
 .myRankingList {
-  height: 100px;
+  /* height: 100px; */
   text-align: center;
-  line-height: 100px;
+  /* line-height: 100px; */
 }
 
 .userRankingList li {
-  height: 100px;
+  /* height: 100px; */
   text-align: center;
   border: 1px solid #e9e9e9;
   border-top: none;
@@ -135,6 +139,7 @@
 
 .userNickname {
   position: relative;
+  word-break: break-all;
 }
 
 .userNickname:hover .userEmail {
@@ -143,9 +148,8 @@
 
 .userEmail {
   position: absolute;
-  display: inline-block;
   left: 50%;
-  top: -20px;
+  top: -55px;
   padding: 0 15px;
   height: 40px;
   background-color: var(--primary-color);
@@ -153,6 +157,8 @@
   border-radius: var(--border-radius);
   transform: translateX(-50%);
   display: none;
+  line-height: 40px;
+  word-break: normal;
 }
 
 .userEmail::before {
@@ -200,10 +206,28 @@
   .userRankingList li .secondPlace,
   .userRankingList li .thirdPlace {
     background-size: 75%;
+    line-height: 80px;
   }
 
+  .myRankingList,
+  .myRankingList li div h2,
   .userRankingList li {
     height: 80px;
+  }
+
+  .userRankingList li div h2,
+  .myRankingList li div h2 {
+    line-height: 80px;
+  }
+
+  .userRankingTitle li:nth-child(1) {
+    line-height: 22px;
+  }
+
+  .myRankingList li div h3,
+  .userRankingList li div h3,
+  .userRankingTitle li:nth-child(2) {
+    width: 250px;
   }
 
   .pagerWrapper {

@@ -15,7 +15,7 @@
 .modal {
   position: absolute;
   background: url("../../assets/images/modal_bg.svg") center center no-repeat;
-  background-size: 80% auto;
+  background-size: 85% auto;
   opacity: 1;
   z-index: 999;
   padding: 80px;
