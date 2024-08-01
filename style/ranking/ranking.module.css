@@ -21,11 +21,10 @@
   display: flex;
   background-color: #f9f9fb;
   height: 60px;
-  line-height: 60px;
+  align-items: center;
   border: 1px solid #e9e9e9;
   color: #7a7986;
   font-weight: 600;
-  white-space: nowrap;
 }
 
 .userRankingTitle li {
@@ -34,12 +33,13 @@
 
 .userRankingList {
   font-weight: 600;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 .myRankingList li div h2,
 .userRankingList li div h2,
 .userRankingTitle li:nth-child(1) {
   width: 136px;
+  line-height: 100px;
 }
 
 .myRankingList li div h3,
@@ -69,14 +69,8 @@
 .userRankingList li {
   height: 100px;
   text-align: center;
-  line-height: 100px;
   border: 1px solid #e9e9e9;
   border-top: none;
-}
-
-.myRankingList li > div,
-.userRankingList li > div {
-  display: flex;
 }
 
 .totalRanking {
@@ -133,9 +127,14 @@
   justify-content: center;
 }
 
+.userInfo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 .userNickname {
   position: relative;
-  cursor: pointer;
 }
 
 .userNickname:hover .userEmail {
@@ -152,7 +151,6 @@
   background-color: var(--primary-color);
   color: var(--white);
   border-radius: var(--border-radius);
-  line-height: 40px;
   transform: translateX(-50%);
   display: none;
 }
@@ -171,6 +169,14 @@
 
 /*---------------- Responsive --------------*/
 @media (max-width: 720px) {
+  .sectionWrapper {
+    padding: 108px 20px;
+  }
+
+  .sectionWrapper ul li {
+    font-size: var(--font-size-small);
+  }
+
   .userRanking {
     flex-direction: column;
     align-items: center;
@@ -188,5 +194,19 @@
   .rankingEmpty img {
     width: 200px;
     transition: 0.3s ease-out;
+  }
+
+  .userRankingList li .firstPlace,
+  .userRankingList li .secondPlace,
+  .userRankingList li .thirdPlace {
+    background-size: 75%;
+  }
+
+  .userRankingList li {
+    height: 80px;
+  }
+
+  .pagerWrapper {
+    margin-top: 30px;
   }
 }

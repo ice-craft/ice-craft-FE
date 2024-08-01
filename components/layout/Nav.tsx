@@ -22,10 +22,6 @@ const Nav = () => {
           setUserId(userInfo.id);
           const nickname = userInfo.user_metadata.nickname || userInfo.user_metadata.name;
           setUserNickname(nickname);
-
-          //FIXME - 임시 로그인
-          // setUserId(crypto.randomUUID());
-          // setUserNickname(crypto.randomUUID());
         }
       } catch (e) {}
     };
@@ -59,7 +55,9 @@ const Nav = () => {
       <div className={S.gnb}>
         <ul className={S.ul}>
           <li>
-            <Link href="/ranking">랭킹</Link>
+            <Link href="/ranking" onClick={isToggleHandler}>
+              랭킹
+            </Link>
           </li>
           {userId ? (
             <>

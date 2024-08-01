@@ -10,15 +10,13 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   const [isAllReady, setIsAllReady] = useState(false);
   const { localParticipant } = useLocalParticipant();
 
-  //NOTE - 모든 players가 Ready 상태일 경우 "게임시작 버튼" 활성화 및 비활성화 (방장일 경우에만)
+  //NOTE - 방장에게만, "게임시작 버튼" 활성화 및 비활성화
   const sockets = {
     chiefStart: (isStart: boolean) => {
       if (isStart) {
-        console.log("니가 방장이며, 게임 시작할 수 있다.");
         setIsAllReady(true);
       }
       if (!isStart) {
-        console.log("니가 방장이지만, 게임 시작할 수 없다.");
         setIsAllReady(false);
       }
     }
@@ -41,7 +39,7 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
     socket.emit("setReady", playerId, newIsReady);
   };
 
-  //NOTE - 게임 시작 이벤트 핸들러(방장 player에게만 권한 부여)
+  //NOTE - 게임 시작 이벤트 핸들러
   const startHandler = () => {
     const roomId = localParticipant.metadata;
     const playersCount = participants.length;

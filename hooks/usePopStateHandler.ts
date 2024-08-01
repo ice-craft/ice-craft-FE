@@ -11,9 +11,8 @@ const usePopStateHandler = () => {
       setIsBack(true);
     };
 
-    // 이벤트 리스너 등록
     window.addEventListener("popstate", handlePopstate);
-    // 이벤트 리스너 제거
+
     return () => window.removeEventListener("popstate", handlePopstate);
   }, []);
 

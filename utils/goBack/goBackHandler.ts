@@ -33,9 +33,7 @@ const useHandleBack = (roomId: string, userId: string) => {
   }, [roomId, userId, setIsEntry, router]);
 
   useEffect(() => {
-    socket.on("exitRoomError", (message) => {
-      console.log("exitRoomError:", message);
-    });
+    socket.on("exitRoomError", (message) => {});
 
     return () => {
       socket.off("exitRoomError");
