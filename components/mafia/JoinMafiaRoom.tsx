@@ -50,7 +50,6 @@ const JoinMafiaRoom = () => {
           setUserInfo({ userId: exUserIds, nickname: exNickname });
         }
       } catch (error) {
-        console.log("error", error);
         joinErrorHandler(error);
       }
     };
@@ -87,7 +86,6 @@ const JoinMafiaRoom = () => {
   //NOTE - 에러 이벤트 핸들러(로그인, 토큰, 방입장 등)
   const joinErrorHandler = (error: Error | string | unknown) => {
     setIsJoinError(true); // 미디어 비활성화 및 토큰 발급 error시 실행
-    console.log(error);
   };
 
   //NOTE - 방 에러 UI

@@ -88,9 +88,6 @@ const MafiaPlayRooms = () => {
     },
     //NOTE - Error 처리
     playError: (roomName: string, error: string) => {
-      console.log("roomName", roomName);
-      console.log("roomError", error);
-
       setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
       setModalReset(); //전체 모달 요소 초기화
       setGameReset(); // 죽은 players 및 게임 state 초기화
@@ -99,35 +96,34 @@ const MafiaPlayRooms = () => {
   };
   useSocketOn(sockets);
 
-  //NOTE - 게임 종료
-  useEffect(() => {
-    if (isGameState === "gameEnd") {
-      setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
-      setModalReset(); //전체 모달 요소 초기화
-      setGameReset(); // 죽은 players 및 게임 state 초기화
-      setIsMediaReset(true); // 캠 및 오디오 초기화
-    }
-  }, [isGameState]);
-
-  //NOTE - Ranking 점수 산정
+  //NOTE - 게임 종료 및 Ranking 점수 산정
   useEffect(() => {
     const updateVictoryRanking = async () => {
-      if (isGameState !== "gameEnd") return;
+      try {
+        const localPlayerId = localParticipant.localParticipant.identity;
 
-      const localPlayerId = localParticipant.localParticipant.identity;
-      console.log("localPlayerId", localPlayerId);
-      const { mafia_score, music_score } = await getRankingScore(localPlayerId);
+        const { mafia_score, music_score } = await getRankingScore(localPlayerId);
 
-      const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
-      const newScore = isVictoryPlayer ? 100 : 20;
+        const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
+        const newScore = isVictoryPlayer ? 100 : 20;
 
-      const newMafia_score = mafia_score + newScore;
-      const newMusic_score = music_score;
-      const total_score = newMafia_score + newMusic_score;
+        const newMafia_score = mafia_score + newScore;
+        const newMusic_score = music_score;
+        const total_score = newMafia_score + newMusic_score;
 
-      await setRankingScore(localPlayerId, newMafia_score, newMusic_score, total_score);
+        await setRankingScore(localPlayerId, newMafia_score, newMusic_score, total_score);
+      } catch (error) {
+      } finally {
+        setOverlayReset(); //Local,Remote 클릭 이벤트 및 캠 이미지 초기화
+        setModalReset(); //전체 모달 요소 초기화
+        setGameReset(); // 죽은 players 및 게임 state 초기화
+        setIsMediaReset(true); // 캠 및 오디오 초기화
+      }
     };
-    updateVictoryRanking();
+
+    if (isGameState === "gameEnd") {
+      updateVictoryRanking();
+    }
   }, [isGameState]);
 
   return (

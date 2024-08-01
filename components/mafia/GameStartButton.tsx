@@ -14,11 +14,9 @@ const GameStartButton = ({ isGameState }: { isGameState: string }) => {
   const sockets = {
     chiefStart: (isStart: boolean) => {
       if (isStart) {
-        console.log("니가 방장이며, 게임 시작할 수 있다.");
         setIsAllReady(true);
       }
       if (!isStart) {
-        console.log("니가 방장이지만, 게임 시작할 수 없다.");
         setIsAllReady(false);
       }
     }

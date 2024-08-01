@@ -21,7 +21,6 @@ const useClickHandler = () => {
 
     //NOTE - 투표 및 마피아 시간
     if (inSelect.includes("vote") || inSelect.includes("mafia")) {
-      console.log(inSelect, playerId);
       socket.emit("voteTo", playerId);
       setImageState(CamCheck);
       return;
@@ -29,7 +28,6 @@ const useClickHandler = () => {
 
     //NOTE - 의사 시간
     if (inSelect.includes("doctor")) {
-      console.log(inSelect, playerId);
       socket.emit("selectPlayer", playerId);
       setImageState(CamCheck);
       return;
@@ -38,18 +36,14 @@ const useClickHandler = () => {
     //NOTE - 경찰 시간
     if (inSelect.includes("police")) {
       const clickPlayerJob = getPlayerJob(role, playerId);
-      console.log(inSelect, playerId);
 
       if (clickPlayerJob === "mafia") {
-        console.log("clickJob", clickPlayerJob);
         setImageState(Mafia);
       }
       if (clickPlayerJob === "doctor") {
-        console.log("clickJob", clickPlayerJob);
         setImageState(Doctor);
       }
       if (clickPlayerJob === "citizen") {
-        console.log("clickJob", clickPlayerJob);
         setImageState(Citizen);
       }
     }
