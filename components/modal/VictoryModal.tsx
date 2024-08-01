@@ -12,7 +12,6 @@ const VictoryModal = () => {
   const participants = useParticipants();
   const isPractice = useRef(false);
   const [victoryPlayerNickname, setVictoryPlayerNickname] = useState<string[]>([]);
-
   const { setVictoryPlayersId } = useGameActions();
 
   //NOTE - 승리한 팀의 players nickname
@@ -21,12 +20,10 @@ const VictoryModal = () => {
     if (participants.length === 1) {
       return;
     }
-
     // 한 번만 작동
     if (isPractice.current) {
       return;
     }
-
     // 전체 player 정보의 배열
     participants.forEach((playerInfo) => {
       //Player의 직업 찾기

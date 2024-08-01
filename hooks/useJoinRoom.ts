@@ -34,12 +34,12 @@ const useJoinRoom = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler((userId, userNickname) => {
-      setRoomId(item.room_id);
-      setIsEntry(true);
-      socket.emit("joinRoom", userId, item.room_id, userNickname);
+      // setRoomId(item.room_id);
+      // setIsEntry(true);
+      // socket.emit("joinRoom", userId, item.room_id, userNickname);
 
       //FIXME - 임시 로그인
-      // socket.emit("joinRoom", exUserId, item.room_id, exNickname);
+      socket.emit("joinRoom", exUserId, item.room_id, exNickname);
     });
   };
 
