@@ -7,7 +7,7 @@ const useBeforeUnloadHandler = () => {
     const beforeUnload = (e: BeforeUnloadEvent) => {
       if (!isReLoad) {
         e.preventDefault();
-        e.returnValue = ""; //크로스 브라우징 체크 추가
+        e.returnValue = "";
       }
     };
 

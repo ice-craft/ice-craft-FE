@@ -13,10 +13,8 @@ const RenderCards = () => {
   const { localParticipant } = useLocalParticipant();
   const [showAllCards, setShowAllCards] = useState(true);
 
-  //NOTE - 해당 local player의 직업 찾기
   const playerJob = getPlayerJob(role, localParticipant.identity);
 
-  // 카드 이미지 리스트
   const cards = {
     doctor: { src: DoctorCard.src, alt: "의사" },
     police: { src: PoliceCard.src, alt: "경찰" },

@@ -51,7 +51,7 @@ const MafiaHeader = () => {
     }
   }, [isDay]);
 
-  //NOTE - 마피아 테마
+  //NOTE -  테마
   const dayTime = morning ? S.day : "";
   const nightTime = night ? S.night : "";
   const resultClassName = `${dayTime} ${nightTime}`;

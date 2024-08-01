@@ -16,7 +16,7 @@ const RemoteParticipantTile = ({ trackRef }: ParticipantTileProps) => {
   //NOTE - livekit Hooks
   const remote = useEnsureTrackRef(trackRef);
 
-  //NOTE - 전역 state
+  //NOTE - global state
   const isGameState = useGameState();
   const diedPlayers = useDiedPlayer();
   const activePlayerId = useActivePlayer();

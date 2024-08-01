@@ -16,8 +16,8 @@ const useClickHandler = () => {
 
   const clickHandler = (event: React.MouseEvent<HTMLElement>, playerId: string) => {
     event.stopPropagation();
-    setIsOverlay(false); // : 클릭 이벤트를 한 번만 수행
-    setActiveParticipant(playerId); // : 캠 클릭시 클릭한 위치에 이미지 띄우기
+    setIsOverlay(false);
+    setActiveParticipant(playerId);
 
     //NOTE - 투표 및 마피아 시간
     if (inSelect.includes("vote") || inSelect.includes("mafia")) {

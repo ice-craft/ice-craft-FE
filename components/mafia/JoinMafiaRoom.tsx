@@ -1,7 +1,6 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import useBeforeUnloadHandler from "@/hooks/useBeforeUnloadHandler";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
-import { useNickname, useUserId } from "@/store/connect-store";
 import { useRoomAction } from "@/store/room-store";
 import Style from "@/style/commons/commons.module.css";
 import S from "@/style/livekit/livekit.module.css";
@@ -25,9 +24,6 @@ const JoinMafiaRoom = () => {
   const isPopState = usePopStateHandler();
   const { setIsEntry, setIsBack } = useRoomAction();
   const { setIsReLoad } = useBeforeUnloadHandler();
-  //FIXME - 임시 로그인
-  const exUserIds = useUserId();
-  const exNickname = useNickname();
 
   //NOTE - 뒤로가기 시 작동
   useEffect(() => {
@@ -38,16 +34,14 @@ const JoinMafiaRoom = () => {
     }
   }, [isPopState]);
 
-  //NOTE - 쿠키에 저장된 로그인 정보
+  //NOTE - 쿠키 로그인 정보
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
         const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
           const nickname = loginInfo.user_metadata.nickname || loginInfo.user_metadata.name;
-          // setUserInfo({ userId: loginInfo.id, nickname });
-          //FIXME - 임시 로그인
-          setUserInfo({ userId: exUserIds, nickname: exNickname });
+          setUserInfo({ userId: loginInfo.id, nickname });
         }
       } catch (error) {
         joinErrorHandler(error);
@@ -85,7 +79,7 @@ const JoinMafiaRoom = () => {
 
   //NOTE - 에러 이벤트 핸들러(로그인, 토큰, 방입장 등)
   const joinErrorHandler = (error: Error | string | unknown) => {
-    setIsJoinError(true); // 미디어 비활성화 및 토큰 발급 error시 실행
+    setIsJoinError(true);
   };
 
   //NOTE - 방 에러 UI
@@ -111,8 +105,8 @@ const JoinMafiaRoom = () => {
       {isJoin ? (
         <>
           <LiveKitRoom
-            token={token} // 필수 요소
-            serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL} // 필수 요소
+            token={token}
+            serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
             video={true}
             audio={true}
             onError={joinErrorHandler}
@@ -128,8 +122,8 @@ const JoinMafiaRoom = () => {
             <PreJoin
               onError={joinErrorHandler}
               joinLabel="입장하기"
-              onSubmit={joinRoomHandler} // 입장하기 버튼 이벤트 헨들러
-              onValidate={() => !isJoinError} // 입장하기 버튼 활성화
+              onSubmit={joinRoomHandler}
+              onValidate={() => !isJoinError}
             ></PreJoin>
             <div className={S.settingUserButton}>
               <ul>

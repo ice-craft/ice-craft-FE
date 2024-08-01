@@ -32,7 +32,7 @@ const MafiaPlayRooms = () => {
   const { setReadyPlayers, setOverlayReset } = useOverLayActions();
   const { setModalReset } = useModalActions();
 
-  //NOTE - custom hooks
+  //NOTE - custom Hooks
   useSelectSocket(localParticipant);
 
   const { setIsMediaReset, setPlayersMediaStatus } = useMediaDevice(); // 카메라 및 오디오 처리
