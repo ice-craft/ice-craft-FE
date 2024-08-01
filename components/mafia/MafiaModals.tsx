@@ -10,6 +10,7 @@ import VoteResultModal from "@/components/modal/VoteResultModal";
 import { useGameActions } from "@/store/game-store";
 
 const MafiaModals = () => {
+  //NOTE - global state
   const isOpen = useModalIsOpen();
   const currentModal = useCurrentModal();
   const { setIsDay } = useGameActions();
@@ -75,16 +76,6 @@ const MafiaModals = () => {
   useSocketOn(sockets);
 
   if (!isOpen) return null;
-
-  //NOTE - 모달창 리스트
-  /*
-    GroupMafiaModal - 마피아 공용 모달창
-    UserRoleModal - 직업 카드 모달창
-    CheckModal - 찬반 투표 모달창 (yes or no)
-    VoteResultModal - 찬반 투표 결과 모달창
-    LastVoteResultModal - 최종 투표 결과 모달창
-    VictoryModal - 승리 결과 모달창
-  */
 
   switch (currentModal) {
     case "GroupMafiaModal":

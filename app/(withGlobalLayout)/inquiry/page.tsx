@@ -24,12 +24,10 @@ const InquiryPage = () => {
         )
         .then(
           (result) => {
-            console.log(result);
             toast.success("문의가 성공적으로 전송되었습니다.");
             form.current?.reset();
           },
           (error) => {
-            console.log(error.text);
             toast.error("이메일 전송이 실패되었습니다. 다시 시도해 주세요.");
           }
         )

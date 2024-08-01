@@ -17,13 +17,14 @@ export const metadata: Metadata = {
     description: "into stunning space! 놀라운 공간 속으로!",
     images: [
       {
-        url: "/app/favicon.ico",
-        width: 500,
-        height: 400,
-        alt: "IceCraft Favicon"
+        url: "https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/images/open_%20graph.jpg",
+        width: 1200,
+        height: 630,
+        alt: "IceCraft"
       }
     ],
-    //FIXME - url: "메인페이지URL",
+
+    url: "https://www.icecraft.co.kr",
     siteName: "IceCraft",
     locale: "ko_KR",
     type: "website"

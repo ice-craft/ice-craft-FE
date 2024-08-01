@@ -81,9 +81,7 @@ const MainCreateRoom = () => {
         toast("노래 맞추기 게임은 준비중입니다.");
         return;
       }
-    } catch (error) {
-      console.log("error", error);
-    }
+    } catch (error) {}
   };
 
   const playerOptions = Array.from({ length: 6 }, (_, i) => i + 5);

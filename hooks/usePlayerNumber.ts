@@ -11,7 +11,6 @@ const usePlayerNumber = (userId: string, isGameState: string) => {
       return;
     }
 
-    //NOTE - 게임 시작시 players의 번호 부여
     if (isGameState === "gameStart") {
       const allPlayers = getPlayersNumber(participants);
       const playerNumber = allPlayers.find((player) => player.playerId === userId);
