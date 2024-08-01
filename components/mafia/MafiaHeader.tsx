@@ -3,13 +3,11 @@ import SunIcon from "@/assets/images/sun.svg";
 import { useGameState, useIsDay } from "@/store/game-store";
 import { useRoomAction } from "@/store/room-store";
 import S from "@/style/livekit/livekit.module.css";
-import { allAudioSetting } from "@/utils/participantCamSettings/camSetting";
 import { socket } from "@/utils/socket/socket";
-import { DisconnectButton, useLocalParticipant, useTracks } from "@livekit/components-react";
-import { Track } from "livekit-client";
+import { DisconnectButton, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import SpeakTimer from "./SpeakTimer";
+import SpeakTimer from "@/components/mafia/SpeakTimer";
 
 const MafiaHeader = () => {
   //NOTE - livekit Hooks
@@ -58,15 +56,6 @@ const MafiaHeader = () => {
   const nightTime = night ? S.night : "";
   const resultClassName = `${dayTime} ${nightTime}`;
 
-  //FIXME - 임시: 전체 소리 끄기
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.Microphone, withPlaceholder: true }
-    ],
-    { onlySubscribed: true } // 구독됐을 경우에만 실행
-  );
-
   return (
     <div className={`${S.roomBackground} ${resultClassName}`}>
       <div className={S.goToMainPage}>
@@ -74,14 +63,6 @@ const MafiaHeader = () => {
           <span>＜</span> 방 나가기
         </DisconnectButton>
       </div>
-      <button
-        onClick={() => {
-          allAudioSetting(tracks, false);
-        }}
-        style={{ background: "red" }}
-      >
-        전체 소리 끄기
-      </button>
       {isGameState === "gameStart" && (
         <div className={S.gameTimer}>
           <SpeakTimer />
