@@ -139,7 +139,7 @@
 
 .userNickname {
   position: relative;
-  white-space: wrap;
+  word-break: break-all;
 }
 
 .userNickname:hover .userEmail {
@@ -221,6 +221,12 @@
 
   .userRankingTitle li:nth-child(1) {
     line-height: 22px;
+  }
+
+  .myRankingList li div h3,
+  .userRankingList li div h3,
+  .userRankingTitle li:nth-child(2) {
+    width: 250px;
   }
 
   .pagerWrapper {
