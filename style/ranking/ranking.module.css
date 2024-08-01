@@ -158,6 +158,7 @@
   transform: translateX(-50%);
   display: none;
   line-height: 40px;
+  word-break: normal;
 }
 
 .userEmail::before {
