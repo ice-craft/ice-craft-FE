@@ -101,7 +101,6 @@ const MafiaPlayRooms = () => {
     const updateVictoryRanking = async () => {
       try {
         const localPlayerId = localParticipant.localParticipant.identity;
-
         const { mafia_score, music_score } = await getRankingScore(localPlayerId);
 
         const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
