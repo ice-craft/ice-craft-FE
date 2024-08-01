@@ -29,7 +29,7 @@ const MyRanking = ({ rankingList }: MyLankingProps) => {
       {myRanking && (
         <ul className={S.myRankingList}>
           <li>
-            <div>
+            <div className={S.userInfo}>
               <h2>{myRanking.ranking}</h2>
               <h3>{myRanking.nickname}</h3>
               <p className={S.mafiaUserRanking}>{myRanking.mafia_score}</p>

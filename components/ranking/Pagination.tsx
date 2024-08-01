@@ -23,7 +23,7 @@ export default function Pagination({ rankingList }: PageNationProps) {
               else if (item.ranking === 3) rankClass = S.thirdPlace;
               return (
                 <li key={item.user_id}>
-                  <div>
+                  <div className={S.userInfo}>
                     <h2 className={rankClass}>{item.ranking}</h2>
                     <h3 className={S.userNickname}>
                       {item.nickname}

@@ -59,7 +59,9 @@ const Nav = () => {
       <div className={S.gnb}>
         <ul className={S.ul}>
           <li>
-            <Link href="/ranking">랭킹</Link>
+            <Link href="/ranking" onClick={isToggleHandler}>
+              랭킹
+            </Link>
           </li>
           {userId ? (
             <>
