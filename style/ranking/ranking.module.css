@@ -143,7 +143,6 @@
 
 .userEmail {
   position: absolute;
-  display: inline-block;
   left: 50%;
   top: -20px;
   padding: 0 15px;
@@ -153,6 +152,7 @@
   border-radius: var(--border-radius);
   transform: translateX(-50%);
   display: none;
+  line-height: 40px;
 }
 
 .userEmail::before {
