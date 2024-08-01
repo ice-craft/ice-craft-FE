@@ -37,7 +37,7 @@ const LocalParticipant = () => {
   const isLocalOverlay = useIsLocalOverlay();
   const chiefPlayerId = useChiefPlayer();
 
-  //NOTE - custom Hooks
+  //NOTE - custom hooks
   const { clickHandler } = useClickHandler();
   const playerNumber = usePlayerNumber(localPlayerId, isGameState);
 
@@ -46,11 +46,9 @@ const LocalParticipant = () => {
 
   //NOTE - 게임 시작 전) 실시간 방장 정보 update
   useEffect(() => {
-    // 초기 렌더링 필터
     if (!localParticipant.localParticipant.identity || !chiefPlayerId) {
       return;
     }
-
     const localPlayerId = localParticipant.localParticipant.identity;
 
     if (isGameState === "gameReady" && localPlayerId === chiefPlayerId.chief) {

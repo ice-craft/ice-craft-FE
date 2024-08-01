@@ -51,7 +51,7 @@ const useGameStore = create<GameState>((set) => ({
         return { victoryPlayersId };
       }),
 
-    setGameReset: () => set({ diedPlayerId: [], isGameState: "gameReady" })
+    setGameReset: () => set({ diedPlayerId: [], isGameState: "gameReady", victoryPlayersId: [] })
   }
 }));
 

@@ -12,7 +12,7 @@ const useMediaDevice = () => {
   const localParticipant = useLocalParticipant();
   const localPlayerId = localParticipant.localParticipant.identity;
 
-  //모든 원격 player들의 정보
+  //원격 player들의 정보
   const remoteTracks = useRemoteParticipants();
 
   //NOTE - 미디어 관리

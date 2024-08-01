@@ -42,7 +42,6 @@ const SpeakTimer = () => {
     }
   };
 
-  // NOTE - socket On, Off 담당
   useSocketOn(sockets);
 
   return (

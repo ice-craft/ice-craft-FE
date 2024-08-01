@@ -7,13 +7,10 @@ import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
 
 const useJoinRoom = () => {
-  const exUserId = useUserId();
-  const exNickname = useNickname();
   const { setRoomId } = useConnectActions();
   const { setLoading } = useLoadingActions();
   const { setIsEntry } = useRoomAction();
 
-  //NOTE - 클릭시 로그인 안한 유저 처리
   const loginErrorHandler = async (emitCallback: (userId: string, userNickname: string) => void) => {
     try {
       const userInfo = await checkUserLogIn();
@@ -34,12 +31,9 @@ const useJoinRoom = () => {
   //NOTE - 방 리스트 입장하기
   const joinRoomHandler = async (item: Tables<"room_table">) => {
     await loginErrorHandler((userId, userNickname) => {
-      setRoomId(item.room_id);
       setIsEntry(true);
+      setRoomId(item.room_id);
       socket.emit("joinRoom", userId, item.room_id, userNickname);
-
-      //FIXME - 임시 로그인
-      // socket.emit("joinRoom", exUserId, item.room_id, exNickname);
     });
   };
 
