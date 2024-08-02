@@ -19,13 +19,9 @@ const Nav = () => {
       try {
         const userInfo = await checkUserLogIn();
         if (userInfo) {
-          // setUserId(userInfo.id);
-          // const nickname = userInfo.user_metadata.nickname || userInfo.user_metadata.name;
-          // setUserNickname(nickname);
-
-          //FIXME - 임시 로그인
-          setUserId(crypto.randomUUID());
-          setUserNickname(crypto.randomUUID());
+          setUserId(userInfo.id);
+          const nickname = userInfo.user_metadata.nickname || userInfo.user_metadata.name;
+          setUserNickname(nickname);
         }
       } catch (e) {}
     };

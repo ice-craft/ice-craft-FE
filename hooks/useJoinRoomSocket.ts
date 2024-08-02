@@ -1,9 +1,9 @@
 import { useConnectActions } from "@/store/connect-store";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import useSocketOn from "./useSocketOn";
 import { useLoadingActions } from "@/store/loading-store";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
+import useSocketOn from "@/hooks/useSocketOn";
 
 const useJoinRoomSocket = () => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const useJoinRoomSocket = () => {
   const { setRoomId } = useConnectActions();
 
   const joinSockets = {
-    joinRoom: (joinRoom: any, roomId: string) => {
+    joinRoom: (roomId: string) => {
       if (roomId) {
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);

@@ -1,16 +1,12 @@
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useConnectActions } from "@/store/connect-store";
 import { useLoadingActions } from "@/store/loading-store";
 import { useRoomAction } from "@/store/room-store";
-import { useCreateActions } from "@/store/toggle-store";
 import { Tables } from "@/types/supabase";
 import { socket } from "@/utils/socket/socket";
 import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
 
 const useJoinRoom = () => {
-  const exUserId = useUserId();
-  const exNickname = useNickname();
-
   const { setRoomId } = useConnectActions();
   const { setLoading } = useLoadingActions();
   const { setIsEntry } = useRoomAction();
@@ -37,10 +33,7 @@ const useJoinRoom = () => {
       setLoading(true);
       setIsEntry(true);
       setRoomId(item.room_id);
-      // socket.emit("joinRoom", userId, item.room_id, userNickname);
-
-      //FIXME - 임시 로그인
-      socket.emit("joinRoom", exUserId, item.room_id, exNickname);
+      socket.emit("joinRoom", userId, item.room_id, userNickname);
     });
   };
 
