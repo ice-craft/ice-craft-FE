@@ -1,31 +1,31 @@
-import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
 import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
+import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
 import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg";
-import { useCreateActions } from "@/store/toggle-store";
+import useJoinRoom from "@/hooks/useJoinRoom";
+import useSocketOn from "@/hooks/useSocketOn";
+import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
+import { useRoomAction } from "@/store/room-store";
 import S from "@/style/modal/modal.module.css";
+import { CreateRooms } from "@/types";
 import { socket } from "@/utils/socket/socket";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
-import { useRouter } from "next/navigation";
-import useSocketOn from "@/hooks/useSocketOn";
-import { CreateRooms } from "@/types";
-import { useRoomAction } from "@/store/room-store";
 
-const MainCreateRoom = () => {
+const CreateRoomModal = ({ setIsCreate }: { setIsCreate: React.Dispatch<React.SetStateAction<boolean>> }) => {
+  const router = useRouter();
+  const isGoInClick = useRef(false);
+  const roomIdRef = useRef<string>("");
   const [roomTitle, setRoomTitle] = useState("");
   const [selectedGame, setSelectedGame] = useState("마피아");
-  const { setIsEntry } = useRoomAction();
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
-  const isGoInClick = useRef(false);
-  const { setIsCreate } = useCreateActions();
+
   const userId = useUserId();
   const nickname = useNickname();
+  const { setIsEntry } = useRoomAction();
   const { setRoomId } = useConnectActions();
-  const router = useRouter();
-  const roomIdRef = useRef<string>("");
 
   const createSocket = {
     createRoom: ({ room_id }: CreateRooms) => {
@@ -143,4 +143,4 @@ const MainCreateRoom = () => {
   );
 };
 
-export default MainCreateRoom;
+export default CreateRoomModal;
