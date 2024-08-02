@@ -1,6 +1,7 @@
 import MafiaPlayRooms from "@/components/mafia/MafiaPlayRooms";
 import useBeforeUnloadHandler from "@/hooks/useBeforeUnloadHandler";
 import usePopStateHandler from "@/hooks/usePopStateHandler";
+import { useNickname, useUserId } from "@/store/connect-store";
 import { useRoomAction } from "@/store/room-store";
 import Style from "@/style/commons/commons.module.css";
 import S from "@/style/livekit/livekit.module.css";
@@ -13,6 +14,9 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const JoinMafiaRoom = () => {
+  const exUserIds = useUserId();
+  const exNickname = useNickname();
+
   const roomId = useParams();
   const [userInfo, setUserInfo] = useState({
     userId: "",
@@ -40,8 +44,10 @@ const JoinMafiaRoom = () => {
       try {
         const loginInfo = await checkUserLoginInfo();
         if (loginInfo) {
-          const nickname = loginInfo.user_metadata.nickname || loginInfo.user_metadata.name;
-          setUserInfo({ userId: loginInfo.id, nickname });
+          // const nickname = loginInfo.user_metadata.nickname || loginInfo.user_metadata.name;
+          // setUserInfo({ userId: loginInfo.id, nickname });
+          //FIXME - 임시 로그인
+          setUserInfo({ userId: exUserIds, nickname: exNickname });
         }
       } catch (error) {
         joinErrorHandler(error);

@@ -7,6 +7,9 @@ import { checkUserLogIn } from "@/utils/supabase/authAPI";
 import { toast } from "react-toastify";
 
 const useJoinRoom = () => {
+  const exUserId = useUserId();
+  const exNickname = useNickname();
+
   const { setRoomId } = useConnectActions();
   const { setLoading } = useLoadingActions();
   const { setIsEntry } = useRoomAction();
@@ -33,7 +36,10 @@ const useJoinRoom = () => {
     await loginErrorHandler((userId, userNickname) => {
       setIsEntry(true);
       setRoomId(item.room_id);
-      socket.emit("joinRoom", userId, item.room_id, userNickname);
+      // socket.emit("joinRoom", userId, item.room_id, userNickname);
+
+      //FIXME - 임시 로그인
+      socket.emit("joinRoom", exUserId, item.room_id, exNickname);
     });
   };
 

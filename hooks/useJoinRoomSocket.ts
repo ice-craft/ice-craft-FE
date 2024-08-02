@@ -10,7 +10,7 @@ const useJoinRoomSocket = () => {
   const { setRoomId } = useConnectActions();
 
   const joinSockets = {
-    joinRoom: (roomId: string) => {
+    joinRoom: (joinRoom: any, roomId: string) => {
       if (roomId) {
         setLoading(false);
         setRoomId(roomId);
