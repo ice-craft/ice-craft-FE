@@ -18,6 +18,7 @@ import CitizenModalVictory from "@/assets/images/citizen_victory.svg";
 import MafiaModalVictory from "@/assets/images/mafia_victory.svg";
 import MafiaGameStart from "@/assets/images/mafia_info_start.svg";
 import GoTopButton from "@/utils/GoTopButton";
+import type { Metadata } from "next";
 
 const MafiaInfoPage = () => {
   return (
@@ -136,6 +137,33 @@ const MafiaInfoPage = () => {
       <GoTopButton />
     </section>
   );
+};
+
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(defaultUrl),
+  title: "IceCraft",
+  description: "into stunning space! 놀라운 공간 속으로! 마피아게임 게임정보페이지입니다.",
+  keywords: ["IceCraft", "icecraft", "아이스 크레프트", "마피아 게임정보", "마피아 인포", "마피아 게임"],
+  creator: "IC company",
+  openGraph: {
+    title: "IceCraft",
+    description: "into stunning space! 놀라운 공간 속으로!",
+    images: [
+      {
+        url: "https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/images/open_%20graph.jpg",
+        width: 1200,
+        height: 630,
+        alt: "IceCraft"
+      }
+    ],
+
+    url: "https://www.icecraft.co.kr/mafiainfo",
+    siteName: "IceCraft",
+    locale: "ko_KR",
+    type: "website"
+  }
 };
 
 export default MafiaInfoPage;
