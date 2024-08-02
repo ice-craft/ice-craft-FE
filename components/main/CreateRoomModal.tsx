@@ -2,7 +2,6 @@ import MafiaGameChoice from "@/assets/images/game_choice_mafia.svg";
 import MafiaGameChoiceActive from "@/assets/images/game_choice_mafia_active.svg";
 import MafiaGameSong from "@/assets/images/game_choice_song.svg";
 import MafiaGameSongActive from "@/assets/images/game_choice_song_active.png.svg";
-import useJoinRoom from "@/hooks/useJoinRoom";
 import useSocketOn from "@/hooks/useSocketOn";
 import { useConnectActions, useNickname, useUserId } from "@/store/connect-store";
 import { useRoomAction } from "@/store/room-store";
