@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import useSocketOn from "./useSocketOn";
 import { useLoadingActions } from "@/store/loading-store";
+import { useEffect } from "react";
 
 const useJoinRoomSocket = () => {
   const router = useRouter();
@@ -12,7 +13,6 @@ const useJoinRoomSocket = () => {
   const joinSockets = {
     joinRoom: (joinRoom: any, roomId: string) => {
       if (roomId) {
-        setLoading(false);
         setRoomId(roomId);
         router.push(`/room/${roomId}/`);
       }
@@ -22,7 +22,6 @@ const useJoinRoomSocket = () => {
       toast.error(message);
     },
     fastJoinRoom: (roomId: string) => {
-      setLoading(false);
       setRoomId(roomId);
       router.push(`/room/${roomId}/`);
     },
@@ -31,7 +30,12 @@ const useJoinRoomSocket = () => {
       toast.error(message);
     }
   };
+
   useSocketOn(joinSockets);
+
+  useEffect(() => {
+    return setLoading(false);
+  }, []);
 };
 
 export default useJoinRoomSocket;
