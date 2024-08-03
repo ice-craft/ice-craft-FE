@@ -102,14 +102,21 @@ const MafiaPlayRooms = () => {
       try {
         const localPlayerId = localParticipant.localParticipant.identity;
         const { mafia_score, music_score } = await getRankingScore(localPlayerId);
-
+        console.log("🚀 victoryPlayers:", victoryPlayers);
         const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
+
         const newScore = isVictoryPlayer ? 100 : 20;
+        console.log("🚀 newScore:", newScore);
 
         const newMafia_score = mafia_score + newScore;
+
         const newMusic_score = music_score;
+
         const total_score = newMafia_score + newMusic_score;
 
+        console.log("🚀 ~ updateVictoryRanking ~ newMafia_score:", newMafia_score);
+        console.log("🚀 ~ updateVictoryRanking ~ newMusic_score:", newMusic_score);
+        console.log("🚀 ~ updateVictoryRanking ~ total_score:", total_score);
         await setRankingScore(localPlayerId, newMafia_score, newMusic_score, total_score);
       } catch (error) {
       } finally {
