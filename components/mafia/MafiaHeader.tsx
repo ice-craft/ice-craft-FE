@@ -1,5 +1,6 @@
 import MoonIcon from "@/assets/images/moon.svg";
 import SunIcon from "@/assets/images/sun.svg";
+import SpeakTimer from "@/components/mafia/SpeakTimer";
 import { useGameState, useIsDay } from "@/store/game-store";
 import { useRoomAction } from "@/store/room-store";
 import S from "@/style/livekit/livekit.module.css";
@@ -7,7 +8,6 @@ import { socket } from "@/utils/socket/socket";
 import { DisconnectButton, useLocalParticipant } from "@livekit/components-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import SpeakTimer from "@/components/mafia/SpeakTimer";
 
 const MafiaHeader = () => {
   //NOTE - livekit Hooks
