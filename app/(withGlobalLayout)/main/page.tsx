@@ -19,8 +19,6 @@ const Mainpage = () => {
   const { fastJoinRoomHandler } = useJoinRoom();
   useJoinRoomSocket();
 
-  console.log("MainPage 작동");
-
   //NOTE - 소켓 연결, 메인 페이지 history 추가
   useEffect(() => {
     history.pushState(null, "", "");
