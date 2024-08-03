@@ -40,10 +40,7 @@ const useGameStore = create<GameState>((set) => ({
         const victoryPlayersId = state.victoryPlayersId;
         const isPlayer = victoryPlayersId.find((playerId) => playerId === newPlayerId);
 
-        if (isPlayer) {
-          return { victoryPlayersId };
-        }
-
+        //id 중복성 검사
         if (!isPlayer) {
           return { victoryPlayersId: [...state.victoryPlayersId, newPlayerId] };
         }
