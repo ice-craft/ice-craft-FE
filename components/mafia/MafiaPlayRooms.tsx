@@ -102,10 +102,9 @@ const MafiaPlayRooms = () => {
       try {
         const localPlayerId = localParticipant.localParticipant.identity;
         const { mafia_score, music_score } = await getRankingScore(localPlayerId);
-
         const isVictoryPlayer = victoryPlayers.find((playerId) => playerId === localPlayerId);
-        const newScore = isVictoryPlayer ? 100 : 20;
 
+        const newScore = isVictoryPlayer ? 100 : 20;
         const newMafia_score = mafia_score + newScore;
         const newMusic_score = music_score;
         const total_score = newMafia_score + newMusic_score;

@@ -7,6 +7,7 @@ import TextTyping from "@/utils/TextTyping";
 import IntroBg from "@/assets/images/intro_bg.avif";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import type { Metadata } from "next";
 
 const IntroPage = async () => {
   const supabase = createClient();
@@ -52,6 +53,33 @@ const IntroPage = async () => {
       </section>
     </div>
   );
+};
+
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(defaultUrl),
+  title: "IceCraft",
+  description: "into stunning space! 놀라운 공간 속으로!",
+  keywords: ["IceCraft", "icecraft", "아이스 크레프트", "마피아 게임", "노래맞추기 게임"],
+  creator: "IC company",
+  openGraph: {
+    title: "IceCraft",
+    description: "into stunning space! 놀라운 공간 속으로!",
+    images: [
+      {
+        url: "https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/images/open_%20graph.jpg",
+        width: 1200,
+        height: 630,
+        alt: "IceCraft"
+      }
+    ],
+
+    url: "https://www.icecraft.co.kr",
+    siteName: "IceCraft",
+    locale: "ko_KR",
+    type: "website"
+  }
 };
 
 export default IntroPage;

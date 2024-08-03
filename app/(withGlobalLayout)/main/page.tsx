@@ -1,11 +1,10 @@
 "use client";
 
-import MainCreateRoom from "@/components/main/CreateRoomModal";
+import MainCreateRoom from "@/components/main/MainCreateRoom";
 import MainVisual from "@/components/main/MainVisual";
 import RoomList from "@/components/main/RoomList";
 import useJoinRoom from "@/hooks/useJoinRoom";
 import useJoinRoomSocket from "@/hooks/useJoinRoomSocket";
-import { useCreate, useCreateActions } from "@/store/toggle-store";
 import S from "@/style/mainpage/main.module.css";
 import CommonsLoading from "@/utils/CommonsLoading";
 import FormSearch from "@/utils/FormSearch";
@@ -17,8 +16,6 @@ import { useEffect, useRef } from "react";
 
 const Mainpage = () => {
   const isGoInClick = useRef(false);
-  const isCreate = useCreate();
-  const { setIsCreate } = useCreateActions();
   const { fastJoinRoomHandler } = useJoinRoom();
   useJoinRoomSocket();
 
@@ -53,12 +50,7 @@ const Mainpage = () => {
                 <button disabled={isGoInClick.current} onClick={fastJoinRoomHandler}>
                   빠른입장
                 </button>
-                <div className={S.makeRoomButton}>
-                  <button onClick={() => setIsCreate(true)} className={S.makeRoom}>
-                    방 만들기
-                  </button>
-                </div>
-                {isCreate ? <MainCreateRoom /> : null}
+                <MainCreateRoom />
               </div>
             </div>
           </div>
