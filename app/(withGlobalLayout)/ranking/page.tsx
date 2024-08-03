@@ -8,6 +8,7 @@ import Pagination from "@/components/ranking/Pagination";
 import MyLanking from "@/components/ranking/MyRanking";
 import { getUsersRanking } from "@/utils/supabase/rankingAPI";
 import { Ranking } from "@/types";
+import type { Metadata } from "next";
 
 const Rankingpage = async () => {
   const rankingList = await getUsersRanking();
@@ -54,6 +55,33 @@ const Rankingpage = async () => {
       <GoTopButton />
     </section>
   );
+};
+
+const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(defaultUrl),
+  title: "IceCraft",
+  description: "into stunning space! 놀라운 공간 속으로! 마피아게임 랭킹페이지 입니다.",
+  keywords: ["IceCraft", "icecraft", "아이스 크레프트", "마피아 랭킹", "마피아 게임"],
+  creator: "IC company",
+  openGraph: {
+    title: "IceCraft",
+    description: "into stunning space! 놀라운 공간 속으로!",
+    images: [
+      {
+        url: "https://ktfrmyssyzqmoljohixh.supabase.co/storage/v1/object/public/images/open_%20graph.jpg",
+        width: 1200,
+        height: 630,
+        alt: "IceCraft"
+      }
+    ],
+
+    url: "https://www.icecraft.co.kr/rankingpage",
+    siteName: "IceCraft",
+    locale: "ko_KR",
+    type: "website"
+  }
 };
 
 export default Rankingpage;
