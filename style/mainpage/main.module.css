@@ -605,4 +605,16 @@
     width: 200px;
     transition: 0.3s ease-out;
   }
+
+  /* skeleton */
+  .loadingPager {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .visualTitleLoading {
+    left: 50%;
+    top: 300px;
+    transform: translateX(-50%);
+  }
 }
