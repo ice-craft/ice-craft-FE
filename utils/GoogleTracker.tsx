@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const GoogleTracker = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -16,10 +16,10 @@ const GoogleTracker = () => {
 
   useEffect(() => {
     if (initialized) {
-      ReactGA.set({ page: router.asPath });
+      ReactGA.set({ page: pathname });
       ReactGA.send("pageview");
     }
-  }, [initialized, router]);
+  }, [initialized, pathname]);
   return null;
 };
 
