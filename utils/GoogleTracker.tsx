@@ -9,7 +9,7 @@ const GoogleTracker = () => {
 
   useEffect(() => {
     if (!window.location.href.includes("localhost")) {
-      ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS);
+      ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS!);
     }
     setInitialized(true);
   }, []);
