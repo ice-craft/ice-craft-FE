@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { pretendard } from "@/public/fonts/fonts";
 import type { Metadata } from "next";
+import GoogleTracker from "@/utils/GoogleTracker";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={pretendard.className}>
       <body>
+        <GoogleTracker />
         <ToastContainer position="top-left" /> {children}
       </body>
     </html>
