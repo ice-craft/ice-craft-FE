@@ -8,7 +8,7 @@ const GoogleTracker = () => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (window.location.href.includes("localhost")) {
+    if (!window.location.href.includes("localhost")) {
       ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS);
     }
     setInitialized(true);
