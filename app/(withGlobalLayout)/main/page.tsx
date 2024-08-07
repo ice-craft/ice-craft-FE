@@ -19,18 +19,8 @@ const Mainpage = () => {
   const { fastJoinRoomHandler } = useJoinRoom();
   useJoinRoomSocket();
 
-  //NOTE - 소켓 연결, 메인 페이지 history 추가
+  //NOTE - 소켓 연결
   useEffect(() => {
-    history.pushState(null, "", "");
-
-    //NOTE - history stack 관리
-    if (history.length >= 5) {
-      const back = (history.length - 1) * -1;
-
-      history.go(back);
-      history.pushState(null, "", "");
-    }
-
     socket.connect();
     socket.emit("enterMafia");
   }, []);

@@ -22,6 +22,7 @@ const Loading = () => {
 
     return () => {
       // 초기화
+      history.pushState(null, "", "/main");
       setIsBack(false);
       setIsEntry(false);
       clearTimeout(timer);
