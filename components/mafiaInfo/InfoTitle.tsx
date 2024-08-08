@@ -1,4 +1,3 @@
-import "./styles.css";
 import { useRef } from "react";
 import {
   motion,
@@ -73,11 +72,13 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
   );
 }
 
-export default function App() {
+const mafiaInfoTitle = () => {
   return (
-    <section>
-      <ParallaxText baseVelocity={-5}>Framer Motion</ParallaxText>
-      <ParallaxText baseVelocity={5}>Scroll velocity</ParallaxText>
-    </section>
+    <>
+      <ParallaxText baseVelocity={-5}>Mafia Game</ParallaxText>
+      <ParallaxText baseVelocity={5}>Game Rules</ParallaxText>
+    </>
   );
-}
+};
+
+export default mafiaInfoTitle;
