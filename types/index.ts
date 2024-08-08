@@ -108,10 +108,8 @@ export interface RemoteReadyStates {
 
 export interface ExitState {
   isEntry: boolean;
-  isBack: boolean;
   actions: {
     setIsEntry: (newToggle: boolean) => void;
-    setIsBack: (newToggle: boolean) => void;
   };
 }
 
@@ -224,4 +222,9 @@ export interface CurrentItemsProps {
 export interface PaginatedItemsProps {
   items: Ranking[];
   itemsPerPage: number;
+}
+
+export interface ParallaxProps {
+  children: string;
+  baseVelocity: number;
 }

@@ -1,8 +1,8 @@
 .swiper-pagination-fraction {
   position: absolute;
-  left: 85%;
-  top: 30px;
-  width: 80px;
+  left: 85% !important;
+  top: 30px !important;
+  width: 80px !important;
   height: 35px;
   background-color: #fff;
   padding: 10px;

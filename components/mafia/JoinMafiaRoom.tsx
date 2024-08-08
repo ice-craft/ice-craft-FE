@@ -22,7 +22,7 @@ const JoinMafiaRoom = () => {
   const [isJoinError, setIsJoinError] = useState(false);
   const [isJoin, setIsJoin] = useState(false);
   const isPopState = usePopStateHandler();
-  const { setIsEntry, setIsBack } = useRoomAction();
+  const { setIsEntry } = useRoomAction();
   const { setIsReLoad } = useBeforeUnloadHandler();
 
   //NOTE - 뒤로가기 시 작동
@@ -30,7 +30,6 @@ const JoinMafiaRoom = () => {
     if (isPopState) {
       socket.emit("exitRoom", roomId.id, userInfo.userId);
       setIsEntry(false);
-      setIsBack(true);
     }
   }, [isPopState]);
 

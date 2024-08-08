@@ -8,6 +8,7 @@
   "dependencies": {
     "@livekit/components-react": "^2.0.5",
     "@livekit/components-styles": "^1.0.11",
+    "@motionone/utils": "^10.18.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "@tanstack/react-query": "^5.28.9",
@@ -15,6 +16,7 @@
     "@typebot.io/nextjs": "^0.3.6",
     "autoprefixer": "10.4.17",
     "emailjs-com": "^3.2.0",
+    "framer-motion": "^11.3.23",
     "geist": "^1.2.1",
     "js-confetti": "^0.12.0",
     "livekit-client": "^2.0.10",

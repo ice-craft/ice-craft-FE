@@ -4,20 +4,48 @@
   margin: 0 auto;
 }
 
-.infoWrapper h2 {
-  font-size: var(--font-size-title);
+.ruleList h2 {
+  position: sticky;
+  top: 60px;
+  left: 20px;
+  font-size: 32px;
   font-weight: var(--font-bold);
-  margin-bottom: 20px;
+  text-shadow: 2px 1px 3px rgba(255, 255, 255, 0.7);
 }
 
-.infoWrapper h3 {
+.ruleList .ruleListContent {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+  /* overflow-y: scroll; */
+}
+
+.ruleList .ruleListContent > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ruleList .ruleListContent p {
+  text-align: center;
+  font-size: var(--font-size-title);
   font-weight: var(--font-bold);
-  margin: 50px 0 5px;
+  line-height: 42px;
+}
+
+.ruleList .ruleListContent p:first-of-type {
+  margin-top: 50px;
 }
 
 .infoWrapper span {
   color: var(--primary-color);
   font-weight: var(--font-bold);
+}
+
+.ruleListContent img {
+  width: 100%;
 }
 
 .victory,
@@ -28,6 +56,7 @@
   margin-top: 15px;
   gap: 10px;
 }
+
 .mafiaTimeImage > img,
 .rolesCardImage > img {
   width: 200px;
@@ -39,9 +68,8 @@
 .finalImage > img,
 .voteImage > img {
   border: 1px solid var(--silver-gray);
-  border-radius: var(--border-radius);
+  border-radius: 16px;
   margin-top: 20px;
-  width: 450px;
 }
 
 .choosingImage > img {
@@ -50,7 +78,7 @@
 }
 
 .victory > img {
-  width: 300px;
+  width: 500px;
   margin-top: 0;
 }
 
@@ -58,17 +86,101 @@
   width: 300px;
 }
 
+/*---------------- Framer Motion --------------*/
+.progressBar {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-color: var(--primary-color);
+  transform-origin: 0%;
+}
+
+.infoTitle {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  background-color: var(--header-background-color);
+}
+
+.parallax {
+  letter-spacing: -2px;
+  line-height: 0.8;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+  color: var(--white);
+}
+
+.parallax .scroller {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 64px;
+  display: flex;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax span {
+  display: block;
+  margin-right: 30px;
+}
+
 /*---------------- Responsive --------------*/
+@media (max-width: 1120px) {
+  .victory > img {
+    width: 400px;
+  }
+}
+
 @media (max-width: 900px) {
   .victory,
   .rolesCardImage,
   .mafiaTimeImage {
     flex-wrap: wrap;
   }
+
+  .victory > img {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .infoWrapper {
     padding: 108px 20px;
+  }
+
+  .progressBar {
+    top: 69px;
+  }
+
+  .ruleList h2 {
+    top: 100px;
+    font-size: var(--font-size-modal-title);
+    transition: 0.3s ease-out;
+  }
+
+  .ruleList .ruleListContent p {
+    font-size: var(--font-size-modal-content);
+    transition: 0.3s ease-out;
+    line-height: 28px;
+  }
+
+  .parallax .scroller {
+    font-size: 32px;
+    transition: 0.3s ease-out;
+  }
+
+  .progressBar {
+    height: 5px;
+    transition: 0.3s ease-out;
   }
 }
