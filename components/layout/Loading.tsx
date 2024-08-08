@@ -1,29 +1,19 @@
 import usePopStateHandler from "@/hooks/usePopStateHandler";
 import { designer } from "@/public/fonts/fonts";
-import { useIsBack, useRoomAction } from "@/store/room-store";
+import { useRoomAction } from "@/store/room-store";
 import S from "@/style/commons/commons.module.css";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Loading = () => {
-  const { setIsBack, setIsEntry } = useRoomAction();
-  const isBack = useIsBack();
-
+  const router = useRouter();
+  const { setIsEntry } = useRoomAction();
   useEffect(() => {
     const timer = setTimeout(() => {
-      //뒤로가기
-      if (isBack) {
-        const back = (history.length - 2) * -1;
-        history.go(back);
-      }
-      // 방나가기
-      const back = (history.length - 1) * -1;
-      history.go(back);
+      router.replace("/main");
     }, 3000);
-
     return () => {
       // 초기화
-      history.pushState(null, "", "/main");
-      setIsBack(false);
       setIsEntry(false);
       clearTimeout(timer);
     };
