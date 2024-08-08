@@ -77,7 +77,7 @@ export const metadata: Metadata = {
       }
     ],
 
-    url: "https://www.icecraft.co.kr/rankingpage",
+    url: "https://www.icecraft.co.kr/ranking",
     siteName: "IceCraft",
     locale: "ko_KR",
     type: "website"
