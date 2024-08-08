@@ -12,7 +12,6 @@ import FacebookLoginIcon from "@/assets/images/join_facebook.svg";
 import Logo from "@/assets/images/logo.svg";
 import ErrorMessage from "@/components/logIn/ErrorMessage";
 import { useCookies } from "react-cookie";
-
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [isEmailSaved, setIsEmailSaved] = useState(false);
