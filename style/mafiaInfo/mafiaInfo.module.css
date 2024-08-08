@@ -19,7 +19,6 @@
   align-items: center;
   justify-content: center;
   margin: 40px 0;
-  /* overflow-y: scroll; */
 }
 
 .ruleList .ruleListContent > div {
@@ -146,6 +145,7 @@
   .rolesCardImage,
   .mafiaTimeImage {
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .victory > img {
