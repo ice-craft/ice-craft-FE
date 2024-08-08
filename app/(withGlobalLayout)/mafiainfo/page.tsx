@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import S from "@/style/mafiaInfo/mafiaInfo.module.css";
-import InfoTitle from "@/components/mafiaInfo/InfoTitle";
+import { designer } from "@/public/fonts/fonts";
+import ParallaxText from "@/components/mafiaInfo/InfoTitle";
 import InfoItem from "@/components/mafiaInfo/InfoItem";
 import { motion, useScroll, useSpring } from "framer-motion";
 
@@ -14,10 +15,15 @@ const MafiaInfoPage = () => {
   });
 
   return (
-    <section className={S.infoWrapper}>
+    <section>
       <motion.div className={S.progressBar} style={{ scaleX }} />
-      <InfoTitle />
-      <InfoItem />
+      <div className={`${S.infoTitle} ${designer.className}`}>
+        <ParallaxText baseVelocity={-5}>Mafia Game</ParallaxText>
+        <ParallaxText baseVelocity={5}>Game Rules</ParallaxText>
+      </div>
+      <div className={S.infoWrapper}>
+        <InfoItem />
+      </div>
     </section>
   );
 };
