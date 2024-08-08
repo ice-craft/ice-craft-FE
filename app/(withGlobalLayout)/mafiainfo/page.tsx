@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import S from "@/style/mafiaInfo/mafiaInfo.module.css";
-import { motion, useScroll, useSpring } from "framer-motion";
 import InfoTitle from "@/components/mafiaInfo/InfoTitle";
 import InfoItem from "@/components/mafiaInfo/InfoItem";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 const MafiaInfoPage = () => {
   const { scrollYProgress } = useScroll();

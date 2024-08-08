@@ -58,6 +58,16 @@
   width: 300px;
 }
 
+.progressBar {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-color: var(--primary-color);
+  transform-origin: 0%;
+}
+
 /*---------------- Responsive --------------*/
 @media (max-width: 900px) {
   .victory,
@@ -71,15 +81,8 @@
   .infoWrapper {
     padding: 108px 20px;
   }
-}
 
-/*---------------- test --------------*/
-.progressBar {
-  position: fixed;
-  top: 100px;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background-color: red;
-  transform-origin: 0%;
+  .progressBar {
+    top: 69px;
+  }
 }
