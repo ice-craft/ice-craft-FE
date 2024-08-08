@@ -123,4 +123,9 @@
   .progressBar {
     top: 69px;
   }
+
+  .parallax .scroller {
+    font-size: 32px;
+    transition: 0.3s ease-out;
+  }
 }
