@@ -42,7 +42,7 @@
 /*--------------- Responsive --------------*/
 @media (max-width: 768px) {
   .swiper-pagination-fraction {
-    left: 50%;
-    transform: translateX(-50%);
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
 }
