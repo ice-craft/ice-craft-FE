@@ -225,3 +225,8 @@ export interface PaginatedItemsProps {
   items: Ranking[];
   itemsPerPage: number;
 }
+
+export interface ParallaxProps {
+  children: string;
+  baseVelocity: number;
+}

@@ -199,7 +199,7 @@ const Register = () => {
     <div className={S.wrapper}>
       <header>
         <Link replace={true} href="/">
-          <Image src={Logo} alt="logo" />
+          <Image src={Logo} alt="logo" priority />
         </Link>
       </header>
       <main className={S.mainWrapper}>
