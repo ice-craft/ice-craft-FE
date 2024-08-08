@@ -1,5 +1,4 @@
 "use client";
-
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { emailLogIn, oAuthLogIn } from "@/utils/supabase/authAPI";
@@ -21,14 +20,12 @@ const LogIn = () => {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const [cookies, setCookie, removeCookie] = useCookies(["savedEmail"]);
   const router = useRouter();
-
   useEffect(() => {
     if (cookies.savedEmail) {
       setEmail(cookies.savedEmail);
       setIsEmailSaved(true);
     }
   }, []);
-
   useEffect(() => {
     if (isEmailSaved && email !== "") {
       const daysOf30 = 30 * 24 * 60 * 60;
@@ -37,10 +34,8 @@ const LogIn = () => {
       removeCookie("savedEmail");
     }
   }, [email]);
-
   const logInHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       await emailLogIn(email, password);
       router.replace("/main");
@@ -48,15 +43,12 @@ const LogIn = () => {
       setErrorMessage(["이메일 또는 비밀번호를 잘못 입력했습니다.", "입력하신 내용을 다시 확인해주세요."]);
     }
   };
-
   const emailFocusHandler = () => {
     setErrorMessage([]);
   };
-
   const passwordFocusHandler = () => {
     setErrorMessage([]);
   };
-
   const kakaoLogIn = async () => {
     try {
       await oAuthLogIn("kakao");
@@ -64,7 +56,6 @@ const LogIn = () => {
       setErrorMessage(["카카오 계정을 통한 로그인에 실패했습니다."]);
     }
   };
-
   const googleLogIn = async () => {
     try {
       await oAuthLogIn("google");
@@ -72,7 +63,6 @@ const LogIn = () => {
       setErrorMessage(["구글 계정을 통한 로그인에 실패했습니다."]);
     }
   };
-
   const githubLogIn = async () => {
     try {
       await oAuthLogIn("github");
@@ -80,7 +70,6 @@ const LogIn = () => {
       setErrorMessage(["깃허브 계정을 통한 로그인에 실패했습니다."]);
     }
   };
-
   const facebookLogIn = async () => {
     try {
       await oAuthLogIn("facebook");
@@ -88,17 +77,14 @@ const LogIn = () => {
       setErrorMessage(["페이스북 계정을 통한 로그인에 실패했습니다."]);
     }
   };
-
   const saveEmailHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setIsEmailSaved(e.target.checked);
-
     if (e.target.checked) {
       setCookie("savedEmail", email);
     } else {
       removeCookie("savedEmail");
     }
   };
-
   return (
     <div className={S.wrapper}>
       <header>
@@ -115,6 +101,7 @@ const LogIn = () => {
               <input
                 id="email"
                 placeholder="이메일을 입력해주세요."
+                autoComplete="off"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -129,6 +116,7 @@ const LogIn = () => {
                 type="password"
                 id="password"
                 placeholder="비밀번호를 입력해주세요."
+                autoComplete="off"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -181,5 +169,4 @@ const LogIn = () => {
     </div>
   );
 };
-
 export default LogIn;

@@ -5,6 +5,7 @@ import { designer } from "@/public/fonts/fonts";
 import ParallaxText from "@/components/mafiaInfo/InfoTitle";
 import InfoItem from "@/components/mafiaInfo/InfoItem";
 import { motion, useScroll, useSpring } from "framer-motion";
+import GoTopButton from "@/utils/GoTopButton";
 
 const MafiaInfoPage = () => {
   const { scrollYProgress } = useScroll();
@@ -24,6 +25,7 @@ const MafiaInfoPage = () => {
       <div className={S.infoWrapper}>
         <InfoItem />
       </div>
+      <GoTopButton />
     </section>
   );
 };
