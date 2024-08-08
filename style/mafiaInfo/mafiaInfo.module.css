@@ -72,3 +72,14 @@
     padding: 108px 20px;
   }
 }
+
+/*---------------- test --------------*/
+.progressBar {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-color: red;
+  transform-origin: 0%;
+}
