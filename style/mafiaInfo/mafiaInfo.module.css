@@ -145,6 +145,7 @@
   .rolesCardImage,
   .mafiaTimeImage {
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .victory > img {
